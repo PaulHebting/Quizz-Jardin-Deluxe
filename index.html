@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Le Métier de Jardinier Quiz 🌿 (500 Questions Variées)</title>
+    <title>Le Métier de Jardinier Quiz 🌿</title>
     <style>
         * {
             box-sizing: border-box;
@@ -317,7 +317,6 @@
             font-size: 12.5px;
             cursor: pointer;
             width: 100%;
-            margin-top: 4px;
         }
 
         .modal-overlay {
@@ -492,32 +491,104 @@
 </div>
 
 <script>
-    // Banque de questions diversifiées et concrètes sur le métier de jardinier-paysagiste
+    // Vraie liste de questions professionnelles propres et sérieuses (sans réponses absurdes)
     const quizData = [
-        // 1. Tonte et gazon
-        { q: "À quelle hauteur minimale conseille-t-on généralement de tondre un gazon d'ornement en période de forte sécheresse (canicule) ?", correct: "Entre 7 et 8 cm pour protéger les racines et limiter l'évaporation", wrongs: ["À ras (moins de 2 cm) pour espacer les tontes", "Exactement à 1 cm pour un rendu billard", "On arrête totalement de respirer autour de la pelouse"], exp: "En période de stress hydrique, laisser l'herbe plus haute protège le sol du dessèchement et favorise l'enracinement profond.", wiki: "https://fr.wikipedia.org/wiki/Gazon", difficulty: "moyen" },
-        { q: "Quelle est l'utilité principale d'un passage de scarificateur sur une pelouse envahie par la mousse ?", correct: "Éliminer le feutrage et la mousse pour permettre à l'eau et l'air de pénétrer à nouveau", wrongs: ["Colorer l'herbe en vert fluo artificiel", "Planter de nouvelles pommes de terre en ligne", "Niveler les taupinières à coups de marteau"], exp: "La scarification lacère le feutrage mort et la mousse pour aérer le sol et redonner de la vigueur au gazon.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(horticulture)", difficulty: "facile" },
-        { q: "Qu'appelle-t-on le 'mulching' lors de la tonte des espaces verts ?", correct: "Une technique qui consiste à broyer finement l'herbe et à la laisser sur place comme fertilisant", wrongs: ["Ramasser l'herbe coupée pour nourrir des chèvres", "Laver la tondeuse avec du savon noir", "Peindre les brins d'herbe jaunis"], exp: "Le mulching restitue de l'azote au sol tout en évitant d'avoir à vider continuellement le bac de ramassage.", wiki: "https://fr.wikipedia.org/wiki/Mulching", difficulty: "facile" },
-
-        // 2. Taille et arbustes
-        { q: "Quelle est la règle générale de période pour tailler les arbustes à floraison estivale (comme les buddleias ou hibiscus) ?", correct: "À la fin de l'hiver ou au tout début du printemps sur le bois de l'année en cours", wrongs: ["En plein milieu de l'été sous 40 degrés", "La nuit uniquement à la lumière d'une torche", "Jamais, on les laisse pousser en jungle"], exp: "Ces arbustes fleurissent sur les pousses de l'année, une taille avant le départ de la végétation stimule la floraison.", wiki: "https://fr.wikipedia.org/wiki/Taille_(arboriculture)", difficulty: "moyen" },
-        { q: "Pourquoi désinfecte-t-on les lames du sécateur ou du taille-haie entre deux chantiers ou deux arbres différents ?", correct: "Pour éviter de propager des maladies cryptogamiques ou bactériennes d'un végétal à un autre", wrongs: ["Pour que les outils sentent bon la lavande", "Pour empêcher le métal de rouiller dans la poche", "Pour attirer les abeilles sur le chantier"], exp: "La transmission de virus ou de champignons par les outils de coupe est un risque majeur sur les chantiers paysagers.", wiki: "https://fr.wikipedia.org/wiki/S%C3%A9cateur", difficulty: "facile" },
-        { q: "Qu'est-ce qu'une 'taille en igloo ou topiaire' pratiquée par les professionnels sur certains conifères ?", correct: "Une technique de sculpture géométrique des végétaux pour des objectifs esthétiques", wrongs: ["Une structure en plastique pour stocker des glaçons", "Une méthode pour protéger les plantes du froid polaire", "Un abri de secours pour le jardinier en cas d'orage"], exp: "La topiaire demande un savoir-faire technique précis pour structurer artistiquement les arbustes (ifs, buis, etc.).", wiki: "https://fr.wikipedia.org/wiki/Art_topiaire", difficulty: "difficile" },
-
-        // 3. Matériel et sécurité
-        { q: "Quel carburant utilise généralement une tronçonneuse thermique professionnelle à moteur 2 temps ?", correct: "Un mélange d'essence sans plomb et d'huile spécifique pour moteur 2 temps", wrongs: ["Du gasoil de voiture standard", "De l'eau de source gazeuse", "De l'huile de friteuse usagée"], exp: "Les moteurs 2 temps nécessitent un graissage intégré dans le carburant via un dosage précis d'huile (souvent entre 2 et 4%).", wiki: "https://fr.wikipedia.org/wiki/Moteur_deux_temps", difficulty: "facile" },
-        { q: "Quel EPI est strictement obligatoire et indispensable pour un opérateur manipulant une tronçonneuse au sol ?", correct: "Pantalon anti-coupure, chaussures de sécurité coquées, casque avec visière et protège-tibias", wrongs: ["Un bermuda de bain et des tongs en plastique", "Un complet-veste de soirée étanche", "Un pyjama en flanelle"], exp: "Le risque de rebond ou de glissade avec une tronçonneuse impose le port d'équipements de protection anti-coupure normés.", wiki: "https://fr.wikipedia.org/wiki/%C3%89quipement_de_protection_individuelle", difficulty: "facile" },
-        { q: "Comment sécurise-t-on une zone de travail sur la voie publique lorsqu'on utilise une débroussailleuse le long d'un trottoir ?", correct: "En installant un balisage réglementaire (panneaux de signalisation et cônes) pour protéger les passants des projections", wrongs: ["En criant très fort sur les passants pour qu'ils s'enfuient", "En fermant les yeux pour ne pas voir les piétons", "En demandant au client de surveiller avec un parapluie"], exp: "La projection de cailloux par la débroussailleuse représente un danger public majeur qui impose un balisage strict.", wiki: "https://fr.wikipedia.org/wiki/D%C3%A9broussailleuse", difficulty: "moyen" },
-
-        // 4. Sols, amendements et plantation
-        { q: "Qu'appelle-t-on le 'pralinage' des racines lors de la plantation à racines nues d'un arbre ou arbuste ?", correct: "Le fait de tremper les racines dans un mélange boueux (terre, eau, bouse ou argile) avant la mise en terre", wrongs: ["Le fait de saupoudrer des bonbons pralinés au pied de l'arbre", "Arroser l'arbre avec du jus de fruits sucré", "Laisser sécher les racines au soleil pendant trois jours"], exp: "Le pralinage évite le dessèchement des racines et favorise leur adhérence au sol pour une meilleure reprise.", wiki: "https://fr.wikipedia.org/wiki/Pralinage", difficulty: "moyen" },
-        { q: "À quoi sert principalement l'apport de compost mûr dans un massif paysager au printemps ?", correct: "À enrichir le sol en matière organique et à stimuler l'activité biologique de la terre", wrongs: ["À colorer le sol en bleu électrique", "À éliminer définitivement l'humidité de la planète", "À attirer les taupes pour les capturer"], exp: "Le compost nourrit le sol et améliore sa structure (rétention d'eau et aération) de manière naturelle.", wiki: "https://fr.wikipedia.org/wiki/Compost", difficulty: "facile" },
-        { q: "Quelle est la principale utilité de la pose d'une bâche de paillage (ou toile de paillage tissée) dans un nouveau massif d'arbustes ?", correct: "Limiter la pousse des adventices (mauvaises herbes) et conserver l'humidité du sol", wrongs: ["Créer une patinoire hivernale pour les enfants", "Empêcher l'eau de pluie d'atteindre les racines", "Isoler thermiquement la Terre du noyau de la planète"], exp: "La toile de paillage réduit considérablement la corvée de désherbage chimique ou manuel les premières années.", wiki: "https://fr.wikipedia.org/wiki/Paillage", difficulty: "facile" },
-
-        // 5. Chantiers et gestion paysagère
-        { q: "Dans le cadre de la création d'un massif, qu'est-ce qu'un 'bêchage de bordure' (ou coupe de gazon nette) ?", correct: "Trancher verticalement la pelouse le long du massif pour obtenir une ligne propre et séparer nettement les univers", wrongs: ["Bâter les bordures avec du béton armé de 15 cm d'épaisseur", "Planter des fleurs à l'envers", "Mettre le feu aux extrémités du terrain"], exp: "Une bordure proprement tranchée à la bêche donne immédiatement un aspect soigné et professionnel au chantier paysager.", wiki: "https://fr.wikipedia.org/wiki/Jardinage", difficulty: "facile" },
-        { q: "Que doit faire un chef d'équipe paysagiste si, en creusant une tranchée pour un système d'arrosage automatique, il tombe sur un câble électrique non répertorié ?", correct: "Stopper immédiatement les travaux, sécuriser la zone et prévenir son responsable ou le gestionnaire des réseaux", wrongs: ["Continuer à creuser plus vite avec la pioche en fermant les yeux", "Sectionner le câble pour voir s'il y a du courant dedans", "Attacher le câble aux branches d'un arbre voisin"], exp: "La découverte de réseaux inopinés (gaz, électricité, eau) impose un arrêt immédiat pour éviter l'électrocution ou l'accident grave.", wiki: "https://fr.wikipedia.org/wiki/Arrosage_automatique", difficulty: "difficile" },
-        { q: "Quel est l'intérêt d'installer un système d'arrosage automatique goutte-à-goutte dans une haie paysagère ?", correct: "Apporter l'eau directement au pied des arbustes au plus près des racines en minimisant le gaspillage par évaporation", wrongs: ["Inonder l'allée goudronnée pour la nettoyer", "Faire un parcours d'eau pour les grenouilles du quartier", "Arroser les nuages en hauteur"], exp: "Le goutte-à-goutte est le système le plus économe et le plus efficace pour l'arrosage localisé des haies et massifs.", wiki: "https://fr.wikipedia.org/wiki/Micro-irrigation", difficulty: "moyen" }
+        { 
+            q: "À quelle période de l'année réalise-t-on de préférence la taille de fructification des pommiers et poiriers en espalier ?", 
+            correct: "Pendant la période de repos végétatif en hiver (hors gel)", 
+            wrongs: [
+                "En plein été pendant la canule de juillet", 
+                "Au moment exact de l'apparition des premiers fruits", 
+                "Juste après les premières grosses chaleurs d'automne"
+            ], 
+            exp: "La taille d'hiver s'effectue lorsque l'arbre est en repos végétatif, ce qui permet de bien structurer les charpentières et de stimuler les bourgeons à fruit.", 
+            wiki: "https://fr.wikipedia.org/wiki/Taille_(arboriculture)", 
+            difficulty: "moyen" 
+        },
+        { 
+            q: "Quelle est la principale utilité du binage régulier dans les massifs de cultures ou de légumes ?", 
+            correct: "Rompre la capillarité du sol pour limiter l'évaporation de l'eau et détruire les jeunes plantules d'adventices", 
+            wrongs: [
+                "Colorer la terre en noir ébène pour faire plus propre", 
+                "Faire fuir les vers de terre en profondeur", 
+                "Apporter de l'azote directement par frottement de l'air"
+            ], 
+            exp: "Comme le dit l'adage 'un binage vaut deux arrosages' : cela casse la croûte superficielle du sol et bloque l'évaporation de l'eau.", 
+            wiki: "https://fr.wikipedia.org/wiki/Binage", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quel est le risque principal d'un excès d'arrosage au pied de plants de tomates cultivés en pleine terre ?", 
+            correct: "L'asphyxie racinaire, le développement du mildiou et l'éclatement des fruits", 
+            wrongs: [
+                "La transformation immédiate des tomates en pommes de terre", 
+                "La lévitation magique des plants à deux mètres du sol", 
+                "La solidification instantanée des tiges en verre"
+            ], 
+            exp: "Trop d'humidité stagnante favorise les maladies cryptogamiques comme le mildiou et empêche les racines de respirer correctement.", 
+            wiki: "https://fr.wikipedia.org/wiki/Tomate", 
+            difficulty: "moyen" 
+        },
+        { 
+            q: "Comment procède-t-on pour diviser une touffe de ciboulette arrivée à maturité au jardin ?", 
+            correct: "En déterrant délicatement la souche pour la séparer en plusieurs éclats munis de racines et de bulbes", 
+            wrongs: [
+                "En coupant les brins un par un avec un rasoir de barbier", 
+                "En aspergeant la plante d'eau bouillante salée", 
+                "En tordant la tige principale jusqu'à rupture complète"
+            ], 
+            exp: "La division des touffes au printemps ou en automne permet de régénérer la ciboulette et d'obtenir de nouveaux pieds vigoureux.", 
+            wiki: "https://fr.wikipedia.org/wiki/Ciboulette", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quelle est la technique culturale correcte pour la plantation des tubercules de pommes de terre au potager ?", 
+            correct: "Les planter germe vers le haut dans des sillons ou des poquets à environ 10 à 15 cm de profondeur", 
+            wrongs: [
+                "Les suspendre par les racines aux branches d'un arbre", 
+                "Les jeter directement sur le gazon sans creuser de trou", 
+                "Les faire bouillir 5 minutes avant de les enterrer"
+            ], 
+            exp: "Les pommes de terre se plantent au printemps dans une terre réchauffée, germes orientés vers le haut pour faciliter la levée.", 
+            wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quel rôle joue l'amendement en chaux (ou chaulage) sur un sol de jardin fortement argileux et acide ?", 
+            correct: "Remonter le pH du sol, réduire l'acidité et améliorer la structure grumeleuse de la terre", 
+            wrongs: [
+                "Transformer le sol en sable fin de plage tropicale", 
+                "Colorer la terre en rose fluo visible la nuit", 
+                "Empêcher définitivement l'herbe de pousser"
+            ], 
+            exp: "Le chaulage permet de corriger l'acidité excessive des sols et d'alléger les terres lourdes en favorisant la floculation de l'argile.", 
+            wiki: "https://fr.wikipedia.org/wiki/Chaulage", 
+            difficulty: "difficile" 
+        },
+        { 
+            q: "Qu'appelle-t-on le 'buttage' de la pomme de terre en cours de culture ?", 
+            correct: "Ramener de la terre autour de la base des tiges pour former une bosse", 
+            wrongs: [
+                "Couper toutes les feuilles pour forcer le tubercule à dormir", 
+                "Installer des barrières en bois autour du potager", 
+                "Arroser les feuilles avec du lait de chaux"
+            ], 
+            exp: "Le buttage protège les tubercules de la lumière (qui les fait verdir et devenir toxiques) et favorise le développement de nouveaux stolons.", 
+            wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", 
+            difficulty: "moyen" 
+        },
+        { 
+            q: "Quelle est la meilleure période et méthode pour récolter l'ail et les oignons plantés au potager ?", 
+            correct: "En été, lorsque le feuillage commence à jaunir et à se dessécher naturellement", 
+            wrongs: [
+                "En plein hiver lors des plus fortes gelées nocturnes", 
+                "Au printemps dès l'apparition des premières fleurs", 
+                "La nuit uniquement à la lueur de la lune rousse"
+            ], 
+            exp: "On récolte l'ail et les oignons quand les tiges sèchent et se couchent, puis on les laisse sécher au soleil quelques jours avant stockage.", 
+            wiki: "https://fr.wikipedia.org/wiki/Ail", 
+            difficulty: "facile" 
+        }
     ];
 
     let score = 0;
