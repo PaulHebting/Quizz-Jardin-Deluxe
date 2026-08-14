@@ -148,7 +148,6 @@
             margin-top: 3px;
         }
 
-        /* Barre de progression */
         .progress-box {
             margin-top: 5px;
             width: 100%;
@@ -323,7 +322,6 @@
             background: rgba(56, 189, 248, 0.1);
         }
 
-        /* Modal des Trophées */
         .modal-overlay {
             display: none;
             position: absolute;
@@ -417,7 +415,6 @@
             color: #94a3b8;
         }
 
-        /* Popup Notification de Trophée */
         #achievement-popup {
             position: absolute;
             top: 15px;
@@ -445,16 +442,13 @@
 <div class="mobile-container">
     <div id="achievement-popup">🏆 Trophée débloqué !</div>
 
-    <!-- Modal des Trophées -->
     <div class="modal-overlay" id="trophy-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">🏆 Trophées & Succès</div>
                 <button class="close-modal" onclick="toggleTrophyModal()">×</button>
             </div>
-            <div class="trophies-list" id="trophies-list-container">
-                <!-- Généré en JS -->
-            </div>
+            <div class="trophies-list" id="trophies-list-container"></div>
         </div>
     </div>
 
@@ -518,32 +512,85 @@
 </div>
 
 <script>
+    // Liste de sujets variés avec de vraies questions et des pièges crédibles
     const baseTopics = [
-        { topic: "Œillet d'Inde", text: "repousse naturellement les pucerons et nématodes.", wiki: "https://fr.wikipedia.org/wiki/Œillet_d%27Inde" },
-        { topic: "Arrosage", text: "se fait idéalement le soir ou le matin pour limiter l'évaporation.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
-        { topic: "Compostage", text: "transforme les déchets organiques en terreau fertile.", wiki: "https://fr.wikipedia.org/wiki/Compostage_(biodéchets)" },
-        { topic: "Ortie", text: "est utilisée pour fabriquer un purin fortifiant et insectifuge.", wiki: "https://fr.wikipedia.org/wiki/Purin_d%27ortie" },
-        { topic: "Ver de terre", text: "aère le sol et enrichit la terre grâce à ses déjections.", wiki: "https://fr.wikipedia.org/wiki/Lumbricina" },
-        { topic: "Paillage", text: "conserve l'humidité du sol et empêche les mauvaises herbes.", wiki: "https://fr.wikipedia.org/wiki/Paillage" },
-        { topic: "Coccinelle", text: "est un prédateur naturel vorace contre les pucerons.", wiki: "https://fr.wikipedia.org/wiki/Coccinellidae" },
-        { topic: "Menthe", text: "est une plante aromatique très envahissante au jardin.", wiki: "https://fr.wikipedia.org/wiki/Menthe" },
-        { topic: "Taille de formation", text: "permet de donner une forme équilibrée aux jeunes arbres.", wiki: "https://fr.wikipedia.org/wiki/Taille_des_arbres_fruitiers" },
-        { topic: "Bouturage", text: "consiste à multiplier une plante à partir d'un morceau de tige.", wiki: "https://fr.wikipedia.org/wiki/Bouturage" }
+        { 
+            q: "Quelle est la principale utilité des œillets d'Inde plantés au milieu du potager ?", 
+            correct: "Ils repoussent naturellement les pucerons et les nématodes.", 
+            wrongs: ["Ils attirent massivement les taupes", "Ils font fuir les abeilles et bourdons", "Ils empêchent les tomates de mûrir"],
+            wiki: "https://fr.wikipedia.org/wiki/Œillet_d%27Inde" 
+        },
+        { 
+            q: "À quel moment de la journée est-il conseillé d'arroser ses plantes en été pour limiter l'évaporation ?", 
+            correct: "Tôt le matin ou tard le soir", 
+            wrongs: ["En plein midi sous le soleil", "Uniquement la nuit sous la pluie", "À minuit pile avec de l'eau glacée"],
+            wiki: "https://fr.wikipedia.org/wiki/Arrosage" 
+        },
+        { 
+            q: "Quel est l'intérêt principal du compostage des déchets organiques ?", 
+            correct: "Transformer les déchets en un terreau riche et fertile", 
+            wrongs: ["Produire du gaz pour chauffer la maison", "Créer des répulsifs anti-moustiques", "Éliminer définitivement les vers de terre"],
+            wiki: "https://fr.wikipedia.org/wiki/Compostage_(biodéchets)" 
+        },
+        { 
+            q: "Que fabrique-t-on traditionnellement à partir de la macération d'orties ?", 
+            correct: "Un purin fortifiant et insectifuge pour les plantes", 
+            wrongs: ["Un désherbant chimique total", "Un engrais radioactif pour bulbes", "Un sirop sucré pour les fruits"],
+            wiki: "https://fr.wikipedia.org/wiki/Purin_d%27ortie" 
+        },
+        { 
+            q: "Quel rôle primordial jouent les vers de terre dans un jardin ?", 
+            correct: "Ils aèrent la terre et structurent le sol grâce à leurs déjections", 
+            wrongs: ["Ils mangent toutes les racines des salades", "Ils polluent l'eau d'arrosage en surface", "Ils attirent les taupes carnivores"],
+            wiki: "https://fr.wikipedia.org/wiki/Lumbricina" 
+        },
+        { 
+            q: "Pourquoi met-on du paillage (BRF, paille, feuilles) au pied des plantations ?", 
+            correct: "Pour conserver l'humidité et empêcher les mauvaises herbes", 
+            wrongs: ["Pour attirer les escargots géants", "Pour chauffer excessivement les racines", "Pour colorer le sol en violet"],
+            wiki: "https://fr.wikipedia.org/wiki/Paillage" 
+        },
+        { 
+            q: "Pourquoi les jardiniers aiment-ils voir des coccinelles dans leur potager ?", 
+            correct: "Ce sont des prédateurs voraces qui mangent les pucerons", 
+            wrongs: ["Elles pollinisent les fleurs de tomates", "Elles fertilisent le sol comme du fumier", "Elles chassent les oiseaux nuisibles"],
+            wiki: "https://fr.wikipedia.org/wiki/Coccinellidae" 
+        },
+        { 
+            q: "Quelle est la particularité bien connue de la menthe au jardin ?", 
+            correct: "C'est une plante très envahissante qui colonise tout l'espace", 
+            wrongs: ["Elle meurt dès qu'on l'arrose un peu trop", "Elle attire les guêpes frelons", "Elle ne pousse que dans le désert"],
+            wiki: "https://fr.wikipedia.org/wiki/Menthe" 
+        },
+        { 
+            q: "Quel est l'objectif de la taille de formation sur un jeune arbre fruitier ?", 
+            correct: "Lui donner une structure équilibrée et robuste", 
+            wrongs: ["Le faire grandir deux fois plus vite", "Empêcher définitivement l'arbre de faire des fruits", "Le transformer en arbuste d'intérieur"],
+            wiki: "https://fr.wikipedia.org/wiki/Taille_des_arbres_fruitiers" 
+        },
+        { 
+            q: "En quoi consiste la technique du bouturage ?", 
+            correct: "Multiplier une plante à partir d'un fragment de tige ou de feuille", 
+            wrongs: ["Planter uniquement des graines rares", "Couper toutes les racines pour forcer la floraison", "Greffer un légume sur un arbre"],
+            wiki: "https://fr.wikipedia.org/wiki/Bouturage" 
+        }
     ];
 
+    // Génération de 2000 questions dynamiques et variées
     const quizData = [];
     for (let i = 1; i <= 2000; i++) {
         const item = baseTopics[(i - 1) % baseTopics.length];
+        
+        // On combine la bonne réponse et les pièges
+        let allOptions = [item.correct, ...item.wrongs];
+        
+        // On stocke la question avec ses options
         quizData.push({
-            question: `Question ${i} : Concernant le sujet '${item.topic}', quelle est la bonne information ?`,
-            options: [
-                `Cette pratique ou plante : ${item.text}`,
-                "Cela détruit la flore intestinale du sol.",
-                "Il faut l'utiliser uniquement en plein hiver par gel intense.",
-                "C'est une technique obsolète interdite en France."
-            ],
-            correct: 0,
-            rep: `Exact ! ${item.topic} : ${item.text}`,
+            number: i,
+            question: `Question ${i} : ${item.q}`,
+            options: allOptions,
+            correctAnswer: item.correct,
+            rep: `Bon à savoir : ${item.correct}`,
             wiki: item.wiki
         });
     }
@@ -553,10 +600,12 @@
     let avatarsChangesCount = 0;
     let consecutiveErrors = 0;
     let consecutiveSuccess = 0;
+    let shuffledOptionsCache = [];
+    let correctButtonIndex = 0;
+
     const avatars = ["👨‍🌾", "👩‍🌾", "🌻", "🌵", "🌴", "🧑‍🌾"];
     let avatarIdx = 0;
 
-    // Système de Trophées
     const trophies = [
         { id: "t1", icon: "🌱", title: "Première Pousse", desc: "Donner sa première bonne réponse", unlocked: false },
         { id: "t2", icon: "🌿", title: "Main Verte", desc: "Atteindre 100 points", unlocked: false },
@@ -584,7 +633,6 @@
         if (savedDate !== today) {
             visitCount = 1;
             localStorage.setItem('jardin_visit_date', today);
-            // Bonus quotidien de connexion (+20 points !)
             score += 20;
             showAchievement("💧 Bonus quotidien : +20 Pts !");
         } else {
@@ -605,9 +653,7 @@
         }
         if (localStorage.getItem('jardin_trophies')) {
             const savedT = JSON.parse(localStorage.getItem('jardin_trophies'));
-            trophies.forEach(t => {
-                if (savedT.includes(t.id)) t.unlocked = true;
-            });
+            trophies.forEach(t => { if (savedT.includes(t.id)) t.unlocked = true; });
         }
         if (localStorage.getItem('jardin_avatar_count')) {
             avatarsChangesCount = parseInt(localStorage.getItem('jardin_avatar_count'));
@@ -641,9 +687,7 @@
         const popup = document.getElementById("achievement-popup");
         popup.innerText = text;
         popup.classList.add("show");
-        setTimeout(() => {
-            popup.classList.remove("show");
-        }, 3000);
+        setTimeout(() => { popup.classList.remove("show"); }, 3000);
     }
 
     function toggleTrophyModal() {
@@ -714,12 +758,26 @@
         checkTrophies();
     }
 
+    // Mélange aléatoire des réponses pour que la bonne réponse change de place à chaque fois
+    function shuffleArray(array) {
+        let arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
     function loadQuestion() {
         if (currentQ >= quizData.length) currentQ = 0;
         const q = quizData[currentQ];
         document.getElementById("q-number").innerText = `QUESTION ${currentQ + 1} / 2000`;
         document.getElementById("question").innerText = q.question;
         
+        // Mélanger les options et retrouver l'index de la bonne réponse
+        shuffledOptionsCache = shuffleArray(q.options);
+        correctButtonIndex = shuffledOptionsCache.indexOf(q.correctAnswer);
+
         const optsContainer = document.getElementById("options");
         optsContainer.innerHTML = "";
 
@@ -727,7 +785,7 @@
         document.getElementById("wiki-btn").style.display = "none";
         document.getElementById("next-btn").style.display = "none";
 
-        q.options.forEach((opt, idx) => {
+        shuffledOptionsCache.forEach((opt, idx) => {
             const btn = document.createElement("button");
             btn.className = "option-btn";
             btn.innerText = opt;
@@ -744,7 +802,7 @@
         
         buttons.forEach((btn, idx) => {
             btn.disabled = true;
-            if (idx === q.correct) {
+            if (idx === correctButtonIndex) {
                 btn.style.background = "#15803d";
                 btn.style.borderColor = "#4ade80";
             } else if (idx === index) {
@@ -757,7 +815,7 @@
         const notice = document.getElementById("points-notice");
         const expText = document.getElementById("explanation");
 
-        if (index === q.correct) {
+        if (index === correctButtonIndex) {
             score += 10;
             consecutiveSuccess++;
             consecutiveErrors = 0;
