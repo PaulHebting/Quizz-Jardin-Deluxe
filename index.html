@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jardin Quiz 🌿 (500 Questions)</title>
+    <title>Jardin Quiz 🌿 (500 Questions Potager)</title>
     <style>
         * {
             box-sizing: border-box;
@@ -498,7 +498,7 @@
 
         <div class="quiz-box">
             <div class="quiz-header-info">
-                <div class="question-title">JARDINAGE</div>
+                <div class="question-title">POTAGER TRADITIONNEL</div>
                 <div class="difficulty-tag diff-facile" id="diff-tag">Facile</div>
             </div>
             <div class="question-text" id="question">Chargement de la question...</div>
@@ -526,79 +526,114 @@
 </div>
 
 <script>
+    // Base de départ de questions authentiques de jardinage traditionnel
     let baseQuiz = [
         { 
-            q: "Quelle est la principale utilité des œillets d'Inde plantés au milieu du potager ?", 
-            correct: "Ils repoussent naturellement les pucerons et les nématodes.", 
-            wrongs: ["Ils attirent massivement les taupes", "Ils font fuir les abeilles et bourdons", "Ils empêchent les tomates de mûrir"],
-            exp: "Les racines de l'œillet d'Inde sécrètent une substance nématicide naturelle qui assainit la terre autour des cultures sensibles comme les tomates.",
-            wiki: "https://fr.wikipedia.org/wiki/Œillet_d%27Inde",
+            q: "Pourquoi est-il indispensable de biner régulièrement la terre de son potager ('binage vaut deux arrosages') ?", 
+            correct: "Pour briser la croûte de surface et empêcher l'eau de s'évaporer", 
+            wrongs: ["Pour colorer la terre en noir", "Pour nourrir directement les feuilles des légumes", "Pour faire fuir les vers de terre en profondeur"],
+            exp: "En cassant la croûte superficielle du sol après la pluie ou l'arrosage, on coupe les micro-canaux par lesquels l'eau remonte pour s'évaporer.",
+            wiki: "https://fr.wikipedia.org/wiki/Binage",
             difficulty: "facile"
         },
         { 
-            q: "À quel moment de la journée est-il conseillé d'arroser ses plantes en été ?", 
-            correct: "Tôt le matin ou tard le soir", 
-            wrongs: ["En plein midi sous le soleil", "Uniquement la nuit sous la pluie", "À minuit pile avec de l'eau glacée"],
-            exp: "Cela évite l'évaporation trop rapide des gouttes d'eau sous l'effet de la chaleur et prévient les risques de brûlure des feuilles.",
-            wiki: "https://fr.wikipedia.org/wiki/Arrosage",
+            q: "À quoi sert l'opération de 'le tillage' ou éclaircissage sur les lignes de carottes ou de radis semés trop dense ?", 
+            correct: "À donner l'espace nécessaire à chaque racine pour grossir correctement", 
+            wrongs: ["À récupérer les plants jetés pour faire de la soupe", "À faire fuir les taupes du jardin", "À stopper net l'arrosage automatique"],
+            exp: "Si les plants sont trop serrés, ils se font concurrence, filent en hauteur et ne forment pas de belles racines charnues.",
+            wiki: "https://fr.wikipedia.org/wiki/%C3%89claircissage",
             difficulty: "facile"
         },
         { 
-            q: "Quel est l'intérêt principal du compostage des déchets organiques ?", 
-            correct: "Transformer les déchets en un terreau riche et fertile", 
-            wrongs: ["Produire du gaz pour chauffer la maison", "Créer des répulsifs anti-moustiques", "Éliminer définitivement les vers de terre"],
-            exp: "Le processus de décomposition aérobie par les micro-organismes permet de recycler les nutriments pour nourrir les sols pauvres.",
-            wiki: "https://fr.wikipedia.org/wiki/Compostage_(biodéchets)",
-            difficulty: "facile"
+            q: "Quelle est la règle d'or pour réussir la taille des tomates indéterminées en été ?", 
+            correct: "Supprimer régulièrement les gourmands (les rejetons à l'aisselle des feuilles)", 
+            wrongs: ["Couper la tête principale dès le premier mois", "Arroser abondamment les fleurs en plein soleil", "Tailler toutes les feuilles pour laisser nu le fruit"],
+            exp: "Supprimer les gourmands permet de concentrer la sève sur les grappes de fruits principaux et d'aérer le pied pour éviter le mildiou.",
+            wiki: "https://fr.wikipedia.org/wiki/Tomate",
+            difficulty: "moyen"
         }
     ];
 
     let quizData = [...baseQuiz];
-    const plantesCatalogue = [
-        "carotte", "tomate", "pomme de terre", "fraise", "salade", "courgette", "haricot", "radis", "poireau", "oignon",
-        "ail", "échalote", "concombre", "melon", "pastèque", "aubergine", "poivron", "piment", "potiron", "citrouille",
-        "courge", "artichaut", "asperge", "rhubarbe", "épinard", "oseille", "bette", "céleri", "fenouil", "chou",
-        "brocoli", "chou-fleur", "navet", "betterave", "panais", "patate douce", "pois", "lentille", "fève", "maïs",
-        "tournesol", "lavande", "romarin", "thym", "basilic", "menthe", "ciboulette", "persil", "coriandre", "estragon",
-        "sauge", "laurier", "origan", "aneth", "cerfeuil", "camomille", "verveine", "mélisse", "vigne", "pommier",
-        "poirier", "pêcher", "abricotier", "cerisier", "prunier", "amandier", "figuier", "noyer", "chataignier", "noisette"
+
+    // Catalogue de légumes, fruits et aromates classiques du potager
+    const legumeCatalogue = [
+        { nom: "carotte", wiki: "Carotte" },
+        { nom: "tomate", wiki: "Tomate" },
+        { nom: "pomme de terre", wiki: "Pomme_de_terre" },
+        { nom: "fraise", wiki: "Fraise" },
+        { nom: "salade", "wiki": "Laitue" },
+        { nom: "courgette", wiki: "Courgette" },
+        { nom: "haricot vert", wiki: "Haricot" },
+        { nom: "radis", wiki: "Radis" },
+        { nom: "poireau", wiki: "Poireau" },
+        { nom: "oignon", wiki: "Oignon" },
+        { nom: "ail", wiki: "Ail" },
+        { nom: "échalote", wiki: "Échalote" },
+        { nom: "concombre", wiki: "Concombre" },
+        { nom: "melon", wiki: "Melon" },
+        { nom: "aubergine", wiki: "Aubergine" },
+        { nom: "poivron", wiki: "Poivron" },
+        { nom: "potiron", wiki: "Potiron" },
+        { nom: "épinard", wiki: "Épinard" },
+        { nom: "chou", wiki: "Chou_cabus" },
+        { nom: "navet", wiki: "Navet" },
+        { nom: "betterave", wiki: "Betterave" },
+        { nom: "petit pois", wiki: "Pois_(légume)" },
+        { nom: "fenouil", wiki: "Fenouil_commun" },
+        { nom: "Céleri", wiki: "Céleri" },
+        { nom: "persil", wiki: "Persil" },
+        { nom: "ciboulette", wiki: "Ciboulette" },
+        { nom: "thym", wiki: "Thym" },
+        { nom: "menthe", wiki: "Menthe" },
+        { nom: "romarin", wiki: "Romarin" },
+        { nom: "basilic", wiki: "Basilic" }
     ];
 
-    const typesQuestions = [
+    // Modèles de questions de jardinage pur (techniques, semis, entretien, récolte)
+    const typesQuestionsPotager = [
         {
-            q: (p) => `Quel type de sol convient le mieux pour réussir la culture de ${p} ?`,
-            correct: "Un sol meuble, riche en humus et bien drainé",
-            wrongs: ["De la roche pure sans aucun nutriment", "De l'asphalte bitumé compact", "Du sable marin stérile et salé"],
-            exp: (p) => `La culture de ${p} prospère idéalement dans une terre vivante et structurée qui retient l'humidité sans l'accumuler excessivement.`
+            diff: "facile",
+            q: (l) => `Quelle est la meilleure période traditionnelle pour effectuer les semences de ${l.nom} en pleine terre ?`,
+            correct: "Au printemps, lorsque les gelées matinales ne sont plus à craindre",
+            wrongs: ["En plein hiver au mois de janvier sous la neige", "Uniquement le 15 août à minuit", "Pendant la canicule en plein mois de juillet"],
+            exp: (l) => `Pour ${l.nom}, la terre doit être suffisamment réchauffée (généralement au printemps) pour assurer une bonne germination des graines.`
         },
         {
-            q: (p) => `Quelle exposition lumineuse privilégier pour installer ${p} au jardin ?`,
-            correct: "Une bonne luminosité adaptée (soleil ou mi-ombre selon la saison)",
-            wrongs: ["L'obscurité totale d'une cave sombre", "Des lampadaires halogènes 24h/24", "Une ombre épaisse et permanente"],
-            exp: (p) => `L'ensoleillement influence directement la photosynthèse et la saveur des récoltes de ${p}.`
+            diff: "moyen",
+            q: (l) => `Quel type de fumure ou d'apport organique convient le mieux lors de la préparation du sol pour ${l.nom} ?`,
+            correct: "Un compost bien mûr incorporé superficiellement à la terre",
+            wrongs: ["De l'huile de vidange usagée pour tuer les parasites", "Du sel de cuisine pour structurer les mottes", "De l'eau de Javel pure pour stériliser le sillon"],
+            exp: (l) => `Le compost mûr apporte les éléments nutritifs essentiels à ${l.nom} sans brûler les jeunes racines, contrairement au fumier frais.`
         },
         {
-            q: (p) => `Quel entretien régulier est particulièrement recommandé pour ${p} ?`,
-            correct: "Un paillage régulier du pied et un désherbage soigneux",
-            wrongs: ["L'application d'une peinture plastique", "Une taille drastique au ras du sol chaque semaine", "Un lavage au savon de Marseille quotidien"],
-            exp: (p) => `Le paillage permet de conserver l'humidité naturelle du sol tout en limitant l'apparition des mauvaises herbes autour de ${p}.`
+            diff: "difficile",
+            q: (l) => `Quel ravageur ou maladie classique doit-on surveiller en priorité lors de la culture de ${l.nom} ?`,
+            correct: "Les attaques de parasites spécifiques ou de champignons liés à l'excès d'humidité",
+            wrongs: ["L'invasion soudaine de manchots alpins", "La transformation des feuilles en plaques de tôle", "La lévitation des plants hors du sol"],
+            exp: (l) => `Une bonne rotation des cultures et une surveillance rigoureuse du feuillage protègent efficacement ${l.nom} des aléas sanitaires.`
+        },
+        {
+            diff: "moyen",
+            q: (l) => `Comment sait-on de manière générale que ${l.nom} est arrivé à maturité et prêt à être récolté ?`,
+            correct: "D'après la taille, la couleur caractéristique et la fermeté du fruit ou du légume",
+            wrongs: ["Quand le plant se met à chanter au vent", "Quand les feuilles deviennent entièrement bleues", "Dès que le calendrier indique un jour férié"],
+            exp: (l) => `Le respect du temps de croissance et l'observation visuelle permettent de récolter ${l.nom} au meilleur moment de sa saveur.`
         }
     ];
 
-    // Génération aléatoire et variée des 500 questions pour éviter les suites répétitives
-    let diffs = ["facile", "moyen", "difficile"];
+    // Génération automatique des 500 questions de jardinier pur de façon variée et aléatoire
     for (let i = 1; i < 500; i++) {
-        let randPlant = plantesCatalogue[Math.floor(Math.random() * plantesCatalogue.length)];
-        let randType = typesQuestions[Math.floor(Math.random() * typesQuestions.length)];
-        let randDiff = diffs[Math.floor(Math.random() * diffs.length)];
+        let randLeg = legumeCatalogue[Math.floor(Math.random() * legumeCatalogue.length)];
+        let randType = typesQuestionsPotager[Math.floor(Math.random() * typesQuestionsPotager.length)];
         
         quizData.push({
-            q: randType.q(randPlant),
+            q: randType.q(randLeg),
             correct: randType.correct,
             wrongs: randType.wrongs,
-            exp: randType.exp(randPlant),
-            wiki: `https://fr.wikipedia.org/wiki/${randPlant.charAt(0).toUpperCase() + randPlant.slice(1)}`,
-            difficulty: randDiff
+            exp: randType.exp(randLeg),
+            wiki: `https://fr.wikipedia.org/wiki/${randLeg.wiki}`,
+            difficulty: randType.diff
         });
     }
 
@@ -620,16 +655,16 @@
         { id: "t4", icon: "🐹", title: "Taupe en Chef", desc: "Faire 3 erreurs d'affilée", unlocked: false },
         { id: "t5", icon: "🐞", title: "Chasseur de Pucerons", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
         { id: "t6", icon: "🌻", title: "Botaniste Fou", desc: "Répondre à 10 questions", unlocked: false },
-        { id: "t7", icon: "🌳", title: "Maître de la Jungle", desc: "Atteindre 250 points", unlocked: false }
+        { id: "t7", icon: "🌳", title: "Maître du Jardin", desc: "Atteindre 250 points", unlocked: false }
     ];
 
-    // Les grades et les niveaux de difficulté autorisés selon les points
+    // Grades et progression des niveaux de difficulté débloqués par les points
     const ranks = [
         { min: 0, max: 40, title: "🌱 Débutant", nextTitle: "Apprenti", allowedDiff: ["facile"] },
         { min: 40, max: 100, title: "🌿 Apprenti Jardinier", nextTitle: "Confirmé", allowedDiff: ["facile", "moyen"] },
         { min: 100, max: 200, title: "🪴 Jardinier Confirmé", nextTitle: "Expert", allowedDiff: ["facile", "moyen", "difficile"] },
-        { min: 200, max: 400, title: "🌳 Expert Botanique", nextTitle: "Maître", allowedDiff: ["moyen", "difficile"] },
-        { min: 400, max: Infinity, title: "🏆 Maître du Jardin", nextTitle: "Niveau Max", allowedDiff: ["difficile"] }
+        { min: 200, max: 400, title: "🌳 Expert Potager", nextTitle: "Maître", allowedDiff: ["moyen", "difficile"] },
+        { min: 400, max: Infinity, title: "🏆 Maître Jardinier", nextTitle: "Niveau Max", allowedDiff: ["difficile"] }
     ];
 
     function getCurrentRank() {
@@ -782,7 +817,6 @@
 
     function loadFilteredRandomQuestion() {
         const currentRank = getCurrentRank();
-        // Filtre les questions en fonction des difficultés autorisées par le grade actuel
         let eligibleQuestions = quizData.filter(q => currentRank.allowedDiff.includes(q.difficulty));
         if (eligibleQuestions.length === 0) eligibleQuestions = quizData;
 
