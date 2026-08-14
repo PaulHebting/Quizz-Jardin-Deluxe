@@ -257,7 +257,7 @@
         .explanation-text {
             font-size: 12.5px;
             color: #e2e8f0;
-            line-height: 1.3;
+            line-height: 1.35;
         }
 
         .points-notification {
@@ -512,66 +512,76 @@
 </div>
 
 <script>
-    // Banque de questions de base
+    // Banque de questions avec de vraies explications détaillées
     const baseTopics = [
         { 
-            q: "Quelle est la principale utilité des œillets d'Inde plantés au milieu du potager ?", 
+            q: "Pourquoi est-il si judicieux de planter des œillets d'Inde au milieu de ses légumes ?", 
             correct: "Ils repoussent naturellement les pucerons et les nématodes.", 
             wrongs: ["Ils attirent massivement les taupes", "Ils font fuir les abeilles et bourdons", "Ils empêchent les tomates de mûrir"],
+            explanation: "Les racines des œillets d'Inde sécrètent des substances toxiques pour certains parasites du sol (comme les nématodes), et leur forte odeur rebute les pucerons. C'est le compagnon idéal du potager !",
             wiki: "https://fr.wikipedia.org/wiki/Œillet_d%27Inde" 
         },
         { 
-            q: "À quel moment de la journée est-il conseillé d'arroser ses plantes en été pour limiter l'évaporation ?", 
+            q: "À quel moment de la journée est-il le plus judicieux d'arroser ses plantes en été ?", 
             correct: "Tôt le matin ou tard le soir", 
             wrongs: ["En plein midi sous le soleil", "Uniquement la nuit sous la pluie", "À minuit pile avec de l'eau glacée"],
+            explanation: "Arroser en pleine journée provoque une évaporation rapide de l'eau avant qu'elle n'atteigne les racines, et l'effet loupe des gouttelettes peut brûler les feuilles. Tôt le matin ou le soir permet à la terre de bien s'imprégner.",
             wiki: "https://fr.wikipedia.org/wiki/Arrosage" 
         },
         { 
             q: "Quel est l'intérêt principal du compostage des déchets organiques ?", 
             correct: "Transformer les déchets en un terreau riche et fertile", 
             wrongs: ["Produire du gaz pour chauffer la maison", "Créer des répulsifs anti-moustiques", "Éliminer définitivement les vers de terre"],
+            explanation: "En recyclant épluchures, feuilles et restes de cuisine, les micro-organismes recréent un humus d'excellente qualité qui nourrit durablement les plantes du jardin sans engrais chimique.",
             wiki: "https://fr.wikipedia.org/wiki/Compostage_(biodéchets)" 
         },
         { 
-            q: "Que fabrique-t-on traditionnellement à partir de la macération d'orties ?", 
-            correct: "Un purin fortifiant et insectifuge pour les plantes", 
-            wrongs: ["Un désherbant chimique total", "Un engrais radioactif pour bulbes", "Un sirop sucré pour les fruits"],
+            q: "Pourquoi de nombreux jardiniers fabriquent-ils du purin d'ortie ?", 
+            correct: "C'est un formidable engrais naturel et un répulsif anti-insectes", 
+            wrongs: ["C'est un désherbant chimique total", "C'est un traitement radioactif pour bulbes", "C'est un sirop sucré pour nourrir les fruits"],
+            explanation: "Riche en azote, en fer et en minéraux, la macération d'orties stimule vigoureusement la croissance des végétaux tout en renforçant leurs défenses immunitaires contre les maladies.",
             wiki: "https://fr.wikipedia.org/wiki/Purin_d%27ortie" 
         },
         { 
             q: "Quel rôle primordial jouent les vers de terre dans un jardin ?", 
             correct: "Ils aèrent la terre et structurent le sol grâce à leurs déjections", 
             wrongs: ["Ils mangent toutes les racines des salades", "Ils polluent l'eau d'arrosage en surface", "Ils attirent les taupes carnivores"],
+            explanation: "En creusant leurs galeries, les vers de terre facilitent la circulation de l'eau et de l'air. Leurs déjections (turricules) forment un engrais naturel exceptionnel qui structure la terre.",
             wiki: "https://fr.wikipedia.org/wiki/Lumbricina" 
         },
         { 
-            q: "Pourquoi met-on du paillage (BRF, paille, feuilles) au pied des plantations ?", 
+            q: "Quel est l'avantage principal d'installer un paillage au pied de ses plantations ?", 
             correct: "Pour conserver l'humidité et empêcher les mauvaises herbes", 
             wrongs: ["Pour attirer les escargots géants", "Pour chauffer excessivement les racines", "Pour colorer le sol en violet"],
+            explanation: "Le paillis (paille, feuilles mortes, BRF) protège la terre du soleil direct, réduit considérablement l'évaporation de l'eau et bloque la lumière dont les mauvaises herbes ont besoin pour pousser.",
             wiki: "https://fr.wikipedia.org/wiki/Paillage" 
         },
         { 
-            q: "Pourquoi les jardiniers aiment-ils voir des coccinelles dans leur potager ?", 
-            correct: "Ce sont des prédateurs voraces qui mangent les pucerons", 
+            q: "Pourquoi les jardiniers accueillent-ils toujours les coccinelles avec le sourire ?", 
+            correct: "Ce sont des prédateurs voraces qui régulent les populations de pucerons", 
             wrongs: ["Elles pollinisent les fleurs de tomates", "Elles fertilisent le sol comme du fumier", "Elles chassent les oiseaux nuisibles"],
+            explanation: "Aussi bien à l'état de larve que d'adulte, la coccinelle dévore des centaines de pucerons par jour. C'est l'auxiliaire de lutte biologique par excellence au potager.",
             wiki: "https://fr.wikipedia.org/wiki/Coccinellidae" 
         },
         { 
-            q: "Quelle est la particularité bien connue de la menthe au jardin ?", 
-            correct: "C'est une plante très envahissante qui colonise tout l'espace", 
+            q: "Quelle est la particularité bien connue de la menthe au jardin qu'il faut surveiller ?", 
+            correct: "C'est une plante très envahissante qui colonise rapidement tout l'espace", 
             wrongs: ["Elle meurt dès qu'on l'arrose un peu trop", "Elle attire les guêpes frelons", "Elle ne pousse que dans le désert"],
+            explanation: "La menthe se propage très vite grâce à ses racines souterraines traçantes (les stolons). Si on la plante directement en pleine terre sans barrière, elle risque d'étouffer les autres plantes alentour.",
             wiki: "https://fr.wikipedia.org/wiki/Menthe" 
         },
         { 
-            q: "Quel est l'objectif de la taille de formation sur un jeune arbre fruitier ?", 
-            correct: "Lui donner une structure équilibrée et robuste", 
+            q: "Quel est l'objectif principal de la taille de formation sur un jeune arbre fruitier ?", 
+            correct: "Lui donner une structure équilibrée, solide et bien lumineuse", 
             wrongs: ["Le faire grandir deux fois plus vite", "Empêcher définitivement l'arbre de faire des fruits", "Le transformer en arbuste d'intérieur"],
+            explanation: "Cette taille permet de guider les branches principales (charpentières) pour qu'elles supportent bien le poids des fruits et laissent passer le soleil au cœur de l'arbre.",
             wiki: "https://fr.wikipedia.org/wiki/Taille_des_arbres_fruitiers" 
         },
         { 
-            q: "En quoi consiste la technique du bouturage ?", 
-            correct: "Multiplier une plante à partir d'un fragment de tige ou de feuille", 
+            q: "En quoi consiste concrètement la technique du bouturage ?", 
+            correct: "Multiplier une plante à partir d'un simple fragment de tige ou de feuille", 
             wrongs: ["Planter uniquement des graines rares", "Couper toutes les racines pour forcer la floraison", "Greffer un légume sur un arbre"],
+            explanation: "Le bouturage permet de créer une nouvelle plante rigoureusement identique à la plante mère en plaçant un morceau de tige ou de feuille dans l'eau ou dans un terreau adapté pour qu'il recrée des racines.",
             wiki: "https://fr.wikipedia.org/wiki/Bouturage" 
         }
     ];
@@ -584,7 +594,7 @@
             question: item.q,
             correctAnswer: item.correct,
             options: [item.correct, ...item.wrongs],
-            rep: `Explication : ${item.correct}`,
+            explanation: item.explanation,
             wiki: item.wiki
         });
     }
@@ -752,7 +762,6 @@
         checkTrophies();
     }
 
-    // Mélange de tableau générique
     function shuffleArray(array) {
         let arr = [...array];
         for (let i = arr.length - 1; i > 0; i--) {
@@ -763,13 +772,11 @@
     }
 
     function loadQuestion() {
-        // Sélection aléatoire d'une question parmi les 2000
         const randomIndex = Math.floor(Math.random() * quizData.length);
         currentQuestionData = quizData[randomIndex];
 
         document.getElementById("question").innerText = currentQuestionData.question;
         
-        // Mélange aléatoire des 4 réponses pour que la bonne ne soit jamais au même endroit
         const shuffledOptions = shuffleArray(currentQuestionData.options);
         correctButtonIndex = shuffledOptions.indexOf(currentQuestionData.correctAnswer);
 
@@ -784,14 +791,14 @@
             const btn = document.createElement("button");
             btn.className = "option-btn";
             btn.innerText = opt;
-            btn.onclick = () => selectOption(idx, shuffledOptions);
+            btn.onclick = () => selectOption(idx);
             optsContainer.appendChild(btn);
         });
 
         updateRankProgress();
     }
 
-    function selectOption(index, shuffledOptions) {
+    function selectOption(index) {
         const buttons = document.querySelectorAll(".option-btn");
         
         buttons.forEach((btn, idx) => {
@@ -830,7 +837,7 @@
         updateRankProgress();
         saveUserData();
 
-        expText.innerText = currentQuestionData.rep;
+        expText.innerText = currentQuestionData.explanation;
         expBox.style.display = "block";
 
         const wikiBtn = document.getElementById("wiki-btn");
