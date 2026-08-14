@@ -207,9 +207,17 @@
 
         .quiz-header-info {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 4px;
+        }
+
+        .question-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            font-weight: 700;
         }
 
         .difficulty-tag {
@@ -478,7 +486,7 @@
                     </div>
                     <div class="progress-text">
                         <span id="rank-next-title">Suivant: Apprenti</span>
-                        <span id="rank-points-left">50 pts restants</span>
+                        <span id="rank-points-left">40 pts restants</span>
                     </div>
                 </div>
 
@@ -490,9 +498,10 @@
 
         <div class="quiz-box">
             <div class="quiz-header-info">
+                <div class="question-title">JARDINAGE</div>
                 <div class="difficulty-tag diff-facile" id="diff-tag">Facile</div>
             </div>
-            <div class="question-text" id="question">Chargement des questions...</div>
+            <div class="question-text" id="question">Chargement de la question...</div>
         </div>
 
         <div class="options-grid" id="options"></div>
@@ -576,23 +585,21 @@
         }
     ];
 
+    // Génération aléatoire et variée des 500 questions pour éviter les suites répétitives
     let diffs = ["facile", "moyen", "difficile"];
-    let idCounter = 1;
-
-    while(quizData.length < 500) {
-        let p = plantesCatalogue[idCounter % plantesCatalogue.length];
-        let t = typesQuestions[idCounter % typesQuestions.length];
-        let diff = diffs[idCounter % diffs.length];
+    for (let i = 1; i < 500; i++) {
+        let randPlant = plantesCatalogue[Math.floor(Math.random() * plantesCatalogue.length)];
+        let randType = typesQuestions[Math.floor(Math.random() * typesQuestions.length)];
+        let randDiff = diffs[Math.floor(Math.random() * diffs.length)];
         
         quizData.push({
-            q: t.q(p),
-            correct: t.correct,
-            wrongs: t.wrongs,
-            exp: t.exp(p),
-            wiki: `https://fr.wikipedia.org/wiki/${p.charAt(0).toUpperCase() + p.slice(1)}`,
-            difficulty: diff
+            q: randType.q(randPlant),
+            correct: randType.correct,
+            wrongs: randType.wrongs,
+            exp: randType.exp(randPlant),
+            wiki: `https://fr.wikipedia.org/wiki/${randPlant.charAt(0).toUpperCase() + randPlant.slice(1)}`,
+            difficulty: randDiff
         });
-        idCounter++;
     }
 
     let score = 0;
@@ -616,12 +623,13 @@
         { id: "t7", icon: "🌳", title: "Maître de la Jungle", desc: "Atteindre 250 points", unlocked: false }
     ];
 
+    // Les grades et les niveaux de difficulté autorisés selon les points
     const ranks = [
-        { min: 0, max: 40, title: "🌱 Débutant", nextTitle: "Apprenti" },
-        { min: 40, max: 100, title: "🌿 Apprenti Jardinier", nextTitle: "Confirmé" },
-        { min: 100, max: 200, title: "🪴 Jardinier Confirmé", nextTitle: "Expert" },
-        { min: 200, max: 400, title: "🌳 Expert Botanique", nextTitle: "Maître" },
-        { min: 400, max: Infinity, title: "🏆 Maître du Jardin", nextTitle: "Niveau Max" }
+        { min: 0, max: 40, title: "🌱 Débutant", nextTitle: "Apprenti", allowedDiff: ["facile"] },
+        { min: 40, max: 100, title: "🌿 Apprenti Jardinier", nextTitle: "Confirmé", allowedDiff: ["facile", "moyen"] },
+        { min: 100, max: 200, title: "🪴 Jardinier Confirmé", nextTitle: "Expert", allowedDiff: ["facile", "moyen", "difficile"] },
+        { min: 200, max: 400, title: "🌳 Expert Botanique", nextTitle: "Maître", allowedDiff: ["moyen", "difficile"] },
+        { min: 400, max: Infinity, title: "🏆 Maître du Jardin", nextTitle: "Niveau Max", allowedDiff: ["difficile"] }
     ];
 
     function getCurrentRank() {
@@ -668,7 +676,7 @@
         trackDailyVisits();
         renderTrophiesList();
         updateRankProgress();
-        loadRandomQuestion();
+        loadFilteredRandomQuestion();
     }
 
     function saveUserData() {
@@ -772,10 +780,14 @@
         return arr;
     }
 
-    function loadRandomQuestion() {
-        // Pioche directement et complètement au hasard parmi les 500 questions
-        const randomIndex = Math.floor(Math.random() * quizData.length);
-        currentQuestionObj = quizData[randomIndex];
+    function loadFilteredRandomQuestion() {
+        const currentRank = getCurrentRank();
+        // Filtre les questions en fonction des difficultés autorisées par le grade actuel
+        let eligibleQuestions = quizData.filter(q => currentRank.allowedDiff.includes(q.difficulty));
+        if (eligibleQuestions.length === 0) eligibleQuestions = quizData;
+
+        const randomIndex = Math.floor(Math.random() * eligibleQuestions.length);
+        currentQuestionObj = eligibleQuestions[randomIndex];
         
         document.getElementById("question").innerText = currentQuestionObj.q;
         
@@ -858,7 +870,7 @@
     }
 
     function nextQuestion() {
-        loadRandomQuestion();
+        loadFilteredRandomQuestion();
     }
 
     function shareScore() {
