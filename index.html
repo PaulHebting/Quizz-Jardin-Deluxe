@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jardin Quiz 🌿 (Édition Expert)</title>
+    <title>Jardin Quiz 🌿</title>
     <style>
         * {
             box-sizing: border-box;
@@ -506,7 +506,7 @@
                 <div class="question-title" id="q-number">QUESTION 1</div>
                 <div class="difficulty-tag diff-facile" id="diff-tag">Facile</div>
             </div>
-            <div class="question-text" id="question">Chargement...</div>
+            <div class="question-text" id="question">Chargement des questions...</div>
         </div>
 
         <div class="options-grid" id="options"></div>
@@ -531,9 +531,8 @@
 </div>
 
 <script>
-    // Base de questions de qualité avec vraies explications détaillées
-    const quizData = [
-        // --- FACILE ---
+    // Liste de questions initiales (Tu peux ajouter toutes tes questions de qualité ici au format JSON)
+    let quizData = [
         { 
             q: "Quelle est la principale utilité des œillets d'Inde plantés au milieu du potager ?", 
             correct: "Ils repoussent naturellement les pucerons et les nématodes.", 
@@ -574,16 +573,6 @@
             wiki: "https://fr.wikipedia.org/wiki/Coccinellidae",
             difficulty: "facile"
         },
-        {
-            q: "Quel légume-racine est célèbre pour sa teneur en carotène et sa couleur orange ?",
-            correct: "La carotte",
-            wrongs: ["Le radis noir", "Le navet blanc", "Le panais"],
-            exp: "La carotte doit sa couleur vive et ses vertus pour la vue à sa forte concentration en bêta-carotène.",
-            wiki: "https://fr.wikipedia.org/wiki/Carotte",
-            difficulty: "facile"
-        },
-
-        // --- MOYEN ---
         { 
             q: "Que fabrique-t-on traditionnellement à partir de la macération d'orties ?", 
             correct: "Un purin fortifiant et insectifuge pour les plantes", 
@@ -608,24 +597,6 @@
             wiki: "https://fr.wikipedia.org/wiki/Menthe",
             difficulty: "moyen"
         },
-        {
-            q: "Quelle est la meilleure période de l'année pour tailler la majorité des rosiers ?",
-            correct: "À la fin de l'hiver (février-mars)",
-            wrongs: ["En plein mois d'août sous canicule", "Juste après les premières gelées d'octobre", "Le jour de Noël"],
-            exp: "La taille de fin d'hiver intervient après les grands froids et stimule le départ de nouvelles pousses vigoureuses pour la belle saison.",
-            wiki: "https://fr.wikipedia.org/wiki/Rosier",
-            difficulty: "moyen"
-        },
-        {
-            q: "Comment appelle-t-on la maladie cryptogamique qui recouvre les feuilles d'un dépôt blanc farineux ?",
-            correct: "L'oïdium (ou blanc)",
-            wrongs: ["La rouille", "Le mildiou", "La pourriture grise"],
-            exp: "L'oïdium est un champignon parasite favorisé par l'alternance de temps humide et chaud. Il affaiblit la plante en bloquant la photosynthèse.",
-            wiki: "https://fr.wikipedia.org/wiki/Oïdium",
-            difficulty: "moyen"
-        },
-
-        // --- DIFFICILE ---
         { 
             q: "Quel est l'objectif de la taille de formation sur un jeune arbre fruitier ?", 
             correct: "Lui donner une structure équilibrée et robuste", 
@@ -640,30 +611,6 @@
             wrongs: ["Planter uniquement des graines rares", "Couper toutes les racines pour forcer la floraison", "Greffer un légume sur un arbre"],
             exp: "Le bouturage est une méthode de multiplication végétative asexuée qui permet d'obtenir un clone identique à la plante mère.",
             wiki: "https://fr.wikipedia.org/wiki/Bouturage",
-            difficulty: "difficile"
-        },
-        {
-            q: "Qu'appelle-t-on le 'BRF' (Bois Raméal Fragmenté) très utilisé en permaculture ?",
-            correct: "Des jeunes rameaux de bois broyés",
-            wrongs: ["De la poussière de charbon", "Un engrais chimique puissant", "Du sable de rivière filtré"],
-            exp: "Le BRF provient du broyage de jeunes branches (généralement de feuillus). Il stimule la vie microbienne et l'humus dans les sols.",
-            wiki: "https://fr.wikipedia.org/wiki/Bois_raméal_fragmenté",
-            difficulty: "difficile"
-        },
-        {
-            q: "Quelle est l'utilité du purin d'ail pulvérisé au jardin ?",
-            correct: "Il agit comme un répulsif naturel contre les champignons et insectes",
-            wrongs: ["Il sert à sucrer les fruits", "Il attire les papillons rares", "Il colore les fleurs en bleu"],
-            exp: "L'ail possède des propriétés antifongiques et antibactériennes reconnues, idéales en prévention contre le mildiou ou les acariens.",
-            wiki: "https://fr.wikipedia.org/wiki/Ail",
-            difficulty: "difficile"
-        },
-        {
-            q: "Qu'est-ce qu'un sol argileux ?",
-            correct: "Un sol compact qui retient beaucoup l'eau et colle aux chaussures",
-            wrongs: ["Un sol sablonneux qui s'effondre tout de suite", "Un sol très léger rempli de cailloux blancs", "Un sol stérile composé de cendres"],
-            exp: "Composé de fines particules, le sol argileux est lourd, riche en nutriments et retient très bien l'eau, mais peut devenir dur comme de la pierre en été.",
-            wiki: "https://fr.wikipedia.org/wiki/Argile",
             difficulty: "difficile"
         }
     ];
