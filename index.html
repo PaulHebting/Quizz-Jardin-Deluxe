@@ -512,7 +512,6 @@
 </div>
 
 <script>
-    // Banque de questions avec de vraies explications détaillées
     const baseTopics = [
         { 
             q: "Pourquoi est-il si judicieux de planter des œillets d'Inde au milieu de ses légumes ?", 
@@ -572,9 +571,9 @@
         },
         { 
             q: "Quel est l'objectif principal de la taille de formation sur un jeune arbre fruitier ?", 
-            correct: "Lui donner une structure équilibrée, solide et bien lumineuse", 
+            correct: "Lui donner une structure équilibrée et robuste", 
             wrongs: ["Le faire grandir deux fois plus vite", "Empêcher définitivement l'arbre de faire des fruits", "Le transformer en arbuste d'intérieur"],
-            explanation: "Cette taille permet de guider les branches principales (charpentières) pour qu'elles supportent bien le poids des fruits et laissent passer le soleil au cœur de l'arbre.",
+            explanation: "Cette taille permet de guider les branches principales (charpentières) dès le plus jeune âge pour qu'elles forment une charpente solide, bien répartie dans l'espace et capable de supporter de lourdes charges de fruits à l'avenir.",
             wiki: "https://fr.wikipedia.org/wiki/Taille_des_arbres_fruitiers" 
         },
         { 
@@ -586,7 +585,6 @@
         }
     ];
 
-    // Génération de 2000 questions variées
     const quizData = [];
     for (let i = 1; i <= 2000; i++) {
         const item = baseTopics[(i - 1) % baseTopics.length];
