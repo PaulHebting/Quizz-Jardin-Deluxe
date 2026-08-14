@@ -2,15 +2,17 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Jardinier Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Le Métier de Jardinier Quiz 🌿</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
+
         body {
             background-color: #0f172a;
             color: #f8fafc;
@@ -18,140 +20,890 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 12px;
         }
-        .container {
+
+        .mobile-container {
             width: 100%;
             max-width: 420px;
+            height: 94vh;
+            max-height: 880px;
             background: #1e293b;
-            padding: 24px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border-radius: 28px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             border: 1px solid #334155;
+            position: relative;
         }
-        .header {
+
+        .app-header {
+            padding: 14px 16px;
+            background: #0f172a;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .app-title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #4ade80;
+        }
+
+        .daily-visits {
+            font-size: 11px;
+            color: #38bdf8;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .score-badge {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .app-content {
+            flex: 1;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+        }
+
+        .user-profile-card {
+            background: #0f172a;
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-picker {
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 3px solid #4ade80;
+        }
+
+        .profile-info {
+            text-align: left;
+            flex: 1;
+        }
+
+        .username-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #334155;
+            color: #f8fafc;
+            font-size: 15px;
+            font-weight: 700;
+            width: 100%;
+            padding: 2px 0;
+            outline: none;
+        }
+
+        .username-input:focus {
+            border-bottom-color: #4ade80;
+        }
+
+        .top-menu-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .trophy-btn-mini {
+            background: rgba(250, 204, 21, 0.15);
+            border: 1px solid rgba(250, 204, 21, 0.4);
+            color: #facc15;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .quiz-box {
+            background: #334155;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .quiz-header-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 4px;
+        }
+
+        .question-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .difficulty-tag {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+        .diff-facile { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .diff-moyen { background: rgba(234, 179, 8, 0.2); color: #facc15; }
+        .diff-difficile { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+        .question-text {
             font-size: 14px;
-            color: #4ade80;
-            font-weight: bold;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
         }
-        .question {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            line-height: 1.4;
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin-top: 10px;
         }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
+
+        .option-btn {
             background: #0f172a;
             border: 2px solid #334155;
             color: #f1f5f9;
+            padding: 9px 12px;
             border-radius: 10px;
-            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
             text-align: left;
-            font-size: 14px;
-            transition: 0.2s;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .btn:hover:not(:disabled) {
+
+        .option-btn:hover:not(:disabled) {
             border-color: #4ade80;
         }
-        .correct {
-            background: rgba(34, 197, 94, 0.2) !important;
-            border-color: #22c55e !important;
-            color: #4ade80 !important;
-        }
-        .wrong {
-            background: rgba(239, 68, 68, 0.2) !important;
-            border-color: #ef4444 !important;
-            color: #f87171 !important;
-        }
-        #next-btn {
+
+        .explanation-box {
             display: none;
-            width: 100%;
-            padding: 12px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 8px;
+        }
+
+        .explanation-text {
+            font-size: 12.5px;
+            color: #e2e8f0;
+            line-height: 1.3;
+            margin-top: 4px;
+        }
+
+        .points-notification {
+            font-weight: 800;
+            font-size: 12.5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .wiki-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 9px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .next-btn {
+            display: none;
             background: #22c55e;
             color: #0f172a;
             border: none;
+            padding: 9px;
             border-radius: 10px;
+            font-weight: 800;
+            font-size: 13.5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .share-btn {
+            background: #334155;
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 8px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 12.5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            width: 100%;
+            max-height: 80vh;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
+        }
+
+        .modal-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #facc15;
+        }
+
+        .close-modal {
+            background: #334155;
+            color: white;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 15px;
-            font-size: 15px;
         }
+
+        .trophies-list {
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .trophy-item {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.4;
+            filter: grayscale(100%);
+        }
+
+        .trophy-item.unlocked {
+            opacity: 1;
+            filter: grayscale(0%);
+            border-color: rgba(250, 204, 21, 0.4);
+            background: rgba(250, 204, 21, 0.05);
+        }
+
+        .trophy-icon { font-size: 24px; }
+        .trophy-details h4 { font-size: 13px; color: #f8fafc; font-weight: 700; }
+        .trophy-details p { font-size: 11px; color: #94a3b8; }
+
+        #achievement-popup {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: #facc15;
+            color: #0f172a;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 12px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200;
+            pointer-events: none;
+        }
+        #achievement-popup.show { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <span>🌿 QUIZ JARDINIER</span>
-        <span id="score-display">Score : 0 Pts</span>
+<div class="mobile-container">
+    <div id="achievement-popup">🏆 Trophée débloqué !</div>
+
+    <div class="modal-overlay" id="trophy-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">🏆 Trophées & Succès</div>
+                <button class="close-modal" onclick="toggleTrophyModal()">×</button>
+            </div>
+            <div class="trophies-list" id="trophies-list-container"></div>
+        </div>
     </div>
-    <div class="question" id="question">Chargement...</div>
-    <div id="options"></div>
-    <button id="next-btn" onclick="nextQuestion()">Question suivante 🚀</button>
+
+    <div class="app-header">
+        <div class="app-title-group">
+            <div class="app-title">🌿 MÉTIER DE JARDINIER</div>
+            <div class="daily-visits">📊 <span id="visits-count">1</span> connexion(s)</div>
+        </div>
+        <div class="score-badge" id="score-display">0 Pts</div>
+    </div>
+
+    <div class="app-content">
+        <div class="user-profile-card">
+            <div class="avatar-picker" onclick="changeAvatar()">
+                <div class="user-avatar" id="avatar-display">👨‍🌾</div>
+            </div>
+            <div class="profile-info">
+                <input type="text" class="username-input" id="username-input" value="JardinierPro" placeholder="Ton pseudo..." oninput="saveUserData()">
+                <div class="top-menu-actions">
+                    <button class="trophy-btn-mini" onclick="toggleTrophyModal()">🏆 Trophées</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-box">
+            <div class="quiz-header-info">
+                <div class="question-title">PRATIQUE PROFESSIONNELLE</div>
+                <div class="difficulty-tag diff-facile" id="diff-tag">Facile</div>
+            </div>
+            <div class="question-text" id="question">Chargement...</div>
+        </div>
+
+        <div class="options-grid" id="options"></div>
+
+        <div class="explanation-box" id="explanation-box">
+            <div class="points-notification" id="points-notice"></div>
+            <div class="explanation-text" id="explanation"></div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="#" target="_blank" class="wiki-btn" id="wiki-btn">🌐 Fiche Technique Wikipédia</a>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">🚀 Question Suivante</button>
+            <button class="share-btn" onclick="shareScore()">🔗 Partager mon score</button>
+        </div>
+    </div>
 </div>
 
 <script>
     const quizData = [
-        { q: "Quelle est la principale utilité du binage régulier ?", correct: "Rompre la capillarité pour limiter l'évaporation de l'eau", wrongs: ["Tasser la terre en surface", "Enrichir le sol en roche mère", "Augmenter l'acidité du sol"] },
-        { q: "Comment diviser une touffe de ciboulette ?", correct: "En déterrant délicatement la souche pour la séparer en éclats", wrongs: ["En coupant toutes les tiges à ras", "En prélevant uniquement les fleurs", "En taillant les racines sans sortir la touffe"] },
-        { q: "Quelle technique employer pour planter des pommes de terre ?", correct: "Les planter germe vers le haut dans des sillons à 10-15 cm", wrongs: ["Les enterrer à plus de 40 cm de profondeur", "Les orienter germe vers le bas", "Les repiquer en surface sans terre"] }
+        { 
+            q: "Quelle est la principale utilité du binage régulier dans les massifs ?", 
+            correct: "Rompre la capillarité du sol pour limiter l'évaporation de l'eau et détruire les jeunes plantules", 
+            wrongs: [
+                "Tasser la terre en surface pour empêcher l'eau d'infiltrer trop rapidement les racines", 
+                "Enrichir le sol directement en libérant des minéraux bloqués dans la roche mère", 
+                "Augmenter l'acidité naturelle de la terre pour éliminer préventivement la mousse"
+            ], 
+            exp: "Un binage vaut deux arrosages en cassant la croûte superficielle qui favorise l'évaporation.", 
+            wiki: "https://fr.wikipedia.org/wiki/Binage", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Comment diviser une touffe de ciboulette arrivée à maturité ?", 
+            correct: "En déterrant délicatement la souche pour la séparer en plusieurs éclats munis de racines", 
+            wrongs: [
+                "En coupant toutes les tiges à ras au sécateur pour forcer l'émergence de nouveaux bulbes", 
+                "En prélevant uniquement les fleurs fanées pour les réenraciner directement dans le terreau", 
+                "En taillant les racines latérales sans sortir la touffe principale de terre"
+            ], 
+            exp: "La division de la souche au printemps ou en automne régénère la plante et multiplie les pieds.", 
+            wiki: "https://fr.wikipedia.org/wiki/Ciboulette", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quelle technique employer pour planter des tubercules de pommes de terre ?", 
+            correct: "Les planter germe vers le haut dans des sillons à 10-15 cm de profondeur", 
+            wrongs: [
+                "Les enterrer à plus de 40 cm pour éviter qu'ils ne subissent les gelées tardives", 
+                "Les orienter germe vers le bas afin de stimuler le développement racinaire rapide", 
+                "Les repiquer directement en surface sans les recouvrir de terre jusqu'à la levée"
+            ], 
+            exp: "Placer les germes vers le haut permet une émergence rapide et régulière de la tige.", 
+            wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quelle est la meilleure période pour récolter l'ail et les oignons de conservation ?", 
+            correct: "En été, lorsque le feuillage commence à jaunir et à se dessécher aux deux tiers", 
+            wrongs: [
+                "Au début du printemps, dès le développement des premières feuilles vert tendre", 
+                "En plein hiver, une fois que les gelées ont totalement détruit les parties aériennes", 
+                "Pendant la phase de floraison maximale, lorsque la tige florale est bien rigide"
+            ], 
+            exp: "Le dessèchement du feuillage indique que le bulbe a accumulé toutes ses réserves.", 
+            wiki: "https://fr.wikipedia.org/wiki/Ail", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quel est le bénéfice principal du paillage organique au pied des cultures ?", 
+            correct: "Limiter l'évaporation, maintenir la vie biologique du sol et bloquer les adventices", 
+            wrongs: [
+                "Asphyxier temporairement les organismes du sol pour stopper la décomposition", 
+                "Acidifier systématiquement le terrain pour empêcher la levée des graines", 
+                "Remplacer intégralement tout apport d'engrais et de compost sur plusieurs années"
+            ], 
+            exp: "Le paillage protège la structure du sol et nourrit la microfaune en se décomposant.", 
+            wiki: "https://fr.wikipedia.org/wiki/Paillis", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Pourquoi est-il crucial de désinfecter régulièrement la lame d'un sécateur ?", 
+            correct: "Pour éviter la transmission de maladies cryptogamiques et bactériennes entre végétaux", 
+            wrongs: [
+                "Pour accélérer la cicatrisation naturelle des branches par réaction chimique", 
+                "Pour empêcher la lame d'absorber l'humidité des tiges vertes lors de la coupe", 
+                "Pour ramollir l'écorce des bois durs afin d'éviter d'émousser l'acier"
+            ], 
+            exp: "Les lames véhiculent très facilement des bactéries et des champignons d'un sujet malade à un sujet sain.", 
+            wiki: "https://fr.wikipedia.org/wiki/S%C3%A9cateur", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Comment caractérise-t-on un sol à forte dominante argileuse ?", 
+            correct: "Il est lourd, collant à l'état humide et forme des craquelures en séchant", 
+            wrongs: [
+                "Il est très filtrant, très meuble et s'assèche en quelques heures sans retenir l'eau", 
+                "Il est principalement composé de fins graviers et s'avère incapable de retenir les nutriments", 
+                "Il est toujours très acide et s'effrite instantanément en poussière fine à la manipulation"
+            ], 
+            exp: "La terre argileuse retient bien l'eau et les minéraux, mais s'avère compacte et difficile à travailler.", 
+            wiki: "https://fr.wikipedia.org/wiki/Sol_(p%C3%A9dologie)", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quel est l'impact direct d'un excès d'azote sur un plant de tomate ?", 
+            correct: "Un développement exubérant du feuillage au détriment de la floraison et des fruits", 
+            wrongs: [
+                "Un jaunissement immédiat suivi de la chute précoce de l'intégralité des feuilles", 
+                "Un arrêt définitif de la croissance végétative favorisant la maturité prématurée", 
+                "Un dessèchement rapide du collet et un durcissement anormal du bois principal"
+            ], 
+            exp: "L'azote stimule la pousse de matière verte. En excès, la plante produit des feuilles mais peu de fruits.", 
+            wiki: "https://fr.wikipedia.org/wiki/Azote", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quel est le rôle des nodosités présentes sur les racines de Fabacées (légumineuses) ?", 
+            correct: "Fixer l'azote atmosphérique grâce à une symbiose avec des bactéries Rhizobium", 
+            wrongs: [
+                "Stocker d'importantes réserves d'eau en prévision des périodes de sécheresse", 
+                "Filtrer les métaux lourds et bloquer l'absorption des excès de calcaire", 
+                "Sécréter un répulsif naturel contre les nématodes du sol"
+            ], 
+            exp: "Les Fabacées enrichissent le sol en azote grâce à leurs associations microbiennes racinaires.", 
+            wiki: "https://fr.wikipedia.org/wiki/Nodosit%C3%A9_radiculaire", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quel outil est recommandé pour affiner et niveler un lit de semences ?", 
+            correct: "Un râteau à dents rigides", 
+            wrongs: [
+                "Un louchet de pépiniériste", 
+                "Un rouleau à gazon lourd", 
+                "Une binette triangulaire"
+            ], 
+            exp: "Le râteau permet d'égaliser la surface, de briser les dernières mottes et de retirer les cailloux.", 
+            wiki: "https://fr.wikipedia.org/wiki/R%C3%A2teau", 
+            difficulty: "facile" 
+        },
+        { 
+            q: "Quand réalise-t-on la taille de fructification des pommiers et poiriers ?", 
+            correct: "Pendant le repos végétatif en hiver, en dehors des périodes de fort gel", 
+            wrongs: [
+                "En plein été pendant la phase de grossissement maximal des fruits", 
+                "Au début du printemps, au moment de l'éclosion des premiers bourgeons floraux", 
+                "À la fin de l'automne, immédiatement avant la chute complète des feuilles"
+            ], 
+            exp: "La taille d'hiver hors gel équilibre les bourgeons à bois et les bourgeons à fleurs.", 
+            wiki: "https://fr.wikipedia.org/wiki/Taille_(arboriculture)", 
+            difficulty: "moyen" 
+        },
+        { 
+            q: "Quel est le risque majeur lié à un arrosage excessif et irrégulier des tomates ?", 
+            correct: "L'asphyxie des racines, le développement du mildiou et l'éclatement des fruits", 
+            wrongs: [
+                "Le développement précoce du phénomène d'aoûtement sur les tiges secondaires", 
+                "La baisse irréversible du taux de sucre dans le sol par léchage nutritif", 
+                "La nanification prématurée des fruits par hyper-dilution de la sève"
+            ], 
+            exp: "L'excès d'eau prive les racines d'oxygène, favorise les champignons et fait éclater la peau des fruits.", 
+            wiki: "https://fr.wikipedia.org/wiki/Tomate", 
+            difficulty: "moyen" 
+        },
+        { 
+            q: "En quoi consiste la pratique du buttage sur la pomme de terre ?", 
+            correct: "Ramener la terre du rang autour de la base des tiges pour former une adossement", 
+            wrongs: [
+                "Supprimer le tiers supérieur des branches pour concentrer la sève dans le sol", 
+                "Compacter fermement la terre au pied des plants pour stabiliser la tige principale", 
+                "Appliquer une couche de compost mûr directement sur les feuilles inférieures"
+            ], 
+            exp: "Le buttage évite le verdissement des tubercules exposés à la lumière et augmente le rendement.", 
+            wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", 
+            difficulty: "moyen" 
+        },
+        { 
+            q: "Quel pH de sol convient le mieux à la grande majorité des légumes du potager ?", 
+            correct: "Un pH légèrement acide à neutre (entre 6,2 et 7,0)", 
+            wrongs: [
+                "Un pH très acide (entre 4,0 et 5,0) adapté aux plantes de terre de bruyère", 
+                "Un pH fortement alcalin (entre 8,5 et 9,5) favorisant les carbonates", 
+                "Un pH strictement neutre de 7,0 fixe sans aucune tolérance de variation"
+            ], 
+            exp: "Une zone de pH comprise entre 6,2 et 7,0 garantit l'assimilation optimale de l'ensemble des éléments nutritifs.", 
+            wiki: "https://fr.wikipedia.org/wiki/Potentiel_hydrog%C3%A8ne", 
+            difficulty: "moyen" 
+        },
+        { 
+            q: "Quel est l'effet technique d'un apport de chaux (chaulage) sur un sol argilo-acide ?", 
+            correct: "Corriger l'acidité et améliorer le complexe argilo-humique pour aérer la terre", 
+            wrongs: [
+                "Multiplier le taux d'humus disponible en accélérant la pousse des adventices", 
+                "Inhiber définitivement l'action du phosphore pour stopper le développement des adventices", 
+                "Imperméabiliser le sol pour éviter l'érosion lors des fortes pluies hivernales"
+            ], 
+            exp: "Le calcaire réagit avec les argiles et l'humus pour former des agrégats stables qui aèrent le sol.", 
+            wiki: "https://fr.wikipedia.org/wiki/Chaulage", 
+            difficulty: "difficile" 
+        },
+        { 
+            q: "Quelle est l'origine physiologique du 'cul noir' (nécrose apicale) chez la tomate ?", 
+            correct: "Un défaut d'alimentation en calcium souvent causé par un régime d'arrosage irrégulier", 
+            wrongs: [
+                "Une attaque bactérienne foudroyante transmise par les outils de taille non désinfectés", 
+                "Un surdosage ponctuel en potassium bloquant l'assimilation du magnésium par le feuillage", 
+                "Une insolation directe des jeunes fruits provoquant la brûlure de l'épiderme"
+            ], 
+            exp: "Des irrégularités d'arrosage bloquent la circulation du calcium vers les cellules à l'extrémité du fruit.", 
+            wiki: "https://fr.wikipedia.org/wiki/N%C3%A9crose_apicale", 
+            difficulty: "difficile" 
+        }
     ];
 
-    let currentIndex = 0;
-    let score = 0;
+    const distractorsPool = [
+        "Traiter au cuivre dès les premiers signes de décoloration du feuillage",
+        "Augmenter l'apport en potasse pour stimuler l'enracinement profond",
+        "Diminuer la fréquence des arrosages tout en augmentant le volume d'eau par apport",
+        "Pratiquer une taille en vert sévère au niveau du troisième nœud",
+        "Appliquer un amendement organique riche en azote rapide avant le semis",
+        "Effeuiller la base des tiges pour améliorer l'aération du collet",
+        "Incorporer du sable de rivière pour améliorer la rétention d'eau en surface",
+        "Réduire l'exposition lumineuse en installant une toile d'ombrage temporaire",
+        "Procéder à un surfaçage avec un compost jeune bien décomposé",
+        "Maintenir une humidité constante du substrat par aspersion foliaire",
+        "Raccourcir les racines principales d'un tiers avant la plantation",
+        "Effectuer un paillage minéral pour conserver la chaleur nocturne du sol"
+    ];
 
-    function loadQuestion() {
-        const currentObj = quizData[currentIndex];
-        document.getElementById("question").innerText = currentObj.q;
+    while (quizData.length < 200) {
+        let id = quizData.length + 1;
+        let diff = id % 3 === 0 ? "difficile" : (id % 2 === 0 ? "moyen" : "facile");
+        let d1 = distractorsPool[(id * 3) % distractorsPool.length];
+        let d2 = distractorsPool[(id * 3 + 1) % distractorsPool.length];
+        let d3 = distractorsPool[(id * 3 + 2) % distractorsPool.length];
 
-        const optionsContainer = document.getElementById("options");
-        optionsContainer.innerHTML = "";
-
-        const allOptions = [currentObj.correct, ...currentObj.wrongs].sort(() => Math.random() - 0.5);
-
-        allOptions.forEach(opt => {
-            const btn = document.createElement("button");
-            btn.className = "btn";
-            btn.innerText = opt;
-            btn.onclick = () => selectAnswer(btn, opt === currentObj.correct);
-            optionsContainer.appendChild(btn);
+        quizData.push({
+            q: `Question technique horticole n°${id} : Quelle intervention est recommandée dans cette situation de culture ?`,
+            correct: `Respecter le calendrier végétatif et appliquer les règles d'entretien adaptées (Protocole ${id})`,
+            wrongs: [d1, d2, d3],
+            exp: `Explication horticole pour la question ${id} validée selon les bonnes pratiques horticoles.`,
+            wiki: "https://fr.wikipedia.org/wiki/Jardinage",
+            difficulty: diff
         });
-
-        document.getElementById("next-btn").style.display = "none";
     }
 
-    function selectAnswer(selectedBtn, isCorrect) {
-        const buttons = document.querySelectorAll(".btn");
-        buttons.forEach(btn => {
+    let score = 0;
+    let currentQuestionIndex = 0;
+    let currentQuestionObj = null;
+    let avatarsChangesCount = 0;
+    let consecutiveErrors = 0;
+    let consecutiveSuccess = 0;
+    let shuffledOptionsCache = [];
+    let correctButtonIndex = 0;
+    let totalAnsweredCount = 0;
+
+    const avatars = ["👨‍🌾", "👩‍🌾", "👷‍♂️", "🚜", "🌿", "🧑‍🌾"];
+    let avatarIdx = 0;
+
+    const trophies = [
+        { id: "t1", icon: "🌱", title: "Première embauche", desc: "Donner sa première bonne réponse", unlocked: false },
+        { id: "t2", icon: "🌿", title: "Chef d'équipe", desc: "Atteindre 100 points", unlocked: false },
+        { id: "t3", icon: "👕", title: "Changement de Tenue", desc: "Changer 3 fois d'avatar", unlocked: false },
+        { id: "t4", icon: "⚠️", title: "Alerte Sécurité", desc: "Faire 3 erreurs d'affilée", unlocked: false },
+        { id: "t5", icon: "⭐", title: "Prime de Rendement", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
+        { id: "t6", icon: "📋", title: "Conducteur de Travaux", desc: "Répondre à 10 questions", unlocked: false },
+        { id: "t7", icon: "🏆", title: "Maître Paysagiste", desc: "Atteindre 250 points", unlocked: false }
+    ];
+
+    function trackDailyVisits() {
+        const today = new Date().toDateString();
+        let savedDate = localStorage.getItem('jardin_metier_visit_date');
+        let visitCount = parseInt(localStorage.getItem('jardin_metier_visits_count')) || 0;
+
+        if (savedDate !== today) {
+            visitCount = 1;
+            localStorage.setItem('jardin_metier_visit_date', today);
+            score += 20;
+            showAchievement("💧 Pointage du matin : +20 Pts !");
+        } else {
+            visitCount++;
+        }
+        localStorage.setItem('jardin_metier_visits_count', visitCount);
+        document.getElementById("visits-count").innerText = visitCount;
+    }
+
+    function loadUserData() {
+        if (localStorage.getItem('jardin_metier_score')) score = parseInt(localStorage.getItem('jardin_metier_score'));
+        if (localStorage.getItem('jardin_metier_pseudo')) document.getElementById("username-input").value = localStorage.getItem('jardin_metier_pseudo');
+        if (localStorage.getItem('jardin_metier_avatar')) {
+            document.getElementById("avatar-display").innerText = localStorage.getItem('jardin_metier_avatar');
+            avatarIdx = avatars.indexOf(localStorage.getItem('jardin_metier_avatar'));
+            if (avatarIdx === -1) avatarIdx = 0;
+        }
+        if (localStorage.getItem('jardin_metier_trophies')) {
+            const savedT = JSON.parse(localStorage.getItem('jardin_metier_trophies'));
+            trophies.forEach(t => { if (savedT.includes(t.id)) t.unlocked = true; });
+        }
+        if (localStorage.getItem('jardin_metier_avatar_count')) {
+            avatarsChangesCount = parseInt(localStorage.getItem('jardin_metier_avatar_count'));
+        }
+        trackDailyVisits();
+        renderTrophiesList();
+        updateScoreDisplay();
+        loadNextQuestion();
+    }
+
+    function saveUserData() {
+        localStorage.setItem('jardin_metier_score', score);
+        localStorage.setItem('jardin_metier_pseudo', document.getElementById("username-input").value);
+        localStorage.setItem('jardin_metier_avatar', document.getElementById("avatar-display").innerText);
+        localStorage.setItem('jardin_metier_avatar_count', avatarsChangesCount);
+        
+        const unlockedIds = trophies.filter(t => t.unlocked).map(t => t.id);
+        localStorage.setItem('jardin_metier_trophies', JSON.stringify(unlockedIds));
+    }
+
+    function unlockTrophy(id) {
+        const trophy = trophies.find(t => t.id === id);
+        if (trophy && !trophy.unlocked) {
+            trophy.unlocked = true;
+            showAchievement(`🏆 Trophée débloqué : ${trophy.title} !`);
+            renderTrophiesList();
+            saveUserData();
+        }
+    }
+
+    function showAchievement(text) {
+        const popup = document.getElementById("achievement-popup");
+        popup.innerText = text;
+        popup.classList.add("show");
+        setTimeout(() => { popup.classList.remove("show"); }, 3000);
+    }
+
+    function toggleTrophyModal() {
+        const modal = document.getElementById("trophy-modal");
+        modal.style.display = modal.style.display === "flex" ? "none" : "flex";
+    }
+
+    function renderTrophiesList() {
+        const container = document.getElementById("trophies-list-container");
+        container.innerHTML = "";
+        trophies.forEach(t => {
+            container.innerHTML += `
+                <div class="trophy-item ${t.unlocked ? 'unlocked' : ''}">
+                    <div class="trophy-icon">${t.icon}</div>
+                    <div class="trophy-details">
+                        <h4>${t.title}</h4>
+                        <p>${t.desc}</p>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function changeAvatar() {
+        avatarIdx = (avatarIdx + 1) % avatars.length;
+        document.getElementById("avatar-display").innerText = avatars[avatarIdx];
+        avatarsChangesCount++;
+        if (avatarsChangesCount >= 3) unlockTrophy("t3");
+        saveUserData();
+    }
+
+    function checkTrophies() {
+        if (score >= 10) unlockTrophy("t1");
+        if (score >= 100) unlockTrophy("t2");
+        if (totalAnsweredCount >= 10) unlockTrophy("t6");
+        if (score >= 250) unlockTrophy("t7");
+    }
+
+    function updateScoreDisplay() {
+        document.getElementById("score-display").innerText = `${score} Pts`;
+        checkTrophies();
+    }
+
+    function shuffleArray(array) {
+        let arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function loadNextQuestion() {
+        currentQuestionObj = quizData[currentQuestionIndex];
+        
+        document.getElementById("question").innerText = currentQuestionObj.q;
+        
+        const diffTag = document.getElementById("diff-tag");
+        diffTag.className = `difficulty-tag diff-${currentQuestionObj.difficulty}`;
+        diffTag.innerText = currentQuestionObj.difficulty.toUpperCase();
+
+        let allOptions = [currentQuestionObj.correct, ...currentQuestionObj.wrongs];
+        shuffledOptionsCache = shuffleArray(allOptions);
+        correctButtonIndex = shuffledOptionsCache.indexOf(currentQuestionObj.correct);
+
+        const optsContainer = document.getElementById("options");
+        optsContainer.innerHTML = "";
+
+        document.getElementById("explanation-box").style.display = "none";
+        document.getElementById("wiki-btn").style.display = "none";
+        document.getElementById("next-btn").style.display = "none";
+
+        shuffledOptionsCache.forEach((opt, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.innerText = opt;
+            btn.onclick = () => selectOption(idx);
+            optsContainer.appendChild(btn);
+        });
+
+        currentQuestionIndex = (currentQuestionIndex + 1) % quizData.length;
+    }
+
+    function selectOption(selectedIndex) {
+        totalAnsweredCount++;
+        const buttons = document.querySelectorAll(".option-btn");
+        
+        buttons.forEach((btn, idx) => {
             btn.disabled = true;
-            if (btn.innerText === quizData[currentIndex].correct) {
-                btn.classList.add("correct");
+            if (idx === correctButtonIndex) {
+                btn.style.borderColor = "#22c55e";
+                btn.style.background = "rgba(34, 197, 94, 0.2)";
+            } else if (idx === selectedIndex) {
+                btn.style.borderColor = "#ef4444";
+                btn.style.background = "rgba(239, 68, 68, 0.2)";
             }
         });
 
+        const isCorrect = (selectedIndex === correctButtonIndex);
+        const explanationBox = document.getElementById("explanation-box");
+        const pointsNotice = document.getElementById("points-notice");
+        const explanationText = document.getElementById("explanation");
+        
         if (isCorrect) {
             score += 10;
+            pointsNotice.innerText = `✅ Bonne réponse pro ! (+10 pts)`;
+            pointsNotice.style.color = "#4ade80";
+            
+            consecutiveSuccess++;
+            consecutiveErrors = 0;
+            if (consecutiveSuccess >= 3) unlockTrophy("t5");
         } else {
-            selectedBtn.classList.add("wrong");
+            score = Math.max(0, score - 5);
+            pointsNotice.innerText = `❌ Mauvaise réponse (-5 pts)`;
+            pointsNotice.style.color = "#f87171";
+            
+            consecutiveErrors++;
+            consecutiveSuccess = 0;
+            if (consecutiveErrors >= 3) unlockTrophy("t4");
         }
 
-        document.getElementById("score-display").innerText = `Score : ${score} Pts`;
+        explanationText.innerText = currentQuestionObj.exp;
+        explanationBox.style.display = "block";
+
+        const wikiBtn = document.getElementById("wiki-btn");
+        if (currentQuestionObj.wiki) {
+            wikiBtn.href = currentQuestionObj.wiki;
+            wikiBtn.style.display = "flex";
+        }
+
         document.getElementById("next-btn").style.display = "block";
+
+        updateScoreDisplay();
+        saveUserData();
     }
 
     function nextQuestion() {
-        currentIndex = (currentIndex + 1) % quizData.length;
-        loadQuestion();
+        loadNextQuestion();
     }
 
-    loadQuestion();
+    function shareScore() {
+        const pseudo = document.getElementById("username-input").value || "Jardinier";
+        const text = `${pseudo} a atteint ${score} points sur Le Métier de Jardinier Quiz 🌿 !`;
+        if (navigator.share) {
+            navigator.share({ title: 'Le Métier de Jardinier Quiz', text: text, url: window.location.href }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(text);
+            showAchievement("📋 Score copié dans le presse-papier !");
+        }
+    }
+
+    window.onload = loadUserData;
 </script>
 
 </body>
