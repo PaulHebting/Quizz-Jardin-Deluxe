@@ -708,8 +708,9 @@
 
     function filterQuestionsByRank() {
         const rank = getCurrentRank();
+        // Filtre les questions selon les difficultés autorisées pour le rang actuel
         activeQuizList = quizData.filter(q => rank.allowedDiff.includes(q.difficulty));
-        if (activeQuizList.length === 0) activeQuizList = quizData;
+        if (activeQuizList.length === 0) activeQuizList = quizData; // Sécurité
     }
 
     function trackDailyVisits() {
@@ -748,8 +749,6 @@
         trackDailyVisits();
         filterQuestionsByRank();
         renderTrophiesList();
-        updateRankProgress();
-        loadQuestion();
     }
 
     function saveUserData() {
@@ -854,13 +853,14 @@
     }
 
     function loadQuestion() {
-        filterQuestionsByRank();
+        filterQuestionsByRank(); // Met à jour les questions selon le rang actuel
         if (currentQ >= activeQuizList.length) currentQ = 0;
         
         const q = activeQuizList[currentQ];
         document.getElementById("q-number").innerText = `QUESTION ${currentQ + 1} / ${activeQuizList.length}`;
         document.getElementById("question").innerText = q.q;
         
+        // Affichage de l'étiquette de difficulté
         const diffTag = document.getElementById("diff-tag");
         diffTag.className = `difficulty-tag diff-${q.difficulty}`;
         diffTag.innerText = q.difficulty.toUpperCase();
@@ -883,81 +883,93 @@
             btn.onclick = () => selectOption(idx);
             optsContainer.appendChild(btn);
         });
+
+        updateRankProgress();
     }
 
-    function selectOption(selectedIndex) {
+    function selectOption(index) {
         const q = activeQuizList[currentQ];
         const buttons = document.querySelectorAll(".option-btn");
         
         buttons.forEach((btn, idx) => {
             btn.disabled = true;
             if (idx === correctButtonIndex) {
-                btn.style.borderColor = "#22c55e";
-                btn.style.background = "rgba(34, 197, 94, 0.2)";
-            } else if (idx === selectedIndex) {
-                btn.style.borderColor = "#ef4444";
-                btn.style.background = "rgba(239, 68, 68, 0.2)";
+                btn.style.background = "#15803d";
+                btn.style.borderColor = "#4ade80";
+            } else if (idx === index) {
+                btn.style.background = "#b91c1c";
+                btn.style.borderColor = "#f87171";
             }
         });
 
-        const isCorrect = (selectedIndex === correctButtonIndex);
-        const explanationBox = document.getElementById("explanation-box");
-        const pointsNotice = document.getElementById("points-notice");
-        const explanationText = document.getElementById("explanation");
-        
-        if (isCorrect) {
-            let ptsEarned = q.difficulty === 'difficile' ? 30 : (q.difficulty === 'moyen' ? 20 : 10);
-            score += ptsEarned;
-            pointsNotice.innerText = `✅ Bonne réponse ! (+${ptsEarned} pts)`;
-            pointsNotice.style.color = "#4ade80";
-            
+        const expBox = document.getElementById("explanation-box");
+        const notice = document.getElementById("points-notice");
+        const expText = document.getElementById("explanation");
+
+        // Bonus de points selon la difficulté
+        let pointsEarned = q.difficulty === 'difficile' ? 20 : (q.difficulty === 'moyen' ? 15 : 10);
+        let pointsLost = 5;
+
+        if (index === correctButtonIndex) {
+            score += pointsEarned;
             consecutiveSuccess++;
             consecutiveErrors = 0;
+            notice.innerText = `✅ Bonne réponse ! (+${pointsEarned} Pts)`;
+            notice.style.color = "#4ade80";
             if (consecutiveSuccess >= 3) unlockTrophy("t5");
         } else {
-            score = Math.max(0, score - 5);
-            pointsNotice.innerText = `❌ Mauvaise réponse (-5 pts)`;
-            pointsNotice.style.color = "#f87171";
-            
+            score -= pointsLost;
             consecutiveErrors++;
             consecutiveSuccess = 0;
+            notice.innerText = `❌ Mauvaise réponse ! (-${pointsLost} Pts)`;
+            notice.style.color = "#f87171";
             if (consecutiveErrors >= 3) unlockTrophy("t4");
         }
 
-        explanationText.innerText = `La bonne réponse était : "${q.correct}".`;
-        explanationBox.style.display = "block";
-
-        const wikiBtn = document.getElementById("wiki-btn");
-        if (q.wiki) {
-            wikiBtn.href = q.wiki;
-            wikiBtn.style.display = "flex";
-        }
-
-        document.getElementById("next-btn").style.display = "block";
-
         updateRankProgress();
         saveUserData();
+
+        expText.innerText = `Le saviez-vous : ${q.correct}`;
+        expBox.style.display = "block";
+
+        const wikiBtn = document.getElementById("wiki-btn");
+        wikiBtn.href = q.wiki;
+        wikiBtn.style.display = "flex";
+
+        document.getElementById("next-btn").style.display = "block";
     }
 
     function nextQuestion() {
-        currentQ++;
-        loadQuestion();
-        saveUserData();
+        if (currentQ < activeQuizList.length - 1) {
+            currentQ++;
+            saveUserData();
+            loadQuestion();
+        } else {
+            currentQ = 0;
+            saveUserData();
+            loadQuestion();
+        }
     }
 
     function shareScore() {
         const pseudo = document.getElementById("username-input").value || "Un jardinier";
-        const text = `${pseudo} a atteint ${score} points sur Jardin Quiz 🌿 ! Venez tester vos connaissances au jardin.`;
+        const rank = document.getElementById("rank-display").innerText;
+        const shareText = `🌱 Viens tester tes connaissances sur Jardin Quiz ! ${pseudo} a atteint le rang de ${rank} avec ${score} points ! Viens relever le défi ! 🌿`;
+
         if (navigator.share) {
-            navigator.share({ title: 'Jardin Quiz', text: text, url: window.location.href }).catch(() => {});
+            navigator.share({
+                title: 'Jardin Quiz',
+                text: shareText,
+                url: window.location.href,
+            }).catch(() => {});
         } else {
-            navigator.clipboard.writeText(text);
-            showAchievement("📋 Score copié dans le presse-papier !");
+            navigator.clipboard.writeText(shareText + " " + window.location.href);
+            alert("Lien et score copiés dans le presse-papier ! Tu peux les coller à tes amis.");
         }
     }
 
-    window.onload = loadUserData;
+    loadUserData();
+    loadQuestion();
 </script>
-
 </body>
 </html>
