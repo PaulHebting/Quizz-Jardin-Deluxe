@@ -207,17 +207,9 @@
 
         .quiz-header-info {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             margin-bottom: 4px;
-        }
-
-        .question-title {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #94a3b8;
-            font-weight: 700;
         }
 
         .difficulty-tag {
@@ -331,11 +323,6 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            transition: background 0.2s;
-        }
-
-        .share-btn:hover {
-            background: rgba(56, 189, 248, 0.1);
         }
 
         .modal-overlay {
@@ -503,7 +490,6 @@
 
         <div class="quiz-box">
             <div class="quiz-header-info">
-                <div class="question-title" id="q-number">QUESTION 1</div>
                 <div class="difficulty-tag diff-facile" id="diff-tag">Facile</div>
             </div>
             <div class="question-text" id="question">Chargement des questions...</div>
@@ -531,13 +517,12 @@
 </div>
 
 <script>
-    // Base principale de questions initiales
     let baseQuiz = [
         { 
             q: "Quelle est la principale utilité des œillets d'Inde plantés au milieu du potager ?", 
             correct: "Ils repoussent naturellement les pucerons et les nématodes.", 
             wrongs: ["Ils attirent massivement les taupes", "Ils font fuir les abeilles et bourdons", "Ils empêchent les tomates de mûrir"],
-            exp: "Les œillets d'Inde sécrètent par leurs racines une substance toxique pour certains nématodes du sol et leur odeur rebute de nombreux insectes indésirables.",
+            exp: "Les racines de l'œillet d'Inde sécrètent une substance nématicide naturelle qui assainit la terre autour des cultures sensibles comme les tomates.",
             wiki: "https://fr.wikipedia.org/wiki/Œillet_d%27Inde",
             difficulty: "facile"
         },
@@ -545,7 +530,7 @@
             q: "À quel moment de la journée est-il conseillé d'arroser ses plantes en été ?", 
             correct: "Tôt le matin ou tard le soir", 
             wrongs: ["En plein midi sous le soleil", "Uniquement la nuit sous la pluie", "À minuit pile avec de l'eau glacée"],
-            exp: "Arroser le matin ou le soir évite l'évaporation rapide de l'eau causée par le soleil et prévient les brûlures sur le feuillage.",
+            exp: "Cela évite l'évaporation trop rapide des gouttes d'eau sous l'effet de la chaleur et prévient les risques de brûlure des feuilles.",
             wiki: "https://fr.wikipedia.org/wiki/Arrosage",
             difficulty: "facile"
         },
@@ -553,29 +538,12 @@
             q: "Quel est l'intérêt principal du compostage des déchets organiques ?", 
             correct: "Transformer les déchets en un terreau riche et fertile", 
             wrongs: ["Produire du gaz pour chauffer la maison", "Créer des répulsifs anti-moustiques", "Éliminer définitivement les vers de terre"],
-            exp: "Le compostage permet de recycler la matière organique pour nourrir la terre du jardin de façon 100% naturelle et gratuite.",
+            exp: "Le processus de décomposition aérobie par les micro-organismes permet de recycler les nutriments pour nourrir les sols pauvres.",
             wiki: "https://fr.wikipedia.org/wiki/Compostage_(biodéchets)",
-            difficulty: "facile"
-        },
-        { 
-            q: "Quel rôle primordial jouent les vers de terre dans un jardin ?", 
-            correct: "Ils aèrent la terre et structurent le sol grâce à leurs déjections", 
-            wrongs: ["Ils mangent toutes les racines des salades", "Ils polluent l'eau d'arrosage en surface", "Ils attirent les taupes carnivores"],
-            exp: "En creusant des galeries et en mélangeant la matière organique, les lombrics créent un humus fertile et facilitent la pénétration de l'eau.",
-            wiki: "https://fr.wikipedia.org/wiki/Lumbricina",
-            difficulty: "facile"
-        },
-        { 
-            q: "Pourquoi les jardiniers aiment-ils voir des coccinelles dans leur potager ?", 
-            correct: "Ce sont des prédateurs voraces qui mangent les pucerons", 
-            wrongs: ["Elles pollinisent les fleurs de tomates", "Elles fertilisent le sol comme du fumier", "Elles chassent les oiseaux nuisibles"],
-            exp: "Aussi bien à l'état de larve qu'à l'âge adulte, la coccinelle se nourrit de pucerons, régulant ainsi naturellement leur population.",
-            wiki: "https://fr.wikipedia.org/wiki/Coccinellidae",
             difficulty: "facile"
         }
     ];
 
-    // Générateur automatique intelligent pour atteindre exactement 500 questions variées
     let quizData = [...baseQuiz];
     const plantesCatalogue = [
         "carotte", "tomate", "pomme de terre", "fraise", "salade", "courgette", "haricot", "radis", "poireau", "oignon",
@@ -584,30 +552,27 @@
         "brocoli", "chou-fleur", "navet", "betterave", "panais", "patate douce", "pois", "lentille", "fève", "maïs",
         "tournesol", "lavande", "romarin", "thym", "basilic", "menthe", "ciboulette", "persil", "coriandre", "estragon",
         "sauge", "laurier", "origan", "aneth", "cerfeuil", "camomille", "verveine", "mélisse", "vigne", "pommier",
-        "poirier", "pêcher", "abricotier", "cerisier", "prunier", "amandier", "figuier", "noyer", "chataignier", "noisette",
-        "groseillier", "cassis", "framboisier", "mûrier", "myrtillier", "kiwi", "citronnier", "oranger", "mandarinier", "lierre",
-        "glycine", "clématite", "chèvrefeuille", "jasmin", "hortensia", "lilas", "forsythia", "rhododendron", "camélia", "pivoine",
-        "tulipe", "narcisse", "jacinthe", "glaïeul", "dahlia", "bégonia", "géranium", "pétunia", "œillet", "marguerite"
+        "poirier", "pêcher", "abricotier", "cerisier", "prunier", "amandier", "figuier", "noyer", "chataignier", "noisette"
     ];
 
     const typesQuestions = [
         {
-            q: (p) => `Quel est le besoin principal en exposition pour réussir la culture de ${p} ?`,
-            correct: "Une exposition adaptée (soleil ou mi-ombre selon les variétés)",
-            wrongs: ["Uniquement le noir complet souterrain", "Une absence totale de lumière", "Des UV artificiels permanents"],
-            exp: (p) => `La plante ${p} requiert une luminosité bien spécifique pour effectuer sa photosynthèse et se développer correctement.`
+            q: (p) => `Quel type de sol convient le mieux pour réussir la culture de ${p} ?`,
+            correct: "Un sol meuble, riche en humus et bien drainé",
+            wrongs: ["De la roche pure sans aucun nutriment", "De l'asphalte bitumé compact", "Du sable marin stérile et salé"],
+            exp: (p) => `La culture de ${p} prospère idéalement dans une terre vivante et structurée qui retient l'humidité sans l'accumuler excessivement.`
         },
         {
-            q: (p) => `Quel type de sol convient le mieux pour planter ${p} au jardin ?`,
-            correct: "Un sol bien préparé, nourri et drainé",
-            wrongs: ["De la roche pure sans aucun nutriment", "De l'asphalte bitumé", "Du sable stérile et salé"],
-            exp: (p) => `Le développement de ${p} dépend directement de la qualité de la terre, qui doit retenir l'humidité tout en évitant l'excès d'eau stagnante.`
+            q: (p) => `Quelle exposition lumineuse privilégier pour installer ${p} au jardin ?`,
+            correct: "Une bonne luminosité adaptée (soleil ou mi-ombre selon la saison)",
+            wrongs: ["L'obscurité totale d'une cave sombre", "Des lampadaires halogènes 24h/24", "Une ombre épaisse et permanente"],
+            exp: (p) => `L'ensoleillement influence directement la photosynthèse et la saveur des récoltes de ${p}.`
         },
         {
-            q: (p) => `À quelle famille de soins ou de techniques associe-t-on généralement la gestion de ${p} ?`,
-            correct: "Aux bonnes pratiques de jardinage et d'entretien saisonnier",
-            wrongs: ["À de la mécanique lourde industrielle", "À de la plomberie sanitaire", "À de la haute coiffure"],
-            exp: (p) => `Cultiver ${p} demande un suivi régulier (arrosage, désherbage et observation des parasites potentiels).`
+            q: (p) => `Quel entretien régulier est particulièrement recommandé pour ${p} ?`,
+            correct: "Un paillage régulier du pied et un désherbage soigneux",
+            wrongs: ["L'application d'une peinture plastique", "Une taille drastique au ras du sol chaque semaine", "Un lavage au savon de Marseille quotidien"],
+            exp: (p) => `Le paillage permet de conserver l'humidité naturelle du sol tout en limitant l'apparition des mauvaises herbes autour de ${p}.`
         }
     ];
 
@@ -620,7 +585,7 @@
         let diff = diffs[idCounter % diffs.length];
         
         quizData.push({
-            q: t.q(p) + ` (Réf: #${idCounter + 1})`,
+            q: t.q(p),
             correct: t.correct,
             wrongs: t.wrongs,
             exp: t.exp(p),
@@ -630,12 +595,11 @@
         idCounter++;
     }
 
-    let currentQ = 0;
     let score = 0;
+    let currentQuestionObj = null;
     let avatarsChangesCount = 0;
     let consecutiveErrors = 0;
     let consecutiveSuccess = 0;
-    let activeQuizList = [];
     let shuffledOptionsCache = [];
     let correctButtonIndex = 0;
 
@@ -653,11 +617,11 @@
     ];
 
     const ranks = [
-        { min: 0, max: 40, title: "🌱 Débutant", nextTitle: "Apprenti", allowedDiff: ["facile"] },
-        { min: 40, max: 100, title: "🌿 Apprenti Jardinier", nextTitle: "Confirmé", allowedDiff: ["facile", "moyen"] },
-        { min: 100, max: 200, title: "🪴 Jardinier Confirmé", nextTitle: "Expert", allowedDiff: ["facile", "moyen"] },
-        { min: 200, max: 400, title: "🌳 Expert Botanique", nextTitle: "Maître", allowedDiff: ["facile", "moyen", "difficile"] },
-        { min: 400, max: Infinity, title: "🏆 Maître du Jardin", nextTitle: "Niveau Max", allowedDiff: ["facile", "moyen", "difficile"] }
+        { min: 0, max: 40, title: "🌱 Débutant", nextTitle: "Apprenti" },
+        { min: 40, max: 100, title: "🌿 Apprenti Jardinier", nextTitle: "Confirmé" },
+        { min: 100, max: 200, title: "🪴 Jardinier Confirmé", nextTitle: "Expert" },
+        { min: 200, max: 400, title: "🌳 Expert Botanique", nextTitle: "Maître" },
+        { min: 400, max: Infinity, title: "🏆 Maître du Jardin", nextTitle: "Niveau Max" }
     ];
 
     function getCurrentRank() {
@@ -667,12 +631,6 @@
             if (currentScore >= r.min) currentRank = r;
         }
         return currentRank;
-    }
-
-    function filterQuestionsByRank() {
-        const rank = getCurrentRank();
-        activeQuizList = quizData.filter(q => rank.allowedDiff.includes(q.difficulty));
-        if (activeQuizList.length === 0) activeQuizList = quizData;
     }
 
     function trackDailyVisits() {
@@ -694,7 +652,6 @@
 
     function loadUserData() {
         if (localStorage.getItem('jardin_score')) score = parseInt(localStorage.getItem('jardin_score'));
-        if (localStorage.getItem('jardin_q')) currentQ = parseInt(localStorage.getItem('jardin_q'));
         if (localStorage.getItem('jardin_pseudo')) document.getElementById("username-input").value = localStorage.getItem('jardin_pseudo');
         if (localStorage.getItem('jardin_avatar')) {
             document.getElementById("avatar-display").innerText = localStorage.getItem('jardin_avatar');
@@ -709,15 +666,13 @@
             avatarsChangesCount = parseInt(localStorage.getItem('jardin_avatar_count'));
         }
         trackDailyVisits();
-        filterQuestionsByRank();
         renderTrophiesList();
         updateRankProgress();
-        loadQuestion();
+        loadRandomQuestion();
     }
 
     function saveUserData() {
         localStorage.setItem('jardin_score', score);
-        localStorage.setItem('jardin_q', currentQ);
         localStorage.setItem('jardin_pseudo', document.getElementById("username-input").value);
         localStorage.setItem('jardin_avatar', document.getElementById("avatar-display").innerText);
         localStorage.setItem('jardin_avatar_count', avatarsChangesCount);
@@ -772,10 +727,11 @@
         saveUserData();
     }
 
+    let totalAnsweredCount = 0;
     function checkTrophies() {
         if (score >= 10) unlockTrophy("t1");
         if (score >= 100) unlockTrophy("t2");
-        if (currentQ >= 10) unlockTrophy("t6");
+        if (totalAnsweredCount >= 10) unlockTrophy("t6");
         if (score >= 250) unlockTrophy("t7");
     }
 
@@ -816,21 +772,20 @@
         return arr;
     }
 
-    function loadQuestion() {
-        filterQuestionsByRank();
-        if (currentQ >= activeQuizList.length) currentQ = 0;
+    function loadRandomQuestion() {
+        // Pioche directement et complètement au hasard parmi les 500 questions
+        const randomIndex = Math.floor(Math.random() * quizData.length);
+        currentQuestionObj = quizData[randomIndex];
         
-        const q = activeQuizList[currentQ];
-        document.getElementById("q-number").innerText = `QUESTION ${currentQ + 1} / ${activeQuizList.length} (Total 500)`;
-        document.getElementById("question").innerText = q.q;
+        document.getElementById("question").innerText = currentQuestionObj.q;
         
         const diffTag = document.getElementById("diff-tag");
-        diffTag.className = `difficulty-tag diff-${q.difficulty}`;
-        diffTag.innerText = q.difficulty.toUpperCase();
+        diffTag.className = `difficulty-tag diff-${currentQuestionObj.difficulty}`;
+        diffTag.innerText = currentQuestionObj.difficulty.toUpperCase();
 
-        let allOptions = [q.correct, ...q.wrongs];
+        let allOptions = [currentQuestionObj.correct, ...currentQuestionObj.wrongs];
         shuffledOptionsCache = shuffleArray(allOptions);
-        correctButtonIndex = shuffledOptionsCache.indexOf(q.correct);
+        correctButtonIndex = shuffledOptionsCache.indexOf(currentQuestionObj.correct);
 
         const optsContainer = document.getElementById("options");
         optsContainer.innerHTML = "";
@@ -849,7 +804,7 @@
     }
 
     function selectOption(selectedIndex) {
-        const q = activeQuizList[currentQ];
+        totalAnsweredCount++;
         const buttons = document.querySelectorAll(".option-btn");
         
         buttons.forEach((btn, idx) => {
@@ -869,7 +824,7 @@
         const explanationText = document.getElementById("explanation");
         
         if (isCorrect) {
-            let ptsEarned = q.difficulty === 'difficile' ? 30 : (q.difficulty === 'moyen' ? 20 : 10);
+            let ptsEarned = currentQuestionObj.difficulty === 'difficile' ? 30 : (currentQuestionObj.difficulty === 'moyen' ? 20 : 10);
             score += ptsEarned;
             pointsNotice.innerText = `✅ Bonne réponse ! (+${ptsEarned} pts)`;
             pointsNotice.style.color = "#4ade80";
@@ -887,12 +842,12 @@
             if (consecutiveErrors >= 3) unlockTrophy("t4");
         }
 
-        explanationText.innerText = q.exp;
+        explanationText.innerText = currentQuestionObj.exp;
         explanationBox.style.display = "block";
 
         const wikiBtn = document.getElementById("wiki-btn");
-        if (q.wiki) {
-            wikiBtn.href = q.wiki;
+        if (currentQuestionObj.wiki) {
+            wikiBtn.href = currentQuestionObj.wiki;
             wikiBtn.style.display = "flex";
         }
 
@@ -903,9 +858,7 @@
     }
 
     function nextQuestion() {
-        currentQ++;
-        loadQuestion();
-        saveUserData();
+        loadRandomQuestion();
     }
 
     function shareScore() {
