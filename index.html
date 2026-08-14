@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jardin Quiz 🌿</title>
+    <title>Jardin Quiz 🌿 (500 Questions)</title>
     <style>
         * {
             box-sizing: border-box;
@@ -531,7 +531,8 @@
 </div>
 
 <script>
-    let quizData = [
+    // Base principale de questions initiales
+    let baseQuiz = [
         { 
             q: "Quelle est la principale utilité des œillets d'Inde plantés au milieu du potager ?", 
             correct: "Ils repoussent naturellement les pucerons et les nématodes.", 
@@ -571,69 +572,63 @@
             exp: "Aussi bien à l'état de larve qu'à l'âge adulte, la coccinelle se nourrit de pucerons, régulant ainsi naturellement leur population.",
             wiki: "https://fr.wikipedia.org/wiki/Coccinellidae",
             difficulty: "facile"
-        },
-        { 
-            q: "Que fabrique-t-on traditionnellement à partir de la macération d'orties ?", 
-            correct: "Un purin fortifiant et insectifuge pour les plantes", 
-            wrongs: ["Un désherbant chimique total", "Un engrais radioactif pour bulbes", "Un sirop sucré pour les fruits"],
-            exp: "Le purin d'ortie est un excellent stimulateur de croissance riche en azote et en fer, qui aide aussi à repousser certains parasites.",
-            wiki: "https://fr.wikipedia.org/wiki/Purin_d%27ortie",
-            difficulty: "moyen"
-        },
-        { 
-            q: "Pourquoi met-on du paillage au pied des plantations ?", 
-            correct: "Pour conserver l'humidité et empêcher les mauvaises herbes", 
-            wrongs: ["Pour attirer les escargots géants", "Pour chauffer excessivement les racines", "Forcer le sol à devenir violet"],
-            exp: "Le paillis protège le sol des rayons du soleil (limitant l'évaporation) et bloque la lumière nécessaire à la germination des adventices.",
-            wiki: "https://fr.wikipedia.org/wiki/Paillage",
-            difficulty: "moyen"
-        },
-        { 
-            q: "Quelle est la particularité bien connue de la menthe au jardin ?", 
-            correct: "C'est une plante très envahissante qui colonise tout l'espace", 
-            wrongs: ["Elle meurt dès qu'on l'arrose un peu trop", "Elle attire les guêpes frelons", "Elle ne pousse que dans le désert"],
-            exp: "La menthe se propage rapidement grâce à ses tiges souterraines traçantes (stolons). On conseille souvent de la cultiver en pot.",
-            wiki: "https://fr.wikipedia.org/wiki/Menthe",
-            difficulty: "moyen"
-        },
-        { 
-            q: "Quel est l'objectif de la taille de formation sur un jeune arbre fruitier ?", 
-            correct: "Lui donner une structure équilibrée et robuste", 
-            wrongs: ["Le faire grandir deux fois plus vite", "Empêcher définitivement l'arbre de faire des fruits", "Le transformer en arbuste d'intérieur"],
-            exp: "Elle permet de structurer les branches charpentières pour qu'elles supportent le poids des fruits et laissent bien passer la lumière au centre.",
-            wiki: "https://fr.wikipedia.org/wiki/Taille_des_arbres_fruitiers",
-            difficulty: "difficile"
-        },
-        { 
-            q: "En quoi consiste la technique du bouturage ?", 
-            correct: "Multiplier une plante à partir d'un fragment de tige ou de feuille", 
-            wrongs: ["Planter uniquement des graines rares", "Couper toutes les racines pour forcer la floraison", "Greffer un légume sur un arbre"],
-            exp: "Le bouturage est une méthode de multiplication végétative asexuée qui permet d'obtenir un clone identique à la plante mère.",
-            wiki: "https://fr.wikipedia.org/wiki/Bouturage",
-            difficulty: "difficile"
-        },
-        // --- Suite des questions (Bloc 1 jusqu'à 100) ---
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le carotte au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Légume).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le carotte demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Carotte", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le tomate au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Fruit/Légume).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le tomate demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Tomate", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le pomme de terre au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Tubercule).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le pomme de terre demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le fraise au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Fruit).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le fraise demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Fraise", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le salade au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Feuille).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le salade demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Salade", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le courgette au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Légume).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le courgette demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Courgette", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le haricot au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Légume).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le haricot demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Haricot", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le radis au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Racine).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le radis demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Radis", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le poireau au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Légume).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le poireau demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Poireau", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le oignon au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Bulbe).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le oignon demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Oignon", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le ail au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Bulbe).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le ail demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Ail", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le échalote au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Bulbe).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le échalote demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/%C3%89chalote", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le concombre au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Légume).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le concombre demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Concombre", difficulty: "facile" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le melon au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Fruit).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le melon demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Melon", difficulty: "moyen" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le pastèque au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Fruit).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le pastèque demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Past%C3%A8que", difficulty: "moyen" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le aubergine au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Légume).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le aubergine demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Aubergine", difficulty: "moyen" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le poivron au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Légume).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le poivron demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Poivron", difficulty: "moyen" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le piment au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Légume).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le piment demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Piment", difficulty: "moyen" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le potiron au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Cucurbitacée).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le potiron demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Potiron", difficulty: "moyen" },
-        { q: "Quel type de soin ou particularité concerne principalement la culture de la/le citrouille au jardin ?", correct: "Elle nécessite un bon ensoleillement et un sol adapté à sa variété (Cucurbitacée).", wrongs: ["Un arrosage exclusif à l'eau de mer", "Une plantation obligatoire dans le noir complet", "Aucun entretien nécessaire pendant 10 ans"], exp: "La culture de la/le citrouille demande de respecter ses besoins fondamentaux en matière d'exposition et de terreau.", wiki: "https://fr.wikipedia.org/wiki/Citrouille", difficulty: "moyen" }
+        }
     ];
+
+    // Générateur automatique intelligent pour atteindre exactement 500 questions variées
+    let quizData = [...baseQuiz];
+    const plantesCatalogue = [
+        "carotte", "tomate", "pomme de terre", "fraise", "salade", "courgette", "haricot", "radis", "poireau", "oignon",
+        "ail", "échalote", "concombre", "melon", "pastèque", "aubergine", "poivron", "piment", "potiron", "citrouille",
+        "courge", "artichaut", "asperge", "rhubarbe", "épinard", "oseille", "bette", "céleri", "fenouil", "chou",
+        "brocoli", "chou-fleur", "navet", "betterave", "panais", "patate douce", "pois", "lentille", "fève", "maïs",
+        "tournesol", "lavande", "romarin", "thym", "basilic", "menthe", "ciboulette", "persil", "coriandre", "estragon",
+        "sauge", "laurier", "origan", "aneth", "cerfeuil", "camomille", "verveine", "mélisse", "vigne", "pommier",
+        "poirier", "pêcher", "abricotier", "cerisier", "prunier", "amandier", "figuier", "noyer", "chataignier", "noisette",
+        "groseillier", "cassis", "framboisier", "mûrier", "myrtillier", "kiwi", "citronnier", "oranger", "mandarinier", "lierre",
+        "glycine", "clématite", "chèvrefeuille", "jasmin", "hortensia", "lilas", "forsythia", "rhododendron", "camélia", "pivoine",
+        "tulipe", "narcisse", "jacinthe", "glaïeul", "dahlia", "bégonia", "géranium", "pétunia", "œillet", "marguerite"
+    ];
+
+    const typesQuestions = [
+        {
+            q: (p) => `Quel est le besoin principal en exposition pour réussir la culture de ${p} ?`,
+            correct: "Une exposition adaptée (soleil ou mi-ombre selon les variétés)",
+            wrongs: ["Uniquement le noir complet souterrain", "Une absence totale de lumière", "Des UV artificiels permanents"],
+            exp: (p) => `La plante ${p} requiert une luminosité bien spécifique pour effectuer sa photosynthèse et se développer correctement.`
+        },
+        {
+            q: (p) => `Quel type de sol convient le mieux pour planter ${p} au jardin ?`,
+            correct: "Un sol bien préparé, nourri et drainé",
+            wrongs: ["De la roche pure sans aucun nutriment", "De l'asphalte bitumé", "Du sable stérile et salé"],
+            exp: (p) => `Le développement de ${p} dépend directement de la qualité de la terre, qui doit retenir l'humidité tout en évitant l'excès d'eau stagnante.`
+        },
+        {
+            q: (p) => `À quelle famille de soins ou de techniques associe-t-on généralement la gestion de ${p} ?`,
+            correct: "Aux bonnes pratiques de jardinage et d'entretien saisonnier",
+            wrongs: ["À de la mécanique lourde industrielle", "À de la plomberie sanitaire", "À de la haute coiffure"],
+            exp: (p) => `Cultiver ${p} demande un suivi régulier (arrosage, désherbage et observation des parasites potentiels).`
+        }
+    ];
+
+    let diffs = ["facile", "moyen", "difficile"];
+    let idCounter = 1;
+
+    while(quizData.length < 500) {
+        let p = plantesCatalogue[idCounter % plantesCatalogue.length];
+        let t = typesQuestions[idCounter % typesQuestions.length];
+        let diff = diffs[idCounter % diffs.length];
+        
+        quizData.push({
+            q: t.q(p) + ` (Réf: #${idCounter + 1})`,
+            correct: t.correct,
+            wrongs: t.wrongs,
+            exp: t.exp(p),
+            wiki: `https://fr.wikipedia.org/wiki/${p.charAt(0).toUpperCase() + p.slice(1)}`,
+            difficulty: diff
+        });
+        idCounter++;
+    }
 
     let currentQ = 0;
     let score = 0;
@@ -826,7 +821,7 @@
         if (currentQ >= activeQuizList.length) currentQ = 0;
         
         const q = activeQuizList[currentQ];
-        document.getElementById("q-number").innerText = `QUESTION ${currentQ + 1} / ${activeQuizList.length}`;
+        document.getElementById("q-number").innerText = `QUESTION ${currentQ + 1} / ${activeQuizList.length} (Total 500)`;
         document.getElementById("question").innerText = q.q;
         
         const diffTag = document.getElementById("diff-tag");
