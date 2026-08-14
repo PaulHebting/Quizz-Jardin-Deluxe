@@ -3,64 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Jardinier Professionnel</title>
+    <title>Quiz Jardinier Pro</title>
     <style>
-        body { background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
-        .app { width: 100%; max-width: 400px; background: #1e293b; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .score { text-align: center; font-size: 1.2rem; color: #4ade80; margin-bottom: 20px; }
-        .question { font-size: 1.1rem; margin-bottom: 20px; font-weight: bold; }
-        .btn { display: block; width: 100%; padding: 12px; margin: 8px 0; background: #334155; border: 1px solid #475569; color: white; border-radius: 10px; cursor: pointer; text-align: left; }
-        .btn:hover { background: #475569; }
-        .correct { background: #166534 !important; }
-        .wrong { background: #991b1b !important; }
-        #next-btn { display: none; background: #2563eb; text-align: center; font-weight: bold; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: #1e293b;
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #4ade80;
+            font-weight: bold;
+        }
+        .question {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #0f172a;
+            border: 2px solid #334155;
+            color: #f1f5f9;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .btn:hover:not(:disabled) {
+            border-color: #4ade80;
+        }
+        .correct {
+            background: rgba(34, 197, 94, 0.2) !important;
+            border-color: #22c55e !important;
+            color: #4ade80 !important;
+        }
+        .wrong {
+            background: rgba(239, 68, 68, 0.2) !important;
+            border-color: #ef4444 !important;
+            color: #f87171 !important;
+        }
+        #next-btn {
+            display: none;
+            width: 100%;
+            padding: 12px;
+            background: #22c55e;
+            color: #0f172a;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 15px;
+        }
     </style>
 </head>
 <body>
 
-<div class="app">
-    <div class="score" id="score">Score: 0</div>
+<div class="container">
+    <div class="header">
+        <span>🌿 QUIZ JARDINIER</span>
+        <span id="score-display">Score : 0 Pts</span>
+    </div>
     <div class="question" id="question">Chargement...</div>
     <div id="options"></div>
-    <button id="next-btn" class="btn" onclick="next()">Question suivante</button>
+    <button id="next-btn" onclick="nextQuestion()">Question suivante 🚀</button>
 </div>
 
 <script>
-    const data = [
-        { q: "Utilité du binage ?", correct: "Rompre la capillarité", wrongs: ["Tasser la terre", "Chauffer le sol"] },
-        { q: "Division ciboulette ?", correct: "Séparer la souche", wrongs: ["Couper les tiges", "Planter les fleurs"] }
-        // ... (Ajoutez ici le reste de vos 200 questions)
+    const quizData = [
+        { q: "Quelle est la principale utilité du binage régulier ?", correct: "Rompre la capillarité pour limiter l'évaporation de l'eau", wrongs: ["Tasser la terre en surface", "Enrichir le sol en roche mère", "Augmenter l'acidité du sol"] },
+        { q: "Comment diviser une touffe de ciboulette ?", correct: "En déterrant délicatement la souche pour la séparer en éclats", wrongs: ["En coupant toutes les tiges à ras", "En prélevant uniquement les fleurs", "En taillant les racines sans sortir la touffe"] },
+        { q: "Quelle technique employer pour planter des pommes de terre ?", correct: "Les planter germe vers le haut dans des sillons à 10-15 cm", wrongs: ["Les enterrer à plus de 40 cm de profondeur", "Les orienter germe vers le bas", "Les repiquer en surface sans terre"] }
     ];
 
-    let current = 0, score = 0;
+    let currentIndex = 0;
+    let score = 0;
 
-    function render() {
-        const q = data[current];
-        document.getElementById('question').innerText = q.q;
-        const container = document.getElementById('options');
-        container.innerHTML = '';
-        [q.correct, ...q.wrongs].sort(() => Math.random() - 0.5).forEach(opt => {
-            const b = document.createElement('button');
-            b.className = 'btn';
-            b.innerText = opt;
-            b.onclick = () => {
-                document.querySelectorAll('.btn').forEach(btn => btn.disabled = true);
-                if (opt === q.correct) { b.classList.add('correct'); score += 10; }
-                else { b.classList.add('wrong'); }
-                document.getElementById('score').innerText = "Score: " + score;
-                document.getElementById('next-btn').style.display = 'block';
-            };
-            container.appendChild(b);
+    function loadQuestion() {
+        const currentObj = quizData[currentIndex];
+        document.getElementById("question").innerText = currentObj.q;
+
+        const optionsContainer = document.getElementById("options");
+        optionsContainer.innerHTML = "";
+
+        const allOptions = [currentObj.correct, ...currentObj.wrongs].sort(() => Math.random() - 0.5);
+
+        allOptions.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.className = "btn";
+            btn.innerText = opt;
+            btn.onclick = () => selectAnswer(btn, opt === currentObj.correct);
+            optionsContainer.appendChild(btn);
         });
+
+        document.getElementById("next-btn").style.display = "none";
     }
 
-    function next() {
-        current = (current + 1) % data.length;
-        document.getElementById('next-btn').style.display = 'none';
-        render();
+    function selectAnswer(selectedBtn, isCorrect) {
+        const buttons = document.querySelectorAll(".btn");
+        buttons.forEach(btn => {
+            btn.disabled = true;
+            if (btn.innerText === quizData[currentIndex].correct) {
+                btn.classList.add("correct");
+            }
+        });
+
+        if (isCorrect) {
+            score += 10;
+        } else {
+            selectedBtn.classList.add("wrong");
+        }
+
+        document.getElementById("score-display").innerText = `Score : ${score} Pts`;
+        document.getElementById("next-btn").style.display = "block";
     }
 
-    render();
+    function nextQuestion() {
+        currentIndex = (currentIndex + 1) % quizData.length;
+        loadQuestion();
+    }
+
+    loadQuestion();
 </script>
+
 </body>
 </html>
