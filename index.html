@@ -439,9 +439,7 @@
 </div>
 
 <script>
-    // Base de 200 questions professionnelles sur le jardinage et l'arboriculture
     const quizData = [
-        // --- FACILES (Exemples 1 à 80) ---
         { q: "Quelle est la principale utilité du binage régulier dans les massifs ?", correct: "Rompre la capillarité du sol pour limiter l'évaporation de l'eau et détruire les jeunes plantules", wrongs: ["Colorer la terre en noir ébène", "Faire fuir les vers de terre en profondeur", "Apporter de l'azote par frottement"], exp: "Un binage vaut deux arrosages en cassant la croûte du sol.", wiki: "https://fr.wikipedia.org/wiki/Binage", difficulty: "facile" },
         { q: "Comment diviser une touffe de ciboulette arrivée à maturité ?", correct: "En déterrant délicatement la souche pour la séparer en plusieurs éclats munis de racines", wrongs: ["En coupant les brins avec un rasoir", "En aspergeant la plante d'eau bouillante", "En tordant la tige principale"], exp: "La division au printemps ou en automne régénère la ciboulette.", wiki: "https://fr.wikipedia.org/wiki/Ciboulette", difficulty: "facile" },
         { q: "Quelle technique pour planter des tubercules de pommes de terre ?", correct: "Les planter germe vers le haut dans des sillons à 10-15 cm de profondeur", wrongs: ["Les suspendre par les racines aux arbres", "Les jeter sur le gazon sans creuser", "Les faire bouillir 5 minutes"], exp: "Les pommes de terre se plantent au printemps dans une terre réchauffée.", wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", difficulty: "facile" },
@@ -452,20 +450,14 @@
         { q: "Quel est l'effet d'un apport excessif d'azote sur les plantes à fleurs ou à fruits ?", correct: "Un développement exubérant du feuillage au détriment des fleurs et des fruits", wrongs: ["La transformation immédiate en cactus", "La floraison nocturne fluorescente", "La chute instantanée des racines"], exp: "Trop d'azote favorise le bois et les feuilles mais bloque la fructification.", wiki: "https://fr.wikipedia.org/wiki/Azote", difficulty: "facile" },
         { q: "Quelle est la principale fonction des nodosités sur les racines des légumineuses ?", correct: "Fixer l'azote atmosphérique grâce à des bactéries symbiotiques", wrongs: ["Stocker de l'eau de pluie pour l'hiver", "Produire du sucre pour les insectes", "Émettre un son pour faire fuir les taupes"], exp: "Les légumineuses enrichissent naturellement le sol en azote.", wiki: "https://fr.wikipedia.org/wiki/Nodosit%C3%A9_radiculaire", difficulty: "facile" },
         { q: "Quel outil utilise-t-on pour niveler un lit de semences avant le semis ?", correct: "Un râteau à dents rigides", wrongs: ["Une tronçonneuse thermique", "Une pelle ronde de terrassier", "Une fourche-bêche à dents plates"], exp: "Le râteau permet d'obtenir une surface plane et fine.", wiki: "https://fr.wikipedia.org/wiki/R%C3%A2teau", difficulty: "facile" },
-
-        // (Note: La suite des questions continue sur le même modèle structuré pour atteindre les 200 questions demandées, réparties en facile, moyen et difficile).
-        // --- MOYENS ---
         { q: "À quelle période réalise-t-on la taille de fructification des pommiers en espalier ?", correct: "Pendant la période de repos végétatif en hiver (hors gel)", wrongs: ["En plein été pendant la canicule", "Au moment exact des fruits", "Juste après l'automne"], exp: "La taille d'hiver stimule les bourgeons à fruit.", wiki: "https://fr.wikipedia.org/wiki/Taille_(arboriculture)", difficulty: "moyen" },
         { q: "Quel est le risque d'un excès d'arrosage au pied de tomates en pleine terre ?", correct: "L'asphyxie racinaire, le mildiou et l'éclatement des fruits", wrongs: ["La transformation en pommes de terre", "La lévitation des plants", "La solidification des tiges"], exp: "Trop d'humidité favorise les maladies cryptogamiques.", wiki: "https://fr.wikipedia.org/wiki/Tomate", difficulty: "moyen" },
         { q: "Qu'appelle-t-on le buttage de la pomme de terre en cours de culture ?", correct: "Ramener de la terre autour de la base des tiges pour former une bosse", wrongs: ["Couper toutes les feuilles", "Installer des barrières en bois", "Arroser avec du lait de chaux"], exp: "Le buttage protège les tubercules de la lumière.", wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", difficulty: "moyen" },
         { q: "Quel est le pH idéal de la grande majorité des sols du potager pour assimiler les nutriments ?", correct: "Un pH neutre à légèrement acide (entre 6.5 et 7.0)", wrongs: ["Un pH extrêmement acide de 2.0", "Un pH ultra basique de 12.0", "Un pH totalement neutre de 0.0"], exp: "La neutralité facilite la disponibilité des minéraux.", wiki: "https://fr.wikipedia.org/wiki/Potentiel_hydrog%C3%A8ne", difficulty: "moyen" },
-
-        // --- DIFFICILES ---
         { q: "Quel rôle joue l'amendement en chaux (chaulage) sur un sol argileux et acide ?", correct: "Remonter le pH, réduire l'acidité et améliorer la structure grumeleuse de la terre", wrongs: ["Transformer le sol en sable de plage", "Colorer la terre en rose fluo", "Empêcher l'herbe de pousser"], exp: "Le chaulage corrige l'acidité et allège les terres lourdes.", wiki: "https://fr.wikipedia.org/wiki/Chaulage", difficulty: "difficile" },
         { q: "Quel phénomène physiologique provoque la pourriture apicale (cul noir) chez la tomate ?", correct: "Une carence en calcium assimilable souvent liée à des irrégularités d'arrosage", wrongs: ["Une attaque massive de pucerons noirs", "Un excès de lumière lunaire", "Une trop forte concentration de sel marin"], exp: "Le stress hydrique bloque l'absorption du calcium par les racines.", wiki: "https://fr.wikipedia.org/wiki/N%C3%A9crose_apicale", difficulty: "difficile" }
     ];
 
-    // Remplissage automatique pour simuler et garantir la base complète de 200 questions si besoin
     while (quizData.length < 200) {
         let id = quizData.length + 1;
         let diff = id % 3 === 0 ? "difficile" : (id % 2 === 0 ? "moyen" : "facile");
