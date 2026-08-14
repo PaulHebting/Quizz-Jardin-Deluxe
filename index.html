@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jardin Quiz 🌿 (500 Questions Potager)</title>
+    <title>Jardin Traditionnel Quiz 🌿 (500 Questions)</title>
     <style>
         * {
             box-sizing: border-box;
@@ -465,7 +465,7 @@
 
     <div class="app-header">
         <div class="app-title-group">
-            <div class="app-title">🌿 JARDIN QUIZ</div>
+            <div class="app-title">🌿 JARDIN TRADITIONNEL</div>
             <div class="daily-visits">📊 <span id="visits-count">1</span> visites aujourd'hui</div>
         </div>
         <div class="score-badge" id="score-display">0 Pts</div>
@@ -478,14 +478,14 @@
             </div>
             <div class="profile-info">
                 <input type="text" class="username-input" id="username-input" value="Jardinier123" placeholder="Ton pseudo..." oninput="saveUserData()">
-                <div class="rank-badge" id="rank-display">🌱 Débutant</div>
+                <div class="rank-badge" id="rank-display">🌱 Valet de Bêche</div>
                 
                 <div class="progress-box">
                     <div class="progress-bar-bg">
                         <div class="progress-bar-fill" id="rank-progress-fill"></div>
                     </div>
                     <div class="progress-text">
-                        <span id="rank-next-title">Suivant: Apprenti</span>
+                        <span id="rank-next-title">Suivant: Jardinier</span>
                         <span id="rank-points-left">40 pts restants</span>
                     </div>
                 </div>
@@ -498,7 +498,7 @@
 
         <div class="quiz-box">
             <div class="quiz-header-info">
-                <div class="question-title">POTAGER TRADITIONNEL</div>
+                <div class="question-title">POTAGER CLASSIQUE</div>
                 <div class="difficulty-tag diff-facile" id="diff-tag">Facile</div>
             </div>
             <div class="question-text" id="question">Chargement de la question...</div>
@@ -526,43 +526,43 @@
 </div>
 
 <script>
-    // Base de départ de questions authentiques de jardinage traditionnel
+    // Base initiale centrée sur le jardinage traditionnel (labours, engrais, arrosage, outillage)
     let baseQuiz = [
         { 
-            q: "Pourquoi est-il indispensable de biner régulièrement la terre de son potager ('binage vaut deux arrosages') ?", 
-            correct: "Pour briser la croûte de surface et empêcher l'eau de s'évaporer", 
-            wrongs: ["Pour colorer la terre en noir", "Pour nourrir directement les feuilles des légumes", "Pour faire fuir les vers de terre en profondeur"],
-            exp: "En cassant la croûte superficielle du sol après la pluie ou l'arrosage, on coupe les micro-canaux par lesquels l'eau remonte pour s'évaporer.",
-            wiki: "https://fr.wikipedia.org/wiki/Binage",
+            q: "Pourquoi bêche-t-on traditionnellement la terre du potager en profondeur à l'automne ?", 
+            correct: "Pour retourner la terre, enfouir le fumier et laisser le gel éclater les mottes", 
+            wrongs: ["Pour faire fuir les oiseaux migrateurs", "Pour colorer le sol en blanc", "Pour empêcher complètement l'eau de pluie de pénétrer"],
+            exp: "Le labour d'automne permet d'exposer la terre aux gelées hivernales, ce qui fragmente naturellement les mottes et facilite le travail de préparation au printemps.",
+            wiki: "https://fr.wikipedia.org/wiki/B%C3%AAche",
             difficulty: "facile"
         },
         { 
-            q: "À quoi sert l'opération de 'le tillage' ou éclaircissage sur les lignes de carottes ou de radis semés trop dense ?", 
-            correct: "À donner l'espace nécessaire à chaque racine pour grossir correctement", 
-            wrongs: ["À récupérer les plants jetés pour faire de la soupe", "À faire fuir les taupes du jardin", "À stopper net l'arrosage automatique"],
-            exp: "Si les plants sont trop serrés, ils se font concurrence, filent en hauteur et ne forment pas de belles racines charnues.",
-            wiki: "https://fr.wikipedia.org/wiki/%C3%89claircissage",
-            difficulty: "facile"
+            q: "Quel est l'intérêt principal d'utiliser de la bouillie bordelaise dans un potager traditionnel ?", 
+            correct: "Traiter et prévenir les maladies cryptogamiques comme le mildiou", 
+            wrongs: ["Donner un goût sucré aux tomates", "Accélérer la pousse des mauvaises herbes", "Éloigner instantanément les taupes du sous-sol"],
+            exp: "La bouillie bordelaise (à base de sulfate de cuivre et de chaux) est le traitement préventif classique par excellence contre les champignons du feuillage.",
+            wiki: "https://fr.wikipedia.org/wiki/Bouillie_bordelaise",
+            difficulty: "moyen"
         },
         { 
-            q: "Quelle est la règle d'or pour réussir la taille des tomates indéterminées en été ?", 
-            correct: "Supprimer régulièrement les gourmands (les rejetons à l'aisselle des feuilles)", 
-            wrongs: ["Couper la tête principale dès le premier mois", "Arroser abondamment les fleurs en plein soleil", "Tailler toutes les feuilles pour laisser nu le fruit"],
-            exp: "Supprimer les gourmands permet de concentrer la sève sur les grappes de fruits principaux et d'aérer le pied pour éviter le mildiou.",
-            wiki: "https://fr.wikipedia.org/wiki/Tomate",
+            q: "Qu'appelle-t-on le 'terrage' ou le 'buttage' au pied des rangs de pommes de terre ?", 
+            correct: "Ramener de la terre autour des tiges pour éviter que les tubercules ne verdissent à la lumière", 
+            wrongs: ["Arroser les feuilles avec de l'eau salée", "Planter de nouveaux piquets en bois de chauffage", "Tasser violemment le sol avec un rouleau lourd"],
+            exp: "Le buttage protège les pommes de terre de la lumière du soleil, ce qui empêcherait la formation de solanine (substance toxique et verdâtre).",
+            wiki: "https://fr.wikipedia.org/wiki/Buttage",
             difficulty: "moyen"
         }
     ];
 
     let quizData = [...baseQuiz];
 
-    // Catalogue de légumes, fruits et aromates classiques du potager
+    // Catalogue de légumes du potager
     const legumeCatalogue = [
         { nom: "carotte", wiki: "Carotte" },
         { nom: "tomate", wiki: "Tomate" },
         { nom: "pomme de terre", wiki: "Pomme_de_terre" },
         { nom: "fraise", wiki: "Fraise" },
-        { nom: "salade", "wiki": "Laitue" },
+        { nom: "salade", wiki: "Laitue" },
         { nom: "courgette", wiki: "Courgette" },
         { nom: "haricot vert", wiki: "Haricot" },
         { nom: "radis", wiki: "Radis" },
@@ -575,57 +575,47 @@
         { nom: "aubergine", wiki: "Aubergine" },
         { nom: "poivron", wiki: "Poivron" },
         { nom: "potiron", wiki: "Potiron" },
-        { nom: "épinard", wiki: "Épinard" },
+        { nom: "épinard", wiki: "épinard" },
         { nom: "chou", wiki: "Chou_cabus" },
-        { nom: "navet", wiki: "Navet" },
-        { nom: "betterave", wiki: "Betterave" },
-        { nom: "petit pois", wiki: "Pois_(légume)" },
-        { nom: "fenouil", wiki: "Fenouil_commun" },
-        { nom: "Céleri", wiki: "Céleri" },
-        { nom: "persil", wiki: "Persil" },
-        { nom: "ciboulette", wiki: "Ciboulette" },
-        { nom: "thym", wiki: "Thym" },
-        { nom: "menthe", wiki: "Menthe" },
-        { nom: "romarin", wiki: "Romarin" },
-        { nom: "basilic", wiki: "Basilic" }
+        { nom: "navet", wiki: "Navet" }
     ];
 
-    // Modèles de questions de jardinage pur (techniques, semis, entretien, récolte)
-    const typesQuestionsPotager = [
+    // Modèles de questions de vrai jardinier (engrais, semis en lignes, binage, traitements, outillage)
+    const typesQuestionsTraditionnelles = [
         {
             diff: "facile",
-            q: (l) => `Quelle est la meilleure période traditionnelle pour effectuer les semences de ${l.nom} en pleine terre ?`,
-            correct: "Au printemps, lorsque les gelées matinales ne sont plus à craindre",
-            wrongs: ["En plein hiver au mois de janvier sous la neige", "Uniquement le 15 août à minuit", "Pendant la canicule en plein mois de juillet"],
-            exp: (l) => `Pour ${l.nom}, la terre doit être suffisamment réchauffée (généralement au printemps) pour assurer une bonne germination des graines.`
+            q: (l) => `Quelle technique de semis utilise-t-on traditionnellement pour tracer bien droit les lignes de ${l.nom} au cordeau ?`,
+            correct: "Tendre une ficelle entre deux piquets pour tracer un sillon propre avec le coin de la binette", 
+            wrongs: ["Jeter les graines en l'air par vent fort", "Mélanger les graines à de la peinture à huile", "Arroser le terrain dix jours avant d'ouvrir la terre"],
+            exp: (l) => `Le cordeau est l'outil indispensable du jardinier traditionnel pour aligner proprement les semis de ${l.nom} et faciliter le désherbage ultérieur.`
         },
         {
             diff: "moyen",
-            q: (l) => `Quel type de fumure ou d'apport organique convient le mieux lors de la préparation du sol pour ${l.nom} ?`,
-            correct: "Un compost bien mûr incorporé superficiellement à la terre",
-            wrongs: ["De l'huile de vidange usagée pour tuer les parasites", "Du sel de cuisine pour structurer les mottes", "De l'eau de Javel pure pour stériliser le sillon"],
-            exp: (l) => `Le compost mûr apporte les éléments nutritifs essentiels à ${l.nom} sans brûler les jeunes racines, contrairement au fumier frais.`
+            q: (l) => `Quel type d'apport en amendement ou engrais chimique/organique classique privilégie-t-on pour booster la croissance de ${l.nom} ?`,
+            correct: "Un engrais complet potager (type NPK) ou un amendement organique bien incorporé par griffage", 
+            wrongs: ["Un arrosage exclusif à l'eau de Javel diluée", "Un épandage de gravillons concassés sur les feuilles", "Une couche de goudron liquide au fond du trou"],
+            exp: (l) => `Un apport équilibré en azote, phosphore et potassium (NPK) assure un développement optimal et un bon rendement pour ${l.nom}.`
         },
         {
             diff: "difficile",
-            q: (l) => `Quel ravageur ou maladie classique doit-on surveiller en priorité lors de la culture de ${l.nom} ?`,
-            correct: "Les attaques de parasites spécifiques ou de champignons liés à l'excès d'humidité",
-            wrongs: ["L'invasion soudaine de manchots alpins", "La transformation des feuilles en plaques de tôle", "La lévitation des plants hors du sol"],
-            exp: (l) => `Une bonne rotation des cultures et une surveillance rigoureuse du feuillage protègent efficacement ${l.nom} des aléas sanitaires.`
+            q: (l) => `Comment élimine-t-on traditionnellement les adventices (mauvaises herbes) qui étouffent les jeunes plants de ${l.nom} ?`,
+            correct: "Par un sarclage minutieux et un binage régulier de la surface entre les rangs", 
+            wrongs: ["En incendiant tout le potager au chalumeau de chantier", "En lâchant un troupeau de boucs enragés", "En recouvrant les plants de dalles en béton armé"],
+            exp: (l) => `Le binage et le sarclage répétés coupent les racines des mauvaises herbes et maintiennent la propreté des planches de ${l.nom}.`
         },
         {
             diff: "moyen",
-            q: (l) => `Comment sait-on de manière générale que ${l.nom} est arrivé à maturité et prêt à être récolté ?`,
-            correct: "D'après la taille, la couleur caractéristique et la fermeté du fruit ou du légume",
-            wrongs: ["Quand le plant se met à chanter au vent", "Quand les feuilles deviennent entièrement bleues", "Dès que le calendrier indique un jour férié"],
-            exp: (l) => `Le respect du temps de croissance et l'observation visuelle permettent de récolter ${l.nom} au meilleur moment de sa saveur.`
+            q: (l) => `Quelle précaution d'arrosage applique-t-on traditionnellement pour ${l.nom} en plein été ?`,
+            correct: "Arroser généreusement au pied de préférence le soir ou le matin sans mouiller le feuillage", 
+            wrongs: ["Mettre le jet d'eau en position maximale en plein cagnard à midi", "Inonder le jardin une seule fois tous les deux mois", "Remplir les feuilles d'huile minérale"],
+            exp: (l) => `Un arrosage au pied évite la formation de brûlures sur le feuillage de ${l.nom} par effet loupe et limite l'évaporation excessive.`
         }
     ];
 
-    // Génération automatique des 500 questions de jardinier pur de façon variée et aléatoire
+    // Génération automatique des 500 questions de jardinier traditionnel
     for (let i = 1; i < 500; i++) {
         let randLeg = legumeCatalogue[Math.floor(Math.random() * legumeCatalogue.length)];
-        let randType = typesQuestionsPotager[Math.floor(Math.random() * typesQuestionsPotager.length)];
+        let randType = typesQuestionsTraditionnelles[Math.floor(Math.random() * typesQuestionsTraditionnelles.length)];
         
         quizData.push({
             q: randType.q(randLeg),
@@ -649,22 +639,21 @@
     let avatarIdx = 0;
 
     const trophies = [
-        { id: "t1", icon: "🌱", title: "Première Pousse", desc: "Donner sa première bonne réponse", unlocked: false },
+        { id: "t1", icon: "🌱", title: "Premier Coup de Bêche", desc: "Donner sa première bonne réponse", unlocked: false },
         { id: "t2", icon: "🌿", title: "Main Verte", desc: "Atteindre 100 points", unlocked: false },
-        { id: "t3", icon: "👕", title: "Fashion Victim", desc: "Changer 3 fois d'avatar", unlocked: false },
+        { id: "t3", icon: "👕", title: "Changement de Chapeau", desc: "Changer 3 fois d'avatar", unlocked: false },
         { id: "t4", icon: "🐹", title: "Taupe en Chef", desc: "Faire 3 erreurs d'affilée", unlocked: false },
-        { id: "t5", icon: "🐞", title: "Chasseur de Pucerons", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
-        { id: "t6", icon: "🌻", title: "Botaniste Fou", desc: "Répondre à 10 questions", unlocked: false },
-        { id: "t7", icon: "🌳", title: "Maître du Jardin", desc: "Atteindre 250 points", unlocked: false }
+        { id: "t5", icon: "🐞", title: "Chasseur de Nuisibles", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
+        { id: "t6", icon: "🌻", title: "Chef de Culture", desc: "Répondre à 10 questions", unlocked: false },
+        { id: "t7", icon: "🌳", title: "Maître du Potager", desc: "Atteindre 250 points", unlocked: false }
     ];
 
-    // Grades et progression des niveaux de difficulté débloqués par les points
     const ranks = [
-        { min: 0, max: 40, title: "🌱 Débutant", nextTitle: "Apprenti", allowedDiff: ["facile"] },
-        { min: 40, max: 100, title: "🌿 Apprenti Jardinier", nextTitle: "Confirmé", allowedDiff: ["facile", "moyen"] },
-        { min: 100, max: 200, title: "🪴 Jardinier Confirmé", nextTitle: "Expert", allowedDiff: ["facile", "moyen", "difficile"] },
-        { min: 200, max: 400, title: "🌳 Expert Potager", nextTitle: "Maître", allowedDiff: ["moyen", "difficile"] },
-        { min: 400, max: Infinity, title: "🏆 Maître Jardinier", nextTitle: "Niveau Max", allowedDiff: ["difficile"] }
+        { min: 0, max: 40, title: "🌱 Valet de Bêche", nextTitle: "Jardinier", allowedDiff: ["facile"] },
+        { min: 40, max: 100, title: "🌿 Jardinier", nextTitle: "Chef de Culture", allowedDiff: ["facile", "moyen"] },
+        { min: 100, max: 200, title: "🪴 Chef de Culture", nextTitle: "Maître Ouvrier", allowedDiff: ["facile", "moyen", "difficile"] },
+        { min: 200, max: 400, title: "🌳 Maître Ouvrier", nextTitle: "Élite", allowedDiff: ["moyen", "difficile"] },
+        { min: 400, max: Infinity, title: "🏆 Ingénieur Agronome", nextTitle: "Niveau Max", allowedDiff: ["difficile"] }
     ];
 
     function getCurrentRank() {
@@ -909,9 +898,9 @@
 
     function shareScore() {
         const pseudo = document.getElementById("username-input").value || "Un jardinier";
-        const text = `${pseudo} a atteint ${score} points sur Jardin Quiz 🌿 !`;
+        const text = `${pseudo} a atteint ${score} points sur Jardin Traditionnel Quiz 🌿 !`;
         if (navigator.share) {
-            navigator.share({ title: 'Jardin Quiz', text: text, url: window.location.href }).catch(() => {});
+            navigator.share({ title: 'Jardin Traditionnel Quiz', text: text, url: window.location.href }).catch(() => {});
         } else {
             navigator.clipboard.writeText(text);
             showAchievement("📋 Score copié dans le presse-papier !");
