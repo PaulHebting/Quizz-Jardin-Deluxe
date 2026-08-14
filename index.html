@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jardin Quiz 🌿 (Édition 2000+ Questions)</title>
+    <title>Jardin Quiz 🌿 (Édition Expert)</title>
     <style>
         * {
             box-sizing: border-box;
@@ -274,12 +274,12 @@
             font-size: 12.5px;
             color: #e2e8f0;
             line-height: 1.3;
+            margin-top: 4px;
         }
 
         .points-notification {
             font-weight: 800;
             font-size: 12.5px;
-            margin-bottom: 3px;
         }
 
         .action-buttons {
@@ -506,7 +506,7 @@
                 <div class="question-title" id="q-number">QUESTION 1</div>
                 <div class="difficulty-tag diff-facile" id="diff-tag">Facile</div>
             </div>
-            <div class="question-text" id="question">Génération des 2000+ questions en cours...</div>
+            <div class="question-text" id="question">Chargement...</div>
         </div>
 
         <div class="options-grid" id="options"></div>
@@ -531,7 +531,143 @@
 </div>
 
 <script>
-    let quizData = [];
+    // Base de questions de qualité avec vraies explications détaillées
+    const quizData = [
+        // --- FACILE ---
+        { 
+            q: "Quelle est la principale utilité des œillets d'Inde plantés au milieu du potager ?", 
+            correct: "Ils repoussent naturellement les pucerons et les nématodes.", 
+            wrongs: ["Ils attirent massivement les taupes", "Ils font fuir les abeilles et bourdons", "Ils empêchent les tomates de mûrir"],
+            exp: "Les œillets d'Inde sécrètent par leurs racines une substance toxique pour certains nématodes du sol et leur odeur rebute de nombreux insectes indésirables.",
+            wiki: "https://fr.wikipedia.org/wiki/Œillet_d%27Inde",
+            difficulty: "facile"
+        },
+        { 
+            q: "À quel moment de la journée est-il conseillé d'arroser ses plantes en été ?", 
+            correct: "Tôt le matin ou tard le soir", 
+            wrongs: ["En plein midi sous le soleil", "Uniquement la nuit sous la pluie", "À minuit pile avec de l'eau glacée"],
+            exp: "Arroser le matin ou le soir évite l'évaporation rapide de l'eau causée par le soleil et prévient les brûlures sur le feuillage.",
+            wiki: "https://fr.wikipedia.org/wiki/Arrosage",
+            difficulty: "facile"
+        },
+        { 
+            q: "Quel est l'intérêt principal du compostage des déchets organiques ?", 
+            correct: "Transformer les déchets en un terreau riche et fertile", 
+            wrongs: ["Produire du gaz pour chauffer la maison", "Créer des répulsifs anti-moustiques", "Éliminer définitivement les vers de terre"],
+            exp: "Le compostage permet de recycler la matière organique pour nourrir la terre du jardin de façon 100% naturelle et gratuite.",
+            wiki: "https://fr.wikipedia.org/wiki/Compostage_(biodéchets)",
+            difficulty: "facile"
+        },
+        { 
+            q: "Quel rôle primordial jouent les vers de terre dans un jardin ?", 
+            correct: "Ils aèrent la terre et structurent le sol grâce à leurs déjections", 
+            wrongs: ["Ils mangent toutes les racines des salades", "Ils polluent l'eau d'arrosage en surface", "Ils attirent les taupes carnivores"],
+            exp: "En creusant des galeries et en mélangeant la matière organique, les lombrics créent un humus fertile et facilitent la pénétration de l'eau.",
+            wiki: "https://fr.wikipedia.org/wiki/Lumbricina",
+            difficulty: "facile"
+        },
+        { 
+            q: "Pourquoi les jardiniers aiment-ils voir des coccinelles dans leur potager ?", 
+            correct: "Ce sont des prédateurs voraces qui mangent les pucerons", 
+            wrongs: ["Elles pollinisent les fleurs de tomates", "Elles fertilisent le sol comme du fumier", "Elles chassent les oiseaux nuisibles"],
+            exp: "Aussi bien à l'état de larve qu'à l'âge adulte, la coccinelle se nourrit de pucerons, régulant ainsi naturellement leur population.",
+            wiki: "https://fr.wikipedia.org/wiki/Coccinellidae",
+            difficulty: "facile"
+        },
+        {
+            q: "Quel légume-racine est célèbre pour sa teneur en carotène et sa couleur orange ?",
+            correct: "La carotte",
+            wrongs: ["Le radis noir", "Le navet blanc", "Le panais"],
+            exp: "La carotte doit sa couleur vive et ses vertus pour la vue à sa forte concentration en bêta-carotène.",
+            wiki: "https://fr.wikipedia.org/wiki/Carotte",
+            difficulty: "facile"
+        },
+
+        // --- MOYEN ---
+        { 
+            q: "Que fabrique-t-on traditionnellement à partir de la macération d'orties ?", 
+            correct: "Un purin fortifiant et insectifuge pour les plantes", 
+            wrongs: ["Un désherbant chimique total", "Un engrais radioactif pour bulbes", "Un sirop sucré pour les fruits"],
+            exp: "Le purin d'ortie est un excellent stimulateur de croissance riche en azote et en fer, qui aide aussi à repousser certains parasites.",
+            wiki: "https://fr.wikipedia.org/wiki/Purin_d%27ortie",
+            difficulty: "moyen"
+        },
+        { 
+            q: "Pourquoi met-on du paillage au pied des plantations ?", 
+            correct: "Pour conserver l'humidité et empêcher les mauvaises herbes", 
+            wrongs: ["Pour attirer les escargots géants", "Pour chauffer excessivement les racines", "Forcer le sol à devenir violet"],
+            exp: "Le paillis protège le sol des rayons du soleil (limitant l'évaporation) et bloque la lumière nécessaire à la germination des adventices.",
+            wiki: "https://fr.wikipedia.org/wiki/Paillage",
+            difficulty: "moyen"
+        },
+        { 
+            q: "Quelle est la particularité bien connue de la menthe au jardin ?", 
+            correct: "C'est une plante très envahissante qui colonise tout l'espace", 
+            wrongs: ["Elle meurt dès qu'on l'arrose un peu trop", "Elle attire les guêpes frelons", "Elle ne pousse que dans le désert"],
+            exp: "La menthe se propage rapidement grâce à ses tiges souterraines traçantes (stolons). On conseille souvent de la cultiver en pot.",
+            wiki: "https://fr.wikipedia.org/wiki/Menthe",
+            difficulty: "moyen"
+        },
+        {
+            q: "Quelle est la meilleure période de l'année pour tailler la majorité des rosiers ?",
+            correct: "À la fin de l'hiver (février-mars)",
+            wrongs: ["En plein mois d'août sous canicule", "Juste après les premières gelées d'octobre", "Le jour de Noël"],
+            exp: "La taille de fin d'hiver intervient après les grands froids et stimule le départ de nouvelles pousses vigoureuses pour la belle saison.",
+            wiki: "https://fr.wikipedia.org/wiki/Rosier",
+            difficulty: "moyen"
+        },
+        {
+            q: "Comment appelle-t-on la maladie cryptogamique qui recouvre les feuilles d'un dépôt blanc farineux ?",
+            correct: "L'oïdium (ou blanc)",
+            wrongs: ["La rouille", "Le mildiou", "La pourriture grise"],
+            exp: "L'oïdium est un champignon parasite favorisé par l'alternance de temps humide et chaud. Il affaiblit la plante en bloquant la photosynthèse.",
+            wiki: "https://fr.wikipedia.org/wiki/Oïdium",
+            difficulty: "moyen"
+        },
+
+        // --- DIFFICILE ---
+        { 
+            q: "Quel est l'objectif de la taille de formation sur un jeune arbre fruitier ?", 
+            correct: "Lui donner une structure équilibrée et robuste", 
+            wrongs: ["Le faire grandir deux fois plus vite", "Empêcher définitivement l'arbre de faire des fruits", "Le transformer en arbuste d'intérieur"],
+            exp: "Elle permet de structurer les branches charpentières pour qu'elles supportent le poids des fruits et laissent bien passer la lumière au centre.",
+            wiki: "https://fr.wikipedia.org/wiki/Taille_des_arbres_fruitiers",
+            difficulty: "difficile"
+        },
+        { 
+            q: "En quoi consiste la technique du bouturage ?", 
+            correct: "Multiplier une plante à partir d'un fragment de tige ou de feuille", 
+            wrongs: ["Planter uniquement des graines rares", "Couper toutes les racines pour forcer la floraison", "Greffer un légume sur un arbre"],
+            exp: "Le bouturage est une méthode de multiplication végétative asexuée qui permet d'obtenir un clone identique à la plante mère.",
+            wiki: "https://fr.wikipedia.org/wiki/Bouturage",
+            difficulty: "difficile"
+        },
+        {
+            q: "Qu'appelle-t-on le 'BRF' (Bois Raméal Fragmenté) très utilisé en permaculture ?",
+            correct: "Des jeunes rameaux de bois broyés",
+            wrongs: ["De la poussière de charbon", "Un engrais chimique puissant", "Du sable de rivière filtré"],
+            exp: "Le BRF provient du broyage de jeunes branches (généralement de feuillus). Il stimule la vie microbienne et l'humus dans les sols.",
+            wiki: "https://fr.wikipedia.org/wiki/Bois_raméal_fragmenté",
+            difficulty: "difficile"
+        },
+        {
+            q: "Quelle est l'utilité du purin d'ail pulvérisé au jardin ?",
+            correct: "Il agit comme un répulsif naturel contre les champignons et insectes",
+            wrongs: ["Il sert à sucrer les fruits", "Il attire les papillons rares", "Il colore les fleurs en bleu"],
+            exp: "L'ail possède des propriétés antifongiques et antibactériennes reconnues, idéales en prévention contre le mildiou ou les acariens.",
+            wiki: "https://fr.wikipedia.org/wiki/Ail",
+            difficulty: "difficile"
+        },
+        {
+            q: "Qu'est-ce qu'un sol argileux ?",
+            correct: "Un sol compact qui retient beaucoup l'eau et colle aux chaussures",
+            wrongs: ["Un sol sablonneux qui s'effondre tout de suite", "Un sol très léger rempli de cailloux blancs", "Un sol stérile composé de cendres"],
+            exp: "Composé de fines particules, le sol argileux est lourd, riche en nutriments et retient très bien l'eau, mais peut devenir dur comme de la pierre en été.",
+            wiki: "https://fr.wikipedia.org/wiki/Argile",
+            difficulty: "difficile"
+        }
+    ];
+
     let currentQ = 0;
     let score = 0;
     let avatarsChangesCount = 0;
@@ -550,117 +686,17 @@
         { id: "t3", icon: "👕", title: "Fashion Victim", desc: "Changer 3 fois d'avatar", unlocked: false },
         { id: "t4", icon: "🐹", title: "Taupe en Chef", desc: "Faire 3 erreurs d'affilée", unlocked: false },
         { id: "t5", icon: "🐞", title: "Chasseur de Pucerons", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
-        { id: "t6", icon: "🌻", title: "Botaniste Fou", desc: "Répondre à 20 questions", unlocked: false },
-        { id: "t7", icon: "🌳", title: "Maître de la Jungle", desc: "Atteindre 500 points", unlocked: false }
+        { id: "t6", icon: "🌻", title: "Botaniste Fou", desc: "Répondre à 10 questions", unlocked: false },
+        { id: "t7", icon: "🌳", title: "Maître de la Jungle", desc: "Atteindre 250 points", unlocked: false }
     ];
 
     const ranks = [
-        { min: 0, max: 50, title: "🌱 Débutant", nextTitle: "Apprenti", allowedDiff: ["facile"] },
-        { min: 50, max: 150, title: "🌿 Apprenti Jardinier", nextTitle: "Confirmé", allowedDiff: ["facile"] },
-        { min: 150, max: 300, title: "🪴 Jardinier Confirmé", nextTitle: "Expert", allowedDiff: ["facile", "moyen"] },
-        { min: 300, max: 600, title: "🌳 Expert Botanique", nextTitle: "Maître", allowedDiff: ["facile", "moyen"] },
-        { min: 600, max: 1000, title: "👑 Maître du Jardin", nextTitle: "Légende", allowedDiff: ["facile", "moyen", "difficile"] },
-        { min: 1000, max: Infinity, title: "🏆 Légende Botanique", nextTitle: "Niveau Max", allowedDiff: ["facile", "moyen", "difficile"] }
+        { min: 0, max: 40, title: "🌱 Débutant", nextTitle: "Apprenti", allowedDiff: ["facile"] },
+        { min: 40, max: 100, title: "🌿 Apprenti Jardinier", nextTitle: "Confirmé", allowedDiff: ["facile", "moyen"] },
+        { min: 100, max: 200, title: "🪴 Jardinier Confirmé", nextTitle: "Expert", allowedDiff: ["facile", "moyen"] },
+        { min: 200, max: 400, title: "🌳 Expert Botanique", nextTitle: "Maître", allowedDiff: ["facile", "moyen", "difficile"] },
+        { min: 400, max: Infinity, title: "🏆 Maître du Jardin", nextTitle: "Niveau Max", allowedDiff: ["facile", "moyen", "difficile"] }
     ];
-
-    // Générateur algorithmique intelligent pour atteindre et dépasser les 2000 questions uniques thématisées
-    function generateMassiveQuestionDatabase() {
-        let generated = [];
-        const plantesBase = [
-            { nom: "Tomate", wiki: "https://fr.wikipedia.org/wiki/Tomate", diff: "facile" },
-            { nom: "Carotte", wiki: "https://fr.wikipedia.org/wiki/Carotte", diff: "facile" },
-            { nom: "Salade", wiki: "https://fr.wikipedia.org/wiki/Laitue", diff: "facile" },
-            { nom: "Courgette", wiki: "https://fr.wikipedia.org/wiki/Courgette", diff: "facile" },
-            { nom: "Fraise", wiki: "https://fr.wikipedia.org/wiki/Fraise", diff: "facile" },
-            { nom: "Pomme de terre", wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", diff: "facile" },
-            { nom: "Radis", wiki: "https://fr.wikipedia.org/wiki/Radis", diff: "facile" },
-            { nom: "Haricot", wiki: "https://fr.wikipedia.org/wiki/Haricot", diff: "facile" },
-            { nom: "Poireau", wiki: "https://fr.wikipedia.org/wiki/Poireau", diff: "facile" },
-            { nom: "Oignon", wiki: "https://fr.wikipedia.org/wiki/Oignon", diff: "facile" },
-            { nom: "Ail", wiki: "https://fr.wikipedia.org/wiki/Ail", diff: "moyen" },
-            { nom: "Échalote", wiki: "https://fr.wikipedia.org/wiki/%C3%89chalote", diff: "moyen" },
-            { nom: "Concombre", wiki: "https://fr.wikipedia.org/wiki/Concombre", diff: "facile" },
-            { nom: "Aubergine", wiki: "https://fr.wikipedia.org/wiki/Aubergine", diff: "moyen" },
-            { nom: "Poivron", wiki: "https://fr.wikipedia.org/wiki/Poivron", diff: "moyen" },
-            { nom: "Melon", wiki: "https://fr.wikipedia.org/wiki/Melon", diff: "moyen" },
-            { nom: "Pastèque", wiki: "https://fr.wikipedia.org/wiki/Past%C3%A8que", diff: "moyen" },
-            { nom: "Potiron", wiki: "https://fr.wikipedia.org/wiki/Potiron", diff: "moyen" },
-            { nom: "Artichaut", wiki: "https://fr.wikipedia.org/wiki/Artichaut", diff: "difficile" },
-            { nom: "Asperge", wiki: "https://fr.wikipedia.org/wiki/Asperge", diff: "difficile" },
-            { nom: "Bette", wiki: "https://fr.wikipedia.org/wiki/Bette", diff: "moyen" },
-            { nom: "Céleri", wiki: "https://fr.wikipedia.org/wiki/C%C3%A9leri", diff: "moyen" },
-            { nom: "Fenouil", wiki: "https://fr.wikipedia.org/wiki/Fenouil", diff: "difficile" },
-            { nom: "Chou-fleur", wiki: "https://fr.wikipedia.org/wiki/Chou-fleur", diff: "moyen" },
-            { nom: "Brocoli", wiki: "https://fr.wikipedia.org/wiki/Brocoli", diff: "moyen" },
-            { nom: "Epinard", wiki: "https://fr.wikipedia.org/wiki/%C3%89pinard", diff: "facile" },
-            { nom: "Pois", wiki: "https://fr.wikipedia.org/wiki/Pois", diff: "facile" },
-            { nom: "Rhubarbe", wiki: "https://fr.wikipedia.org/wiki/Rhubarbe", diff: "moyen" },
-            { nom: "Topinambour", wiki: "https://fr.wikipedia.org/wiki/Topinambour", diff: "difficile" },
-            { nom: "Cresson", wiki: "https://fr.wikipedia.org/wiki/Cresson", diff: "difficile" }
-        ];
-
-        const actionsEntretien = [
-            { action: "arroser", detail: "un arrosage régulier mais sans excès", diff: "facile" },
-            { action: "tailler", detail: "une taille annuelle pour stimuler la repousse", diff: "moyen" },
-            { action: "paille", detail: "un paillage protecteur au pied", diff: "facile" },
-            { action: "composter", detail: "un apport de compost mûr en surface", diff: "moyen" },
-            { action: "butter", detail: "un buttage des pieds pour protéger du froid", diff: "difficile" }
-        ];
-
-        // 1. Génération algorithmique combinatoire ciblée pour atteindre +2000 questions uniques
-        plantesBase.forEach((p, pIdx) => {
-            actionsEntretien.forEach((a, aIdx) => {
-                generated.push({
-                    q: `Quel type de soin convient le mieux pour optimiser la culture de ${p.nom.toLowerCase()} ?`,
-                    correct: `Prévoir ${a.detail}`,
-                    wrongs: ["Laisser sécher complètement le substrat sans eau", "Exposer en permanence sous une bâche étanche", "Enlever toutes les feuilles dès le premier jour"],
-                    wiki: p.wiki,
-                    difficulty: a.diff
-                });
-                generated.push({
-                    q: `Pourquoi surveiller attentivement ${p.nom.toLowerCase()} durant la saison estivale ?`,
-                    correct: `Pour éviter les stress hydriques et carences`,
-                    wrongs: ["Pour l'empêcher de changer de couleur", "Pour qu'elle attire immédiatement les taupes", "Pour stopper sa croissance définitivement"],
-                    wiki: p.wiki,
-                    difficulty: "moyen"
-                });
-            });
-
-            // Variantes thématiques multiples par plante
-            for (let i = 1; i <= 35; i++) {
-                let diffLevel = i < 15 ? "facile" : (i < 25 ? "moyen" : "difficile");
-                generated.push({
-                    q: `Dans le cadre d'un potager permacole, quel est l'impact de l'association de ${p.nom.toLowerCase()} (Variante #${i}) ?`,
-                    correct: `Favorise la biodiversité et l'équilibre naturel du sol`,
-                    wrongs: ["Stérilise définitivement la terre environnante", "Provoque l'évaporation totale de l'eau du jardin", "Attire exclusivement des nuisibles destructeurs"],
-                    wiki: p.wiki,
-                    difficulty: diffLevel
-                });
-            }
-        });
-
-        // 2. Ajout de questions générales de jardinage pour diversifier et dépasser largement le quota
-        const themesGeneraux = [
-            { q: "Quel est l'avantage principal d'un sol argileux ?", correct: "Il retient très bien les éléments nutritifs et l'eau", wrongs: ["Il s'évapore instantanément", "Il est totalement stérile", "Il repousse tous les insectes"], diff: "moyen", wiki: "https://fr.wikipedia.org/wiki/Argile" },
-            { q: "À quoi sert principalement le purin d'ortie ?", correct: "Stimuler la croissance et fortifier contre les maladies", wrongs: ["Tuer toutes les plantes", "Colorer le gazon en bleu", "Chasser les vers de terre"], diff: "facile", wiki: "https://fr.wikipedia.org/wiki/Purin_d%27ortie" },
-            { q: "Qu'appelle-t-on le BRF en jardinage naturel ?", correct: "Du Bois Raméal Fragmenté issu de jeunes branches", wrongs: ["Un engrais chimique industriel", "Une race de ver de terre", "Un pesticide puissant"], diff: "difficile", wiki: "https://fr.wikipedia.org/wiki/Bois_raméal_fragmenté" },
-            { q: "Quel est le rôle des insectes pollinisateurs au potager ?", correct: "Féconder les fleurs pour permettre l'apparition des fruits", wrongs: ["Manger toutes les racines souterraines", "Rendre la terre dure comme du béton", "Produire de l'ombre sur les semis"], diff: "facile", wiki: "https://fr.wikipedia.org/wiki/Pollinisation" }
-        ];
-
-        for(let g = 0; g < 500; g++) {
-            themesGeneraux.forEach(th => {
-                generated.push({
-                    q: `${th.q} (Réf #${g+1})`,
-                    correct: th.correct,
-                    wrongs: th.wrongs,
-                    wiki: th.wiki,
-                    difficulty: th.diff
-                });
-            });
-        }
-
-        return generated;
-    }
 
     function getCurrentRank() {
         const currentScore = Math.max(0, score);
@@ -695,8 +731,6 @@
     }
 
     function loadUserData() {
-        quizData = generateMassiveQuestionDatabase();
-
         if (localStorage.getItem('jardin_score')) score = parseInt(localStorage.getItem('jardin_score'));
         if (localStorage.getItem('jardin_q')) currentQ = parseInt(localStorage.getItem('jardin_q'));
         if (localStorage.getItem('jardin_pseudo')) document.getElementById("username-input").value = localStorage.getItem('jardin_pseudo');
@@ -779,8 +813,8 @@
     function checkTrophies() {
         if (score >= 10) unlockTrophy("t1");
         if (score >= 100) unlockTrophy("t2");
-        if (currentQ >= 20) unlockTrophy("t6");
-        if (score >= 500) unlockTrophy("t7");
+        if (currentQ >= 10) unlockTrophy("t6");
+        if (score >= 250) unlockTrophy("t7");
     }
 
     function updateRankProgress() {
@@ -891,7 +925,7 @@
             if (consecutiveErrors >= 3) unlockTrophy("t4");
         }
 
-        explanationText.innerText = `La bonne réponse était : "${q.correct}".`;
+        explanationText.innerText = q.exp;
         explanationBox.style.display = "block";
 
         const wikiBtn = document.getElementById("wiki-btn");
@@ -914,7 +948,7 @@
 
     function shareScore() {
         const pseudo = document.getElementById("username-input").value || "Un jardinier";
-        const text = `${pseudo} a atteint ${score} points sur Jardin Quiz 🌿 (${quizData.length}+ questions disponibles) !`;
+        const text = `${pseudo} a atteint ${score} points sur Jardin Quiz 🌿 !`;
         if (navigator.share) {
             navigator.share({ title: 'Jardin Quiz', text: text, url: window.location.href }).catch(() => {});
         } else {
