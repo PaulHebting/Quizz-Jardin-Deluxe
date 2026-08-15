@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quiz Jardinier - 500 Questions Pro 🌿</title>
+    <title>Quiz Jardinier - Expert Pro 🌿</title>
     <style>
         * {
             box-sizing: border-box;
@@ -632,8 +632,8 @@
 </div>
 
 <script>
-    // Liste de questions variées axées sur le jardinage, les parasites, les maladies et les techniques
-    const baseTopics = [
+    // Base complète de questions variées et uniques (sans numéros parasites ni doublons)
+    const uniqueQuizPool = [
         { q: "Quel engrais faut-il donner au gazon au printemps ?", correct: "De l'azote pour l'aider à pousser", wrongs: ["Du sable pur et sec", "De la cendre de bois tamisée", "Du gros sel de cuisine"], exp: "L'azote stimule la pousse et donne une belle couleur verte au gazon.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
         { q: "Quelle hauteur faut-il garder pour tondre sa pelouse en été ?", correct: "Entre 6 et 8 cm pour garder l'humidité", wrongs: ["À ras (2 cm maximum)", "Ne plus jamais y toucher", "Exactement 3 cm de haut"], exp: "Une herbe plus haute protège les racines du soleil et évite qu'elle ne sèche.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
         { q: "Comment se débarrasser de la mousse sur une pelouse à l'ombre ?", correct: "En scarifiant et en aérant le sol", wrongs: ["En étalant de l'huile de vidange", "En tondant en marche arrière", "En arrosant avec de l'eau savonneuse"], exp: "La mousse aime les sols lourds et humides qui manquent d'air.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" },
@@ -653,88 +653,23 @@
         { q: "Comment appelle-t-on un arbre fruitier qu'on fait pousser à plat contre un mur ?", correct: "Un espalier", wrongs: ["Un bonsaï géant de terrasse", "Un arbrisseau rampant sauvage", "Une haie défensive taillée"], exp: "Cela prend peu de place et prend beaucoup de soleil.", wiki: "https://fr.wikipedia.org/wiki/Espalier" },
         { q: "À quelle fréquence tailler une haie de charmille ?", correct: "Deux fois par an (printemps et fin d'été)", wrongs: ["Tous les dix ans sans exception", "Une fois par siècle lors des grands travaux", "Tous les matins à l'aube"], exp: "Le charme supporte très bien deux tailles pour rester bien dense.", wiki: "https://fr.wikipedia.org/wiki/Carpinus_betulus" },
         { q: "Quel outil utiliser pour couper des branches hautes sans monter sur une échelle ?", correct: "Un échenilloir sur perche", wrongs: ["Un petit couteau de poche pliant", "Une tondeuse à gazon poussée", "Une pioche de terrassier"], exp: "Cet outil permet de couper en hauteur tout en gardant les pieds au sol.", wiki: "https://fr.wikipedia.org/wiki/%C3%89chenilloir" },
-        { q: "Quel sol préfèrent la majorité des plantes du jardin ?", correct: "Une terre riche, souple et bien drainée", wrongs: ["Un bloc de béton armé coulé", "De l'eau de mer salée en permanence", "De la pierre ponce totalement sèche"], exp: "La terre idéale retient un peu d'eau tout en laissant respirer les racines.", wiki: "https://fr.wikipedia.org/wiki/Sol_(p%C3%A9dologie)" }
+        { q: "Quel sol préfèrent la majorité des plantes du jardin ?", correct: "Une terre riche, souple et bien drainée", wrongs: ["Un bloc de béton armé coulé", "De l'eau de mer salée en permanence", "De la pierre ponce totalement sèche"], exp: "La terre idéale retient un peu d'eau tout en laissant respirer les racines.", wiki: "https://fr.wikipedia.org/wiki/Sol_(p%C3%A9dologie)" },
+        { q: "Comment lutter naturellement contre les pucerons noirs sur les fèves ?", correct: "Introduire des larves de coccinelles ou pulvériser du savon noir", wrongs: ["Verser de l'eau de Javel pure sur les feuilles", "Déterrer complètement les plants de fèves", "Installer un épouvantail clignotant"], exp: "Le savon noir étouffe les pucerons et les coccinelles en sont de redoutables prédatrices naturelles.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" },
+        { q: "Quelle maladie du potager se caractérise par un feutrage blanc sur les feuilles de courgettes ?", correct: "L'oïdium (ou maladie du blanc)", wrongs: ["La pourriture sèche des racines", "La galle dorée du feuillage", "La nécrose fulgurante d'été"], exp: "L'oïdium est un champignon favorisé par l'alternance de temps humide et chaud.", wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium" },
+        { q: "Quel ravageur creuse des tunnels souterrains et soulève la pelouse en faisant des taupinières ?", correct: "La taupe européenne", wrongs: ["Le ver de terre lombric", "Le hanneton commun", "Le scarabée rhinocéros"], exp: "La taupe est insectivore et se nourrit principalement de vers de terre et de larves.", wiki: "https://fr.wikipedia.org/wiki/Taupe" },
+        { q: "Que faire pour contrer une attaque de doryphores sur les pieds de pommes de terre ?", correct: "Ramasser les adultes et les larves à la main régulièrement", wrongs: ["Laisser pousser des orties géantes à côté", "Passer un coup de rouleau compresseur", "Arroser les tubercules avec du lait caillé"], exp: "Le ramassage manuel reste l'une des méthodes les plus efficaces dans un petit jardin potager.", wiki: "https://fr.wikipedia.org/wiki/Doryphore" },
+        { q: "Quel insecte volant pond des larves qui dévorent les racines du gazon en profondeur ?", correct: "La tipule ou le hanneton", wrongs: ["L'abeille domestique solitaire", "La coccinelle à sept points", "Le papillon machaon"], exp: "Leurs larves vivent sous terre et coupent les racines, provoquant des plaques jaunes sur la pelouse.", wiki: "https://fr.wikipedia.org/wiki/Tipula" },
+        { q: "Quelle solution biologique protège efficacement les choux contre la piéride du chou ?", correct: "Installer un filet de protection anti-insectes", wrongs: ["Mettre de la lumière LED bleue la nuit", "Paisser le sol avec du gravier rose", "Mélanger du sucre glace à la terre"], exp: "Le filet empêche simplement le papillon de venir pondre ses œufs sur les feuilles.", wiki: "https://fr.wikipedia.org/wiki/Pi%C3%A9ride_du_chou" },
+        { q: "Comment identifier une attaque de cochenilles farineuses sur une plante d'intérieur ou de serre ?", correct: "Présence d'amas cotonneux blancs sur les tiges", wrongs: ["Les feuilles deviennent entièrement transparentes", "La plante se met à émettre un sifflement", "Les racines sortent du pot en courant"], exp: "Ces petits insectes suceurs s'entourent d'une protection cireuse semblable à du coton.", wiki: "https://fr.wikipedia.org/wiki/Coccoidea" },
+        { q: "Quelle est la cause principale du mildiou sur les tomates en été ?", correct: "Un champignon microscopique favorisé par l'humidité et la pluie sur le feuillage", wrongs: ["Un excès flagrant d'engrais azoté minéral", "Une exposition trop intense en plein soleil direct", "Une attaque massive de guêpes solitaires"], exp: "L'eau stagnante sur les feuilles combinée à la chaleur active les spores du mildiou.", wiki: "https://fr.wikipedia.org/wiki/Mildiou_de_la_tomate" },
+        { q: "Quelle méthode simple permet d'éloigner les limaces des salades sans produit chimique ?", correct: "Installer des barrières de cendre, de coquilles d'œufs ou un piège à bière", wrongs: ["Verser du jus de citron pur sur chaque feuille", "Laisser un ventilateur tourner toute la nuit", "Mettre des confettis multicolores"], exp: "Les limaces fuient les matières sèches piquantes qui leur collent à la peau.", wiki: "https://fr.wikipedia.org/wiki/Limace" },
+        { q: "Qu'est-ce que la rouille du poireau ?", correct: "Une maladie fongique provoquant des pustules orangées sur les feuilles", wrongs: ["Une oxydation du sol causée par de vieux clous", "Un manque chronique d'eau en profondeur", "Une attaque de petits rongeurs nocturnes"], exp: "La rouille se développe par temps humide et doux, affaiblissant la plante.", wiki: "https://fr.wikipedia.org/wiki/Rouille_(maladie)" },
+        { q: "Comment se comporter face aux altises qui criblent de petits trous les feuilles des radis ?", correct: "Bassiner régulièrement le feuillage car elles détestent l'humidité", wrongs: ["Sortir un aspirateur de chantier", "Tailler toutes les racines à ras", "Arracher toute la terre du potager"], exp: "Les altises adorent la sécheresse et fuient les arrosages fréquents sur les feuilles.", wiki: "https://fr.wikipedia.org/wiki/Altise" },
+        { q: "Quel ravageur dévore spécifiquement les feuilles des buis en les squelettant ?", correct: "La pyrale du buis", wrongs: ["Le lombric géant", "La coccinelle asiatique", "Le ver gris du melon"], exp: "Ses chenilles vertes et brunes peuvent décimer une haie de buis en très peu de temps.", wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis" },
+        { q: "Qu'appelle-t-on la fumagine au jardin ?", correct: "Une suie noire inesthétique qui se développe sur le miellat des pucerons", wrongs: ["De la cendre de cheminée volatilisée par le vent", "Un champignon qui brûle les racines de l'intérieur", "Une terre polluée par la fumée de barbecue"], exp: "La fumagine se nourrit du miellat sucré sécrété par les pucerons ou cochenilles.", wiki: "https://fr.wikipedia.org/wiki/Fumagine" }
     ];
 
-    // Génération de questions diversifiées (parasites, maladies, techniques, aménagements) avec des fausses réponses variées et contextuelles
-    const pestQuestionsData = [
-        {
-            q: "Comment lutter naturellement contre les pucerons noirs sur les fèves ?",
-            correct: "Introduire des larves de coccinelles ou pulvériser du savon noir",
-            wrongs: ["Verser de l'eau de Javel pure sur les feuilles", "Déterrer complètement les plants de fèves", "Installer un épouvantail clignotant"],
-            exp: "Le savon noir étouffe les pucerons et les coccinelles en sont de redoutables prédatrices naturelles.",
-            wiki: "https://fr.wikipedia.org/wiki/Aphidoidea"
-        },
-        {
-            q: "Quelle maladie du potager se caractérise par un feutrage blanc sur les feuilles de courgettes ?",
-            correct: "L'oïdium (ou maladie du blanc)",
-            wrongs: ["La pourriture sèche des racines", "La galle dorée du feuillage", "La nécrose fulgurante d'été"],
-            exp: "L'oïdium est un champignon favorisé par l'alternance de temps humide et chaud.",
-            wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
-        },
-        {
-            q: "Quel ravageur creuse des tunnels souterrains et soulève la pelouse en faisant des taupinières ?",
-            correct: "La taupe européenne",
-            wrongs: ["Le ver de terre lombric", "Le hanneton commun", "Le scarabée rhinocéros"],
-            exp: "La taupe est insectivore et se nourrit principalement de vers de terre et de larves.",
-            wiki: "https://fr.wikipedia.org/wiki/Taupe"
-        },
-        {
-            q: "Que faire pour contrer une attaque de doryphores sur les pieds de pommes de terre ?",
-            correct: "Ramasser les adultes et les larves à la main régulièrement",
-            wrongs: ["Laisser pousser des orties géantes à côté", "Passer un coup de rouleau compresseur", "Arroser les tubercules avec du lait caillé"],
-            exp: "Le ramassage manuel reste l'une des méthodes les plus efficaces dans un petit jardin potager.",
-            wiki: "https://fr.wikipedia.org/wiki/Doryphore"
-        },
-        {
-            q: "Quel insecte volant pond des larves qui dévorent les racines du gazon en profondeur ?",
-            correct: "La tipule ou le hanneton",
-            wrongs: ["L'abeille domestique solitaire", "La coccinelle à sept points", "Le papillon machaon"],
-            exp: "Leurs larves vivent sous terre et coupent les racines, provoquant des plaques jaunes sur la pelouse.",
-            wiki: "https://fr.wikipedia.org/wiki/Tipula"
-        },
-        {
-            q: "Quelle solution biologique protège efficacement les choux contre la piéride du chou ?",
-            correct: "Installer un filet de protection anti-insectes",
-            wrongs: ["Mettre de la lumière LED bleue la nuit", "Paisser le sol avec du gravier rose", "Mélanger du sucre glace à la terre"],
-            exp: "Le filet empêche simplement le papillon de venir pondre ses œufs sur les feuilles.",
-            wiki: "https://fr.wikipedia.org/wiki/Pi%C3%A9ride_du_chou"
-        },
-        {
-            q: "Comment identifier une attaque de cochenilles farineuses sur une plante d'intérieur ou de serre ?",
-            correct: "Présence d'amas cotonneux blancs sur les tiges",
-            wrongs: ["Les feuilles deviennent entièrement transparentes", "La plante se met à émettre un sifflement", "Les racines sortent du pot en courant"],
-            exp: "Ces petits insectes suceurs s'entourent d'une protection cireuse semblable à du coton.",
-            wiki: "https://fr.wikipedia.org/wiki/Coccoidea"
-        },
-        {
-            q: "Quelle est la cause principale du mildiou sur les tomates en été ?",
-            correct: "Un champignon microscopique favorisé par l'humidité et la pluie sur le feuillage",
-            wrongs: ["Un excès flagrant d'engrais azoté minéral", "Une exposition trop intense en plein soleil direct", "Une attaque massive de guêpes solitaires"],
-            exp: "L'eau stagnante sur les feuilles combinée à la chaleur active les spores du mildiou.",
-            wiki: "https://fr.wikipedia.org/wiki/Mildiou_de_la_tomate"
-        }
-    ];
-
-    // Fusionner les thématiques pour enrichir la base globale
-    let fullQuizPool = [...baseTopics, ...pestQuestionsData];
-
-    while(fullQuizPool.length < 500) {
-        let index = fullQuizPool.length + 1;
-        fullQuizPool.push({
-            q: `Quelle est la meilleure approche préventive face aux parasites et maladies courantes au jardin (numéro ${index}) ?`,
-            correct: `Favoriser la biodiversité et surveiller régulièrement l'état sanitaire du feuillage`,
-            wrongs: [
-                `Traiter chimiquement de manière systématique chaque semaine`,
-                `Ne rien faire et laisser la nature détruire toutes les cultures`,
-                `Isoler les plantes dans une pièce sombre sans air`
-            ],
-            exp: `La prévention repose sur l'observation, la rotation des cultures et l'accueil des auxiliaires naturels.`,
-            wiki: "https://fr.wikipedia.org/wiki/Protection_des_cultures"
-        });
-    }
-
-    let quizData = shuffleArray([...fullQuizPool]);
+    let quizData = shuffleArray([...uniqueQuizPool]);
     let score = 0;
     let currentQuestionIndex = 0;
     let currentQuestionObj = null;
@@ -943,7 +878,7 @@
     function loadNextQuestion() {
         if (currentQuestionIndex >= quizData.length) {
             currentQuestionIndex = 0;
-            quizData = shuffleArray([...fullQuizPool]);
+            quizData = shuffleArray([...uniqueQuizPool]);
         }
 
         currentQuestionObj = quizData[currentQuestionIndex];
