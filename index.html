@@ -415,7 +415,7 @@
         <div class="quiz-box">
             <div class="quiz-header-info">
                 <div class="question-title">❓ QUESTION</div>
-                <div class="question-number" id="q-num">1 / 500</div>
+                <div class="question-number" id="q-num">1 / 30</div>
             </div>
             <div class="question-text" id="question">Chargement...</div>
         </div>
@@ -436,7 +436,7 @@
 </div>
 
 <script>
-    // Large base de thématiques professionnelles variées (sans doublons artificiels)
+    // 30 thématiques professionnelles riches, variées et sans doublons
     const clientTopics = [
         { q: "Pourquoi mon gazon jaunit-il par plaques en plein été ?", p1: "Manque d'arrosage ou attaque de larves de hannetons", p2: "Excès de gel en hiver", p3: "Trop d'ombre portée par les nuages", p4: "Carence en plastique du sol", e: "Un jaunissement estival est souvent lié au stress hydrique ou aux ravageurs souterrains.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
         { q: "Quand dois-je tailler mon pommier pour avoir de beaux fruits ?", p1: "En hiver (hors période de gel fort), de novembre à février", p2: "En plein été au moment de la canicule", p3: "Au printemps quand les fruits sont déjà formés", p4: "Tous les 10 ans sans couper les branches", e: "La taille se fait en période de repos végétatif pour stimuler la fructification.", wiki: "https://fr.wikipedia.org/wiki/Pommier" },
@@ -452,23 +452,23 @@
         { q: "Quelle est la meilleure période pour planter un arbre en conteneur ?", p1: "En automne ou au début du printemps", p2: "En plein mois d'août sous canicule", p3: "Pendant une tempête de neige", p4: "Uniquement la nuit de la pleine lune", e: "L'automne permet aux racines de s'installer avant l'hiver.", wiki: "https://fr.wikipedia.org/wiki/Plantation" },
         { q: "Comment entretenir des lavandes après leur floraison ?", p1: "Tailler les tiges florales fanées en boule légère sans couper le vieux bois", p2: "Les arracher complètement chaque année", p3: "Les arroser abondamment tous les soirs", p4: "Les couvrir d'une bâche plastique opaque", e: "Une taille légère évite que le pied ne se dégarnisse de la base.", wiki: "https://fr.wikipedia.org/wiki/Lavande" },
         { q: "Pourquoi les feuilles de mes tomates jaunissent-elles par le bas ?", p1: "Souvent un signe de carence ou de mildiou débutant", p2: "Parce qu'elles regardent le soleil trop fixement", p3: "C'est une obligation naturelle de la plante", p4: "À cause du vent du nord", e: "Le bas du plant est le plus exposé aux éclaboussures de terre porteuses de spores.", wiki: "https://fr.wikipedia.org/wiki/Tomate" },
-        { q: "Quel est l'intérêt d'associer des œillets d'Inde au potager ?", p1: "Leurs racines sécrètent une substance répulsive contre les nématodes", p2: "Ils attirent un maximum de taupes", p3: "Ils augmentent l'acidité de l'air ambiant", p4: "Ils empêchent complètement les tomates de grandir", e: "C'est une excellente plante compagne pour la protection biologique intégrée.", wiki: "https://fr.wikipedia.org/wiki/Œillet_d'Inde" }
+        { q: "Quel est l'intérêt d'associer des œillets d'Inde au potager ?", p1: "Leurs racines sécrètent une substance répulsive contre les nématodes", p2: "Ils attirent un maximum de taupes", p3: "Ils augmentent l'acidité de l'air ambiant", p4: "Ils empêchent complètement les tomates de grandir", e: "C'est une excellente plante compagne pour la protection biologique intégrée.", wiki: "https://fr.wikipedia.org/wiki/Œillet_d'Inde" },
+        { q: "Comment réussir la taille des rosiers buissons remontants ?", p1: "Couper à 3-5 yeux au-dessus du point de greffe en fin d'hiver", p2: "Les couper au ras du sol à l'automne", p3: "Ne jamais couper une seule branche sous peine de mort", p4: "Tailler uniquement les racines en surface", e: "La taille de fin d'hiver stimule l'apparition de nouvelles branches florifères.", wiki: "https://fr.wikipedia.org/wiki/Rosier" },
+        { q: "Qu'appelle-t-on le 'mildiou' sur les pommes de terre et tomates ?", p1: "Une maladie cryptogamique favorisée par l'humidité et la douceur", p2: "Une invasion de petits coléoptères dorés", p3: "Un manque flagrant de soleil direct", p4: "Une mutation génétique inoffensive", e: "Le mildiou est un champignon microscopique redoutable en cas de temps pluvieux.", wiki: "https://fr.wikipedia.org/wiki/Mildiou" },
+        { q: "À quoi sert un engrais vert comme la phacélie ou la moutarde ?", p1: "À structurer le sol, piéger les nitrates et nourrir la microfaune", p2: "À colorer le jardin en violet fluo toute l'année", p3: "À chasser définitivement tous les oiseaux du ciel", p4: "À rendre la terre complètement stérile", e: "Les engrais verts protègent et améliorent la terre avant d'être enfouis.", wiki: "https://fr.wikipedia.org/wiki/Engrais_vert" },
+        { q: "Quelle est la règle d'or pour tondre sa pelouse en période de forte chaleur ?", p1: "Tondre haut (ne pas couper plus d'un tiers de la hauteur) pour garder l'humidité", p2: "Tondre à raz le plus court possible pour la rafraîchir", p3: "Ne plus jamais tondre pendant 6 mois", p4: "Tondre uniquement la nuit en courant", e: "Une herbe plus haute protège le sol du dessèchement et du soleil brûlant.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
+        { q: "Comment éliminer efficacement les liserons envahissants ?", p1: "Arracher inlassablement chaque rejet pour épuiser les racines traçantes", p2: "Mettre de l'eau bouillante salée sur les fleurs", p3: "Mettre un panneau solaire par-dessus", p4: "Attendre qu'ils meurent de vieillesse", e: "Le liseron possède des racines profondes et vigoureuses qu'il faut épuiser patiemment.", wiki: "https://fr.wikipedia.org/wiki/Liseron" },
+        { q: "Quel est l'avantage d'un système d'arrosage goutte-à-goutte au potager ?", p1: "Apporter l'eau directement au pied des plantes sans mouiller le feuillage", p2: "Inonder tout le jardin pour créer un lagon", p3: "Faire évaporer l'eau plus vite grâce au soleil", p4: "Consommer dix fois plus d'eau qu'un tuyau classique", e: "Le goutte-à-goutte réduit l'évaporation et limite le développement des maladies.", wiki: "https://fr.wikipedia.org/wiki/Goutte-à-goutte_(irrigation)" },
+        { q: "Comment bien entretenir un sol argileux trop lourd et collant ?", p1: "Y incorporer du sable grossier et du compost pour l'alléger", p2: "Y verser de l'huile moteur pour le rendre glissant", p3: "Le compacter au rouleau lourd en permanence", p4: "Ne rien faire car il est parfait tel quel", e: "L'apport de matière organique et de drainage assouplit la terre argileuse.", wiki: "https://fr.wikipedia.org/wiki/Argile" },
+        { q: "Pourquoi dit-on qu'il ne faut pas tailler les arbustes persistant en plein gel ?", p1: "Car les coupes gèlent et fragilisent les tissus végétaux", p2: "Parce que le sécateur risque de casser net", p3: "Parce que les oiseaux dorment sur les branches", p4: "Pour ne pas réveiller les taupes endormies", e: "Le gel endommage les cellules exposées au niveau de la plaie de taille.", wiki: "https://fr.wikipedia.org/wiki/Taille" },
+        { q: "Qu'est-ce que le 'chicot' lors de la taille d'un arbre ?", p1: "Un bout de branche mort ou inutile laissé après une mauvaise coupe", p2: "Une variété naine de pommier miniature", p3: "Un outil de coupe forgé en acier trempé", p4: "Une maladie incurable du tronc", e: "Un chicot ne cicatrise pas bien et favorise l'entrée des parasites et champignons.", wiki: "https://fr.wikipedia.org/wiki/Arbre" },
+        { q: "Comment identifier une carence en azote sur un feuillage ?", p1: "Les feuilles jaunissent uniformément, en commençant par les plus anciennes", p2: "Les feuilles deviennent entièrement bleues", p3: "La plante se met à briller dans la nuit", p4: "Les tiges se transforment en bois dur", e: "L'azote est mobile dans la plante et se déplace vers les jeunes pousses en cas de manque.", wiki: "https://fr.wikipedia.org/wiki/Azote" },
+        { q: "Quel est le principal rôle des earthworms (vers de terre) dans un jardin ?", p1: "Aérer le sol et transformer la matière organique en humus fertile", p2: "Grignoter les racines saines des plantations", p3: "Produire du gaz carbonique pour réchauffer la terre", p4: "Transmettre des virus aux légumes du potager", e: "Ce sont les meilleurs alliés du jardinier pour la structure et la fertilité du sol.", wiki: "https://fr.wikipedia.org/wiki/Lombric" },
+        { q: "Quand faut-il diviser les touffes de vivaces (comme les marguerites ou hostas) ?", p1: "Au printemps ou à l'automne lorsque la plante est en repos", p2: "En plein mois de juillet sous un soleil de plomb", p3: "En plein cœur de l'hiver lors des grands froids", p4: "Uniquement tous les dimanches matin", e: "La division red insuffle de la vigueur aux plantes vieillissantes.", wiki: "https://fr.wikipedia.org/wiki/Division_(botanique)" },
+        { q: "Quelle précaution prendre avant de tailler une haie de thuyas ou de cyprès ?", p1: "Vérifier l'absence de nids d'oiseaux cachés dans le feuillage", p2: "Mettre des lunettes de soleil de ski", p3: "Arroser le ciel abondamment", p4: "Mesurer la vitesse du vent avec un cerf-volant", e: "La protection de la faune sauvage est essentielle et réglementée pendant la nidification.", wiki: "https://fr.wikipedia.org/wiki/Haie" },
+        { q: "Pourquoi les fruits de mes courgettes pourrissent-ils avant de grandir ?", p1: "Souvent un problème de pollinisation incomplète ou d'excès d'humidité", p2: "Parce qu'ils ont le vertige en hauteur", p3: "À cause d'un manque total de vent d'ouest", p4: "Parce qu'ils sont plantés trop près du soleil", e: "Sans une bonne pollinisation des fleurs femelles, le fruit avorte et pourrit.", wiki: "https://fr.wikipedia.org/wiki/Courgette" },
+        { q: "Quel est l'intérêt du 'pralinage' des racines avant de planter un arbre nu-racines ?", p1: "Enrober les racines d'un mélange argileux pour stimuler la reprise", p2: "Parfumer l'arbre avec des huiles essentielles", p3: "Empêcher l'eau de pénétrer dans l'écorce", p4: "Colorer les racines en blanc pour les repérer", e: "Le pralinage protège les racines du dessèchement et favorise leur contact avec la terre.", wiki: "https://fr.wikipedia.org/wiki/Pralinage" }
     ];
-
-    let quizData = [];
-
-    // Génération fluide des 500 questions basées sur la rotation des thèmes réels
-    while (quizData.length < 500) {
-        let baseTopic = clientTopics[quizData.length % clientTopics.length];
-        // On duplique proprement l'objet question sans altérer l'original
-        quizData.push({
-            q: baseTopic.q,
-            correct: baseTopic.p1,
-            wrongs: [baseTopic.p2, baseTopic.p3, baseTopic.p4],
-            exp: baseTopic.e,
-            wiki: baseTopic.wiki
-        });
-    }
 
     // --- ALÉATOIRE : Fonction de mélange Fisher-Yates ---
     function shuffleArray(array) {
@@ -480,8 +480,8 @@
         return arr;
     }
 
-    // Mélange complet des 500 questions au lancement
-    quizData = shuffleArray(quizData);
+    // Mélange initial de la liste pour garantir l'anti-répétition en séquence
+    let quizData = shuffleArray([...clientTopics]);
 
     let score = 0;
     let currentQuestionIndex = 0;
@@ -607,9 +607,10 @@
     }
 
     function loadNextQuestion() {
+        // Système Anti-Répétition : Si on arrive à la fin du stock, on mélange à nouveau sans doublons immédiats
         if (currentQuestionIndex >= quizData.length) {
             currentQuestionIndex = 0;
-            quizData = shuffleArray(quizData);
+            quizData = shuffleArray([...clientTopics]);
         }
 
         currentQuestionObj = quizData[currentQuestionIndex];
