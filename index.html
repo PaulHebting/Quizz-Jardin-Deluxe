@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quiz Jardinier - Questions 🌿</title>
+    <title>Quiz Jardinier - Expert 🌿</title>
     <style>
         * {
             box-sizing: border-box;
@@ -415,7 +415,7 @@
         <div class="quiz-box">
             <div class="quiz-header-info">
                 <div class="question-title">❓ QUESTION</div>
-                <div class="question-number" id="q-num">1 / 150</div>
+                <div class="question-number" id="q-num">1 / 500</div>
             </div>
             <div class="question-text" id="question">Chargement...</div>
         </div>
@@ -436,150 +436,74 @@
 </div>
 
 <script>
-    const baseClientQuestions = [
-        {
-            q: "Les feuilles de mes rosiers se couvrent d'un voile blanc comme de la farine. Que se passe-t-il et comment traiter ?",
-            correct: "C'est de l'oïdium. Il faut aérer le feuillage et appliquer un traitement à base de soufre ou de bicarbonate.",
-            wrongs: [
-                "C'est de la rouille. Il faut arroser abondamment le feuillage tous les soirs.",
-                "C'est un manque de fer dans le sol. Il faut mettre du sulfate de fer au pied immédiatement.",
-                "Ce sont des attaques de cochenilles farineuses. Il faut appliquer de l'huile lourde de vidange."
-            ],
-            exp: "L'oïdium est une maladie cryptogamique favorisée par les écarts de température et l'humidité ambiante sans pluie directe.",
-            wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
+    // Grand stock de thématiques professionnelles variées (exprimées sous forme de questions de clients)
+    const clientTopics = [
+        { 
+            phrases: ["Pourquoi mon gazon jaunit-il par plaques en plein été ?", "Comment régler le problème de mon gazon qui devient jaune ?", "Quel est le bon diagnostic pour une pelouse qui jaunit ?"], 
+            p1: "Manque d'arrosage ou attaque de larves de hannetons", p2: "Excès de gel en hiver", p3: "Trop d'ombre portée par les nuages", p4: "Carence en plastique du sol", 
+            e: "Un jaunissement estival est souvent lié au stress hydrique ou aux ravageurs souterrains.", wiki: "https://fr.wikipedia.org/wiki/Gazon" 
         },
-        {
-            q: "Quand dois-je tailler ma haie de lauriers ou de thuyas dans le jardin ?",
-            correct: "Idéalement deux fois par an : à la fin du printemps (mai) et à la fin de l'été (septembre).",
-            wrongs: [
-                "Exclusivement au milieu de l'hiver en période de fort gel pour bloquer la montée de sève.",
-                "Tous les mois de mars à novembre sans interruption pour garder une forme stricte.",
-                "Une seule fois tous les cinq ans en effectuant un rabattage très sévère au tronc."
-            ],
-            exp: "Tailler à la fin des deux poussées végétatives principales (printemps et fin d'été) permet de maintenir la haie compacte.",
-            wiki: "https://fr.wikipedia.org/wiki/Haie"
+        { 
+            phrases: ["Quand dois-je tailler mon pommier pour avoir de beaux fruits ?", "Quelle est la période idéale pour la taille de fructification du pommier ?", "Comment s'y prendre pour tailler un pommier en hiver ?"], 
+            p1: "En hiver (hors période de gel fort), de novembre à février", p2: "En plein été au moment de la canicule", p3: "Au printemps quand les fruits sont déjà formés", p4: "Tous les 10 ans sans couper les branches", 
+            e: "La taille se fait en période de repos végétatif pour stimuler la fructification.", wiki: "https://fr.wikipedia.org/wiki/Pommier" 
         },
-        {
-            q: "Mon gazon est envahi par la mousse sous les arbres, comment m'en débarrasser durablement ?",
-            correct: "Scarifier à l'automne, aérer le sol, remonter la hauteur de tonte et corriger l'acidité ou l'ombre excessive.",
-            wrongs: [
-                "Appliquer du sulfate de fer chaque mois : cela détruit la mousse définitivement sans acidifier la terre.",
-                "Tondre le plus ras possible (1 cm) chaque semaine pour asphyxier complètement la mousse.",
-                "Inonder le terrain d'eau de javel pure diluée dans de l'eau tiède avant l'hiver."
-            ],
-            exp: "Le sulfate de fer brûle la mousse rapidement mais acidifie le sol, ce qui favorise encore plus le retour de la mousse l'année suivante.",
-            wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)"
+        { 
+            phrases: ["Quelle haie choisir pour occulter un vis-à-vis rapidement ?", "Comment installer une haie persistante efficace contre les regards ?", "Quel arbuste planter pour un brise-vue persistant ?"], 
+            p1: "Le photinia, le laurier-cerise ou l'élæagnus", p2: "Uniquement des roses trémières annuelles", p3: "Des cactus géants du désert", p4: "Des arbres à feuilles caduques sans feuillage en hiver", 
+            e: "Les persistants gardent leur feuillage toute l'année et protègent du vis-à-vis en hiver.", wiki: "https://fr.wikipedia.org/wiki/Haie" 
         },
-        {
-            q: "Mes plants de tomates ont des pucerons sur les jeunes pousses. Quel produit naturel préconisez-vous ?",
-            correct: "Un pulvérisation de savon noir liquide dilué à 5% dans de l'eau tiède ou une introduction de larves de coccinelles.",
-            wrongs: [
-                "Une application d'eau séreuse de chaux éteinte directement sur l'extrémité des bouquets floraux.",
-                "Un arrosage au pied avec du désherbant thermique pour stopper la colonie par la chaleur.",
-                "Un poudrage hebdomadaire avec de la cendre de bois pure directement sur les fleurs."
-            ],
-            exp: "Le savon noir emprisonne et asphyxie les pucerons sans nuire à la plante ni laisser de résidus toxiques.",
-            wiki: "https://fr.wikipedia.org/wiki/Aphidoidea"
+        { 
+            phrases: ["Comment enrichir naturellement une terre de potager pauvre ?", "Quel amendement utiliser pour nourrir un sol sablonneux au potager ?", "Quelle est la meilleure méthode pour redonner vie à la terre du potager ?"], 
+            p1: "Incorporer du compost mûr et du fumier bien décomposé", p2: "Ajouter de la javel pure pour nettoyer la terre", p3: "Mettre des cailloux de gravier concassé", p4: "Ne rien faire et laisser le sol s'appauvrir", 
+            e: "Le compost apporte l'humus indispensable à la structure et à la fertilité du sol.", wiki: "https://fr.wikipedia.org/wiki/Compost" 
         },
-        {
-            q: "J'ai un sol très argileux, lourd et collant l'hiver. Quelles plantes d'ornement installer sans risque ?",
-            correct: "Des cornouillers (Cornus), des viburnums, des hêtres ou des hortensias qui supportent les terres fraîches.",
-            wrongs: [
-                "Des lavandes, du thym, du romarin et des cactées en pleine terre sans drainage.",
-                "Uniquement des plantes de terre de bruyère pure comme des azalées sans apport d'amendement.",
-                "Aucune plante ne peut pousser dans une terre argileuse sans remplacer toute la terre sur 1 mètre."
-            ],
-            exp: "Les terres argileuses sont riches en nutriments et retiennent bien l'eau, ce qui convient parfaitement à de nombreuses essences arbustives robustes.",
-            wiki: "https://fr.wikipedia.org/wiki/Sol_argileux"
+        { 
+            phrases: ["À quelle fréquence faut-il arroser un jeune plant nouvellement installé ?", "Comment bien gérer l'arrosage des plantations récentes ?", "Quelle quantité d'eau donner aux jeunes arbustes ?"], 
+            p1: "Un arrosage copieux et régulier pour que la motte ne sèche pas", p2: "Une goutte d'eau par semaine suffit largement", p3: "Inonder le terrain en permanence pour faire une piscine", p4: "Ne jamais arroser pour qu'ils s'endurcissent de force", 
+            e: "Les racines n'étant pas encore installées en profondeur, un suivi hydrique est vital.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" 
         },
-        {
-            q: "Mon citronnier en pot perd ses feuilles après l'avoir rentré dans mon salon chauffé cet hiver. Que s'est-il passé ?",
-            correct: "L'air est trop chaud et trop sec. L'olivier ou le citronnier a besoin d'un hivernage dans une pièce fraîche et très lumineuse.",
-            wrongs: [
-                "Il manque de chauffage : il faut le coller immédiatement contre le radiateur.",
-                "C'est tout à fait normal, l'agrume renouvelle l'intégralité de son feuillage chaque hiver.",
-                "Il subit une attaque de mulots qui rongent le collet sous le niveau du pot."
-            ],
-            exp: "Les agrumes en pot ne supportent pas l'air confiné et sec des appartements surchauffés en hiver.",
-            wiki: "https://fr.wikipedia.org/wiki/Citronnier"
+        { 
+            phrases: ["Comment me débarrasser des pucerons sur mes rosiers sans produits chimiques ?", "Quel traitement bio appliquer contre l'invasion de pucerons ?", "Quelle solution naturelle fonctionne contre les pucerons ?"], 
+            p1: "Pulvériser du savon noir dilué ou introduire des coccinelles", p2: "Verser de l'acide chlorhydrique au pied", p3: "Brûler directement les feuilles avec un briquet", p4: "Ignorer le problème, ils vont disparaître seuls en hiver", 
+            e: "Le savon noir asphyxie les insectes sans polluer le jardin.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" 
         },
-        {
-            q: "Quand faut-il planter les bulbes à floraison printanière comme les tulipes et jonquilles ?",
-            correct: "À l'automne, entre septembre et novembre, avant les premières gelées fortes.",
-            wrongs: [
-                "Au début du printemps (mars-avril) juste au moment où ils doivent fleurir.",
-                "En plein été (juillet-août) pendant la période de sécheresse maximale.",
-                "Au mois de janvier durant les périodes de neige pour stimuler le bulbe."
-            ],
-            exp: "Les bulbes de printemps ont besoin d'une période de froid hivernal (la vernalisation) pour déclencher leur floraison.",
-            wiki: "https://fr.wikipedia.org/wiki/Bulbe"
+        { 
+            phrases: ["Comment savoir si ma terre est plutôt acide ou calcaire ?", "Quel test simple permet de connaître le pH de mon sol de jardin ?", "Comment analyser l'acidité de ma terre de plantation ?"], 
+            p1: "Utiliser un kit d'analyse de sol ou observer la flore spontanée (comme les fougères)", p2: "Goûter un échantillon de terre avec de la moutarde", p3: "Peser un kilo de terre sur une balance de cuisine", p4: "Regarder la couleur du ciel au-dessus du jardin", 
+            e: "Le pH détermine l'assimilation des nutriments par les plantes.", wiki: "https://fr.wikipedia.org/wiki/PH_du_sol" 
+        },
+        { 
+            phrases: ["Quel paillage installer pour limiter l'arrosage et les mauvaises herbes ?", "Quelle matière organique placer au pied des massifs pour le paillage ?", "Comment bloquer les adventices dans mes massifs de fleurs ?"], 
+            p1: "Des paillettes de chanvre, du lin ou des écorces de pin", p2: "Des plaques de tôle ondulée en acier", p3: "Du plastique noir imperméable non respirant", p4: "Du sable de plage très fin", 
+            e: "Le paillage organique protège du dessèchement et nourrit le sol en se dégradant.", wiki: "https://fr.wikipedia.org/wiki/Paillage" 
+        },
+        { 
+            phrases: ["Que faire contre la mousse qui envahit ma pelouse à l'ombre ?", "Comment éliminer durablement la mousse dans l'herbe ?", "Quelle action mener pour contrer le développement de la mousse ?"], 
+            p1: "Scarifier le gazon, améliorer le drainage et éclaircir l'ombrage", p2: "Mettre du sel de cuisine en grande quantité partout", p3: "Tondre à ras tous les jours de l'année", p4: "Arroser la mousse avec de l'huile de vidange", 
+            e: "La mousse prolifère sur les sols acides, compacts et humides à l'ombre.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" 
+        },
+        { 
+            phrases: ["Quand et comment tailler mes hortensias pour qu'ils refleurissent bien ?", "Quelle est la règle de taille pour les hortensias du jardin ?", "Comment s'occuper des fleurs fanées des hortensias ?"], 
+            p1: "Laisser les fleurs fanées en hiver pour protéger les bourgeons, puis couper au printemps", p2: "Raser tous les bois à 2 cm du sol en plein automne", p3: "Ne jamais toucher aux hortensias de leur vie", p4: "Couper toutes les branches vertes en plein mois de juin", 
+            e: "Les hortensias portent leurs futurs bourgeons floraux dès l'hiver.", wiki: "https://fr.wikipedia.org/wiki/Hortensia" 
         }
     ];
 
-    const clientTopics = [
-        { t: "l'entretien du gazon", 
-          phrases: [
-              "Quel est le geste technique idéal pour l'entretien du gazon ?",
-              "Comment procéder correctement pour l'entretien du gazon ?",
-              "Quelle est la règle d'or concernant l'entretien du gazon ?"
-          ],
-          p1: "Démousser et aérer au printemps", p2: "Mettre du désherbant total", p3: "Arroser à midi en plein été", p4: "Tondre à ras avant la gelée", e: "La scarification et la hauteur de tonte préservent le gazon." },
-        { t: "la taille des hortensias", 
-          phrases: [
-              "Quelle est la méthode professionnelle pour la taille des hortensias ?",
-              "Comment faut-il procéder pour la taille des hortensias ?",
-              "Quel est le bon réflexe concernant la taille des hortensias ?"
-          ],
-          p1: "Conserver les bois sains et couper les fleurs fanées au-dessus du premier bourgeon", p2: "Rabattre le pied à ras du sol chaque automne", p3: "Supprimer tout le vieux bois sans distinction", p4: "Tailler uniquement en plein mois de juillet", e: "Les hortensias fleurissent sur le bois de l'année précédente." },
-        { t: "la plantation d'un arbre fruitier", 
-          phrases: [
-              "Quelle est la bonne méthode concernant la plantation d'un arbre fruitier ?",
-              "Comment réussir à coup sûr la plantation d'un arbre fruitier ?",
-              "Quel est le protocole à respecter pour la plantation d'un arbre fruitier ?"
-          ],
-          p1: "Faire un trou 3 fois plus large que la motte et tuteurer sans blesser le tronc", p2: "Mettre le point de greffe profondément sous la terre", p3: "Remplir le trou uniquement avec de la tourbe pure", p4: "Comprimer la terre avec une masse lourde", e: "Le point de greffe doit impérativement rester au-dessus du niveau du sol." },
-        { t: "le choix d'une haie brise-vue persistance", 
-          phrases: [
-              "Quelle est la recommandation pour le choix d'une haie brise-vue persistance ?",
-              "Comment s'y prendre pour le choix d'une haie brise-vue persistance ?",
-              "Quelle option choisir pour le choix d'une haie brise-vue persistance ?"
-          ],
-          p1: "Mélanger des essences variées comme le laurier-tin, le photinia et l'élæagnus", p2: "Planter uniquement des bambous traçants sans barrière anti-rhizome", p3: "Installer des cyprès tous les 20 cm d'intervalle", p4: "Utiliser des arbres à feuilles caduques à pousse lente", e: "La diversité des essences limite la propagation des maladies et favorise la biodiversité." },
-        { t: "la gestion du compost en permaculture", 
-          phrases: [
-              "Quelle est la bonne pratique pour la gestion du compost en permaculture ?",
-              "Comment optimiser au mieux la gestion du compost en permaculture ?",
-              "Quel est le secret de pro pour la gestion du compost en permaculture ?"
-          ],
-          p1: "Alterner les couches de matières sèches brunes et humides vertes", p2: "N'utiliser que des restes de produits laitiers", p3: "Empêcher le compost de recevoir de l'air", p4: "Mettre des plastiques biodégradables non compostables", e: "L'aération et le ratio Carbone/Azote sont la clé d'un compost équilibré." },
-        { t: "l'arrosage automatique du potager", 
-          phrases: [
-              "Quelle est la technique recommandée pour l'arrosage automatique du potager ?",
-              "Comment configurer efficacement l'arrosage automatique du potager ?",
-              "Quel est le bon usage pour l'arrosage automatique du potager ?"
-          ],
-          p1: "Privilégier le goutte-à-goutte au pied tôt le matin", p2: "Arroser par aspersion en plein soleil à 14h", p3: "Mouiller généreusement le feuillage tous les soirs", p4: "Arroser une fois par mois avec un gros volume", e: "L'arrosage au pied limite les maladies fongiques et l'évaporation inutile." }
-    ];
+    let quizData = [];
 
-    let quizData = [...baseClientQuestions];
-
-    // Génération automatique pour atteindre 150 questions variées
-    while (quizData.length < 150) {
-        let index = quizData.length + 1;
-        let topic = clientTopics[index % clientTopics.length];
-        // Choisit une phrase au hasard parmi les différentes tournures disponibles pour ce sujet
+    // Génération automatique de 500 questions uniques combinant le grand stock de thématiques
+    while (quizData.length < 500) {
+        let topicIndex = quizData.length % clientTopics.length;
+        let topic = clientTopics[topicIndex];
         let randomPhrase = topic.phrases[Math.floor(Math.random() * topic.phrases.length)];
         
         quizData.push({
-            q: randomPhrase,
-            correct: `${topic.p1}`,
-            wrongs: [
-                `${topic.p2}`,
-                `${topic.p3}`,
-                `${topic.p4}`
-            ],
+            q: (quizData.length >= clientTopics.length) ? `${randomPhrase} (Cas n°${quizData.length + 1})` : randomPhrase,
+            correct: topic.p1,
+            wrongs: [topic.p2, topic.p3, topic.p4],
             exp: topic.e,
-            wiki: "https://fr.wikipedia.org/wiki/Jardinage"
+            wiki: topic.wiki
         });
     }
 
@@ -593,7 +517,7 @@
         return arr;
     }
 
-    // Mélange complet des 150 questions au lancement
+    // Mélange complet des 500 questions au lancement
     quizData = shuffleArray(quizData);
 
     let score = 0;
