@@ -436,74 +436,37 @@
 </div>
 
 <script>
-    // Grand stock de thématiques professionnelles variées (exprimées sous forme de questions de clients)
+    // Large base de thématiques professionnelles variées (sans doublons artificiels)
     const clientTopics = [
-        { 
-            phrases: ["Pourquoi mon gazon jaunit-il par plaques en plein été ?", "Comment régler le problème de mon gazon qui devient jaune ?", "Quel est le bon diagnostic pour une pelouse qui jaunit ?"], 
-            p1: "Manque d'arrosage ou attaque de larves de hannetons", p2: "Excès de gel en hiver", p3: "Trop d'ombre portée par les nuages", p4: "Carence en plastique du sol", 
-            e: "Un jaunissement estival est souvent lié au stress hydrique ou aux ravageurs souterrains.", wiki: "https://fr.wikipedia.org/wiki/Gazon" 
-        },
-        { 
-            phrases: ["Quand dois-je tailler mon pommier pour avoir de beaux fruits ?", "Quelle est la période idéale pour la taille de fructification du pommier ?", "Comment s'y prendre pour tailler un pommier en hiver ?"], 
-            p1: "En hiver (hors période de gel fort), de novembre à février", p2: "En plein été au moment de la canicule", p3: "Au printemps quand les fruits sont déjà formés", p4: "Tous les 10 ans sans couper les branches", 
-            e: "La taille se fait en période de repos végétatif pour stimuler la fructification.", wiki: "https://fr.wikipedia.org/wiki/Pommier" 
-        },
-        { 
-            phrases: ["Quelle haie choisir pour occulter un vis-à-vis rapidement ?", "Comment installer une haie persistante efficace contre les regards ?", "Quel arbuste planter pour un brise-vue persistant ?"], 
-            p1: "Le photinia, le laurier-cerise ou l'élæagnus", p2: "Uniquement des roses trémières annuelles", p3: "Des cactus géants du désert", p4: "Des arbres à feuilles caduques sans feuillage en hiver", 
-            e: "Les persistants gardent leur feuillage toute l'année et protègent du vis-à-vis en hiver.", wiki: "https://fr.wikipedia.org/wiki/Haie" 
-        },
-        { 
-            phrases: ["Comment enrichir naturellement une terre de potager pauvre ?", "Quel amendement utiliser pour nourrir un sol sablonneux au potager ?", "Quelle est la meilleure méthode pour redonner vie à la terre du potager ?"], 
-            p1: "Incorporer du compost mûr et du fumier bien décomposé", p2: "Ajouter de la javel pure pour nettoyer la terre", p3: "Mettre des cailloux de gravier concassé", p4: "Ne rien faire et laisser le sol s'appauvrir", 
-            e: "Le compost apporte l'humus indispensable à la structure et à la fertilité du sol.", wiki: "https://fr.wikipedia.org/wiki/Compost" 
-        },
-        { 
-            phrases: ["À quelle fréquence faut-il arroser un jeune plant nouvellement installé ?", "Comment bien gérer l'arrosage des plantations récentes ?", "Quelle quantité d'eau donner aux jeunes arbustes ?"], 
-            p1: "Un arrosage copieux et régulier pour que la motte ne sèche pas", p2: "Une goutte d'eau par semaine suffit largement", p3: "Inonder le terrain en permanence pour faire une piscine", p4: "Ne jamais arroser pour qu'ils s'endurcissent de force", 
-            e: "Les racines n'étant pas encore installées en profondeur, un suivi hydrique est vital.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" 
-        },
-        { 
-            phrases: ["Comment me débarrasser des pucerons sur mes rosiers sans produits chimiques ?", "Quel traitement bio appliquer contre l'invasion de pucerons ?", "Quelle solution naturelle fonctionne contre les pucerons ?"], 
-            p1: "Pulvériser du savon noir dilué ou introduire des coccinelles", p2: "Verser de l'acide chlorhydrique au pied", p3: "Brûler directement les feuilles avec un briquet", p4: "Ignorer le problème, ils vont disparaître seuls en hiver", 
-            e: "Le savon noir asphyxie les insectes sans polluer le jardin.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" 
-        },
-        { 
-            phrases: ["Comment savoir si ma terre est plutôt acide ou calcaire ?", "Quel test simple permet de connaître le pH de mon sol de jardin ?", "Comment analyser l'acidité de ma terre de plantation ?"], 
-            p1: "Utiliser un kit d'analyse de sol ou observer la flore spontanée (comme les fougères)", p2: "Goûter un échantillon de terre avec de la moutarde", p3: "Peser un kilo de terre sur une balance de cuisine", p4: "Regarder la couleur du ciel au-dessus du jardin", 
-            e: "Le pH détermine l'assimilation des nutriments par les plantes.", wiki: "https://fr.wikipedia.org/wiki/PH_du_sol" 
-        },
-        { 
-            phrases: ["Quel paillage installer pour limiter l'arrosage et les mauvaises herbes ?", "Quelle matière organique placer au pied des massifs pour le paillage ?", "Comment bloquer les adventices dans mes massifs de fleurs ?"], 
-            p1: "Des paillettes de chanvre, du lin ou des écorces de pin", p2: "Des plaques de tôle ondulée en acier", p3: "Du plastique noir imperméable non respirant", p4: "Du sable de plage très fin", 
-            e: "Le paillage organique protège du dessèchement et nourrit le sol en se dégradant.", wiki: "https://fr.wikipedia.org/wiki/Paillage" 
-        },
-        { 
-            phrases: ["Que faire contre la mousse qui envahit ma pelouse à l'ombre ?", "Comment éliminer durablement la mousse dans l'herbe ?", "Quelle action mener pour contrer le développement de la mousse ?"], 
-            p1: "Scarifier le gazon, améliorer le drainage et éclaircir l'ombrage", p2: "Mettre du sel de cuisine en grande quantité partout", p3: "Tondre à ras tous les jours de l'année", p4: "Arroser la mousse avec de l'huile de vidange", 
-            e: "La mousse prolifère sur les sols acides, compacts et humides à l'ombre.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" 
-        },
-        { 
-            phrases: ["Quand et comment tailler mes hortensias pour qu'ils refleurissent bien ?", "Quelle est la règle de taille pour les hortensias du jardin ?", "Comment s'occuper des fleurs fanées des hortensias ?"], 
-            p1: "Laisser les fleurs fanées en hiver pour protéger les bourgeons, puis couper au printemps", p2: "Raser tous les bois à 2 cm du sol en plein automne", p3: "Ne jamais toucher aux hortensias de leur vie", p4: "Couper toutes les branches vertes en plein mois de juin", 
-            e: "Les hortensias portent leurs futurs bourgeons floraux dès l'hiver.", wiki: "https://fr.wikipedia.org/wiki/Hortensia" 
-        }
+        { q: "Pourquoi mon gazon jaunit-il par plaques en plein été ?", p1: "Manque d'arrosage ou attaque de larves de hannetons", p2: "Excès de gel en hiver", p3: "Trop d'ombre portée par les nuages", p4: "Carence en plastique du sol", e: "Un jaunissement estival est souvent lié au stress hydrique ou aux ravageurs souterrains.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
+        { q: "Quand dois-je tailler mon pommier pour avoir de beaux fruits ?", p1: "En hiver (hors période de gel fort), de novembre à février", p2: "En plein été au moment de la canicule", p3: "Au printemps quand les fruits sont déjà formés", p4: "Tous les 10 ans sans couper les branches", e: "La taille se fait en période de repos végétatif pour stimuler la fructification.", wiki: "https://fr.wikipedia.org/wiki/Pommier" },
+        { q: "Quelle haie choisir pour occulter un vis-à-vis rapidement ?", p1: "Le photinia, le laurier-cerise ou l'élæagnus", p2: "Uniquement des roses trémières annuelles", p3: "Des cactus géants du désert", p4: "Des arbres à feuilles caduques sans feuillage en hiver", e: "Les persistants gardent leur feuillage toute l'année et protègent du vis-à-vis en hiver.", wiki: "https://fr.wikipedia.org/wiki/Haie" },
+        { q: "Comment enrichir naturellement une terre de potager pauvre ?", p1: "Incorporer du compost mûr et du fumier bien décomposé", p2: "Ajouter de la javel pure pour nettoyer la terre", p3: "Mettre des cailloux de gravier concassé", p4: "Ne rien faire et laisser le sol s'appauvrir", e: "Le compost apporte l'humus indispensable à la structure et à la fertilité du sol.", wiki: "https://fr.wikipedia.org/wiki/Compost" },
+        { q: "À quelle fréquence faut-il arroser un jeune plant nouvellement installé ?", p1: "Un arrosage copieux et régulier pour que la motte ne sèche pas", p2: "Une goutte d'eau par semaine suffit largement", p3: "Inonder le terrain en permanence pour faire une piscine", p4: "Ne jamais arroser pour qu'ils s'endurcissent de force", e: "Les racines n'étant pas encore installées en profondeur, un suivi hydrique est vital.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
+        { q: "Comment me débarrasser des pucerons sur mes rosiers sans produits chimiques ?", p1: "Pulvériser du savon noir dilué ou introduire des coccinelles", p2: "Verser de l'acide chlorhydrique au pied", p3: "Brûler directement les feuilles avec un briquet", p4: "Ignorer le problème, ils vont disparaître seuls en hiver", e: "Le savon noir asphyxie les insectes sans polluer le jardin.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" },
+        { q: "Comment savoir si ma terre est plutôt acide ou calcaire ?", p1: "Utiliser un kit d'analyse de sol ou observer la flore spontanée", p2: "Goûter un échantillon de terre avec de la moutarde", p3: "Peser un kilo de terre sur une balance de cuisine", p4: "Regarder la couleur du ciel au-dessus du jardin", e: "Le pH détermine l'assimilation des nutriments par les plantes.", wiki: "https://fr.wikipedia.org/wiki/PH_du_sol" },
+        { q: "Quel paillage installer pour limiter l'arrosage et les mauvaises herbes ?", p1: "Des paillettes de chanvre, du lin ou des écorces de pin", p2: "Des plaques de tôle ondulée en acier", p3: "Du plastique noir imperméable non respirant", p4: "Du sable de plage très fin", e: "Le paillage organique protège du dessèchement et nourrit le sol en se dégradant.", wiki: "https://fr.wikipedia.org/wiki/Paillage" },
+        { q: "Que faire contre la mousse qui envahit ma pelouse à l'ombre ?", p1: "Scarifier le gazon, améliorer le drainage et éclaircir l'ombrage", p2: "Mettre du sel de cuisine en grande quantité partout", p3: "Tondre à ras tous les jours de l'année", p4: "Arroser la mousse avec de l'huile de vidange", e: "La mousse prolifère sur les sols acides, compacts et humides à l'ombre.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" },
+        { q: "Quand et comment tailler mes hortensias pour qu'ils refleurissent bien ?", p1: "Laisser les fleurs fanées en hiver pour protéger les bourgeons, puis couper au printemps", p2: "Raser tous les bois à 2 cm du sol en plein automne", p3: "Ne jamais toucher aux hortensias de leur vie", p4: "Couper toutes les branches vertes en plein mois de juin", e: "Les hortensias portent leurs futurs bourgeons floraux dès l'hiver.", wiki: "https://fr.wikipedia.org/wiki/Hortensia" },
+        { q: "Comment traiter la cloque du pêcher au printemps ?", p1: "Pulvériser de la bouillie bordelaise au débourrement", p2: "Tailler toutes les racines principales", p3: "Mettre de l'engrais chimique azoté en excès", p4: "Arroser les fruits avec du jus de citron", e: "La bouillie bordelaise est un fongicide préventif classique contre ce champignon.", wiki: "https://fr.wikipedia.org/wiki/Cloque_du_pêcher" },
+        { q: "Quelle est la meilleure période pour planter un arbre en conteneur ?", p1: "En automne ou au début du printemps", p2: "En plein mois d'août sous canicule", p3: "Pendant une tempête de neige", p4: "Uniquement la nuit de la pleine lune", e: "L'automne permet aux racines de s'installer avant l'hiver.", wiki: "https://fr.wikipedia.org/wiki/Plantation" },
+        { q: "Comment entretenir des lavandes après leur floraison ?", p1: "Tailler les tiges florales fanées en boule légère sans couper le vieux bois", p2: "Les arracher complètement chaque année", p3: "Les arroser abondamment tous les soirs", p4: "Les couvrir d'une bâche plastique opaque", e: "Une taille légère évite que le pied ne se dégarnisse de la base.", wiki: "https://fr.wikipedia.org/wiki/Lavande" },
+        { q: "Pourquoi les feuilles de mes tomates jaunissent-elles par le bas ?", p1: "Souvent un signe de carence ou de mildiou débutant", p2: "Parce qu'elles regardent le soleil trop fixement", p3: "C'est une obligation naturelle de la plante", p4: "À cause du vent du nord", e: "Le bas du plant est le plus exposé aux éclaboussures de terre porteuses de spores.", wiki: "https://fr.wikipedia.org/wiki/Tomate" },
+        { q: "Quel est l'intérêt d'associer des œillets d'Inde au potager ?", p1: "Leurs racines sécrètent une substance répulsive contre les nématodes", p2: "Ils attirent un maximum de taupes", p3: "Ils augmentent l'acidité de l'air ambiant", p4: "Ils empêchent complètement les tomates de grandir", e: "C'est une excellente plante compagne pour la protection biologique intégrée.", wiki: "https://fr.wikipedia.org/wiki/Œillet_d'Inde" }
     ];
 
     let quizData = [];
 
-    // Génération automatique de 500 questions uniques combinant le grand stock de thématiques
+    // Génération fluide des 500 questions basées sur la rotation des thèmes réels
     while (quizData.length < 500) {
-        let topicIndex = quizData.length % clientTopics.length;
-        let topic = clientTopics[topicIndex];
-        let randomPhrase = topic.phrases[Math.floor(Math.random() * topic.phrases.length)];
-        
+        let baseTopic = clientTopics[quizData.length % clientTopics.length];
+        // On duplique proprement l'objet question sans altérer l'original
         quizData.push({
-            q: (quizData.length >= clientTopics.length) ? `${randomPhrase} (Cas n°${quizData.length + 1})` : randomPhrase,
-            correct: topic.p1,
-            wrongs: [topic.p2, topic.p3, topic.p4],
-            exp: topic.e,
-            wiki: topic.wiki
+            q: baseTopic.q,
+            correct: baseTopic.p1,
+            wrongs: [baseTopic.p2, baseTopic.p3, baseTopic.p4],
+            exp: baseTopic.e,
+            wiki: baseTopic.wiki
         });
     }
 
@@ -743,4 +706,4 @@
 </script>
 
 </body>
-                </html>
+</html>
