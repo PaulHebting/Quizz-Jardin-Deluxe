@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz - Parasites du Jardin</title>
+    <title>Quiz - Jardin, Parasites & Plantation</title>
     <style>
         :root {
             --bg-color: #1a1a2e;
@@ -35,16 +35,16 @@
             max-width: 600px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
+            position: relative;
         }
 
-        /* En-tête : Profil (Image + Nom) et Score */
+        /* En-tête : Profil (Image + Nom) et Score (sans ligne de séparation) */
         .header-profile {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 15px;
+            padding-bottom: 5px;
         }
 
         .user-info {
@@ -54,10 +54,10 @@
         }
 
         .user-avatar {
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
-            border: 2px solid var(--text-color);
+            border: 2px solid #00cec9;
             object-fit: cover;
             background-color: #fff;
             cursor: pointer;
@@ -162,6 +162,7 @@
         .wiki-link-container {
             text-align: center;
             margin-top: 15px;
+            min-height: 20px;
         }
 
         .wiki-link {
@@ -174,11 +175,79 @@
         .wiki-link:hover {
             text-decoration: underline;
         }
+
+        /* Modal de choix d'avatar */
+        .modal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal h3 {
+            margin-bottom: 15px;
+            color: #00cec9;
+        }
+
+        .avatar-choices {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .avatar-choice {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            object-fit: cover;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .avatar-choice:hover {
+            transform: scale(1.1);
+            border-color: #00cec9;
+        }
+
+        .modal button {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 
     <div class="quiz-container" id="quizContainer">
+        <!-- Modal de choix d'avatar -->
+        <div class="modal" id="avatarModal">
+            <h3>Choisissez votre avatar</h3>
+            <div class="avatar-choices">
+                <img src="https://images.unsplash.com/photo-1592417817098-8f3d692adb45?w=150" class="avatar-choice" onclick="selectAvatar(this.src)">
+                <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=150" class="avatar-choice" onclick="selectAvatar(this.src)">
+                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=150" class="avatar-choice" onclick="selectAvatar(this.src)">
+                <img src="https://images.unsplash.com/photo-1558904541-efa843a88f0b?w=150" class="avatar-choice" onclick="selectAvatar(this.src)">
+            </div>
+            <button onclick="closeModal()">Fermer</button>
+        </div>
+
         <!-- En-tête Profil & Score -->
         <div class="header-profile">
             <div class="user-info">
@@ -210,7 +279,7 @@
     </div>
 
     <script>
-        // --- 1. GESTION DE LA MÉMOIRE DU JOUEUR (LOCALSTORAGE) ---
+        // --- 1. GESTION DE LA MÉMOIRE DU JOUEUR & AVATAR ---
         let playerName = localStorage.getItem("quiz_player_name");
         if (!playerName) {
             playerName = prompt("Entrez votre nom de joueur :") || "Jardinier";
@@ -220,323 +289,632 @@
 
         let playerAvatar = localStorage.getItem("quiz_player_avatar");
         if (!playerAvatar) {
-            playerAvatar = "https://via.placeholder.com/150";
+            playerAvatar = "https://images.unsplash.com/photo-1592417817098-8f3d692adb45?w=150";
             localStorage.setItem("quiz_player_avatar", playerAvatar);
         }
         const avatarImg = document.getElementById("userAvatar");
         avatarImg.src = playerAvatar;
 
-        // Permettre de changer l'avatar en cliquant dessus
+        const modal = document.getElementById("avatarModal");
         avatarImg.onclick = () => {
-            let newAvatar = prompt("Entrez l'URL de votre nouvelle image d'avatar :", playerAvatar);
-            if (newAvatar) {
-                playerAvatar = newAvatar;
-                localStorage.setItem("quiz_player_avatar", playerAvatar);
-                avatarImg.src = playerAvatar;
-            }
+            modal.style.display = "flex";
         };
 
-        // --- 2. BASE DE 50 QUESTIONS SUR LES PARASITES ---
+        function selectAvatar(url) {
+            playerAvatar = url;
+            localStorage.setItem("quiz_player_avatar", playerAvatar);
+            avatarImg.src = playerAvatar;
+            modal.style.display = "none";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // --- 2. BASE DE 100 QUESTIONS (50 PARASITES + 50 PLANTATION) ---
         const questionsOriginales = [
+            // --- PARTIE 1 : PARASITES DU JARDIN (50 questions rééquilibrées) ---
             {
-                question: "Quel ravageur ravage spécifiquement les haies de buis en dévorant leur feuillage ?",
-                options: ["La pyrale du buis", "La processionnaire", "La mineuse", "Le puceron vert"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis"
-            },
-            {
-                question: "Quelle chenille est connue pour ses poils urticants et se déplace en file indienne dans les pins ?",
-                options: ["La pyrale du douglas", "La processionnaire du pin", "La noctuelle du chêne", "L'arpenteuse"],
-                correct: 1,
-                wiki: "https://fr.wikipedia.org/wiki/Processionnaire_du_pin"
-            },
-            {
-                question: "Quel type d'insecte creuse des galeries en serpentin (mines) à l'intérieur des feuilles de marronnier ?",
-                options: ["Un charançon", "Une cochenille", "Une mineuse", "Un thrips"],
-                correct: 2,
-                wiki: "https://fr.wikipedia.org/wiki/Cameraria_ohridella"
-            },
-            {
-                question: "Quel petit insecte piqueur-suceur excrète du miellat qui attire les fourmis sur les plantes ?",
-                options: ["Le puceron", "Le perce-oreille", "La courtilière", "Le doryphore"],
+                question: "Quel insecte vert ou noir s'attroupe sur les tiges tendres et sécrète du miellat ?",
+                options: ["Le puceron", "Le hanneton", "La coccinelle", "Le perce-oreille"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Puceron"
             },
             {
-                question: "Quel parasite des plantes se protège sous un bouclier cireux ou cotonneux fixe ?",
-                options: ["L'altise", "La cochenille", "La cicadelle", "Le hanneton"],
-                correct: 1,
-                wiki: "https://fr.wikipedia.org/wiki/Cochenille"
-            },
-            {
-                question: "Comment appelle-t-on la larve du carpocapse qui s'attaque directement aux pommes et aux poires ?",
-                options: ["Le ver du fruit", "La pyrale", "Le ver gris", "Le thrips"],
+                question: "Quelle chenille dévore spécifiquement les feuilles des haies de buis ?",
+                options: ["La pyrale du buis", "La processionnaire", "La mineuse", "L'arpenteuse"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Carpocapse_des_pommes"
+                wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis"
             },
             {
-                question: "Quel insecte grignote les bords des feuilles en formant des encoches caractéristiques en forme de 'C' ?",
-                options: ["L'otiorhynque", "Le taupin", "La limace", "L'anobli"],
+                question: "Quel animal sans coquille glisse la nuit et dévore les salades du potager ?",
+                options: ["La limace", "L'escargot de bourgogne", "Le ver de terre", "La courtilière"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Otiorhynchus"
+                wiki: "https://fr.wikipedia.org/wiki/Limace"
             },
             {
-                question: "Quel minuscule coléoptère saute comme une puce et perfore les feuilles des crucifères (choux, radis) ?",
-                options: ["L'altise", "Le tipule", "La coccinelle", "Le cétoine"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Altise"
-            },
-            {
-                question: "Quel parasite souterrain, larve de taupin, grignote les racines et tubercules potagers ?",
-                options: ["Le fil de fer", "Le ver blanc", "L'ascaris", "La nématode"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Taupin"
-            },
-            {
-                question: "Quelle larve blanche dodue, de couleur blanche, vit dans le sol et s'attaque aux racines du gazon ?",
-                options: ["Le ver blanc (hanneton)", "La tipule", "La noctuelle", "Le scolyte"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Hanneton"
-            },
-            {
-                question: "Quel champignon microscopique ou parasite provoque l'oïdium (maladie du blanc) ?",
-                options: ["Un insecte xylophage", "Un champignon parasite", "Une bactérie", "Un virus du sol"],
-                correct: 1,
-                wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
-            },
-            {
-                question: "Quel petit ravageur rouge vif à points noirs est au contraire un précieux allié du jardinier ?",
-                options: ["La coccinelle", "Le doryphore", "La pyrale", "La punaise gendarme"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Coccinelle"
-            },
-            {
-                question: "Quel ravageur des cultures de pommes de terre est un coléoptère rayé jaune et noir ?",
-                options: ["Le doryphore", "Le charançon", "La chrysomèle", "L'altise"],
+                question: "Quel coléoptère rayé de jaune et de noir ravage les plants de pommes de terre ?",
+                options: ["Le doryphore", "La chrysomèle", "L'altise", "Le charançon"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Doryphore"
             },
             {
-                question: "Quel minuscule acarien prolifère par temps chaud et sec en tissant de fines toile au dos des feuilles ?",
-                options: ["L'araignée rouge", "Le thrips", "Le puceron cendré", "La mineuse"],
+                question: "Quelle chenille urticante se déplace en procession le long des troncs de pins ?",
+                options: ["La processionnaire du pin", "La pyrale", "La noctuelle", "Le bombyx"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Processionnaire_du_pin"
+            },
+            {
+                question: "Quel minuscule insecte saute comme une puce et perfore les jeunes feuilles de choux ?",
+                options: ["L'altise", "Le thrips", "La cicadelle", "Le moucheron"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Altise"
+            },
+            {
+                question: "Quel petit insecte rouge à points noirs est au contraire très utile au jardin ?",
+                options: ["La coccinelle", "Le doryphore", "La punaise gendarme", "Le cynips"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Coccinelle"
+            },
+            {
+                question: "Quel parasite se cache sous un bouclier cireux ou cotonnier fixé sur les tiges ?",
+                options: ["La cochenille", "L'acarien", "Le thrips", "Le scolyte"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Cochenille"
+            },
+            {
+                question: "Quel ver blanc souterrain, larve de hanneton, grignote les racines du gazon ?",
+                options: ["Le ver blanc", "Le fil de fer", "La tipule", "Le nématode"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Hanneton"
+            },
+            {
+                question: "Comment appelle-t-on le ver qui rend les pommes et les poires véreuses ?",
+                options: ["Le carpocapse", "La pyrale", "La teigne", "L'altise"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Carpocapse_des_pommes"
+            },
+            {
+                question: "Quel minuscule acarien tisse de fines toiles sous les feuilles par temps chaud et sec ?",
+                options: ["L'araignée rouge", "Le thrips", "Le puceron cendré", "Le phytopte"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Tetranychus_urticae"
             },
             {
-                question: "Quel insecte fore des galeries circulaires sous l'écorce des arbres affaiblis ?",
-                options: ["Le scolyte", "Le perce-oreille", "La cicadelle", "Le syrphe"],
+                question: "Quelle mouche creuse des galeries inesthétiques dans les racines de carottes ?",
+                options: ["La mouche de la carotte", "La mouche de l'oignon", "La piéride", "La tenthrède"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Mouche_de_la_carotte"
+            },
+            {
+                question: "Quel papillon blanc à points noirs a des chenilles qui dévorent les feuilles de chou ?",
+                options: ["La piéride du chou", "La noctuelle", "Le sphinx", "La teigne"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Pi%C3%A9ride_du_chou"
+            },
+            {
+                question: "Quelle petite 'mouche blanche' volante sécrète du miellat sous les serres ?",
+                options: ["L'aleurode", "Le thrips", "Le psylle", "La cicadelle"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Aleyrodidae"
+            },
+            {
+                question: "Quel insecte foreur creuse des galeries circulaires sous l'écorce des arbres affaiblis ?",
+                options: ["Le scolyte", "Le perce-oreille", "Le charançon", "L'anobli"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Scolytinae"
             },
             {
-                question: "Quel mollusque gastéropode terrestre sans coquille visible ravage les jeunes salades la nuit ?",
-                options: ["L'escargot", "La limace", "Le ver de terre", "La planorbe"],
-                correct: 1,
-                wiki: "https://fr.wikipedia.org/wiki/Limace"
+                question: "Quel ravageur aquatique ou terricole aux pattes de taupe coupe les racines des légumes ?",
+                options: ["La courtilière", "Le dytique", "Le tipule", "Le gendarme"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Courtili%C3%A8re"
             },
             {
-                question: "Quel petit insecte ailé, très fin, cause des dégâts d'argenture sur les feuilles (notamment en serre) ?",
+                question: "Quelle maladie cryptogamique (champignon) blanchit les feuilles de courgettes ou de rosiers ?",
+                options: ["L'oïdium", "Le mildiou", "La rouille", "La sharka"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
+            },
+            {
+                question: "Quel insecte minuscule provoque des dégâts d'argenture sur les feuilles de poireaux ou en serre ?",
                 options: ["Le thrips", "Le puceron", "La cochenille", "Le moucheron"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Thysanoptera"
             },
             {
-                question: "Quel ver microscopique du sol (nématode) parasite les racines de nombreuses plantes en créant des nodosités ?",
-                options: ["Le nématode galligène", "Le lombric", "L'anguillule", "La sangsue"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Meloidogyne"
-            },
-            {
                 question: "Quelle teigne s'attaque spécifiquement aux feuilles et aux fûts des poireaux ?",
-                options: ["La teigne du poireau", "La pyrale du maïs", "La noctuelle de la tomate", "Le carpocapse"],
+                options: ["La teigne du poireau", "La pyrale", "Le carpocapse", "La noctuelle"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Acrolepiopsis_assectella"
             },
             {
-                question: "Quel ravageur transmet la terrible maladie de la sharka aux arbres fruitiers à noyau ?",
-                options: ["Le puceron vert du prunier", "La cochenille", "L'hoplocampe", "Le monilia"],
+                question: "Quel insecte ronge les bords des feuilles en formant des encoches en forme de demi-cercle ?",
+                options: ["L'otiorhynque", "La limace", "L'altise", "Le doryphore"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Sharka"
+                wiki: "https://fr.wikipedia.org/wiki/Otiorhynchus"
             },
             {
-                question: "Comment appelle-t-on l'insecte qui ravage les palmiers en y creusant des tunnels mortels ?",
-                options: ["Le charançon rouge du palmier", "La pyrale du palmier", "Le bostryche", "Le capricornes"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Rhynchophorus_ferrugineus"
-            },
-            {
-                question: "Quelle mouche pond ses œufs dans les carottes, provoquant des galeries rouillées inesthétiques ?",
-                options: ["La mouche de la carotte", "La mouche de l'oignon", "La piéride du chou", "La tenthrède"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Mouche_de_la_carotte"
-            },
-            {
-                question: "Quel insecte papillon blanc à points noirs dévore les feuilles des choux à l'état de chenille ?",
-                options: ["La piéride du chou", "La teigne", "L'agrotis", "La noctuelle"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Pi%C3%A9ride_du_chou"
-            },
-            {
-                question: "Quel insecte aquatique ou terricole géant aux pattes antérieures creusantes ravage les racines au potager ?",
-                options: ["La courtilière", "Le dytique", "Le gendarme", "Le tipule"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Courtili%C3%A8re"
-            },
-            {
-                question: "Quel ravageur attaque les inflorescences du rosier en enroulant les feuilles à l'aide de fils de soie ?",
-                options: ["La tordeuse du rosier", "Le cynips", "Le puceron rose", "La cécidomyie"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Tordeuse"
-            },
-            {
-                question: "Quelle petite guêpe provoque des galles rondes (bédéguas ou poils de rose) sur les églantiers ?",
-                options: ["Le cynips du rosier", "Le frelon asiatique", "L'ichtneumon", "La tenthrède"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Diplolepis_rosae"
-            },
-            {
-                question: "Quel ravageur provoque des boursouflures rouges et boursouflées sur les feuilles de groseilliers ?",
-                options: ["Le puceron boursoufleur du groseillier", "L'araignée rouge", "La cochenille", "Le phytopte"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Puceron"
-            },
-            {
-                question: "Quels minuscules acariens provoquent l'érinose (feutrage blanc) sur les feuilles de vigne ?",
-                options: ["Les phytoptes de la vigne", "Les tétranyques", "Les tarsonèmes", "Les oïdiuns"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Phytopte_de_la_vigne"
-            },
-            {
-                question: "Quel papillon nocturne dont la chenille grise (ver gris) coupe les jeunes tiges au niveau du sol ?",
-                options: ["La noctuelle terricole (agrotis)", "La pyrale", "Le bombyx", "La zeuzère"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Agrotis_segetum"
-            },
-            {
-                question: "Quel grand papillon blanc et noir dont la chenille fore le bois des jeunes branches de fruitiers ?",
-                options: ["La zeuzère du poirier", "La pyrale du jasmin", "Le sphinx du peuplier", "L'acérée"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Zeuzera_pyrina"
-            },
-            {
-                question: "Quel ravageur des agrumes est une petite mineuse dont les larves enroulent l'extrémité des jeunes feuilles ?",
-                options: ["La mineuse des agrumes", "L'aleurode", "La cochenille farineuse", "Le psylle"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Phyllocnistis_citrella"
-            },
-            {
-                question: "Quel petit insecte blanc volant, appelé 'mouche blanche', sécrète du miellat sous les feuilles de tomates ?",
-                options: ["L'aleurode (mouche blanche)", "Le thrips", "Le puceron lanigère", "La cicadelle"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Aleyrodidae"
-            },
-            {
-                question: "Quel ravageur du poirier sécrète un miellat poisseux provoquant la fumagine noire sur les feuilles ?",
-                options: ["Le psylle du poirier", "Le puceron", "La cochenille", "L'hoplocampe"],
+                question: "Quel parasite du poirier provoque un miellat poisseux et noirci par la fumagine ?",
+                options: ["Le psylle du poirier", "Le puceron vert", "La cochenille", "L'hoplocampe"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Cacopsylla_pyri"
             },
             {
-                question: "Quelle petite mouche pond dans les cerises, rendant les fruits véreux à l'été ?",
-                options: ["La mouche de la cerise (Rhagoletis cerasi)", "La drosophile suzukii", "La mouche de l'oignon", "La syrphe"],
+                question: "Quelle petite mouche gâte les cerises en y pondant des œufs qui donnent des vers ?",
+                options: ["La mouche de la cerise", "La drosophile", "La mouche de l'oignon", "La syrphe"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Rhagoletis_cerasi"
             },
             {
-                question: "Quelle petite drosophile asiatique pique les fruits rouges sains (fraises, framboises) en gâtant la récolte ?",
+                question: "Quelle drosophile invasive pique les fruits rouges sains comme les framboises et fraises ?",
                 options: ["Drosophila suzukii", "Drosophila melanogaster", "La mouche du vinaigre", "La cératite"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Drosophila_suzukii"
             },
             {
-                question: "Quel insecte parasite vecteur du bois noir de la vigne se déplace en sautant latéralement ?",
-                options: ["La cicadelle de la vigne", "L'altise", "Le phylloxéra", "Le fulgore"],
+                question: "Quel ver fil de fer, larve de taupin, attaque les tubercules de pommes de terre dans le sol ?",
+                options: ["Le ver fil de fer", "Le ver blanc", "Le nématode", "L'ascaris"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Scaphoideus_titanus"
+                wiki: "https://fr.wikipedia.org/wiki/Taupin"
             },
             {
-                question: "Quel puceron laineux sécrète un amas cireux blanc semblable à du coton sur les branches de pommier ?",
-                options: ["Le puceron lanigère", "La cochenille farineuse", "L'erisoma", "Le puceron cendré"],
+                question: "Quel puceron laineux forme des amas blancs semblables à du coton sur les pommiers ?",
+                options: ["Le puceron lanigère", "La cochenille farineuse", "Le puceron cendré", "L'erisoma"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Eriosoma_lanigerum"
             },
             {
-                question: "Quel insecte minuscule a décimé les vignobles européens à la fin du XIXe siècle en attaquant les racines ?",
+                question: "Quel insecte a failli détruire les vignes européennes au XIXe siècle en attaquant les racines ?",
                 options: ["Le phylloxéra", "Le mildiou", "Le doryphore", "Le bostryche"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Phyllox%C3%A9ra"
             },
             {
-                question: "Quel ravageur de la pomme de terre et de la tomate provoque des galeries et pourritures dues à sa chenille ?",
-                options: ["La teigne de la pomme de terre", "Le carpocapse", "L'altise", "Le taupin"],
+                question: "Quelle chenille grise (ver gris) coupe net les jeunes tiges potagères au ras du sol la nuit ?",
+                options: ["La noctuelle terricole", "La pyrale", "Le bombyx", "La zeuzère"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Phthorimaea_operculella"
+                wiki: "https://fr.wikipedia.org/wiki/Agrotis_segetum"
             },
             {
-                question: "Quel parasite du prunier est une petite fausse-chenille (hyménoptère) qui pique les jeunes fruits au printemps ?",
-                options: ["L'hoplocampe du prunier", "Le carpocapse", "La tordeuse", "La tenthrède"],
+                question: "Quel papillon fore le bois des jeunes branches de fruitiers avec un corps blanc et noir tacheté ?",
+                options: ["La zeuzère du poirier", "La pyrale", "Le sphinx", "L'arpenteuse"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Hoplocampa_minuta"
+                wiki: "https://fr.wikipedia.org/wiki/Zeuzera_pyrina"
             },
             {
-                question: "Quel insecte foreur de tiges s'attaque principalement aux cultures de maïs en creusant la paille ?",
-                options: ["La pyrale du maïs", "La noctuelle", "Le sésamie", "Le taupin"],
+                question: "Quelle petite guêpe crée des galles en forme de poils de rose sur les églantiers ?",
+                options: ["Le cynips du rosier", "Le frelon", "L'ichtneumon", "La tenthrède"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Diplolepis_rosae"
+            },
+            {
+                question: "Quel acarien microscopique provoque l'érinose (feutrage blanc duveteux) sur les feuilles de vigne ?",
+                options: ["Le phytopte de la vigne", "L'araignée rouge", "Le tarsonème", "L'oïdium"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Phytopte_de_la_vigne"
+            },
+            {
+                question: "Quel ravageur rouge et noir très commun au jardin est inoffensif pour les plantes (punaise) ?",
+                options: ["Le gendarme (Pyrrhocoris apterus)", "Le doryphore", "La coccinelle", "L'altise"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Pyrrhocoris_apterus"
+            },
+            {
+                question: "Quel insecte foreur s'attaque aux tiges de maïs en creusant la paille ?",
+                options: ["La pyrale du maïs", "La noctuelle", "Le taupin", "Le sésamie"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_ma%C3%AFs"
             },
             {
-                question: "Quel coléoptère xylophage creuse des galeries sous l'écorce des résineux abattus ou affaiblis ?",
+                question: "Quel petit ver rond du sol (nématode) crée des nodosités inesthétiques sur les racines ?",
+                options: ["Le nématode galligène", "Le lombric", "L'anguillule", "La sangsue"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Meloidogyne"
+            },
+            {
+                question: "Quel coléoptère xylophage creuse des galeries dans les résineux abattus ou affaiblis ?",
                 options: ["Le bostryche typographe", "Le capricornes", "Le charançon", "L'anobli"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Ips_typographus"
             },
             {
-                question: "Quel petit ver blanc, larve de diptère (tipule), ronge le collet et les racines des pelouses humides ?",
-                options: ["La larve de tipule (cousico)", "Le ver fil de fer", "Le nématode", "L'ascaris"],
+                question: "Quel insecte parasite du chêne tisse des nids cotonneux collectifs en hauteur ?",
+                options: ["La processionnaire du chêne", "La pyrale", "Le bombyx", "L'arpenteuse"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Processionnaire_du_ch%C3%AAne"
+            },
+            {
+                question: "Quelle larve de diptère (tipule) ronge le collet du gazon dans les sols trop humides ?",
+                options: ["La larve de tipule", "Le ver fil de fer", "Le ver blanc", "Le nématode"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Tipula"
             },
             {
-                question: "Quel ravageur provoque des galles en forme de cornet rouge sur les feuilles de tilleul ?",
-                options: ["Un acarien phytopte du tilleul", "Un puceron", "Une cécidomyie", "Un cynips"],
+                question: "Quel traitement biologique à base de bactérie utilise-t-on contre la pyrale du buis ?",
+                options: ["Bacillus thuringiensis (Bt)", "Du cuivre", "Un engrais azoté", "Du soufre"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Bacillus_thuringiensis"
+            },
+            {
+                question: "Quel ravageur des agrumes est une minuscule mineuse enroulant le bout des feuilles ?",
+                options: ["La mineuse des agrumes", "L'aleurode", "Le psylle", "La cochenille"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Phyllocnistis_citrella"
+            },
+            {
+                question: "Quel insecte sauteur transmet la jaunisse ou le virus de la mosaïque aux cultures maraîchères ?",
+                options: ["La cicadelle", "L'altise", "Le thrips", "Le moucheron"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Cicadellidae"
+            },
+            {
+                question: "Quel petit parasite du prunier pique les jeunes fruits au printemps (fausse-chenille) ?",
+                options: ["L'hoplocampe du prunier", "Le carpocapse", "La tordeuse", "La tenthrède"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Hoplocampa_minuta"
+            },
+            {
+                question: "Quel champignon parasite attaque les pommes de terre en créant des taches noires sur les feuilles et tubercules ?",
+                options: ["Le mildiou de la pomme de terre", "L'oïdium", "La rouille", "Le botrytis"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Mildiou_de_la_pomme_de_terre"
+            },
+            {
+                question: "Quel ravageur forme des cornets rouges boursouflés sur les feuilles de tilleul ?",
+                options: ["Un acarien phytopte", "Un puceron", "Une cécidomyie", "Un cynips"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Eriophyes_tiliae"
             },
             {
-                question: "Quelle cécidomyie provoque des déformations et des galles en choux-fleurs sur les bourgeons de poirier ?",
+                question: "Quelle cécidomyie provoque des galles en choux-fleurs sur les bourgeons de poirier ?",
                 options: ["La cécidomyie des poires", "Le phytopte", "Le psylle", "L'hoplocampe"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Contarinia_pyrivora"
             },
             {
-                question: "Quel papillon nocturne grisâtre dont la chenille mine les feuilles de mineuse de la tomate en serre ?",
-                options: ["Tuta absoluta", "Pyrale du maïs", "Carpocapse", "Teigne des crucifères"],
+                question: "Quel papillon nocturne gris mine les feuilles et fruits de tomates sous serre (Tuta...) ?",
+                options: ["Tuta absoluta", "Pyrale du maïs", "Carpocapse", "Teigne"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Tuta_absoluta"
             },
             {
-                question: "Quel insecte parasite du chêne tisse des nids collectifs cotonneux semblables à ceux du pin ?",
-                options: ["La processionnaire du chêne", "La pyrale", "Le bombyx disparate", "L'arpenteuse"],
+                question: "Quel insecte foreur ravage les palmiers en y creusant des galeries fatales ?",
+                options: ["Le charançon rouge du palmier", "La pyrale", "Le bostryche", "Le capricornes"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Processionnaire_du_ch%C3%AAne"
+                wiki: "https://fr.wikipedia.org/wiki/Rhynchophorus_ferrugineus"
             },
             {
-                question: "Quel ravageur des serres, la noctuelle de la tomate (Helicoverpa armigera), cible particulièrement quelle partie ?",
-                options: ["Les fruits et les bourgeons floraux", "Uniquement les racines", "Le tronc principal", "Les feuilles basses uniquement"],
+                question: "Quel ravageur attaque les inflorescences du rosier en les enroulant avec de la soie ?",
+                options: ["La tordeuse du rosier", "Le cynips", "Le puceron rose", "La cécidomyie"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Tordeuse"
+            },
+            {
+                question: "Quel petit insecte provoque des boursouflures rouges sur les feuilles de groseilliers ?",
+                options: ["Le puceron boursoufleur", "L'araignée rouge", "La cochenille", "Le phytopte"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Puceron"
+            },
+            {
+                question: "Quel ravageur de la tomate et du maïs (Helicoverpa) cible particulièrement quelles parties ?",
+                options: ["Les fruits et bourgeons floraux", "Les racines profondes", "Le tronc ligneux", "Uniquement les vieilles feuilles"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Helicoverpa_armigera"
             },
             {
-                question: "Quel petit insecte sauteur transmet le virus de la mosaïque du concombre en piquant les potagers ?",
-                options: ["Le puceron du melon et du cotonnier", "L'altise", "Le thrips", "L'aleurode"],
+                question: "Quel minuscule acarien provoque la galle du troène ou de divers arbustes ?",
+                options: ["Le phytopte", "L'araignée rouge", "Le tarsonème", "Le thrips"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Aphis_gossypii"
+                wiki: "https://fr.wikipedia.org/wiki/Eriophyidae"
             },
             {
-                question: "Quelle méthode biologique utilise-t-on fréquemment pour lutter contre la pyrale du buis de façon écologique ?",
-                options: ["Bacillus thuringiensis (Bt)", "Un engrais chimique azoté", "Un fongicide cuprique", "Du désherbant total"],
+                question: "Quel insecte parasite est le principal vecteur de la sharka sur les pruniers ?",
+                options: ["Le puceron vert du prunier", "La cochenille", "L'hoplocampe", "Le monilia"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Bacillus_thuringiensis"
+                wiki: "https://fr.wikipedia.org/wiki/Sharka"
+            },
+
+            // --- PARTIE 2 : PLANTATION (50 questions pratiques et accessibles) ---
+            {
+                question: "Quelle est la meilleure période générale pour planter les arbres et arbustes à racines nues ?",
+                options: ["L'automne et l'hiver (de novembre à mars)", "En plein mois d'août", "Au cœur de l'été", "Uniquement le 1er mai"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Plantation"
+            },
+            {
+                question: "Que doit-on faire aux racines nues d'un arbre juste avant de le planter ?",
+                options: ["Le pralinage (trempage dans un mélange de boue)", "Les couper à ras", "Les brûler légèrement", "Les passer au shampooing"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Pralinage"
+            },
+            {
+                question: "À quelle profondeur doit-on généralement enterrer les petites graines lors d'un semis ?",
+                options: ["À environ deux à trois fois leur diamètre", "À 50 centimètres de profondeur", "Directement posées à l'air libre sans terre", "À 1 mètre sous terre"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Semis"
+            },
+            {
+                question: "Comment appelle-t-on l'action d'éclaircir un semis trop dense ?",
+                options: ["Retirer les plantules en trop pour laisser de l'espace", "Arroser avec de l'eau salée", "Tailler les feuilles du haut", "Tasser très fort la terre"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/%C3%89claircissage"
+            },
+            {
+                question: "Quel type de sol retient bien l'eau mais peut devenir lourd et collant en hiver ?",
+                options: ["Un sol argileux", "Un sol sablonneux", "Un sol calcaire", "Un sol pierreux"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Argile"
+            },
+            {
+                question: "Quel sol a tendance à sécher très vite et se réchauffe rapidement au printemps ?",
+                options: ["Un sol sableux", "Un sol argileux", "Un sol limoneux lourd", "Une terre glaise"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Sable"
+            },
+            {
+                question: "Pourquoi est-il conseillé de faire un 'arrosage copieux' juste après une plantation ?",
+                options: ["Pour chasser les poches d'air et coller la terre aux racines", "Pour noyer les vers de terre", "Pour faire fondre le pot en plastique", "Pour tasser définitivement sans utiliser les mains"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Arrosage"
+            },
+            {
+                question: "Qu'appelle-t-on le 'paillage' (ou mulching) au pied des plantations ?",
+                options: ["Déposer une couche de matière organique pour garder l'humidité", "Mettre du plastique noir étanche partout", "Peindre la terre en marron", "Retirer toute la terre autour"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Paillis"
+            },
+            {
+                question: "À quel moment de la journée est-il préférable d'arroser son potager en été pour limiter l'évaporation ?",
+                options: ["Tôt le matin ou tard le soir", "En plein cagnard à midi", "Sous la pluie uniquement", "Exactement à minuit pile"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Arrosage"
+            },
+            {
+                question: "Qu'est-ce que le 'chignon racinaire' dans un pot de pépinière ?",
+                options: ["Des racines enroulées en cercle qu'il faut démêler", "Une maladie des feuilles", "Un champignon blanc", "Un tuteur en bois tressé"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/P%C3%Apini%C3%A8re"
+            },
+            {
+                question: "Quelle plante aromatique aime le plein soleil et un sol pauvre et sec ?",
+                options: ["La lavande", "La menthe aquatique", "La fougère", "Le cresson de fontaine"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Lavanda"
+            },
+            {
+                question: "Quel légume-racine se sème directement en place car il supporte mal le repiquage ?",
+                options: ["La carotte", "La tomate", "Le poivron", "L'aubergine"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Carotte"
+            },
+            {
+                question: "Qu'appelle-t-on le 'repiquage' d'un plant potager ?",
+                options: ["Le replanter d'un petit godet vers sa place définitive en terre", "Le couper pour qu'il repousse", "Le changer de pot chaque semaine", "L'arroser avec de l'engrais"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Repiquage"
+            },
+            {
+                question: "Quelle est l'utilité du compost dans un trou de plantation ?",
+                options: ["Apporter des nutriments et améliorer la structure du sol", "Désherber naturellement", "Empêcher l'eau de couler", "Attirer les taupes"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Compost"
+            },
+            {
+                question: "Qu'est-ce qu'un engrais vert semé sur une parcelle vide ?",
+                options: ["Une culture détruite sur place pour enrichir la terre en azote", "Une pelouse fluo décorative", "Un gazon synthétique biodégradable", "De la peinture végétale"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Engrais_vert"
+            },
+            {
+                question: "Que signifie le terme 'rustique' pour une plante vivace ?",
+                options: ["Qu'elle résiste bien au gel et aux températures froides d'hiver", "Qu'elle a des feuilles très dures et piquantes", "Qu'elle ne pousse que dans les vieux outils", "Qu'elle meurt à la moindre brise"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Rusticit%C3%A9"
+            },
+            {
+                question: "Quel légume-fruit a impérativement besoin d'un tuteur solide lors de sa plantation ?",
+                options: ["La tomate", "La salade", "Le radis", "L'épinard"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Tomate"
+            },
+            {
+                question: "Qu'appelle-t-on le 'buttage' au pied des pommes de terre ?",
+                options: ["Ramener de la terre autour des tiges pour verdir et protéger les tubercules", "Tasser la terre avec un rouleau lourd", "Planter en haut d'une colline", "Mettre des pierres décoratives"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Buttage"
+            },
+            {
+                question: "Quelle association de cultures est traditionnellement connue comme les 'trois sœurs' (potager amérindien) ?",
+                options: ["Maïs, haricot grimpant et courge", "Tomate, salade et radis", "Fraise, framboise et mûre", "Pomme de terre, oignon et ail"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Trois_s%C5%3_urs_(agriculture)"
+            },
+            {
+                question: "Pourquoi pratique-t-on la 'rotation des cultures' au potager ?",
+                options: ["Pour ne pas épuiser la terre et éviter l'accumulation de parasites", "Pour changer la couleur des légumes chaque année", "Parce que les légumes s'ennuient au même endroit", "Pour faire de l'exercice en déplaçant la terre"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Rotation_des_cultures"
+            },
+            {
+                question: "Quel type de sol a un pH fortement inférieur à 7 et demande souvent un apport de calcaire ?",
+                options: ["Un sol acide", "Un sol calcaire", "Un sol basique", "Un sol neutre"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Sol_acide"
+            },
+            {
+                question: "Qu'est-ce que le 'chyndas' ou le forçage sous cloche pour les primeurs au potager ?",
+                options: ["Protéger du froid et hâter la croissance des premiers légumes", "Empêcher la lumière d'entrer complètement", "Chauffer la terre au chalumeau", "Faire fuir les oiseaux"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/For%C3%A7age_(agriculture)"
+            },
+            {
+                question: "Quelle fleur associe-t-on souvent aux tomates pour repousser naturellement certains nuisibles ?",
+                options: ["L'œillet d'Inde (tagète)", "La rose trémière", "Le pissenlit", "L'ortie"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Tagete"
+            },
+            {
+                question: "Quel est l'intérêt de planter des haies mixtes diversifiées plutôt qu'une monoculture de thuyas ?",
+                options: ["Favoriser la biodiversité et résister mieux aux maladies", "Avoir des formes géométriques parfaites", "Pousser deux fois plus vite sans eau", "Ne jamais avoir à tailler"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Haie"
+            },
+            {
+                question: "Que doit-on faire des drageons qui poussent au pied d'un arbre fruitier greffé ?",
+                options: ["Les supprimer car ils épuisent le sujet d'origine", "Les arroser pour en faire de nouveaux arbres identiques", "Les tuteurer délicatement", "Les manger en salade"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Drageon"
+            },
+            {
+                question: "Comment appelle-t-on la technique de multiplication consistant à enterrer un rameau sans le détacher de la plante mère ?",
+                options: ["Le marcottage", "Le bouturage", "La greffe", "Le semis"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Marcottage"
+            },
+            {
+                question: "Quelle méthode consiste à couper un morceau de tige pour le faire raciner dans l'eau ou le terreau ?",
+                options: ["Le bouturage", "Le greffage", "Le marcottage", "L'écimage"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Bouturage"
+            },
+            {
+                question: "Quel est l'objectif principal de la taille de fructification sur un arbre fruitier en fin d'hiver ?",
+                options: ["Favoriser l'apparition de bourgeons à fleurs et l'ensoleillement", "Empêcher l'arbre de grandir au-delà d'un mètre", "L'empêcher de perdre ses feuilles en automne", "Réduire son poids total"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Taille_des_arbres_fruitiers"
+            },
+            {
+                question: "Quel élément nutritif principal favorise le développement des feuilles et de la verdure (azote, phosphore, potasse) ?",
+                options: ["L'azote (N)", "Le phosphore (P)", "La potasse (K)", "Le calcium"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Azote"
+            },
+            {
+                question: "Quel nutriment principal favorise la floraison et la fructification des plantes ?",
+                options: ["Le phosphore et la potasse", "Uniquement l'azote", "Le sel de cuisine", "Le chlore"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Potassium"
+            },
+            {
+                question: "Qu'appelle-t-on le 'collet' d'une plante lors de sa plantation en terre ?",
+                options: ["La zone de jonction entre les racines et la tige", "Le sommet de la plus haute branche", "La plus grande feuille", "Le fond du pot"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Collet_(botanique)"
+            },
+            {
+                question: "Pourquoi ne faut-il jamais enterrer le collet d'un arbre ou d'un arbuste trop profondément ?",
+                options: ["Cela risque de provoquer son asphyxie et sa pourriture", "Il va se transformer en fleur", "Il va attirer les oiseaux", "L'arbre va changer de couleur"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Plantation"
+            },
+            {
+                question: "Quel légume-bulbe se plante traditionnellement à l'automne (les bulbilles) pour une récolte l'été suivant ?",
+                options: ["L'ail et l'échalote", "La tomate cerise", "Le haricot vert", "La courgette"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Ail"
+            },
+            {
+                question: "Qu'est-ce qu'un purin d'ortie utilisé en jardinage naturel ?",
+                options: ["Une macération d'orties fermentée servant d'engrais azoté et fortifiant", "Un poison chimique radical", "Un remède pour soigner les piqûres d'insectes", "Une soupe pour le jardinier"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Purin_d%27ortie"
+            },
+            {
+                question: "Quel est l'intérêt principal de planter de la phacélie comme engrais vert ou pour les abeilles ?",
+                options: ["Elle pousse vite, étouffe les mauvaises herbes et attire les pollinisateurs", "Elle donne des fruits comestibles sucrés", "Elle chasse les taupes du jardin", "Elle éclaire le jardin la nuit"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Phac%C3%A9lie_à_feuilles_de_tanaisie"
+            },
+            {
+                question: "Quel type de contenant privilégier pour planter sur un balcon ensoleillé en été ?",
+                options: ["Un grand bac profond qui retient l'humidité", "Une assiette plate en plastique", "Un tout petit godet noir", "Un seau percé sans terre"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Jardin_sur_balcon"
+            },
+            {
+                question: "Qu'appelle-t-on le 'choc de transplantation' après avoir planté un végétal ?",
+                options: ["Un stress temporaire de la plante suite au changement de milieu", "Une explosion des racines", "Une maladie virale fulgurante", "Le gel instantané des feuilles"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Transplantation_(botanique)"
+            },
+            {
+                question: "Pourquoi laisse-t-on souvent un espace (cuvette de plantation) autour d'un jeune arbre arrosé ?",
+                options: ["Pour retenir l'eau d'arrosage directement vers les racines", "Pour y stocker les feuilles mortes", "Pour faire une piscine pour oiseaux", "Pour esthétique uniquement"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Plantation"
+            },
+            {
+                question: "Quelle plante aromatique mellifère redoute l'excès d'eau et craint l'hiver humide ?",
+                options: ["Le romarin ou le thym", "La menthe verte", "L'oseille", "La rhubarbe"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Romarin"
+            },
+            {
+                question: "Quel est l'avantage du semis en godet par rapport au semis direct en pleine terre ?",
+                options: ["Contrôler la germination à l'abri avant de repiquer le plant robuste", "Éviter totalement l'arrosage", "Planter en hiver dehors", "Avoir des légumes géants instantanément"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Semis"
+            },
+            {
+                question: "Qu'est-ce que la 'lune croissante' dans le calendrier lunaire du jardinier amateur ?",
+                options: ["La période où la seve monte, propice aux semis et récoltes de surface", "La période où la lune disparaît complètement", "Le moment idéal pour tailler les racines", "Une légende sans aucun fondement"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Jardinage_lunaire"
+            },
+            {
+                question: "Quel légume-feuille monte rapidement en graines si la terre s'assèche trop en été ?",
+                options: ["La salade (laitue)", "Le poireau", "La courge", "Le topinambour"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Laitue"
+            },
+            {
+                question: "Pourquoi évite-t-on de tasser la terre trop violemment avec les pieds lors d'un semis de petites graines ?",
+                options: ["Pour ne pas bloquer la levée et casser les fines pousses", "Pour laisser passer le vent", "Parce que c'est interdit par la loi", "Pour que les vers puissent respirer"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Semis"
+            },
+            {
+                question: "Quel amendement naturel apporte du calcium et permet de corriger l'acidité d'un sol trop acide ?",
+                options: ["La chaux ou le maërl", "Le sel marin", "Le vinaigre blanc", "Le jus de citron"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Chaux_(agriculture)"
+            },
+            {
+                question: "Quel est le principal risque d'un arrosage trop fréquent mais superficiel des plantes ?",
+                options: ["Les racines restent en surface au lieu de descendre chercher l'eau", "La plante grandit trop vite", "Les feuilles changent de couleur", "Le pot se vide de sa terre"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Arrosage"
+            },
+            {
+                question: "Qu'appelle-t-on le 'paillis sec' ou BRF (Bois Raméal Fragmenté) au jardin ?",
+                    options: ["Des fragments de jeunes branches broyées qui nourrissent le sol en se décomposant", "De la poussière de brique pilée", "Du plastique recyclé en granulés", "Du bois brûlé en cendres"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Bois_ram%C3%A9al_fragment%C3%A9"
+            },
+            {
+                question: "Quelle plante grimpante vigoureuse nécessite un support solide comme une pergola ou un grillage robuste ?",
+                options: ["La glycine ou la clématite", "Le radis rose", "Le persil frisé", "La fraise des bois"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Glycine_(plante)"
+            },
+            {
+                question: "Comment s'appelle l'opération qui consiste à couper l'extrémité des tiges pour densifier la plante ?",
+                options: ["Pincer ou tailler l'apex", "Déraciner", "Élaguer les grosses racines", "Éclaircir"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Pincement_(arboriculture)"
+            },
+            {
+                question: "Quel type de terreau est idéal pour le semis et le démarrage des jeunes racines fragiles ?",
+                options: ["Un terreau fin spécial semis, léger et peu riche", "Du compost pur de fumier de cheval", "De la terre argileuse lourde", "Du sable de mer salé"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Terreau"
+            },
+            {
+                question: "Quelle est la règle d'or générale pour réussir la plantation d'un végétal en pot ou en pleine terre ?",
+                options: ["Respecter la période adaptée, la nature du sol et le bon niveau du collet", "Planter uniquement sous la pluie d'orage", "Mettre un maximum de sacs de ciment au fond", "Ne jamais arroser les trois premières années"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Plantation"
             }
         ];
 
@@ -573,7 +951,6 @@
             questionText.innerText = q.question;
             facialExpression.innerText = "😐"; // Base neutre[cite: 1]
             optionsContainer.innerHTML = "";
-            wikiContainer.innerHTML = "";
 
             q.options.forEach((option, index) => {
                 const button = document.createElement("button");
@@ -587,13 +964,13 @@
         function verifierReponse(selectedIndex) {
             const q = questions[currentQuestionIndex];
             
-            // Affichage du lien Wikipédia pour approfondir
+            // Affichage du lien Wikipédia de la question qui vient d'être traitée
             if (q.wiki) {
-                wikiContainer.innerHTML = `<a href="${q.wiki}" target="_blank" class="wiki-link">📚 En savoir plus sur Wikipédia</a>`;
+                wikiContainer.innerHTML = `<a href="${q.wiki}" target="_blank" class="wiki-link">📚 En savoir plus sur Wikipédia (${q.options[q.correct]})</a>`;
             }
 
             if (selectedIndex === q.correct) {
-                // Victoire : +10 points de base + bonus de combo, effet visuel vert et expression heureuse
+                // Victoire : +10 points de base + bonus de combo, effet vert et expression heureuse
                 combo++;
                 const pointsGagnes = 10 + (combo - 1) * 5;
                 score += pointsGagnes;
@@ -603,7 +980,7 @@
                 
                 facialExpression.innerText = "🎉";
             } else {
-                // Échec : -15 points, réinitialisation du combo, effet visuel rouge et expression triste
+                // Échec : -15 points, réinitialisation du combo, effet rouge et expression triste
                 score -= 15;
                 combo = 0;
                 
@@ -619,7 +996,7 @@
             // Passer à la question suivante après un court délai
             setTimeout(() => {
                 afficherQuestion();
-            }, 1500);
+            }, 1800);
         }
 
         // Lancement initial
