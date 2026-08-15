@@ -36,6 +36,30 @@
             overflow: hidden;
             border: 1px solid #334155;
             position: relative;
+            transition: background-color 0.4s ease;
+        }
+
+        /* Animations d'écran de réussite / échec */
+        .mobile-container.success-flash {
+            animation: successPulse 0.5s ease;
+        }
+
+        .mobile-container.error-flash {
+            animation: errorShake 0.4s ease;
+        }
+
+        @keyframes successPulse {
+            0% { background: #1e293b; border-color: #334155; }
+            50% { background: rgba(34, 197, 94, 0.25); border-color: #22c55e; box-shadow: inset 0 0 30px rgba(34, 197, 94, 0.4); }
+            100% { background: #1e293b; border-color: #334155; }
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); background: #1e293b; border-color: #334155; }
+            20% { transform: translateX(-6px); background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
+            40% { transform: translateX(6px); background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
         }
 
         .app-header {
@@ -80,6 +104,12 @@
             font-weight: 800;
             border: 1px solid rgba(249, 115, 22, 0.3);
             display: none;
+            animation: bounceCombo 0.4s ease;
+        }
+
+        @keyframes bounceCombo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25); }
         }
 
         .score-badge {
@@ -90,20 +120,11 @@
             font-size: 12px;
             font-weight: 800;
             border: 1px solid rgba(74, 222, 128, 0.3);
+            transition: transform 0.2s;
         }
 
-        .timer-bar-container {
-            width: 100%;
-            height: 4px;
-            background: #334155;
-            position: relative;
-        }
-
-        .timer-bar {
-            height: 100%;
-            width: 100%;
-            background: #38bdf8;
-            transition: width 0.1s linear, background-color 0.3s;
+        .score-badge.pulse {
+            transform: scale(1.15);
         }
 
         .app-content {
@@ -123,10 +144,12 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: pointer;
+            transition: border-color 0.2s;
         }
 
-        .avatar-picker {
-            cursor: pointer;
+        .user-profile-card:hover {
+            border-color: #38bdf8;
         }
 
         .user-avatar {
@@ -146,20 +169,17 @@
             flex: 1;
         }
 
-        .username-input {
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid #334155;
+        .profile-name-display {
             color: #f8fafc;
-            font-size: 14px;
-            font-weight: 700;
-            width: 100%;
-            padding: 2px 0;
-            outline: none;
+            font-size: 15px;
+            font-weight: 800;
         }
 
-        .username-input:focus {
-            border-bottom-color: #4ade80;
+        .profile-subtitle {
+            font-size: 11px;
+            color: #38bdf8;
+            font-weight: 600;
+            margin-top: 2px;
         }
 
         .top-menu-actions {
@@ -247,10 +267,25 @@
             cursor: pointer;
             transition: all 0.2s;
             line-height: 1.25;
+            position: relative;
+            overflow: hidden;
         }
 
         .option-btn:hover:not(:disabled) {
             border-color: #4ade80;
+        }
+
+        .option-btn.correct-anim {
+            background: rgba(34, 197, 94, 0.25) !important;
+            border-color: #22c55e !important;
+            color: #4ade80 !important;
+            transform: scale(1.02);
+        }
+
+        .option-btn.wrong-anim {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: #ef4444 !important;
+            color: #f87171 !important;
         }
 
         .option-btn.hidden-by-joker {
@@ -264,6 +299,12 @@
             border-radius: 10px;
             padding: 8px;
             margin-top: 6px;
+            animation: fadeInExp 0.3s ease;
+        }
+
+        @keyframes fadeInExp {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .explanation-text {
@@ -310,6 +351,12 @@
             font-size: 13px;
             cursor: pointer;
             width: 100%;
+            animation: popInBtn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popInBtn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .share-btn {
@@ -405,6 +452,74 @@
         .trophy-details h4 { font-size: 13px; color: #f8fafc; font-weight: 700; }
         .trophy-details p { font-size: 11px; color: #94a3b8; }
 
+        .profile-edit-body {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .avatar-selection-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .avatar-option-btn {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            font-size: 28px;
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .avatar-option-btn.selected {
+            border-color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+
+        .form-input {
+            background: #0f172a;
+            border: 2px solid #334155;
+            color: #f8fafc;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 10px;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #38bdf8;
+        }
+
+        .save-profile-btn {
+            background: #22c55e;
+            color: #0f172a;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
         #achievement-popup {
             position: absolute;
             top: 15px;
@@ -426,9 +541,10 @@
 </head>
 <body>
 
-<div class="mobile-container">
+<div class="mobile-container" id="main-container">
     <div id="achievement-popup">🏆 Trophée débloqué !</div>
 
+    <!-- Modale Trophées -->
     <div class="modal-overlay" id="trophy-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -436,6 +552,27 @@
                 <button class="close-modal" onclick="toggleTrophyModal()">×</button>
             </div>
             <div class="trophies-list" id="trophies-list-container"></div>
+        </div>
+    </div>
+
+    <!-- Modale Espace Profil -->
+    <div class="modal-overlay" id="profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">⚙️ Mon Espace Profil</div>
+                <button class="close-modal" onclick="toggleProfileModal()">×</button>
+            </div>
+            <div class="profile-edit-body">
+                <div class="form-group">
+                    <label class="form-label">Changer de nom :</label>
+                    <input type="text" class="form-input" id="modal-username-input" placeholder="Ton pseudo...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Choisir ton avatar :</label>
+                    <div class="avatar-selection-grid" id="avatar-grid"></div>
+                </div>
+                <button class="save-profile-btn" onclick="saveProfileChanges()">Enregistrer les modifications</button>
+            </div>
         </div>
     </div>
 
@@ -450,23 +587,19 @@
         </div>
     </div>
 
-    <div class="timer-bar-container">
-        <div class="timer-bar" id="timer-bar"></div>
-    </div>
-
     <div class="app-content">
-        <div class="user-profile-card">
-            <div class="avatar-picker" onclick="changeAvatar()">
-                <div class="user-avatar" id="avatar-display">👨‍🌾</div>
-            </div>
+        <!-- Carte Profil cliquable -->
+        <div class="user-profile-card" onclick="toggleProfileModal()">
+            <div class="user-avatar" id="avatar-display">👨‍🌾</div>
             <div class="profile-info">
-                <input type="text" class="username-input" id="username-input" value="JardinierExpert" placeholder="Ton pseudo..." oninput="saveUserData()">
+                <div class="profile-name-display" id="profile-name-view">JardinierExpert</div>
+                <div class="profile-subtitle">⚙️ Cliquer pour modifier le profil</div>
                 <div class="top-menu-actions">
-                    <button class="trophy-btn-mini" onclick="toggleTrophyModal()">🏆 Trophées</button>
+                    <button class="trophy-btn-mini" onclick="event.stopPropagation(); toggleTrophyModal();">🏆 Trophées</button>
                 </div>
                 <div class="jokers-bar">
-                    <button class="joker-btn" id="joker-50" onclick="useJoker50()">✂️ 50/50 (<span id="count-50">2</span>)</button>
-                    <button class="joker-btn" id="joker-tip" onclick="useJokerTip()">💡 Indice (<span id="count-tip">2</span>)</button>
+                    <button class="joker-btn" id="joker-50" onclick="event.stopPropagation(); useJoker50()">✂️ 50/50 (<span id="count-50">2</span>)</button>
+                    <button class="joker-btn" id="joker-tip" onclick="event.stopPropagation(); useJokerTip()">💡 Indice (<span id="count-tip">2</span>)</button>
                 </div>
             </div>
         </div>
@@ -594,26 +727,21 @@
     let consecutiveErrors = 0;
     let consecutiveSuccess = 0;
     let shuffledOptionsCache = [];
-    let totalAnsweredCount = 0;
     let comboCount = 0;
 
     let jokers50Left = 2;
     let jokersTipLeft = 2;
 
-    let timerInterval = null;
-    let timeLeft = 15;
-    const maxTime = 15;
-
-    const avatars = ["👨‍🌾", "👩‍🌾", "👷‍♂️", "🚜", "🌿", "🧑‍🌾"];
-    let avatarIdx = 0;
+    const avatars = ["👨‍🌾", "👩‍🌾", "👷‍♂️", "🚜", "🌿", "🧑‍🌾", "🌻", "🌲", "🍄"];
+    let currentAvatar = "👨‍🌾";
+    let selectedAvatarInModal = "👨‍🌾";
 
     const ranks = [
         { min: 0, title: "🌱 Graine de radis" },
-        { min: 50, title: "🌿 Pousse tendre" },
-        { min: 120, title: "🪴 Apprenti jardinier" },
-        { min: 250, title: "🌻 Jardinier confirmé" },
-        { min: 450, title: "🌳 Maître paysan" },
-        { min: 700, title: "👑 Sage botaniste" }
+        { min: 60, title: "🌿 Pousse tendre" },
+        { min: 150, title: "🪴 Apprenti jardinier" },
+        { min: 300, title: "🌻 Jardinier confirmé" },
+        { min: 550, title: "👑 Sage botaniste" }
     ];
 
     const trophies = [
@@ -623,7 +751,7 @@
         { id: "t4", icon: "⚠️", title: "Erreur de Diagnostic", desc: "Faire 3 erreurs d'affilée", unlocked: false },
         { id: "t5", icon: "⭐", title: "Expert Vert", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
         { id: "t6", icon: "🔥", title: "En Feu !", desc: "Atteindre un combo de 5", unlocked: false },
-        { id: "t7", icon: "🏆", title: "Expert Horticole", desc: "Atteindre 250 points", unlocked: false }
+        { id: "t7", icon: "🏆", title: "Maître des Fleurs", desc: "Atteindre 300 points", unlocked: false }
     ];
 
     function updateRankDisplay() {
@@ -652,12 +780,17 @@
 
     function loadUserData() {
         if (localStorage.getItem('jardin_client_score')) score = parseInt(localStorage.getItem('jardin_client_score'));
-        if (localStorage.getItem('jardin_client_pseudo')) document.getElementById("username-input").value = localStorage.getItem('jardin_client_pseudo');
+        
+        let savedPseudo = localStorage.getItem('jardin_client_pseudo') || "JardinierExpert";
+        document.getElementById("profile-name-view").innerText = savedPseudo;
+        document.getElementById("modal-username-input").value = savedPseudo;
+
         if (localStorage.getItem('jardin_client_avatar')) {
-            document.getElementById("avatar-display").innerText = localStorage.getItem('jardin_client_avatar');
-            avatarIdx = avatars.indexOf(localStorage.getItem('jardin_client_avatar'));
-            if (avatarIdx === -1) avatarIdx = 0;
+            currentAvatar = localStorage.getItem('jardin_client_avatar');
+            document.getElementById("avatar-display").innerText = currentAvatar;
         }
+        selectedAvatarInModal = currentAvatar;
+
         if (localStorage.getItem('jardin_client_trophies')) {
             const savedT = JSON.parse(localStorage.getItem('jardin_client_trophies'));
             trophies.forEach(t => { if (savedT.includes(t.id)) t.unlocked = true; });
@@ -669,6 +802,7 @@
         if (localStorage.getItem('jardin_client_jokers_tip')) jokersTipLeft = parseInt(localStorage.getItem('jardin_client_jokers_tip'));
 
         trackDailyVisits();
+        renderAvatarGrid();
         renderTrophiesList();
         updateScoreDisplay();
         updateJokersUI();
@@ -677,8 +811,8 @@
 
     function saveUserData() {
         localStorage.setItem('jardin_client_score', score);
-        localStorage.setItem('jardin_client_pseudo', document.getElementById("username-input").value);
-        localStorage.setItem('jardin_client_avatar', document.getElementById("avatar-display").innerText);
+        localStorage.setItem('jardin_client_pseudo', document.getElementById("profile-name-view").innerText);
+        localStorage.setItem('jardin_client_avatar', currentAvatar);
         localStorage.setItem('jardin_client_avatar_count', avatarsChangesCount);
         localStorage.setItem('jardin_client_jokers_50', jokers50Left);
         localStorage.setItem('jardin_client_jokers_tip', jokersTipLeft);
@@ -709,6 +843,53 @@
         modal.style.display = modal.style.display === "flex" ? "none" : "flex";
     }
 
+    function toggleProfileModal() {
+        const modal = document.getElementById("profile-modal");
+        if (modal.style.display === "flex") {
+            modal.style.display = "none";
+        } else {
+            document.getElementById("modal-username-input").value = document.getElementById("profile-name-view").innerText;
+            selectedAvatarInModal = currentAvatar;
+            renderAvatarGrid();
+            modal.style.display = "flex";
+        }
+    }
+
+    function renderAvatarGrid() {
+        const grid = document.getElementById("avatar-grid");
+        grid.innerHTML = "";
+        avatars.forEach(av => {
+            const btn = document.createElement("button");
+            btn.className = "avatar-option-btn " + (av === selectedAvatarInModal ? "selected" : "");
+            btn.innerText = av;
+            btn.onclick = () => {
+                selectedAvatarInModal = av;
+                renderAvatarGrid();
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function saveProfileChanges() {
+        const newName = document.getElementById("modal-username-input").value.trim();
+        if (newName) {
+            document.getElementById("profile-name-view").innerText = newName;
+        }
+
+        if (currentAvatar !== selectedAvatarInModal) {
+            currentAvatar = selectedAvatarInModal;
+            document.getElementById("avatar-display").innerText = currentAvatar;
+            avatarsChangesCount++;
+            if (avatarsChangesCount >= 3) {
+                unlockTrophy("t3");
+            }
+        }
+
+        saveUserData();
+        toggleProfileModal();
+        showAchievement("✨ Profil mis à jour avec succès !");
+    }
+
     function renderTrophiesList() {
         const container = document.getElementById("trophies-list-container");
         container.innerHTML = "";
@@ -725,19 +906,11 @@
         });
     }
 
-    function changeAvatar() {
-        avatarIdx = (avatarIdx + 1) % avatars.length;
-        document.getElementById("avatar-display").innerText = avatars[avatarIdx];
-        avatarsChangesCount++;
-        saveUserData();
-
-        if (avatarsChangesCount >= 3) {
-            unlockTrophy("t3");
-        }
-    }
-
     function updateScoreDisplay() {
-        document.getElementById("score-display").innerText = score + " Pts";
+        const scoreBadge = document.getElementById("score-display");
+        scoreBadge.innerText = score + " Pts";
+        scoreBadge.classList.add("pulse");
+        setTimeout(() => scoreBadge.classList.remove("pulse"), 200);
         updateRankDisplay();
     }
 
@@ -746,62 +919,6 @@
         document.getElementById("count-tip").innerText = jokersTipLeft;
         document.getElementById("joker-50").disabled = (jokers50Left <= 0);
         document.getElementById("joker-tip").disabled = (jokersTipLeft <= 0);
-    }
-
-    function startTimer() {
-        clearInterval(timerInterval);
-        timeLeft = maxTime;
-        const timerBar = document.getElementById("timer-bar");
-        timerBar.style.width = "100%";
-        timerBar.style.backgroundColor = "#38bdf8";
-
-        timerInterval = setInterval(() => {
-            timeLeft -= 0.1;
-            let percent = (timeLeft / maxTime) * 100;
-            if (percent < 0) percent = 0;
-            timerBar.style.width = percent + "%";
-
-            if (percent < 30) {
-                timerBar.style.backgroundColor = "#f87171";
-            } else if (percent < 60) {
-                timerBar.style.backgroundColor = "#facc15";
-            }
-
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                handleTimeOut();
-            }
-        }, 100);
-    }
-
-    function handleTimeOut() {
-        const buttons = document.querySelectorAll(".option-btn");
-        buttons.forEach(b => b.disabled = true);
-
-        consecutiveErrors++;
-        consecutiveSuccess = 0;
-        comboCount = 0;
-        updateComboUI();
-
-        const expBox = document.getElementById("explanation-box");
-        const pointsNotice = document.getElementById("points-notice");
-        const explanationText = document.getElementById("explanation");
-
-        expBox.style.display = "block";
-        pointsNotice.innerHTML = `⏰ Temps écoulé ! La bonne réponse était : <b>${currentQuestionObj.correct}</b>`;
-        pointsNotice.style.color = "#f87171";
-        explanationText.innerText = currentQuestionObj.exp;
-
-        if (consecutiveErrors >= 3) unlockTrophy("t4");
-
-        const wikiBtn = document.getElementById("wiki-btn");
-        if (currentQuestionObj.wiki) {
-            wikiBtn.href = currentQuestionObj.wiki;
-            wikiBtn.style.display = "flex";
-        }
-
-        document.getElementById("next-btn").style.display = "block";
-        saveUserData();
     }
 
     function loadNextQuestion() {
@@ -824,19 +941,16 @@
             const btn = document.createElement("button");
             btn.className = "option-btn";
             btn.innerText = opt;
-            btn.onclick = () => selectAnswer(idx);
+            btn.onclick = () => selectAnswer(idx, btn);
             optionsContainer.appendChild(btn);
         });
 
         document.getElementById("explanation-box").style.display = "none";
         document.getElementById("next-btn").style.display = "none";
         document.getElementById("wiki-btn").style.display = "none";
-
-        startTimer();
     }
 
-    function selectAnswer(selectedIndex) {
-        clearInterval(timerInterval);
+    function selectAnswer(selectedIndex, clickedBtn) {
         const buttons = document.querySelectorAll(".option-btn");
         buttons.forEach(b => b.disabled = true);
 
@@ -846,31 +960,53 @@
         const expBox = document.getElementById("explanation-box");
         const pointsNotice = document.getElementById("points-notice");
         const explanationText = document.getElementById("explanation");
+        const container = document.getElementById("main-container");
 
         expBox.style.display = "block";
-        totalAnsweredCount++;
 
         if (isCorrect) {
-            let timeBonus = Math.floor(timeLeft * 0.5);
-            let earned = 10 + timeBonus;
-            score += earned;
             consecutiveSuccess++;
             consecutiveErrors = 0;
             comboCount++;
 
-            pointsNotice.innerHTML = `✅ Bonne réponse ! (+${earned} Pts avec bonus vitesse)`;
+            // Animation de réussite (Flash vert du conteneur et bouton)
+            container.classList.add("success-flash");
+            setTimeout(() => container.classList.remove("success-flash"), 500);
+            clickedBtn.classList.add("correct-anim");
+
+            let earned = 10 + (comboCount - 1) * 5; 
+            score += earned;
+
+            pointsNotice.innerHTML = `✅ Bonne réponse ! (+${earned} Pts - Série x${comboCount})`;
             pointsNotice.style.color = "#4ade80";
 
             unlockTrophy("t1");
             if (score >= 100) unlockTrophy("t2");
-            if (score >= 250) unlockTrophy("t7");
+            if (score >= 300) unlockTrophy("t7");
             if (consecutiveSuccess >= 3) unlockTrophy("t5");
             if (comboCount >= 5) unlockTrophy("t6");
         } else {
             consecutiveErrors++;
             consecutiveSuccess = 0;
             comboCount = 0;
-            pointsNotice.innerHTML = `❌ Mauvaise réponse. La bonne réponse était : <b>${currentQuestionObj.correct}</b>`;
+
+            // Animation d'échec (Secousse rouge du conteneur et mauvais bouton)
+            container.classList.add("error-flash");
+            setTimeout(() => container.classList.remove("error-flash"), 400);
+            clickedBtn.classList.add("wrong-anim");
+
+            // Mettre en valeur la vraie réponse pour l'apprentissage
+            buttons.forEach(b => {
+                if (b.innerText === currentQuestionObj.correct) {
+                    b.classList.add("correct-anim");
+                }
+            });
+
+            let penalty = 10 + (consecutiveErrors * 5);
+            score -= penalty;
+            if (score < 0) score = 0;
+
+            pointsNotice.innerHTML = `❌ Mauvaise réponse (-${penalty} Pts). La bonne réponse était : <b>${currentQuestionObj.correct}</b>`;
             pointsNotice.style.color = "#f87171";
 
             if (consecutiveErrors >= 3) unlockTrophy("t4");
@@ -940,7 +1076,8 @@
     }
 
     function shareScore() {
-        const text = `🌿 Mon score sur le Quiz Jardinier est de ${score} Pts ! Viens tester tes connaissances.`;
+        const pseudo = document.getElementById("profile-name-view").innerText;
+        const text = `🌿 ${pseudo} a atteint ${score} Pts sur le Quiz Jardinier ! Viens tester tes connaissances.`;
         if (navigator.share) {
             navigator.share({ title: 'Quiz Jardinier', text: text }).catch(() => {});
         } else {
