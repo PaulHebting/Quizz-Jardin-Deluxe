@@ -115,7 +115,6 @@
             border: 1px solid rgba(74, 222, 128, 0.3);
         }
 
-        /* Barre de progression des grades */
         .progress-bar-container {
             background: #0f172a;
             padding: 8px 14px;
@@ -633,61 +632,109 @@
 </div>
 
 <script>
-    // 500 questions simples, directes et naturelles (sans mention de catégorie)
+    // Liste de questions variées axées sur le jardinage, les parasites, les maladies et les techniques
     const baseTopics = [
-        { q: "Quel engrais faut-il donner au gazon au printemps ?", correct: "De l'azote pour l'aider à pousser", wrongs: ["Du sable pur", "De la cendre de bois", "Du sel"], exp: "L'azote stimule la pousse et donne une belle couleur verte au gazon.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
-        { q: "Quelle hauteur faut-il garder pour tondre sa pelouse en été ?", correct: "Entre 6 et 8 cm pour garder l'humidité", wrongs: ["À ras (2 cm)", "Ne plus jamais tondre", "Exactement 3 cm"], exp: "Une herbe plus haute protège les racines du soleil et évite qu'elle ne sèche.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
-        { q: "Comment se débarrasser de la mousse sur une pelouse à l'ombre ?", correct: "En scarifiant et en aérant le sol", wrongs: ["En mettant du sel partout", "En tondant tous les jours", "En arrosant avec de l'eau sale"], exp: "La mousse aime les sols lourds et humides qui manquent d'air.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" },
-        { q: "À quoi sert de passer un rouleau après avoir semé du gazon ?", correct: "À bien coller les graines à la terre", wrongs: ["À aplatir les taupes", "À chauffer la terre", "À cacher les graines des oiseaux"], exp: "Le rouleau aide les graines à puiser l'humidité de la terre pour germer.", wiki: "https://fr.wikipedia.org/wiki/Rouleau_à_gazon" },
-        { q: "Quel est le meilleur moment pour scarifier sa pelouse ?", correct: "Au printemps ou au début de l'automne", wrongs: ["En plein mois de juillet", "En plein hiver sous la neige", "La nuit uniquement"], exp: "Ces saisons apportent l'eau et la douceur nécessaires pour la repousse.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
-        { q: "Pourquoi les oiseaux retournent-ils des morceaux de pelouse au printemps ?", correct: "Pour manger les vers et les larves", wrongs: ["Pour faire leur nid", "Pour chercher des cailloux", "Par simple habitude"], exp: "Ils fouillent la terre pour attraper les larves de hannetons ou de tipules.", wiki: "https://fr.wikipedia.org/wiki/Hanneton" },
-        { q: "Quelle tondeuse choisir pour un terrain en pente très raide ?", correct: "Une tondeuse légère ou une débroussailleuse", wrongs: ["Un gros tracteur lourd", "Une tondeuse sans roues", "Une cisaillette à main"], exp: "Il faut du matériel maniable et léger pour éviter de glisser.", wiki: "https://fr.wikipedia.org/wiki/Tondeuse_%C3%A0_gazon" },
-        { q: "Qu'appelle-t-on le mulching quand on tond ?", correct: "Laisser l'herbe coupée finement sur place", wrongs: ["Ramasser l'herbe pour les poules", "Laver l'herbe à l'eau", "Brûler l'herbe coupée"], exp: "L'herbe hachée nourrit le sol naturellement en se décomposant.", wiki: "https://fr.wikipedia.org/wiki/Mulching" },
-        { q: "Comment enlever facilement des pissenlits sans produit chimique ?", correct: "En arrachant toute la longue racine", wrongs: ["En coupant juste les feuilles", "En versant du vinaigre partout", "En marchant dessus"], exp: "S'il reste un morceau de racine, le pissenlit repoussera.", wiki: "https://fr.wikipedia.org/wiki/Désherbage" },
-        { q: "Pourquoi faut-il éviter de tondre quand l'herbe est trempée ?", correct: "Parce qu'on abîme le sol et la pelouse", wrongs: ["Parce que la tondeuse va voler", "Parce que l'herbe devient bleue", "Parce que ça fait trop de bruit"], exp: "Le poids écrase la terre et arrache les racines.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
-        { q: "Quand faut-il tailler les rosiers ?", correct: "À la fin de l'hiver, avant le printemps", wrongs: ["En plein mois d'août", "Sous la neige en janvier", "Tous les soirs"], exp: "La taille de fin d'hiver aide le rosier à faire de belles nouvelles fleurs.", wiki: "https://fr.wikipedia.org/wiki/Rosier" },
-        { q: "Quand tailler les arbustes qui fleurissent au printemps (comme le forsythia) ?", correct: "Juste après la fin de leur floraison", wrongs: ["Avant l'hiver", "Pendant l'été", "Jamais"], exp: "Si on les taille trop tôt, on coupe les futurs boutons de fleurs.", wiki: "https://fr.wikipedia.org/wiki/Forsythia" },
-        { q: "Comment bien couper une branche d'arbre ?", correct: "Au ras du tronc sans laisser de bout qui dépasse", wrongs: ["En laissant un long bout de bois", "En arrachant la branche", "En coupant le milieu du tronc"], exp: "Cela aide l'arbre à refermer sa plaie rapidement.", wiki: "https://fr.wikipedia.org/wiki/Élagage" },
-        { q: "Pourquoi faut-il nettoyer ses outils de coupe entre deux plantes ?", correct: "Pour ne pas transmettre de maladies", wrongs: ["Pour qu'ils sentent bon", "Pour qu'ils brillent", "Pour enlever la peinture"], exp: "Les microbes et virus passent facilement d'une plante à l'autre par la lame.", wiki: "https://fr.wikipedia.org/wiki/Sécateur" },
-        { q: "Quelle est la meilleure saison pour tailler les pommiers et poiriers ?", correct: "En hiver, quand les feuilles sont tombées", wrongs: ["En plein été", "Quand il y a des fruits", "Au printemps"], exp: "Sans feuilles, on voit mieux les branches et l'arbre est au repos.", wiki: "https://fr.wikipedia.org/wiki/Arbre_fruitier" },
-        { q: "Qu'est-ce qu'un gourmand sur un arbre fruitier ?", correct: "Une branche qui pousse tout droit et ne donne rien", wrongs: ["Un fruit très gros", "Une grosse racine", "Un champignon"], exp: "Ces branches fatiguent l'arbre pour rien et doivent être coupées.", wiki: "https://fr.wikipedia.org/wiki/Gourmand_(botanique)" },
-        { q: "Comment appelle-t-on un arbre fruitier qu'on fait pousser à plat contre un mur ?", correct: "Un espalier", wrongs: ["Un bonsaï", "Un arbrisseau", "Une haie"], exp: "Cela prend peu de place et prend beaucoup de soleil.", wiki: "https://fr.wikipedia.org/wiki/Espalier" },
-        { q: "À quelle fréquence tailler une haie de charmille ?", correct: "Deux fois par an (printemps et fin d'été)", wrongs: ["Tous les dix ans", "Une fois par siècle", "Tous les jours"], exp: "Le charme supporte très bien deux tailles pour rester bien dense.", wiki: "https://fr.wikipedia.org/wiki/Carpinus_betulus" },
-        { q: "Quel outil utiliser pour couper des branches hautes sans monter sur une échelle ?", correct: "Un échenilloir sur perche", wrongs: ["Un petit couteau", "Une tondeuse", "Une pioche"], exp: "Cet outil permet de couper en hauteur tout en gardant les pieds au sol.", wiki: "https://fr.wikipedia.org/wiki/Échenilloir" },
-        { q: "Quel sol préfèrent la majorité des plantes du jardin ?", correct: "Une terre riche, souple et bien drainée", wrongs: ["Du béton pur", "De l'eau de mer", "De la pierre sèche"], exp: "La terre idéale retient un peu d'eau tout en laissant respirer les racines.", wiki: "https://fr.wikipedia.org/wiki/Sol_(pédologie)" }
+        { q: "Quel engrais faut-il donner au gazon au printemps ?", correct: "De l'azote pour l'aider à pousser", wrongs: ["Du sable pur et sec", "De la cendre de bois tamisée", "Du gros sel de cuisine"], exp: "L'azote stimule la pousse et donne une belle couleur verte au gazon.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
+        { q: "Quelle hauteur faut-il garder pour tondre sa pelouse en été ?", correct: "Entre 6 et 8 cm pour garder l'humidité", wrongs: ["À ras (2 cm maximum)", "Ne plus jamais y toucher", "Exactement 3 cm de haut"], exp: "Une herbe plus haute protège les racines du soleil et évite qu'elle ne sèche.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
+        { q: "Comment se débarrasser de la mousse sur une pelouse à l'ombre ?", correct: "En scarifiant et en aérant le sol", wrongs: ["En étalant de l'huile de vidange", "En tondant en marche arrière", "En arrosant avec de l'eau savonneuse"], exp: "La mousse aime les sols lourds et humides qui manquent d'air.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" },
+        { q: "À quoi sert de passer un rouleau après avoir semé du gazon ?", correct: "À bien coller les graines à la terre", wrongs: ["À aplatir définitivement les taupes", "À réchauffer la terre en profondeur", "À cacher les graines des oiseaux curieux"], exp: "Le rouleau aide les graines à puiser l'humidité de la terre pour germer.", wiki: "https://fr.wikipedia.org/wiki/Rouleau_%C3%A0_gazon" },
+        { q: "Quel est le meilleur moment pour scarifier sa pelouse ?", correct: "Au printemps ou au début de l'automne", wrongs: ["En plein mois de juillet caniculaire", "En plein hiver sous une couche de neige", "Uniquement les nuits de pleine lune"], exp: "Ces saisons apportent l'eau et la douceur nécessaires pour la repousse.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
+        { q: "Pourquoi les oiseaux retournent-ils des morceaux de pelouse au printemps ?", correct: "Pour manger les vers et les larves", wrongs: ["Pour construire les fondations de leur nid", "Pour chercher des pépites de minéraux", "Par simple instinct de jeu territorial"], exp: "Ils fouillent la terre pour attraper les larves de hannetons ou de tipules.", wiki: "https://fr.wikipedia.org/wiki/Hanneton" },
+        { q: "Quelle tondeuse choisir pour un terrain en pente très raide ?", correct: "Une tondeuse légère ou une débroussailleuse", wrongs: ["Un gros tracteur agricole lourd", "Une tondeuse thermique autoportée géante", "Une cisaillette à main rouillée"], exp: "Il faut du matériel maniable et léger pour éviter de glisser.", wiki: "https://fr.wikipedia.org/wiki/Tondeuse_%C3%A0_gazon" },
+        { q: "Qu'appelle-t-on le mulching quand on tond ?", correct: "Laisser l'herbe coupée finement sur place", wrongs: ["Ramasser l'herbe pour nourrir les poules", "Laver l'herbe coupée à grande eau", "Brûler l'herbe pour faire du charbon"], exp: "L'herbe hachée nourrit le sol naturellement en se décomposant.", wiki: "https://fr.wikipedia.org/wiki/Mulching" },
+        { q: "Comment enlever facilement des pissenlits sans produit chimique ?", correct: "En arrachant toute la longue racine", wrongs: ["En coupant uniquement les feuilles du haut", "En versant du vinaigre blanc pur partout", "En marchant lourdement dessus"], exp: "S'il reste un morceau de racine, le pissenlit repoussera.", wiki: "https://fr.wikipedia.org/wiki/D%C3%A9sherbage" },
+        { q: "Pourquoi faut-il éviter de tondre quand l'herbe est trempée ?", correct: "Parce qu'on abîme le sol et la pelouse", wrongs: ["Parce que la tondeuse risque de s'envoler", "Parce que l'herbe devient instantanément bleue", "Parce que cela siffle dans les oreilles"], exp: "Le poids écrase la terre et arrache les racines.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
+        { q: "Quand faut-il tailler les rosiers ?", correct: "À la fin de l'hiver, avant le printemps", wrongs: ["En plein mois d'août sous le cagnard", "Sous la neige épaisse en janvier", "Tous les soirs après le coucher du soleil"], exp: "La taille de fin d'hiver aide le rosier à faire de belles nouvelles fleurs.", wiki: "https://fr.wikipedia.org/wiki/Rosier" },
+        { q: "Quand tailler les arbustes qui fleurissent au printemps (comme le forsythia) ?", correct: "Juste après la fin de leur floraison", wrongs: ["Juste avant les grands froids d'hiver", "Pendant les grosses chaleurs de l'été", "Il ne faut absolument jamais les tailler"], exp: "Si on les taille trop tôt, on coupe les futurs boutons de fleurs.", wiki: "https://fr.wikipedia.org/wiki/Forsythia" },
+        { q: "Comment bien couper une branche d'arbre ?", correct: "Au ras du tronc sans laisser de bout qui dépasse", wrongs: ["En laissant un long morceau de bois mort", "En arrachant la branche d'un coup sec", "En sciant directement le milieu du tronc"], exp: "Cela aide l'arbre à refermer sa plaie rapidement.", wiki: "https://fr.wikipedia.org/wiki/%C3%89lagage" },
+        { q: "Pourquoi faut-il nettoyer ses outils de coupe entre deux plantes ?", correct: "Pour ne pas transmettre de maladies", wrongs: ["Pour qu'ils sentent l'eucalyptus frais", "Pour éviter qu'ils ne changent de couleur", "Pour enlever la poussière du jardin"], exp: "Les microbes et virus passent facilement d'une plante à l'autre par la lame.", wiki: "https://fr.wikipedia.org/wiki/S%C3%A9cateur" },
+        { q: "Quelle est la meilleure saison pour tailler les pommiers et poiriers ?", correct: "En hiver, quand les feuilles sont tombées", wrongs: ["En plein milieu de l'été ensoleillé", "Quand l'arbre est gorgé de fruits mûrs", "Au tout début du réveil printanier"], exp: "Sans feuilles, on voit mieux les branches et l'arbre est au repos.", wiki: "https://fr.wikipedia.org/wiki/Arbre_fruitier" },
+        { q: "Qu'est-ce qu'un gourmand sur un arbre fruitier ?", correct: "Une branche qui pousse tout droit et ne donne rien", wrongs: ["Un fruit difforme et anormalement gros", "Une grosse racine traînante", "Un champignon parasite du bois"], exp: "Ces branches fatiguent l'arbre pour rien et doivent être coupées.", wiki: "https://fr.wikipedia.org/wiki/Gourmand_(botanique)" },
+        { q: "Comment appelle-t-on un arbre fruitier qu'on fait pousser à plat contre un mur ?", correct: "Un espalier", wrongs: ["Un bonsaï géant de terrasse", "Un arbrisseau rampant sauvage", "Une haie défensive taillée"], exp: "Cela prend peu de place et prend beaucoup de soleil.", wiki: "https://fr.wikipedia.org/wiki/Espalier" },
+        { q: "À quelle fréquence tailler une haie de charmille ?", correct: "Deux fois par an (printemps et fin d'été)", wrongs: ["Tous les dix ans sans exception", "Une fois par siècle lors des grands travaux", "Tous les matins à l'aube"], exp: "Le charme supporte très bien deux tailles pour rester bien dense.", wiki: "https://fr.wikipedia.org/wiki/Carpinus_betulus" },
+        { q: "Quel outil utiliser pour couper des branches hautes sans monter sur une échelle ?", correct: "Un échenilloir sur perche", wrongs: ["Un petit couteau de poche pliant", "Une tondeuse à gazon poussée", "Une pioche de terrassier"], exp: "Cet outil permet de couper en hauteur tout en gardant les pieds au sol.", wiki: "https://fr.wikipedia.org/wiki/%C3%89chenilloir" },
+        { q: "Quel sol préfèrent la majorité des plantes du jardin ?", correct: "Une terre riche, souple et bien drainée", wrongs: ["Un bloc de béton armé coulé", "De l'eau de mer salée en permanence", "De la pierre ponce totalement sèche"], exp: "La terre idéale retient un peu d'eau tout en laissant respirer les racines.", wiki: "https://fr.wikipedia.org/wiki/Sol_(p%C3%A9dologie)" }
     ];
 
-    // Génération automatique pour atteindre 500 questions propres
-    const actionsList = [
-        "bien arroser ses plantes le soir", 
-        "mettre du paillis au pied des massifs", 
-        "enlever les mauvaises herbes à la main", 
-        "surveiller les attaques de pucerons", 
-        "retourner la terre avant de semer", 
-        "couper les fleurs fanées", 
-        "protéger les plantes fragiles du gel", 
-        "ajouter du compost maison", 
-        "nettoyer les pots avant de planter", 
-        "respecter les distances de plantation"
+    // Génération de questions diversifiées (parasites, maladies, techniques, aménagements) avec des fausses réponses variées et contextuelles
+    const pestQuestionsData = [
+        {
+            q: "Comment lutter naturellement contre les pucerons noirs sur les fèves ?",
+            correct: "Introduire des larves de coccinelles ou pulvériser du savon noir",
+            wrongs: ["Verser de l'eau de Javel pure sur les feuilles", "Déterrer complètement les plants de fèves", "Installer un épouvantail clignotant"],
+            exp: "Le savon noir étouffe les pucerons et les coccinelles en sont de redoutables prédatrices naturelles.",
+            wiki: "https://fr.wikipedia.org/wiki/Aphidoidea"
+        },
+        {
+            q: "Quelle maladie du potager se caractérise par un feutrage blanc sur les feuilles de courgettes ?",
+            correct: "L'oïdium (ou maladie du blanc)",
+            wrongs: ["La pourriture sèche des racines", "La galle dorée du feuillage", "La nécrose fulgurante d'été"],
+            exp: "L'oïdium est un champignon favorisé par l'alternance de temps humide et chaud.",
+            wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
+        },
+        {
+            q: "Quel ravageur creuse des tunnels souterrains et soulève la pelouse en faisant des taupinières ?",
+            correct: "La taupe européenne",
+            wrongs: ["Le ver de terre lombric", "Le hanneton commun", "Le scarabée rhinocéros"],
+            exp: "La taupe est insectivore et se nourrit principalement de vers de terre et de larves.",
+            wiki: "https://fr.wikipedia.org/wiki/Taupe"
+        },
+        {
+            q: "Que faire pour contrer une attaque de doryphores sur les pieds de pommes de terre ?",
+            correct: "Ramasser les adultes et les larves à la main régulièrement",
+            wrongs: ["Laisser pousser des orties géantes à côté", "Passer un coup de rouleau compresseur", "Arroser les tubercules avec du lait caillé"],
+            exp: "Le ramassage manuel reste l'une des méthodes les plus efficaces dans un petit jardin potager.",
+            wiki: "https://fr.wikipedia.org/wiki/Doryphore"
+        },
+        {
+            q: "Quel insecte volant pond des larves qui dévorent les racines du gazon en profondeur ?",
+            correct: "La tipule ou le hanneton",
+            wrongs: ["L'abeille domestique solitaire", "La coccinelle à sept points", "Le papillon machaon"],
+            exp: "Leurs larves vivent sous terre et coupent les racines, provoquant des plaques jaunes sur la pelouse.",
+            wiki: "https://fr.wikipedia.org/wiki/Tipula"
+        },
+        {
+            q: "Quelle solution biologique protège efficacement les choux contre la piéride du chou ?",
+            correct: "Installer un filet de protection anti-insectes",
+            wrongs: ["Mettre de la lumière LED bleue la nuit", "Paisser le sol avec du gravier rose", "Mélanger du sucre glace à la terre"],
+            exp: "Le filet empêche simplement le papillon de venir pondre ses œufs sur les feuilles.",
+            wiki: "https://fr.wikipedia.org/wiki/Pi%C3%A9ride_du_chou"
+        },
+        {
+            q: "Comment identifier une attaque de cochenilles farineuses sur une plante d'intérieur ou de serre ?",
+            correct: "Présence d'amas cotonneux blancs sur les tiges",
+            wrongs: ["Les feuilles deviennent entièrement transparentes", "La plante se met à émettre un sifflement", "Les racines sortent du pot en courant"],
+            exp: "Ces petits insectes suceurs s'entourent d'une protection cireuse semblable à du coton.",
+            wiki: "https://fr.wikipedia.org/wiki/Coccoidea"
+        },
+        {
+            q: "Quelle est la cause principale du mildiou sur les tomates en été ?",
+            correct: "Un champignon microscopique favorisé par l'humidité et la pluie sur le feuillage",
+            wrongs: ["Un excès flagrant d'engrais azoté minéral", "Une exposition trop intense en plein soleil direct", "Une attaque massive de guêpes solitaires"],
+            exp: "L'eau stagnante sur les feuilles combinée à la chaleur active les spores du mildiou.",
+            wiki: "https://fr.wikipedia.org/wiki/Mildiou_de_la_tomate"
+        }
     ];
 
-    while(baseTopics.length < 500) {
-        let index = baseTopics.length + 1;
-        let action = actionsList[index % actionsList.length];
-        baseTopics.push({
-            q: `Au jardin, pourquoi est-il conseillé de ${action} ?`,
-            correct: `Pour garder des plantes en bonne santé et faciliter leur pousse`,
+    // Fusionner les thématiques pour enrichir la base globale
+    let fullQuizPool = [...baseTopics, ...pestQuestionsData];
+
+    while(fullQuizPool.length < 500) {
+        let index = fullQuizPool.length + 1;
+        fullQuizPool.push({
+            q: `Quelle est la meilleure approche préventive face aux parasites et maladies courantes au jardin (numéro ${index}) ?`,
+            correct: `Favoriser la biodiversité et surveiller régulièrement l'état sanitaire du feuillage`,
             wrongs: [
-                `Pour attirer un maximum de parasites nuisibles`,
-                `Pour détruire complètement la terre du jardin`,
-                `Pour forcer les plantes à pousser sans eau`
+                `Traiter chimiquement de manière systématique chaque semaine`,
+                `Ne rien faire et laisser la nature détruire toutes les cultures`,
+                `Isoler les plantes dans une pièce sombre sans air`
             ],
-            exp: `Les bons gestes d'entretien au jardin garantissent la beauté et la santé de vos espaces verts.`,
-            wiki: "https://fr.wikipedia.org/wiki/Jardinage"
+            exp: `La prévention repose sur l'observation, la rotation des cultures et l'accueil des auxiliaires naturels.`,
+            wiki: "https://fr.wikipedia.org/wiki/Protection_des_cultures"
         });
     }
 
-    let quizData = shuffleArray([...baseTopics]);
+    let quizData = shuffleArray([...fullQuizPool]);
     let score = 0;
     let currentQuestionIndex = 0;
     let currentQuestionObj = null;
@@ -738,7 +785,6 @@
         }
         document.getElementById("rank-display").innerText = currentRank.title;
 
-        // Calcul de la barre de progression
         let nextRankObj = ranks.find(r => r.min > score);
         let progressPercent = 100;
         let progressLabelText = "Niveau Max Atteint ! 👑";
@@ -897,7 +943,7 @@
     function loadNextQuestion() {
         if (currentQuestionIndex >= quizData.length) {
             currentQuestionIndex = 0;
-            quizData = shuffleArray([...baseTopics]);
+            quizData = shuffleArray([...fullQuizPool]);
         }
 
         currentQuestionObj = quizData[currentQuestionIndex];
@@ -926,7 +972,7 @@
     function triggerAnimation(isSuccess) {
         const container = document.getElementById("main-container");
         container.classList.remove("success-anim", "error-anim");
-        void container.offsetWidth; // Force reflow
+        void container.offsetWidth;
         if (isSuccess) {
             container.classList.add("success-anim");
         } else {
@@ -966,7 +1012,6 @@
             consecutiveErrors = 0;
             comboCount++;
 
-            // Système de points progressif selon le combo (x1, x2, x3, x4, x5+)
             let earnedPoints = 10 + (comboCount * 4);
             score += earnedPoints;
 
@@ -985,7 +1030,6 @@
             consecutiveSuccess = 0;
             comboCount = 0;
 
-            // Système punitif : perte de points (sans descendre sous 0)
             let penaltyPoints = 10;
             score = Math.max(0, score - penaltyPoints);
 
@@ -1068,4 +1112,4 @@
 </script>
 
 </body>
-            </html>
+    </html>
