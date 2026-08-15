@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Interactif</title>
+    <title>Quiz - Parasites du Jardin</title>
     <style>
         :root {
             --bg-color: #1a1a2e;
@@ -60,6 +60,12 @@
             border: 2px solid var(--text-color);
             object-fit: cover;
             background-color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
         }
 
         .user-name {
@@ -111,7 +117,7 @@
         }
 
         .question-text {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             min-height: 60px;
         }
@@ -120,7 +126,7 @@
         .options-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
@@ -128,9 +134,9 @@
             background-color: var(--accent-color);
             color: var(--text-color);
             border: none;
-            padding: 14px;
+            padding: 12px;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
             text-align: left;
@@ -176,7 +182,7 @@
         <!-- En-tête Profil & Score -->
         <div class="header-profile">
             <div class="user-info">
-                <img src="https://via.placeholder.com/150" alt="Avatar" class="user-avatar" id="userAvatar">
+                <img src="https://via.placeholder.com/150" alt="Avatar" class="user-avatar" id="userAvatar" title="Cliquez pour changer d'avatar">
                 <div class="user-name" id="userName">Utilisateur</div>
             </div>
             <div class="score-board">
@@ -207,30 +213,330 @@
         // --- 1. GESTION DE LA MÉMOIRE DU JOUEUR (LOCALSTORAGE) ---
         let playerName = localStorage.getItem("quiz_player_name");
         if (!playerName) {
-            playerName = prompt("Entrez votre nom de joueur :") || "Joueur mystère";
+            playerName = prompt("Entrez votre nom de joueur :") || "Jardinier";
             localStorage.setItem("quiz_player_name", playerName);
         }
         document.getElementById("userName").innerText = playerName;
 
-        // --- 2. BASE DE QUESTIONS ---
+        let playerAvatar = localStorage.getItem("quiz_player_avatar");
+        if (!playerAvatar) {
+            playerAvatar = "https://via.placeholder.com/150";
+            localStorage.setItem("quiz_player_avatar", playerAvatar);
+        }
+        const avatarImg = document.getElementById("userAvatar");
+        avatarImg.src = playerAvatar;
+
+        // Permettre de changer l'avatar en cliquant dessus
+        avatarImg.onclick = () => {
+            let newAvatar = prompt("Entrez l'URL de votre nouvelle image d'avatar :", playerAvatar);
+            if (newAvatar) {
+                playerAvatar = newAvatar;
+                localStorage.setItem("quiz_player_avatar", playerAvatar);
+                avatarImg.src = playerAvatar;
+            }
+        };
+
+        // --- 2. BASE DE 50 QUESTIONS SUR LES PARASITES ---
         const questionsOriginales = [
             {
-                question: "Quelle est la capitale de la France ?",
-                options: ["Londres", "Berlin", "Paris", "Madrid"],
+                question: "Quel ravageur ravage spécifiquement les haies de buis en dévorant leur feuillage ?",
+                options: ["La pyrale du buis", "La processionnaire", "La mineuse", "Le puceron vert"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis"
+            },
+            {
+                question: "Quelle chenille est connue pour ses poils urticants et se déplace en file indienne dans les pins ?",
+                options: ["La pyrale du douglas", "La processionnaire du pin", "La noctuelle du chêne", "L'arpenteuse"],
+                correct: 1,
+                wiki: "https://fr.wikipedia.org/wiki/Processionnaire_du_pin"
+            },
+            {
+                question: "Quel type d'insecte creuse des galeries en serpentin (mines) à l'intérieur des feuilles de marronnier ?",
+                options: ["Un charançon", "Une cochenille", "Une mineuse", "Un thrips"],
                 correct: 2,
-                wiki: "https://fr.wikipedia.org/wiki/Paris"
+                wiki: "https://fr.wikipedia.org/wiki/Cameraria_ohridella"
             },
             {
-                question: "Combien font 5 x 8 ?",
-                options: ["35", "40", "45", "50"],
-                correct: 1,
-                wiki: "https://fr.wikipedia.org/wiki/Multiplication"
+                question: "Quel petit insecte piqueur-suceur excrète du miellat qui attire les fourmis sur les plantes ?",
+                options: ["Le puceron", "Le perce-oreille", "La courtilière", "Le doryphore"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Puceron"
             },
             {
-                question: "Quel est l'élément chimique dont le symbole est O ?",
-                options: ["Or", "Oxygène", "Oliban", "Osmium"],
+                question: "Quel parasite des plantes se protège sous un bouclier cireux ou cotonneux fixe ?",
+                options: ["L'altise", "La cochenille", "La cicadelle", "Le hanneton"],
                 correct: 1,
-                wiki: "https://fr.wikipedia.org/wiki/Oxyg%C3%A8ne"
+                wiki: "https://fr.wikipedia.org/wiki/Cochenille"
+            },
+            {
+                question: "Comment appelle-t-on la larve du carpocapse qui s'attaque directement aux pommes et aux poires ?",
+                options: ["Le ver du fruit", "La pyrale", "Le ver gris", "Le thrips"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Carpocapse_des_pommes"
+            },
+            {
+                question: "Quel insecte grignote les bords des feuilles en formant des encoches caractéristiques en forme de 'C' ?",
+                options: ["L'otiorhynque", "Le taupin", "La limace", "L'anobli"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Otiorhynchus"
+            },
+            {
+                question: "Quel minuscule coléoptère saute comme une puce et perfore les feuilles des crucifères (choux, radis) ?",
+                options: ["L'altise", "Le tipule", "La coccinelle", "Le cétoine"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Altise"
+            },
+            {
+                question: "Quel parasite souterrain, larve de taupin, grignote les racines et tubercules potagers ?",
+                options: ["Le fil de fer", "Le ver blanc", "L'ascaris", "La nématode"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Taupin"
+            },
+            {
+                question: "Quelle larve blanche dodue, de couleur blanche, vit dans le sol et s'attaque aux racines du gazon ?",
+                options: ["Le ver blanc (hanneton)", "La tipule", "La noctuelle", "Le scolyte"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Hanneton"
+            },
+            {
+                question: "Quel champignon microscopique ou parasite provoque l'oïdium (maladie du blanc) ?",
+                options: ["Un insecte xylophage", "Un champignon parasite", "Une bactérie", "Un virus du sol"],
+                correct: 1,
+                wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
+            },
+            {
+                question: "Quel petit ravageur rouge vif à points noirs est au contraire un précieux allié du jardinier ?",
+                options: ["La coccinelle", "Le doryphore", "La pyrale", "La punaise gendarme"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Coccinelle"
+            },
+            {
+                question: "Quel ravageur des cultures de pommes de terre est un coléoptère rayé jaune et noir ?",
+                options: ["Le doryphore", "Le charançon", "La chrysomèle", "L'altise"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Doryphore"
+            },
+            {
+                question: "Quel minuscule acarien prolifère par temps chaud et sec en tissant de fines toile au dos des feuilles ?",
+                options: ["L'araignée rouge", "Le thrips", "Le puceron cendré", "La mineuse"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Tetranychus_urticae"
+            },
+            {
+                question: "Quel insecte fore des galeries circulaires sous l'écorce des arbres affaiblis ?",
+                options: ["Le scolyte", "Le perce-oreille", "La cicadelle", "Le syrphe"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Scolytinae"
+            },
+            {
+                question: "Quel mollusque gastéropode terrestre sans coquille visible ravage les jeunes salades la nuit ?",
+                options: ["L'escargot", "La limace", "Le ver de terre", "La planorbe"],
+                correct: 1,
+                wiki: "https://fr.wikipedia.org/wiki/Limace"
+            },
+            {
+                question: "Quel petit insecte ailé, très fin, cause des dégâts d'argenture sur les feuilles (notamment en serre) ?",
+                options: ["Le thrips", "Le puceron", "La cochenille", "Le moucheron"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Thysanoptera"
+            },
+            {
+                question: "Quel ver microscopique du sol (nématode) parasite les racines de nombreuses plantes en créant des nodosités ?",
+                options: ["Le nématode galligène", "Le lombric", "L'anguillule", "La sangsue"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Meloidogyne"
+            },
+            {
+                question: "Quelle teigne s'attaque spécifiquement aux feuilles et aux fûts des poireaux ?",
+                options: ["La teigne du poireau", "La pyrale du maïs", "La noctuelle de la tomate", "Le carpocapse"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Acrolepiopsis_assectella"
+            },
+            {
+                question: "Quel ravageur transmet la terrible maladie de la sharka aux arbres fruitiers à noyau ?",
+                options: ["Le puceron vert du prunier", "La cochenille", "L'hoplocampe", "Le monilia"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Sharka"
+            },
+            {
+                question: "Comment appelle-t-on l'insecte qui ravage les palmiers en y creusant des tunnels mortels ?",
+                options: ["Le charançon rouge du palmier", "La pyrale du palmier", "Le bostryche", "Le capricornes"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Rhynchophorus_ferrugineus"
+            },
+            {
+                question: "Quelle mouche pond ses œufs dans les carottes, provoquant des galeries rouillées inesthétiques ?",
+                options: ["La mouche de la carotte", "La mouche de l'oignon", "La piéride du chou", "La tenthrède"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Mouche_de_la_carotte"
+            },
+            {
+                question: "Quel insecte papillon blanc à points noirs dévore les feuilles des choux à l'état de chenille ?",
+                options: ["La piéride du chou", "La teigne", "L'agrotis", "La noctuelle"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Pi%C3%A9ride_du_chou"
+            },
+            {
+                question: "Quel insecte aquatique ou terricole géant aux pattes antérieures creusantes ravage les racines au potager ?",
+                options: ["La courtilière", "Le dytique", "Le gendarme", "Le tipule"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Courtili%C3%A8re"
+            },
+            {
+                question: "Quel ravageur attaque les inflorescences du rosier en enroulant les feuilles à l'aide de fils de soie ?",
+                options: ["La tordeuse du rosier", "Le cynips", "Le puceron rose", "La cécidomyie"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Tordeuse"
+            },
+            {
+                question: "Quelle petite guêpe provoque des galles rondes (bédéguas ou poils de rose) sur les églantiers ?",
+                options: ["Le cynips du rosier", "Le frelon asiatique", "L'ichtneumon", "La tenthrède"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Diplolepis_rosae"
+            },
+            {
+                question: "Quel ravageur provoque des boursouflures rouges et boursouflées sur les feuilles de groseilliers ?",
+                options: ["Le puceron boursoufleur du groseillier", "L'araignée rouge", "La cochenille", "Le phytopte"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Puceron"
+            },
+            {
+                question: "Quels minuscules acariens provoquent l'érinose (feutrage blanc) sur les feuilles de vigne ?",
+                options: ["Les phytoptes de la vigne", "Les tétranyques", "Les tarsonèmes", "Les oïdiuns"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Phytopte_de_la_vigne"
+            },
+            {
+                question: "Quel papillon nocturne dont la chenille grise (ver gris) coupe les jeunes tiges au niveau du sol ?",
+                options: ["La noctuelle terricole (agrotis)", "La pyrale", "Le bombyx", "La zeuzère"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Agrotis_segetum"
+            },
+            {
+                question: "Quel grand papillon blanc et noir dont la chenille fore le bois des jeunes branches de fruitiers ?",
+                options: ["La zeuzère du poirier", "La pyrale du jasmin", "Le sphinx du peuplier", "L'acérée"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Zeuzera_pyrina"
+            },
+            {
+                question: "Quel ravageur des agrumes est une petite mineuse dont les larves enroulent l'extrémité des jeunes feuilles ?",
+                options: ["La mineuse des agrumes", "L'aleurode", "La cochenille farineuse", "Le psylle"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Phyllocnistis_citrella"
+            },
+            {
+                question: "Quel petit insecte blanc volant, appelé 'mouche blanche', sécrète du miellat sous les feuilles de tomates ?",
+                options: ["L'aleurode (mouche blanche)", "Le thrips", "Le puceron lanigère", "La cicadelle"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Aleyrodidae"
+            },
+            {
+                question: "Quel ravageur du poirier sécrète un miellat poisseux provoquant la fumagine noire sur les feuilles ?",
+                options: ["Le psylle du poirier", "Le puceron", "La cochenille", "L'hoplocampe"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Cacopsylla_pyri"
+            },
+            {
+                question: "Quelle petite mouche pond dans les cerises, rendant les fruits véreux à l'été ?",
+                options: ["La mouche de la cerise (Rhagoletis cerasi)", "La drosophile suzukii", "La mouche de l'oignon", "La syrphe"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Rhagoletis_cerasi"
+            },
+            {
+                question: "Quelle petite drosophile asiatique pique les fruits rouges sains (fraises, framboises) en gâtant la récolte ?",
+                options: ["Drosophila suzukii", "Drosophila melanogaster", "La mouche du vinaigre", "La cératite"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Drosophila_suzukii"
+            },
+            {
+                question: "Quel insecte parasite vecteur du bois noir de la vigne se déplace en sautant latéralement ?",
+                options: ["La cicadelle de la vigne", "L'altise", "Le phylloxéra", "Le fulgore"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Scaphoideus_titanus"
+            },
+            {
+                question: "Quel puceron laineux sécrète un amas cireux blanc semblable à du coton sur les branches de pommier ?",
+                options: ["Le puceron lanigère", "La cochenille farineuse", "L'erisoma", "Le puceron cendré"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Eriosoma_lanigerum"
+            },
+            {
+                question: "Quel insecte minuscule a décimé les vignobles européens à la fin du XIXe siècle en attaquant les racines ?",
+                options: ["Le phylloxéra", "Le mildiou", "Le doryphore", "Le bostryche"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Phyllox%C3%A9ra"
+            },
+            {
+                question: "Quel ravageur de la pomme de terre et de la tomate provoque des galeries et pourritures dues à sa chenille ?",
+                options: ["La teigne de la pomme de terre", "Le carpocapse", "L'altise", "Le taupin"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Phthorimaea_operculella"
+            },
+            {
+                question: "Quel parasite du prunier est une petite fausse-chenille (hyménoptère) qui pique les jeunes fruits au printemps ?",
+                options: ["L'hoplocampe du prunier", "Le carpocapse", "La tordeuse", "La tenthrède"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Hoplocampa_minuta"
+            },
+            {
+                question: "Quel insecte foreur de tiges s'attaque principalement aux cultures de maïs en creusant la paille ?",
+                options: ["La pyrale du maïs", "La noctuelle", "Le sésamie", "Le taupin"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_ma%C3%AFs"
+            },
+            {
+                question: "Quel coléoptère xylophage creuse des galeries sous l'écorce des résineux abattus ou affaiblis ?",
+                options: ["Le bostryche typographe", "Le capricornes", "Le charançon", "L'anobli"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Ips_typographus"
+            },
+            {
+                question: "Quel petit ver blanc, larve de diptère (tipule), ronge le collet et les racines des pelouses humides ?",
+                options: ["La larve de tipule (cousico)", "Le ver fil de fer", "Le nématode", "L'ascaris"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Tipula"
+            },
+            {
+                question: "Quel ravageur provoque des galles en forme de cornet rouge sur les feuilles de tilleul ?",
+                options: ["Un acarien phytopte du tilleul", "Un puceron", "Une cécidomyie", "Un cynips"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Eriophyes_tiliae"
+            },
+            {
+                question: "Quelle cécidomyie provoque des déformations et des galles en choux-fleurs sur les bourgeons de poirier ?",
+                options: ["La cécidomyie des poires", "Le phytopte", "Le psylle", "L'hoplocampe"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Contarinia_pyrivora"
+            },
+            {
+                question: "Quel papillon nocturne grisâtre dont la chenille mine les feuilles de mineuse de la tomate en serre ?",
+                options: ["Tuta absoluta", "Pyrale du maïs", "Carpocapse", "Teigne des crucifères"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Tuta_absoluta"
+            },
+            {
+                question: "Quel insecte parasite du chêne tisse des nids collectifs cotonneux semblables à ceux du pin ?",
+                options: ["La processionnaire du chêne", "La pyrale", "Le bombyx disparate", "L'arpenteuse"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Processionnaire_du_ch%C3%AAne"
+            },
+            {
+                question: "Quel ravageur des serres, la noctuelle de la tomate (Helicoverpa armigera), cible particulièrement quelle partie ?",
+                options: ["Les fruits et les bourgeons floraux", "Uniquement les racines", "Le tronc principal", "Les feuilles basses uniquement"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Helicoverpa_armigera"
+            },
+            {
+                question: "Quel petit insecte sauteur transmet le virus de la mosaïque du concombre en piquant les potagers ?",
+                options: ["Le puceron du melon et du cotonnier", "L'altise", "Le thrips", "L'aleurode"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Aphis_gossypii"
+            },
+            {
+                question: "Quelle méthode biologique utilise-t-on fréquemment pour lutter contre la pyrale du buis de façon écologique ?",
+                options: ["Bacillus thuringiensis (Bt)", "Un engrais chimique azoté", "Un fongicide cuprique", "Du désherbant total"],
+                correct: 0,
+                wiki: "https://fr.wikipedia.org/wiki/Bacillus_thuringiensis"
             }
         ];
 
@@ -242,8 +548,8 @@
         let combo = 0;
 
         const quizContainer = document.getElementById("quizContainer");
-        const questionText = document.getElementById("question-text");
-        const optionsContainer = document.getElementById("options-container");
+        const questionText = document.getElementById("questionText");
+        const optionsContainer = document.getElementById("optionsContainer");
         const scoreDisplay = document.getElementById("scoreDisplay");
         const progressBar = document.getElementById("progressBar");
         const facialExpression = document.getElementById("facialExpression");
