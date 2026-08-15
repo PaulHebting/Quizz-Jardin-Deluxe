@@ -613,7 +613,7 @@
         { t: "l'arrosage automatique du potager", p1: "Privilégier le goutte-à-goutte au pied tôt le matin", p2: "Arroser par aspersion en plein soleil à 14h", p3: "Mouiller généreusement le feuillage tous les soirs", p4: "Arroser une fois par mois avec un gros volume", e: "L'arrosage au pied limite les maladies fongiques et l'évaporation inutile." }
     ];
 
-    const quizData = [...baseClientQuestions];
+    let quizData = [...baseClientQuestions];
 
     while (quizData.length < 150) {
         let index = quizData.length + 1;
@@ -631,6 +631,20 @@
             wiki: "https://fr.wikipedia.org/wiki/Jardinage"
         });
     }
+
+    // --- ALÉATOIRE : Fonction de mélange Fisher-Yates ---
+    function shuffleArray(array) {
+        let arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    // Mélange des 150 questions au lancement
+    quizData = shuffleArray(quizData);
+    // ----------------------------------------------------
 
     let score = 0;
     let currentQuestionIndex = 0;
@@ -745,99 +759,86 @@
         avatarIdx = (avatarIdx + 1) % avatars.length;
         document.getElementById("avatar-display").innerText = avatars[avatarIdx];
         avatarsChangesCount++;
-        if (avatarsChangesCount >= 3) unlockTrophy("t3");
         saveUserData();
-    }
 
-    function checkTrophies() {
-        if (score >= 10) unlockTrophy("t1");
-        if (score >= 100) unlockTrophy("t2");
-        if (totalAnsweredCount >= 10) unlockTrophy("t6");
-        if (score >= 250) unlockTrophy("t7");
+        if (avatarsChangesCount >= 3) {
+            unlockTrophy("t3");
+        }
     }
 
     function updateScoreDisplay() {
-        document.getElementById("score-display").innerText = `${score} Pts`;
-        checkTrophies();
-    }
-
-    function shuffleArray(array) {
-        let arr = [...array];
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr;
+        document.getElementById("score-display").innerText = score + " Pts";
     }
 
     function loadNextQuestion() {
+        if (currentQuestionIndex >= quizData.length) {
+            currentQuestionIndex = 0;
+            quizData = shuffleArray(quizData); // Re-mélange si on boucle à la fin
+        }
+
         currentQuestionObj = quizData[currentQuestionIndex];
-        
-        document.getElementById("question").innerText = currentQuestionObj.q;
         document.getElementById("q-num").innerText = `${currentQuestionIndex + 1} / ${quizData.length}`;
+        document.getElementById("question").innerText = currentQuestionObj.q;
+
+        const optionsContainer = document.getElementById("options");
+        optionsContainer.innerHTML = "";
 
         let allOptions = [currentQuestionObj.correct, ...currentQuestionObj.wrongs];
-        shuffledOptionsCache = shuffleArray(allOptions);
-        correctButtonIndex = shuffledOptionsCache.indexOf(currentQuestionObj.correct);
+        allOptions = shuffleArray(allOptions);
+        shuffledOptionsCache = allOptions;
 
-        const optsContainer = document.getElementById("options");
-        optsContainer.innerHTML = "";
-
-        document.getElementById("explanation-box").style.display = "none";
-        document.getElementById("wiki-btn").style.display = "none";
-        document.getElementById("next-btn").style.display = "none";
-
-        shuffledOptionsCache.forEach((opt, idx) => {
+        allOptions.forEach((opt, idx) => {
             const btn = document.createElement("button");
             btn.className = "option-btn";
             btn.innerText = opt;
-            btn.onclick = () => selectOption(idx);
-            optsContainer.appendChild(btn);
+            btn.onclick = () => selectAnswer(idx);
+            optionsContainer.appendChild(btn);
         });
 
-        currentQuestionIndex = (currentQuestionIndex + 1) % quizData.length;
+        document.getElementById("explanation-box").style.display = "none";
+        document.getElementById("next-btn").style.display = "none";
+        document.getElementById("wiki-btn").style.display = "none";
     }
 
-    function selectOption(selectedIndex) {
-        totalAnsweredCount++;
+    function selectAnswer(selectedIndex) {
         const buttons = document.querySelectorAll(".option-btn");
-        
-        buttons.forEach((btn, idx) => {
-            btn.disabled = true;
-            if (idx === correctButtonIndex) {
-                btn.style.borderColor = "#22c55e";
-                btn.style.background = "rgba(34, 197, 94, 0.2)";
-            } else if (idx === selectedIndex) {
-                btn.style.borderColor = "#ef4444";
-                btn.style.background = "rgba(239, 68, 68, 0.2)";
-            }
-        });
+        buttons.forEach(b => b.disabled = true);
 
-        const isCorrect = (selectedIndex === correctButtonIndex);
-        const explanationBox = document.getElementById("explanation-box");
+        const selectedText = shuffledOptionsCache[selectedIndex];
+        const isCorrect = (selectedText === currentQuestionObj.correct);
+
+        const expBox = document.getElementById("explanation-box");
         const pointsNotice = document.getElementById("points-notice");
         const explanationText = document.getElementById("explanation");
-        
+
+        expBox.style.display = "block";
+        totalAnsweredCount++;
+
         if (isCorrect) {
             score += 10;
-            pointsNotice.innerText = `✅ Bonne réponse ! (+10 pts)`;
-            pointsNotice.style.color = "#4ade80";
-            
             consecutiveSuccess++;
             consecutiveErrors = 0;
+            pointsNotice.innerHTML = "✅ Bonne réponse ! (+10 Pts)";
+            pointsNotice.style.color = "#4ade80";
+
+            unlockTrophy("t1");
+            if (score >= 100) unlockTrophy("t2");
+            if (score >= 250) unlockTrophy("t7");
             if (consecutiveSuccess >= 3) unlockTrophy("t5");
         } else {
-            score = Math.max(0, score - 5);
-            pointsNotice.innerText = `❌ Mauvaise réponse (-5 pts)`;
-            pointsNotice.style.color = "#f87171";
-            
             consecutiveErrors++;
             consecutiveSuccess = 0;
+            pointsNotice.innerHTML = `❌ Mauvaise réponse. La bonne réponse était : <b>${currentQuestionObj.correct}</b>`;
+            pointsNotice.style.color = "#f87171";
+
             if (consecutiveErrors >= 3) unlockTrophy("t4");
         }
 
+        if (totalAnsweredCount >= 10) {
+            unlockTrophy("t7"); // ou t6
+        }
+
         explanationText.innerText = currentQuestionObj.exp;
-        explanationBox.style.display = "block";
 
         const wikiBtn = document.getElementById("wiki-btn");
         if (currentQuestionObj.wiki) {
@@ -846,20 +847,19 @@
         }
 
         document.getElementById("next-btn").style.display = "block";
-
         updateScoreDisplay();
         saveUserData();
     }
 
     function nextQuestion() {
+        currentQuestionIndex++;
         loadNextQuestion();
     }
 
     function shareScore() {
-        const pseudo = document.getElementById("username-input").value || "Jardinier";
-        const text = `${pseudo} a obtenu ${score} points sur Le Quiz Jardinier 🌿 !`;
+        const text = `🌿 Mon score sur le Quiz Jardinier est de ${score} Pts ! Viens tester tes connaissances.`;
         if (navigator.share) {
-            navigator.share({ title: 'Quiz Jardinier', text: text, url: window.location.href }).catch(() => {});
+            navigator.share({ title: 'Quiz Jardinier', text: text }).catch(() => {});
         } else {
             navigator.clipboard.writeText(text);
             showAchievement("📋 Score copié dans le presse-papier !");
@@ -870,4 +870,4 @@
 </script>
 
 </body>
-    </html>
+</html>
