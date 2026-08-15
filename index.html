@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Le Métier de Jardinier Quiz 🌿</title>
+    <title>Quiz Jardinier - Questions Clients 🌿</title>
     <style>
         * {
             box-sizing: border-box;
@@ -152,7 +152,7 @@
         .quiz-box {
             background: #334155;
             border-radius: 16px;
-            padding: 12px;
+            padding: 14px;
             margin-top: 10px;
         }
 
@@ -160,38 +160,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .question-title {
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            color: #38bdf8;
+            font-weight: 800;
+        }
+
+        .question-number {
+            font-size: 11px;
             color: #94a3b8;
             font-weight: 700;
         }
-
-        .difficulty-tag {
-            font-size: 10px;
-            font-weight: 800;
-            padding: 2px 6px;
-            border-radius: 6px;
-        }
-        .diff-facile { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
-        .diff-moyen { background: rgba(234, 179, 8, 0.2); color: #facc15; }
-        .diff-difficile { background: rgba(239, 68, 68, 0.2); color: #f87171; }
 
         .question-text {
             font-size: 14px;
             font-weight: 700;
             color: #ffffff;
-            line-height: 1.3;
+            line-height: 1.35;
         }
 
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 7px;
+            gap: 8px;
             margin-top: 10px;
         }
 
@@ -199,13 +195,14 @@
             background: #0f172a;
             border: 2px solid #334155;
             color: #f1f5f9;
-            padding: 9px 12px;
+            padding: 10px 12px;
             border-radius: 10px;
             font-size: 13px;
             font-weight: 600;
             text-align: left;
             cursor: pointer;
             transition: all 0.2s;
+            line-height: 1.25;
         }
 
         .option-btn:hover:not(:disabled) {
@@ -224,7 +221,7 @@
         .explanation-text {
             font-size: 12.5px;
             color: #e2e8f0;
-            line-height: 1.3;
+            line-height: 1.35;
             margin-top: 4px;
         }
 
@@ -387,7 +384,7 @@
     <div class="modal-overlay" id="trophy-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title">🏆 Trophées & Succès</div>
+                <div class="modal-title">🏆 Trophées du Jardinier</div>
                 <button class="close-modal" onclick="toggleTrophyModal()">×</button>
             </div>
             <div class="trophies-list" id="trophies-list-container"></div>
@@ -396,7 +393,7 @@
 
     <div class="app-header">
         <div class="app-title-group">
-            <div class="app-title">🌿 MÉTIER DE JARDINIER</div>
+            <div class="app-title">🌿 QUESTIONS CLIENTS JARDIN</div>
             <div class="daily-visits">📊 <span id="visits-count">1</span> connexion(s)</div>
         </div>
         <div class="score-badge" id="score-display">0 Pts</div>
@@ -408,7 +405,7 @@
                 <div class="user-avatar" id="avatar-display">👨‍🌾</div>
             </div>
             <div class="profile-info">
-                <input type="text" class="username-input" id="username-input" value="JardinierPro" placeholder="Ton pseudo..." oninput="saveUserData()">
+                <input type="text" class="username-input" id="username-input" value="JardinierExpert" placeholder="Ton pseudo..." oninput="saveUserData()">
                 <div class="top-menu-actions">
                     <button class="trophy-btn-mini" onclick="toggleTrophyModal()">🏆 Trophées</button>
                 </div>
@@ -417,8 +414,8 @@
 
         <div class="quiz-box">
             <div class="quiz-header-info">
-                <div class="question-title">PRATIQUE PROFESSIONNELLE</div>
-                <div class="difficulty-tag diff-facile" id="diff-tag">Facile</div>
+                <div class="question-title">🗣️ MISE EN SITUATION CLIENT</div>
+                <div class="question-number" id="q-num">1 / 150</div>
             </div>
             <div class="question-text" id="question">Chargement...</div>
         </div>
@@ -439,230 +436,200 @@
 </div>
 
 <script>
-    const quizData = [
-        { 
-            q: "Quelle est la principale utilité du binage régulier dans les massifs ?", 
-            correct: "Rompre la capillarité du sol pour limiter l'évaporation de l'eau et détruire les jeunes plantules", 
+    const baseClientQuestions = [
+        {
+            q: "Client : 'Les feuilles de mes rosiers se couvrent d'un voile blanc comme de la farine. Que se passe-t-il et comment traiter ?'",
+            correct: "C'est de l'oïdium. Il faut aérer le feuillage et appliquer un traitement à base de soufre ou de bicarbonate.",
             wrongs: [
-                "Tasser la terre en surface pour empêcher l'eau d'infiltrer trop rapidement les racines", 
-                "Enrichir le sol directement en libérant des minéraux bloqués dans la roche mère", 
-                "Augmenter l'acidité naturelle de la terre pour éliminer préventivement la mousse"
-            ], 
-            exp: "Un binage vaut deux arrosages en cassant la croûte superficielle qui favorise l'évaporation.", 
-            wiki: "https://fr.wikipedia.org/wiki/Binage", 
-            difficulty: "facile" 
+                "C'est de la rouille. Il faut arroser abondamment le feuillage tous les soirs.",
+                "C'est un manque de fer dans le sol. Il faut mettre du sulfate de fer au pied immédiatement.",
+                "Ce sont des attaques de cochenilles farineuses. Il faut appliquer de l'huile lourde de vidange."
+            ],
+            exp: "L'oïdium est une maladie cryptogamique favorisée par les écarts de température et l'humidité ambiante sans pluie directe.",
+            wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
         },
-        { 
-            q: "Comment diviser une touffe de ciboulette arrivée à maturité ?", 
-            correct: "En déterrant délicatement la souche pour la séparer en plusieurs éclats munis de racines", 
+        {
+            q: "Client : 'Quand dois-je tailler ma haie de lauriers ou de thuyas dans le jardin ?'",
+            correct: "Idéalement deux fois par an : à la fin du printemps (mai) et à la fin de l'été (septembre).",
             wrongs: [
-                "En coupant toutes les tiges à ras au sécateur pour forcer l'émergence de nouveaux bulbes", 
-                "En prélevant uniquement les fleurs fanées pour les réenraciner directement dans le terreau", 
-                "En taillant les racines latérales sans sortir la touffe principale de terre"
-            ], 
-            exp: "La division de la souche au printemps ou en automne régénère la plante et multiplie les pieds.", 
-            wiki: "https://fr.wikipedia.org/wiki/Ciboulette", 
-            difficulty: "facile" 
+                "Exclusivement au milieu de l'hiver en période de fort gel pour bloquer la montée de sève.",
+                "Tous les mois de mars à novembre sans interruption pour garder une forme stricte.",
+                "Une seule fois tous les cinq ans en effectuant un rabattage très sévère au tronc."
+            ],
+            exp: "Tailler à la fin des deux poussées végétatives principales (printemps et fin d'été) permet de maintenir la haie compacte.",
+            wiki: "https://fr.wikipedia.org/wiki/Haie"
         },
-        { 
-            q: "Quelle technique employer pour planter des tubercules de pommes de terre ?", 
-            correct: "Les planter germe vers le haut dans des sillons à 10-15 cm de profondeur", 
+        {
+            q: "Client : 'Mon gazon est envahi par la mousse sous les arbres, comment m'en débarrasser durablement ?'",
+            correct: "Scarifier à l'automne, aérer le sol, remonter la hauteur de tonte et corriger l'acidité ou l'ombre excessive.",
             wrongs: [
-                "Les enterrer à plus de 40 cm pour éviter qu'ils ne subissent les gelées tardives", 
-                "Les orienter germe vers le bas afin de stimuler le développement racinaire rapide", 
-                "Les repiquer directement en surface sans les recouvrir de terre jusqu'à la levée"
-            ], 
-            exp: "Placer les germes vers le haut permet une émergence rapide et régulière de la tige.", 
-            wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", 
-            difficulty: "facile" 
+                "Appliquer du sulfate de fer chaque mois : cela détruit la mousse définitivement sans acidifier la terre.",
+                "Tondre le plus ras possible (1 cm) chaque semaine pour asphyxier complètement la mousse.",
+                "Inonder le terrain d'eau de javel pure diluée dans de l'eau tiède avant l'hiver."
+            ],
+            exp: "Le sulfate de fer brûle la mousse rapidement mais acidifie le sol, ce qui favorise encore plus le retour de la mousse l'année suivante.",
+            wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)"
         },
-        { 
-            q: "Quelle est la meilleure période pour récolter l'ail et les oignons de conservation ?", 
-            correct: "En été, lorsque le feuillage commence à jaunir et à se dessécher aux deux tiers", 
+        {
+            q: "Client : 'Mes plants de tomates ont des pucerons sur les jeunes pousses. Quel produit naturel préconisez-vous ?'",
+            correct: "Un pulvérisation de savon noir liquide dilué à 5% dans de l'eau tiède ou une introduction de larves de coccinelles.",
             wrongs: [
-                "Au début du printemps, dès le développement des premières feuilles vert tendre", 
-                "En plein hiver, une fois que les gelées ont totalement détruit les parties aériennes", 
-                "Pendant la phase de floraison maximale, lorsque la tige florale est bien rigide"
-            ], 
-            exp: "Le dessèchement du feuillage indique que le bulbe a accumulé toutes ses réserves.", 
-            wiki: "https://fr.wikipedia.org/wiki/Ail", 
-            difficulty: "facile" 
+                "Une application d'eau séreuse de chaux éteinte directement sur l'extrémité des bouquets floraux.",
+                "Un arrosage au pied avec du désherbant thermique pour stopper la colonie par la chaleur.",
+                "Un poudrage hebdomadaire avec de la cendre de bois pure directement sur les fleurs."
+            ],
+            exp: "Le savon noir emprisonne et asphyxie les pucerons sans nuire à la plante ni laisser de résidus toxiques.",
+            wiki: "https://fr.wikipedia.org/wiki/Aphidoidea"
         },
-        { 
-            q: "Quel est le bénéfice principal du paillage organique au pied des cultures ?", 
-            correct: "Limiter l'évaporation, maintenir la vie biologique du sol et bloquer les adventices", 
+        {
+            q: "Client : 'J'ai un sol très argileux, lourd et collant l'hiver. Quelles plantes d'ornement installer sans risque ?'",
+            correct: "Des cornouillers (Cornus), des viburnums, des hêtres ou des hortensias qui supportent les terres fraîches.",
             wrongs: [
-                "Asphyxier temporairement les organismes du sol pour stopper la décomposition", 
-                "Acidifier systématiquement le terrain pour empêcher la levée des graines", 
-                "Remplacer intégralement tout apport d'engrais et de compost sur plusieurs années"
-            ], 
-            exp: "Le paillage protège la structure du sol et nourrit la microfaune en se décomposant.", 
-            wiki: "https://fr.wikipedia.org/wiki/Paillis", 
-            difficulty: "facile" 
+                "Des lavandes, du thym, du romarin et des cactées en pleine terre sans drainage.",
+                "Uniquement des plantes de terre de bruyère pure comme des azalées sans apport d'amendement.",
+                "Aucune plante ne peut pousser dans une terre argileuse sans remplacer toute la terre sur 1 mètre."
+            ],
+            exp: "Les terres argileuses sont riches en nutriments et retiennent bien l'eau, ce qui convient parfaitement à de nombreuses essences arbustives robustes.",
+            wiki: "https://fr.wikipedia.org/wiki/Sol_argileux"
         },
-        { 
-            q: "Pourquoi est-il crucial de désinfecter régulièrement la lame d'un sécateur ?", 
-            correct: "Pour éviter la transmission de maladies cryptogamiques et bactériennes entre végétaux", 
+        {
+            q: "Client : 'Les feuilles de mon citronnier en pot jaunissent tout en gardant les nervures vertes. Pourquoi ?'",
+            correct: "C'est une chlorose ferrique causée par un excès de calcaire dans l'eau d'arrosage ou un sol trop alcalin.",
             wrongs: [
-                "Pour accélérer la cicatrisation naturelle des branches par réaction chimique", 
-                "Pour empêcher la lame d'absorber l'humidité des tiges vertes lors de la coupe", 
-                "Pour ramollir l'écorce des bois durs afin d'éviter d'émousser l'acier"
-            ], 
-            exp: "Les lames véhiculent très facilement des bactéries et des champignons d'un sujet malade à un sujet sain.", 
-            wiki: "https://fr.wikipedia.org/wiki/S%C3%A9cateur", 
-            difficulty: "facile" 
+                "C'est le signe d'un manque crucial de potasse après une récolte trop abondante.",
+                "C'est une attaque d'acariens due à un air trop humide autour du pot.",
+                "C'est une brûlure irréversible provoquée par un éclairage naturel trop direct."
+            ],
+            exp: "La chlorose ferrique empêche la plante de synthétiser la chlorophylle. L'apport d'un chélat de fer et l'arrosage à l'eau de pluie corrigent le problème.",
+            wiki: "https://fr.wikipedia.org/wiki/Chlorose"
         },
-        { 
-            q: "Comment caractérise-t-on un sol à forte dominante argileuse ?", 
-            correct: "Il est lourd, collant à l'état humide et forme des craquelures en séchant", 
+        {
+            q: "Client : 'Quand faut-il planter les bulbes à floraison printanière comme les tulipes et jonquilles ?'",
+            correct: "À l'automne, entre septembre et novembre, avant les premières gelées fortes.",
             wrongs: [
-                "Il est très filtrant, très meuble et s'assèche en quelques heures sans retenir l'eau", 
-                "Il est principalement composé de fins graviers et s'avère incapable de retenir les nutriments", 
-                "Il est toujours très acide et s'effrite instantanément en poussière fine à la manipulation"
-            ], 
-            exp: "La terre argileuse retient bien l'eau et les minéraux, mais s'avère compacte et difficile à travailler.", 
-            wiki: "https://fr.wikipedia.org/wiki/Sol_(p%C3%A9dologie)", 
-            difficulty: "facile" 
+                "Au début du printemps (mars-avril) juste au moment où ils doivent fleurir.",
+                "En plein été (juillet-août) pendant la période de sécheresse maximale.",
+                "Au mois de janvier durant les périodes de neige pour stimuler le bulbe."
+            ],
+            exp: "Les bulbes de printemps ont besoin d'une période de froid hivernal (la vernalisation) pour déclencher leur floraison.",
+            wiki: "https://fr.wikipedia.org/wiki/Bulbe"
         },
-        { 
-            q: "Quel est l'impact direct d'un excès d'azote sur un plant de tomate ?", 
-            correct: "Un développement exubérant du feuillage au détriment de la floraison et des fruits", 
+        {
+            q: "Client : 'En permaculture, quelles plantes sont conseillées au potager à côté des tomates pour éloigner les nuisibles ?'",
+            correct: "Les œillets d'Inde (Tagetes) et le basilic, qui repoussent les nématodes et améliorent la pousse.",
             wrongs: [
-                "Un jaunissement immédiat suivi de la chute précoce de l'intégralité des feuilles", 
-                "Un arrêt définitif de la croissance végétative favorisant la maturité prématurée", 
-                "Un dessèchement rapide du collet et un durcissement anormal du bois principal"
-            ], 
-            exp: "L'azote stimule la pousse de matière verte. En excès, la plante produit des feuilles mais peu de fruits.", 
-            wiki: "https://fr.wikipedia.org/wiki/Azote", 
-            difficulty: "facile" 
+                "Les pommes de terre et les fenouils qui partagent les mêmes nutriments solubles.",
+                "Les menthes envahissantes collées au pied des tomates pour bloquer le soleil.",
+                "Les gourmands de tomates replantés entre chaque rang sans espace."
+            ],
+            exp: "Les œillets d'Inde sécrètent des substances racinaires toxiques pour les nématodes et leur odeur repousse certains pucerons.",
+            wiki: "https://fr.wikipedia.org/wiki/Plante_compagne"
         },
-        { 
-            q: "Quel est le rôle des nodosités présentes sur les racines de Fabacées (légumineuses) ?", 
-            correct: "Fixer l'azote atmosphérique grâce à une symbiose avec des bactéries Rhizobium", 
+        {
+            q: "Client : 'Mon olivier en pot perd ses feuilles après l'avoir rentré dans mon salon chauffé cet hiver. Que s'est-il passé ?'",
+            correct: "L'air est trop chaud et trop sec. L'olivier a besoin d'un hivernage dans une pièce fraîche et très lumineuse.",
             wrongs: [
-                "Stocker d'importantes réserves d'eau en prévision des périodes de sécheresse", 
-                "Filtrer les métaux lourds et bloquer l'absorption des excès de calcaire", 
-                "Sécréter un répulsif naturel contre les nématodes du sol"
-            ], 
-            exp: "Les Fabacées enrichissent le sol en azote grâce à leurs associations microbiennes racinaires.", 
-            wiki: "https://fr.wikipedia.org/wiki/Nodosit%C3%A9_radiculaire", 
-            difficulty: "facile" 
+                "Il manque de chauffage : il faut le coller immédiatement contre le radiateur.",
+                "C'est tout à fait normal, l'olivier renouvelle l'intégralité de son feuillage chaque hiver.",
+                "Il subit une attaque de mulots qui rongent le collet sous le niveau du pot."
+            ],
+            exp: "L'olivier n'est pas une plante d'intérieur. Il a besoin d'un repos hivernal au frais (hors gel) et de beaucoup de lumière.",
+            wiki: "https://fr.wikipedia.org/wiki/Olivier"
         },
-        { 
-            q: "Quel outil est recommandé pour affiner et niveler un lit de semences ?", 
-            correct: "Un râteau à dents rigides", 
+        {
+            q: "Client : 'Qu'est-ce que le paillage en permaculture et pourquoi me le conseillez-vous pour mon potager ?'",
+            correct: "Couvrir le sol de matière organique pour conserver l'humidité, nourrir la microfaune et stopper les adventices.",
             wrongs: [
-                "Un louchet de pépiniériste", 
-                "Un rouleau à gazon lourd", 
-                "Une binette triangulaire"
-            ], 
-            exp: "Le râteau permet d'égaliser la surface, de briser les dernières mottes et de retirer les cailloux.", 
-            wiki: "https://fr.wikipedia.org/wiki/R%C3%A2teau", 
-            difficulty: "facile" 
+                "Bétonner les allées entre les rangs de légumes pour éviter de se salir les bottes.",
+                "Utiliser des bâches plastiques étanches usagées qui empêchent toute eau de pluie d'entrer.",
+                "Mettre du sable de carrière sur 20 cm d'épaisseur pour assécher la terre complètement."
+            ],
+            exp: "Le paillage protège la terre du soleil, limite les arrosages et nourrit le sol en se décomposant.", 
+            wiki: "https://fr.wikipedia.org/wiki/Paillis"
         },
-        { 
-            q: "Quand réalise-t-on la taille de fructification des pommiers et poiriers ?", 
-            correct: "Pendant le repos végétatif en hiver, en dehors des périodes de fort gel", 
+        {
+            q: "Client : 'Quand dois-je effectuer la taille de floraison de mes rosiers buissons ?'",
+            correct: "À la fin de l'hiver (février-mars), lorsque les fortes gelées sont passées et avant le débourrement.",
             wrongs: [
-                "En plein été pendant la phase de grossissement maximal des fruits", 
-                "Au début du printemps, au moment de l'éclosion des premiers bourgeons floraux", 
-                "À la fin de l'automne, immédiatement avant la chute complète des feuilles"
-            ], 
-            exp: "La taille d'hiver hors gel équilibre les bourgeons à bois et les bourgeons à fleurs.", 
-            wiki: "https://fr.wikipedia.org/wiki/Taille_(arboriculture)", 
-            difficulty: "moyen" 
+                "En plein mois de juin, au moment du pic de floraison des boutons.",
+                "À la fin de l'automne en rasant le pied à 2 cm du sol avant la neige.",
+                "Tous les 15 jours de mai à octobre en coupant la moitié des branches."
+            ],
+            exp: "La taille de fin d'hiver stimule la pousse des jeunes rameaux vigoureux qui porteront les fleurs de l'année.",
+            wiki: "https://fr.wikipedia.org/wiki/Rosier"
         },
-        { 
-            q: "Quel est le risque majeur lié à un arrosage excessif et irrégulier des tomates ?", 
-            correct: "L'asphyxie des racines, le développement du mildiou et l'éclatement des fruits", 
+        {
+            q: "Client : 'Comment lutter contre les limaces au potager de manière écologique sans granulés chimiques ?'",
+            correct: "Installer des pièges, favoriser les prédateurs (hérissons, orvets) ou utiliser du phosphate de fer (ferramol).",
             wrongs: [
-                "Le développement précoce du phénomène d'aoûtement sur les tiges secondaires", 
-                "La baisse irréversible du taux de sucre dans le sol par léchage nutritif", 
-                "La nanification prématurée des fruits par hyper-dilution de la sève"
-            ], 
-            exp: "L'excès d'eau prive les racines d'oxygène, favorise les champignons et fait éclater la peau des fruits.", 
-            wiki: "https://fr.wikipedia.org/wiki/Tomate", 
-            difficulty: "moyen" 
+                "Mettre du sel fin tout autour de chaque légume après chaque arrosage.",
+                "Verser de l'essence pure autour du carré potager pour faire fuir les gastéropodes.",
+                "Arroser le feuillage des salades à l'eau bouillante chaque soir à la tombée du jour."
+            ],
+            exp: "Le ferramol est utilisable en agriculture biologique et ne présente pas de danger pour les hérissons ou les animaux domestiques.",
+            wiki: "https://fr.wikipedia.org/wiki/Limace"
         },
-        { 
-            q: "En quoi consiste la pratique du buttage sur la pomme de terre ?", 
-            correct: "Ramener la terre du rang autour de la base des tiges pour former une adossement", 
+        {
+            q: "Client : 'Pourquoi la glycine que j'ai plantée il y a 4 ans ne donne-t-elle toujours aucune fleur ?'",
+            correct: "Elle est peut-être issue de semis (non greffée) ou souffre d'un excès d'azote favorisant le feuillage.",
             wrongs: [
-                "Supprimer le tiers supérieur des branches pour concentrer la sève dans le sol", 
-                "Compacter fermement la terre au pied des plants pour stabiliser la tige principale", 
-                "Appliquer une couche de compost mûr directement sur les feuilles inférieures"
-            ], 
-            exp: "Le buttage évite le verdissement des tubercules exposés à la lumière et augmente le rendement.", 
-            wiki: "https://fr.wikipedia.org/wiki/Pomme_de_terre", 
-            difficulty: "moyen" 
+                "Elle ne reçoit pas assez d'eau stagneuse au niveau de ses racines en été.",
+                "La glycine ne fleurit qu'une fois tous les quinze ans naturellement.",
+                "Il faut tailler toutes les racines principales au printemps pour forcer la fleur."
+            ],
+            exp: "Les glycines issues de semis mettent parfois plus de 10 ans à fleurir. L'excès d'engrais azoté stimule aussi le bois au détriment des fleurs.",
+            wiki: "https://fr.wikipedia.org/wiki/Glycine_(plante)"
         },
-        { 
-            q: "Quel pH de sol convient le mieux à la grande majorité des légumes du potager ?", 
-            correct: "Un pH légèrement acide à neutre (entre 6,2 et 7,0)", 
+        {
+            q: "Client : 'Mon buis devient marron et perd ses feuilles à une vitesse folle en été. Quel est le problème ?'",
+            correct: "C'est l'attaque de la chenille de la pyrale du buis ou une maladie fongique (Cylindrocladium/Volutella).",
             wrongs: [
-                "Un pH très acide (entre 4,0 et 5,0) adapté aux plantes de terre de bruyère", 
-                "Un pH fortement alcalin (entre 8,5 et 9,5) favorisant les carbonates", 
-                "Un pH strictement neutre de 7,0 fixe sans aucune tolérance de variation"
-            ], 
-            exp: "Une zone de pH comprise entre 6,2 et 7,0 garantit l'assimilation optimale de l'ensemble des éléments nutritifs.", 
-            wiki: "https://fr.wikipedia.org/wiki/Potentiel_hydrog%C3%A8ne", 
-            difficulty: "moyen" 
+                "Le buis a simplement besoin d'un apport massif d'engrais coup de fouet azoté.",
+                "C'est un manque de lumière hivernale qui ressort durant la saison chaude.",
+                "C'est le résultat d'un arrosage trop fréquent avec de l'eau tiède de pluie."
+            ],
+            exp: "La pyrale du buis est un papillon invasif dont les chenilles dévorent les feuilles en quelques jours.",
+            wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis"
         },
-        { 
-            q: "Quel est l'effet technique d'un apport de chaux (chaulage) sur un sol argilo-acide ?", 
-            correct: "Corriger l'acidité et améliorer le complexe argilo-humique pour aérer la terre", 
+        {
+            q: "Client : 'Comment réussir mon compost ménager et éviter qu'il ne dégage de mauvaises odeurs ?'",
+            correct: "En équilibrant les apports azotés (déchets verts/humides) et carbonés (déchets bruns/secs) et en l'aérant.",
             wrongs: [
-                "Multiplier le taux d'humus disponible en accélérant la pousse des adventices", 
-                "Inhiber définitivement l'action du phosphore pour stopper le développement des adventices", 
-                "Imperméabiliser le sol pour éviter l'érosion lors des fortes pluies hivernales"
-            ], 
-            exp: "Le calcaire réagit avec les argiles et l'humus pour former des agrégats stables qui aèrent le sol.", 
-            wiki: "https://fr.wikipedia.org/wiki/Chaulage", 
-            difficulty: "difficile" 
-        },
-        { 
-            q: "Quelle est l'origine physiologique du 'cul noir' (nécrose apicale) chez la tomate ?", 
-            correct: "Un défaut d'alimentation en calcium souvent causé par un régime d'arrosage irrégulier", 
-            wrongs: [
-                "Une attaque bactérienne foudroyante transmise par les outils de taille non désinfectés", 
-                "Un surdosage ponctuel en potassium bloquant l'assimilation du magnésium par le feuillage", 
-                "Une insolation directe des jeunes fruits provoquant la brûlure de l'épiderme"
-            ], 
-            exp: "Des irrégularités d'arrosage bloquent la circulation du calcium vers les cellules à l'extrémité du fruit.", 
-            wiki: "https://fr.wikipedia.org/wiki/N%C3%A9crose_apicale", 
-            difficulty: "difficile" 
+                "En y mettant exclusivement des tontes de pelouse fraîches accumulées sur 1 mètre d'épaisseur.",
+                "En fermant hermétiquement le bac sans jamais le brasser ni laisser passer l'air.",
+                "En y versant tous les restes de viandes, de poissons et de graisses de cuisson régulièrement."
+            ],
+            exp: "Un bon compost a besoin de carbone (paille, carton, broyat) et d'azote (épluchures, tonte) mélangés avec de l'oxygène pour mûrir sans pourrir.",
+            wiki: "https://fr.wikipedia.org/wiki/Compostage_(jardinage)"
         }
     ];
 
-    const distractorsPool = [
-        "Traiter au cuivre dès les premiers signes de décoloration du feuillage",
-        "Augmenter l'apport en potasse pour stimuler l'enracinement profond",
-        "Diminuer la fréquence des arrosages tout en augmentant le volume d'eau par apport",
-        "Pratiquer une taille en vert sévère au niveau du troisième nœud",
-        "Appliquer un amendement organique riche en azote rapide avant le semis",
-        "Effeuiller la base des tiges pour améliorer l'aération du collet",
-        "Incorporer du sable de rivière pour améliorer la rétention d'eau en surface",
-        "Réduire l'exposition lumineuse en installant une toile d'ombrage temporaire",
-        "Procéder à un surfaçage avec un compost jeune bien décomposé",
-        "Maintenir une humidité constante du substrat par aspersion foliaire",
-        "Raccourcir les racines principales d'un tiers avant la plantation",
-        "Effectuer un paillage minéral pour conserver la chaleur nocturne du sol"
+    // Génération dynamique de 150 questions orientées pratique/clients
+    const clientTopics = [
+        { t: "l'entretien du gazon", p1: "Démousser et aérer au printemps", p2: "Mettre du désherbant total", p3: "Arroser à midi en plein été", p4: "Tondre à ras avant la gelée", e: "La scarification et la hauteur de tonte préservent le gazon." },
+        { t: "la taille des hortensias", p1: "Conserver les bois sains et couper les fleurs fanées au-dessus du premier bourgeon", p2: "Rabattre le pied à ras du sol chaque automne", p3: "Supprimer tout le vieux bois sans distinction", p4: "Tailler uniquement en plein mois de juillet", e: "Les hortensias fleurissent sur le bois de l'année précédente." },
+        { t: "la plantation d'un arbre fruitier", p1: "Faire un trou 3 fois plus large que la motte et tuteurer sans blesser le tronc", p2: "Mettre le point de greffe profondément sous la terre", p3: "Remplir le trou uniquement avec de la tourbe pure", p4: "Comprimer la terre avec une masse lourde", e: "Le point de greffe doit impérativement rester au-dessus du niveau du sol." },
+        { t: "le choix d'une haie brise-vue persistance", p1: "Mélanger des essences variées comme le laurier-tin, le photinia et l'élæagnus", p2: "Planter uniquement des bambous traçants sans barrière anti-rhizome", p3: "Installer des cyprès tous les 20 cm d'intervalle", p4: "Utiliser des arbres à feuilles caduques à pousse lente", e: "La diversité des essences limite la propagation des maladies et favorise la biodiversité." },
+        { t: "la gestion du compost en permaculture", p1: "Alterner les couches de matières sèches brunes et humides vertes", p2: "N'utiliser que des restes de produits laitiers", p3: "Empêcher le compost de recevoir de l'air", p4: "Mettre des plastiques biodégradables non compostables", e: "L'aération et le ratio Carbone/Azote sont la clé d'un compost équilibré." },
+        { t: "l'arrosage automatique du potager", p1: "Privilégier le goutte-à-goutte au pied tôt le matin", p2: "Arroser par aspersion en plein soleil à 14h", p3: "Mouiller généreusement le feuillage tous les soirs", p4: "Arroser une fois par mois avec un gros volume", e: "L'arrosage au pied limite les maladies fongiques et l'évaporation inutile." }
     ];
 
-    while (quizData.length < 200) {
-        let id = quizData.length + 1;
-        let diff = id % 3 === 0 ? "difficile" : (id % 2 === 0 ? "moyen" : "facile");
-        let d1 = distractorsPool[(id * 3) % distractorsPool.length];
-        let d2 = distractorsPool[(id * 3 + 1) % distractorsPool.length];
-        let d3 = distractorsPool[(id * 3 + 2) % distractorsPool.length];
+    const quizData = [...baseClientQuestions];
 
+    while (quizData.length < 150) {
+        let index = quizData.length + 1;
+        let topic = clientTopics[index % clientTopics.length];
+        
         quizData.push({
-            q: `Question technique horticole n°${id} : Quelle intervention est recommandée dans cette situation de culture ?`,
-            correct: `Respecter le calendrier végétatif et appliquer les règles d'entretien adaptées (Protocole ${id})`,
-            wrongs: [d1, d2, d3],
-            exp: `Explication horticole pour la question ${id} validée selon les bonnes pratiques horticoles.`,
-            wiki: "https://fr.wikipedia.org/wiki/Jardinage",
-            difficulty: diff
+            q: `Client : 'Question n°${index} sur ${topic.t} : Que préconisez-vous d'un point de vue professionnel ?'`,
+            correct: `${topic.p1} (Conseil Pro n°${index})`,
+            wrongs: [
+                `${topic.p2}`,
+                `${topic.p3}`,
+                `${topic.p4}`
+            ],
+            exp: topic.e,
+            wiki: "https://fr.wikipedia.org/wiki/Jardinage"
         });
     }
 
@@ -680,46 +647,46 @@
     let avatarIdx = 0;
 
     const trophies = [
-        { id: "t1", icon: "🌱", title: "Première embauche", desc: "Donner sa première bonne réponse", unlocked: false },
-        { id: "t2", icon: "🌿", title: "Chef d'équipe", desc: "Atteindre 100 points", unlocked: false },
+        { id: "t1", icon: "🌱", title: "Premier Client Conseil", desc: "Donner votre premier bon conseil", unlocked: false },
+        { id: "t2", icon: "🌿", title: "Jardinier Qualifié", desc: "Atteindre 100 points", unlocked: false },
         { id: "t3", icon: "👕", title: "Changement de Tenue", desc: "Changer 3 fois d'avatar", unlocked: false },
-        { id: "t4", icon: "⚠️", title: "Alerte Sécurité", desc: "Faire 3 erreurs d'affilée", unlocked: false },
-        { id: "t5", icon: "⭐", title: "Prime de Rendement", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
-        { id: "t6", icon: "📋", title: "Conducteur de Travaux", desc: "Répondre à 10 questions", unlocked: false },
-        { id: "t7", icon: "🏆", title: "Maître Paysagiste", desc: "Atteindre 250 points", unlocked: false }
+        { id: "t4", icon: "⚠️", title: "Erreur de Diagnostic", desc: "Faire 3 erreurs d'affilée", unlocked: false },
+        { id: "t5", icon: "⭐", title: "Conseiller de l'Année", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
+        { id: "t6", icon: "📋", title: "Fidélisation Clientèle", desc: "Répondre à 10 questions clients", unlocked: false },
+        { id: "t7", icon: "🏆", title: "Expert Horticole", desc: "Atteindre 250 points", unlocked: false }
     ];
 
     function trackDailyVisits() {
         const today = new Date().toDateString();
-        let savedDate = localStorage.getItem('jardin_metier_visit_date');
-        let visitCount = parseInt(localStorage.getItem('jardin_metier_visits_count')) || 0;
+        let savedDate = localStorage.getItem('jardin_client_visit_date');
+        let visitCount = parseInt(localStorage.getItem('jardin_client_visits_count')) || 0;
 
         if (savedDate !== today) {
             visitCount = 1;
-            localStorage.setItem('jardin_metier_visit_date', today);
+            localStorage.setItem('jardin_client_visit_date', today);
             score += 20;
             showAchievement("💧 Pointage du matin : +20 Pts !");
         } else {
             visitCount++;
         }
-        localStorage.setItem('jardin_metier_visits_count', visitCount);
+        localStorage.setItem('jardin_client_visits_count', visitCount);
         document.getElementById("visits-count").innerText = visitCount;
     }
 
     function loadUserData() {
-        if (localStorage.getItem('jardin_metier_score')) score = parseInt(localStorage.getItem('jardin_metier_score'));
-        if (localStorage.getItem('jardin_metier_pseudo')) document.getElementById("username-input").value = localStorage.getItem('jardin_metier_pseudo');
-        if (localStorage.getItem('jardin_metier_avatar')) {
-            document.getElementById("avatar-display").innerText = localStorage.getItem('jardin_metier_avatar');
-            avatarIdx = avatars.indexOf(localStorage.getItem('jardin_metier_avatar'));
+        if (localStorage.getItem('jardin_client_score')) score = parseInt(localStorage.getItem('jardin_client_score'));
+        if (localStorage.getItem('jardin_client_pseudo')) document.getElementById("username-input").value = localStorage.getItem('jardin_client_pseudo');
+        if (localStorage.getItem('jardin_client_avatar')) {
+            document.getElementById("avatar-display").innerText = localStorage.getItem('jardin_client_avatar');
+            avatarIdx = avatars.indexOf(localStorage.getItem('jardin_client_avatar'));
             if (avatarIdx === -1) avatarIdx = 0;
         }
-        if (localStorage.getItem('jardin_metier_trophies')) {
-            const savedT = JSON.parse(localStorage.getItem('jardin_metier_trophies'));
+        if (localStorage.getItem('jardin_client_trophies')) {
+            const savedT = JSON.parse(localStorage.getItem('jardin_client_trophies'));
             trophies.forEach(t => { if (savedT.includes(t.id)) t.unlocked = true; });
         }
-        if (localStorage.getItem('jardin_metier_avatar_count')) {
-            avatarsChangesCount = parseInt(localStorage.getItem('jardin_metier_avatar_count'));
+        if (localStorage.getItem('jardin_client_avatar_count')) {
+            avatarsChangesCount = parseInt(localStorage.getItem('jardin_client_avatar_count'));
         }
         trackDailyVisits();
         renderTrophiesList();
@@ -728,13 +695,13 @@
     }
 
     function saveUserData() {
-        localStorage.setItem('jardin_metier_score', score);
-        localStorage.setItem('jardin_metier_pseudo', document.getElementById("username-input").value);
-        localStorage.setItem('jardin_metier_avatar', document.getElementById("avatar-display").innerText);
-        localStorage.setItem('jardin_metier_avatar_count', avatarsChangesCount);
+        localStorage.setItem('jardin_client_score', score);
+        localStorage.setItem('jardin_client_pseudo', document.getElementById("username-input").value);
+        localStorage.setItem('jardin_client_avatar', document.getElementById("avatar-display").innerText);
+        localStorage.setItem('jardin_client_avatar_count', avatarsChangesCount);
         
         const unlockedIds = trophies.filter(t => t.unlocked).map(t => t.id);
-        localStorage.setItem('jardin_metier_trophies', JSON.stringify(unlockedIds));
+        localStorage.setItem('jardin_client_trophies', JSON.stringify(unlockedIds));
     }
 
     function unlockTrophy(id) {
@@ -808,10 +775,7 @@
         currentQuestionObj = quizData[currentQuestionIndex];
         
         document.getElementById("question").innerText = currentQuestionObj.q;
-        
-        const diffTag = document.getElementById("diff-tag");
-        diffTag.className = `difficulty-tag diff-${currentQuestionObj.difficulty}`;
-        diffTag.innerText = currentQuestionObj.difficulty.toUpperCase();
+        document.getElementById("q-num").innerText = `${currentQuestionIndex + 1} / ${quizData.length}`;
 
         let allOptions = [currentQuestionObj.correct, ...currentQuestionObj.wrongs];
         shuffledOptionsCache = shuffleArray(allOptions);
@@ -857,7 +821,7 @@
         
         if (isCorrect) {
             score += 10;
-            pointsNotice.innerText = `✅ Bonne réponse pro ! (+10 pts)`;
+            pointsNotice.innerText = `✅ Excellent conseil professionnel ! (+10 pts)`;
             pointsNotice.style.color = "#4ade80";
             
             consecutiveSuccess++;
@@ -865,7 +829,7 @@
             if (consecutiveSuccess >= 3) unlockTrophy("t5");
         } else {
             score = Math.max(0, score - 5);
-            pointsNotice.innerText = `❌ Mauvaise réponse (-5 pts)`;
+            pointsNotice.innerText = `❌ Mauvaise préconisation (-5 pts)`;
             pointsNotice.style.color = "#f87171";
             
             consecutiveErrors++;
@@ -894,9 +858,9 @@
 
     function shareScore() {
         const pseudo = document.getElementById("username-input").value || "Jardinier";
-        const text = `${pseudo} a atteint ${score} points sur Le Métier de Jardinier Quiz 🌿 !`;
+        const text = `${pseudo} a obtenu ${score} points en conseillant ses clients sur Le Quiz Jardinier Pro 🌿 !`;
         if (navigator.share) {
-            navigator.share({ title: 'Le Métier de Jardinier Quiz', text: text, url: window.location.href }).catch(() => {});
+            navigator.share({ title: 'Quiz Jardinier - Questions Clients', text: text, url: window.location.href }).catch(() => {});
         } else {
             navigator.clipboard.writeText(text);
             showAchievement("📋 Score copié dans le presse-papier !");
@@ -908,3 +872,4 @@
 
 </body>
 </html>
+```eof
