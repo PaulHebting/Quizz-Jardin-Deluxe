@@ -620,7 +620,7 @@
         let topic = clientTopics[index % clientTopics.length];
         
         quizData.push({
-            q: `Quelle est la bonne méthode concernant ${topic.t} pour une intervention professionnelle n°${index} ?`,
+            q: `Quelle est la bonne méthode concernant ${topic.t} pour une intervention professionnelle ?`,
             correct: `${topic.p1}`,
             wrongs: [
                 `${topic.p2}`,
@@ -773,7 +773,7 @@
     function loadNextQuestion() {
         if (currentQuestionIndex >= quizData.length) {
             currentQuestionIndex = 0;
-            quizData = shuffleArray(quizData); // Re-mélange si on boucle à la fin
+            quizData = shuffleArray(quizData);
         }
 
         currentQuestionObj = quizData[currentQuestionIndex];
@@ -835,7 +835,7 @@
         }
 
         if (totalAnsweredCount >= 10) {
-            unlockTrophy("t7"); // ou t6
+            unlockTrophy("t7");
         }
 
         explanationText.innerText = currentQuestionObj.exp;
