@@ -1,9 +1,695 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quiz Jardinier - Questions 🌿</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 12px;
+        }
 
-.t {
+        .mobile-container {
+            width: 100%;
+            max-width: 420px;
+            height: 94vh;
+            max-height: 880px;
+            background: #1e293b;
+            border-radius: 28px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #334155;
+            position: relative;
+        }
+
+        .app-header {
+            padding: 14px 16px;
+            background: #0f172a;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .app-title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #4ade80;
+        }
+
+        .daily-visits {
+            font-size: 11px;
+            color: #38bdf8;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .score-badge {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .app-content {
+            flex: 1;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+        }
+
+        .user-profile-card {
+            background: #0f172a;
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-picker {
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 3px solid #4ade80;
+        }
+
+        .profile-info {
+            text-align: left;
+            flex: 1;
+        }
+
+        .username-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #334155;
+            color: #f8fafc;
+            font-size: 15px;
+            font-weight: 700;
+            width: 100%;
+            padding: 2px 0;
+            outline: none;
+        }
+
+        .username-input:focus {
+            border-bottom-color: #4ade80;
+        }
+
+        .top-menu-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .trophy-btn-mini {
+            background: rgba(250, 204, 21, 0.15);
+            border: 1px solid rgba(250, 204, 21, 0.4);
+            color: #facc15;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .quiz-box {
+            background: #334155;
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+
+        .quiz-header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .question-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #38bdf8;
+            font-weight: 800;
+        }
+
+        .question-number {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .question-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.35;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .option-btn {
+            background: #0f172a;
+            border: 2px solid #334155;
+            color: #f1f5f9;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            line-height: 1.25;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #4ade80;
+        }
+
+        .explanation-box {
+            display: none;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 8px;
+        }
+
+        .explanation-text {
             font-size: 12.5px;
-                    }
-   {
+            color: #e2e8f0;
+            line-height: 1.35;
+            margin-top: 4px;
+        }
+
+        .points-notification {
+            font-weight: 800;
+            font-size: 12.5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .wiki-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 9px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .next-btn {
+            display: none;
+            background: #22c55e;
+            color: #0f172a;
+            border: none;
+            padding: 9px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 13.5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .share-btn {
+            background: #334155;
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 8px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 12.5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            width: 100%;
+            max-height: 80vh;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
+        }
+
+        .modal-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #facc15;
+        }
+
+        .close-modal {
+            background: #334155;
+            color: white;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .trophies-list {
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .trophy-item {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.4;
+            filter: grayscale(100%);
+        }
+
+        .trophy-item.unlocked {
+            opacity: 1;
+            filter: grayscale(0%);
+            border-color: rgba(250, 204, 21, 0.4);
+            background: rgba(250, 204, 21, 0.05);
+        }
+
+        .trophy-icon { font-size: 24px; }
+        .trophy-details h4 { font-size: 13px; color: #f8fafc; font-weight: 700; }
+        .trophy-details p { font-size: 11px; color: #94a3b8; }
+
+        #achievement-popup {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: #facc15;
+            color: #0f172a;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 12px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200;
+            pointer-events: none;
+        }
+        #achievement-popup.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+    <div id="achievement-popup">🏆 Trophée débloqué !</div>
+
+    <div class="modal-overlay" id="trophy-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">🏆 Trophées du Jardinier</div>
+                <button class="close-modal" onclick="toggleTrophyModal()">×</button>
+            </div>
+            <div class="trophies-list" id="trophies-list-container"></div>
+        </div>
+    </div>
+
+    <div class="app-header">
+        <div class="app-title-group">
+            <div class="app-title">🌿 QUESTIONS JARDIN</div>
+            <div class="daily-visits">📊 <span id="visits-count">1</span> connexion(s)</div>
+        </div>
+        <div class="score-badge" id="score-display">0 Pts</div>
+    </div>
+
+    <div class="app-content">
+        <div class="user-profile-card">
+            <div class="avatar-picker" onclick="changeAvatar()">
+                <div class="user-avatar" id="avatar-display">👨‍🌾</div>
+            </div>
+            <div class="profile-info">
+                <input type="text" class="username-input" id="username-input" value="JardinierExpert" placeholder="Ton pseudo..." oninput="saveUserData()">
+                <div class="top-menu-actions">
+                    <button class="trophy-btn-mini" onclick="toggleTrophyModal()">🏆 Trophées</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-box">
+            <div class="quiz-header-info">
+                <div class="question-title">❓ QUESTION</div>
+                <div class="question-number" id="q-num">1 / 150</div>
+            </div>
+            <div class="question-text" id="question">Chargement...</div>
+        </div>
+
+        <div class="options-grid" id="options"></div>
+
+        <div class="explanation-box" id="explanation-box">
+            <div class="points-notification" id="points-notice"></div>
+            <div class="explanation-text" id="explanation"></div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="#" target="_blank" class="wiki-btn" id="wiki-btn">🌐 Fiche Technique Wikipédia</a>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">🚀 Question Suivante</button>
+            <button class="share-btn" onclick="shareScore()">🔗 Partager mon score</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const baseClientQuestions = [
+        {
+            q: "Les feuilles de mes rosiers se couvrent d'un voile blanc comme de la farine. Que se passe-t-il et comment traiter ?",
+            correct: "C'est de l'oïdium. Il faut aérer le feuillage et appliquer un traitement à base de soufre ou de bicarbonate.",
+            wrongs: [
+                "C'est de la rouille. Il faut arroser abondamment le feuillage tous les soirs.",
+                "C'est un manque de fer dans le sol. Il faut mettre du sulfate de fer au pied immédiatement.",
+                "Ce sont des attaques de cochenilles farineuses. Il faut appliquer de l'huile lourde de vidange."
+            ],
+            exp: "L'oïdium est une maladie cryptogamique favorisée par les écarts de température et l'humidité ambiante sans pluie directe.",
+            wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
+        },
+        {
+            q: "Quand dois-je tailler ma haie de lauriers ou de thuyas dans le jardin ?",
+            correct: "Idéalement deux fois par an : à la fin du printemps (mai) et à la fin de l'été (septembre).",
+            wrongs: [
+                "Exclusivement au milieu de l'hiver en période de fort gel pour bloquer la montée de sève.",
+                "Tous les mois de mars à novembre sans interruption pour garder une forme stricte.",
+                "Une seule fois tous les cinq ans en effectuant un rabattage très sévère au tronc."
+            ],
+            exp: "Tailler à la fin des deux poussées végétatives principales (printemps et fin d'été) permet de maintenir la haie compacte.",
+            wiki: "https://fr.wikipedia.org/wiki/Haie"
+        },
+        {
+            q: "Mon gazon est envahi par la mousse sous les arbres, comment m'en débarrasser durablement ?",
+            correct: "Scarifier à l'automne, aérer le sol, remonter la hauteur de tonte et corriger l'acidité ou l'ombre excessive.",
+            wrongs: [
+                "Appliquer du sulfate de fer chaque mois : cela détruit la mousse définitivement sans acidifier la terre.",
+                "Tondre le plus ras possible (1 cm) chaque semaine pour asphyxier complètement la mousse.",
+                "Inonder le terrain d'eau de javel pure diluée dans de l'eau tiède avant l'hiver."
+            ],
+            exp: "Le sulfate de fer brûle la mousse rapidement mais acidifie le sol, ce qui favorise encore plus le retour de la mousse l'année suivante.",
+            wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)"
+        },
+        {
+            q: "Mes plants de tomates ont des pucerons sur les jeunes pousses. Quel produit naturel préconisez-vous ?",
+            correct: "Un pulvérisation de savon noir liquide dilué à 5% dans de l'eau tiède ou une introduction de larves de coccinelles.",
+            wrongs: [
+                "Une application d'eau séreuse de chaux éteinte directement sur l'extrémité des bouquets floraux.",
+                "Un arrosage au pied avec du désherbant thermique pour stopper la colonie par la chaleur.",
+                "Un poudrage hebdomadaire avec de la cendre de bois pure directement sur les fleurs."
+            ],
+            exp: "Le savon noir emprisonne et asphyxie les pucerons sans nuire à la plante ni laisser de résidus toxiques.",
+            wiki: "https://fr.wikipedia.org/wiki/Aphidoidea"
+        },
+        {
+            q: "J'ai un sol très argileux, lourd et collant l'hiver. Quelles plantes d'ornement installer sans risque ?",
+            correct: "Des cornouillers (Cornus), des viburnums, des hêtres ou des hortensias qui supportent les terres fraîches.",
+            wrongs: [
+                "Des lavandes, du thym, du romarin et des cactées en pleine terre sans drainage.",
+                "Uniquement des plantes de terre de bruyère pure comme des azalées sans apport d'amendement.",
+                "Aucune plante ne peut pousser dans une terre argileuse sans remplacer toute la terre sur 1 mètre."
+            ],
+            exp: "Les terres argileuses sont riches en nutriments et retiennent bien l'eau, ce qui convient parfaitement à de nombreuses essences arbustives robustes.",
+            wiki: "https://fr.wikipedia.org/wiki/Sol_argileux"
+        },
+        {
+            q: "Les feuilles de mon citronnier en pot jaunissent tout en gardant les nervures vertes. Pourquoi ?",
+            correct: "C'est une chlorose ferrique causée par un excès de calcaire dans l'eau d'arrosage ou un sol trop alcalin.",
+            wrongs: [
+                "C'est le signe d'un manque crucial de potasse après une récolte trop abondante.",
+                "C'est une attaque d'acariens due à un air trop humide autour du pot.",
+                "C'est une brûlure irréversible provoquée par un éclairage naturel trop direct."
+            ],
+            exp: "La chlorose ferrique empêche la plante de synthétiser la chlorophylle. L'apport d'un chélat de fer et l'arrosage à l'eau de pluie corrigent le problème.",
+            wiki: "https://fr.wikipedia.org/wiki/Chlorose"
+        },
+        {
+            q: "Quand faut-il planter les bulbes à floraison printanière comme les tulipes et jonquilles ?",
+            correct: "À l'automne, entre septembre et novembre, avant les premières gelées fortes.",
+            wrongs: [
+                "Au début du printemps (mars-avril) juste au moment où ils doivent fleurir.",
+                "En plein été (juillet-août) pendant la période de sécheresse maximale.",
+                "Au mois de janvier durant les périodes de neige pour stimuler le bulbe."
+            ],
+            exp: "Les bulbes de printemps ont besoin d'une période de froid hivernal (la vernalisation) pour déclencher leur floraison.",
+            wiki: "https://fr.wikipedia.org/wiki/Bulbe"
+        },
+        {
+            q: "En permaculture, quelles plantes sont conseillées au potager à côté des tomates pour éloigner les nuisibles ?",
+            correct: "Les œillets d'Inde (Tagetes) et le basilic, qui repoussent les nématodes et améliorent la pousse.",
+            wrongs: [
+                "Les pommes de terre et les fenouils qui partagent les mêmes nutriments solubles.",
+                "Les menthes envahissantes collées au pied des tomates pour bloquer le soleil.",
+                "Les gourmands de tomates replantés entre chaque rang sans espace."
+            ],
+            exp: "Les œillets d'Inde sécrètent des substances racinaires toxiques pour les nématodes et leur odeur repousse certains pucerons.",
+            wiki: "https://fr.wikipedia.org/wiki/Plante_compagne"
+        },
+        {
+            q: "Mon olivier en pot perd ses feuilles après l'avoir rentré dans mon salon chauffé cet hiver. Que s'est-il passé ?",
+            correct: "L'air est trop chaud et trop sec. L'olivier a besoin d'un hivernage dans une pièce fraîche et très lumineuse.",
+            wrongs: [
+                "Il manque de chauffage : il faut le coller immédiatement contre le radiateur.",
+                "C'est tout à fait normal, l'olivier renouvelle l'intégralité de son feuillage chaque hiver.",
+                "Il subit une attaque de mulots qui rongent le collet sous le niveau du pot."
+            ],
+            exp: "L'olivier n'est pas une plante d'intérieur. Il a besoin d'un repos hivernal au frais (hors gel) et de beaucoup de lumière.",
+            wiki: "https://fr.wikipedia.org/wiki/Olivier"
+        },
+        {
+            q: "Qu'est-ce que le paillage en permaculture et pourquoi me le conseillez-vous pour mon potager ?",
+            correct: "Couvrir le sol de matière organique pour conserver l'humidité, nourrir la microfaune et stopper les adventices.",
+            wrongs: [
+                "Bétonner les allées entre les rangs de légumes pour éviter de se salir les bottes.",
+                "Utiliser des bâches plastiques étanches usagées qui empêchent toute eau de pluie d'entrer.",
+                "Mettre du sable de carrière sur 20 cm d'épaisseur pour assécher la terre complètement."
+            ],
+            exp: "Le paillage protège la terre du soleil, limite les arrosages et nourrit le sol en se décomposant.", 
+            wiki: "https://fr.wikipedia.org/wiki/Paillis"
+        },
+        {
+            q: "Quand dois-je effectuer la taille de floraison de mes rosiers buissons ?",
+            correct: "À la fin de l'hiver (février-mars), lorsque les fortes gelées sont passées et avant le débourrement.",
+            wrongs: [
+                "En plein mois de juin, au moment du pic de floraison des boutons.",
+                "À la fin de l'automne en rasant le pied à 2 cm du sol avant la neige.",
+                "Tous les 15 jours de mai à octobre en coupant la moitié des branches."
+            ],
+            exp: "La taille de fin d'hiver stimule la pousse des jeunes rameaux vigoureux qui porteront les fleurs de l'année.",
+            wiki: "https://fr.wikipedia.org/wiki/Rosier"
+        },
+        {
+            q: "Comment lutter contre les limaces au potager de manière écologique sans granulés chimiques ?",
+            correct: "Installer des pièges, favoriser les prédateurs (hérissons, orvets) ou utiliser du phosphate de fer (ferramol).",
+            wrongs: [
+                "Mettre du sel fin tout autour de chaque légume après chaque arrosage.",
+                "Verser de l'essence pure autour du carré potager pour faire fuir les gastéropodes.",
+                "Arroser le feuillage des salades à l'eau bouillante chaque soir à la tombée du jour."
+            ],
+            exp: "Le ferramol est utilisable en agriculture biologique et ne présente pas de danger pour les hérissons ou les animaux domestiques.",
+            wiki: "https://fr.wikipedia.org/wiki/Limace"
+        },
+        {
+            q: "Pourquoi la glycine que j'ai plantée il y a 4 ans ne donne-t-elle toujours aucune fleur ?",
+            correct: "Elle est peut-être issue de semis (non greffée) ou souffre d'un excès d'azote favorisant le feuillage.",
+            wrongs: [
+                "Elle ne reçoit pas assez d'eau stagneuse au niveau de ses racines en été.",
+                "La glycine ne fleurit qu'une fois tous les quinze ans naturellement.",
+                "Il faut tailler toutes les racines principales au printemps pour forcer la fleur."
+            ],
+            exp: "Les glycines issues de semis mettent parfois plus de 10 ans à fleurir. L'excès d'engrais azoté stimule aussi le bois au détriment des fleurs.",
+            wiki: "https://fr.wikipedia.org/wiki/Glycine_(plante)"
+        },
+        {
+            q: "Mon buis devient marron et perd ses feuilles à une vitesse folle en été. Quel est le problème ?",
+            correct: "C'est l'attaque de la chenille de la pyrale du buis ou une maladie fongique (Cylindrocladium/Volutella).",
+            wrongs: [
+                "Le buis a simplement besoin d'un apport massif d'engrais coup de fouet azoté.",
+                "C'est un manque de lumière hivernale qui ressort durant la saison chaude.",
+                "C'est le résultat d'un arrosage trop fréquent avec de l'eau tiède de pluie."
+            ],
+            exp: "La pyrale du buis est un papillon invasif dont les chenilles dévorent les feuilles en quelques jours.",
+            wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis"
+        },
+        {
+            q: "Comment réussir mon compost ménager et éviter qu'il ne dégage de mauvaises odeurs ?",
+            correct: "En équilibrant les apports azotés (déchets verts/humides) et carbonés (déchets bruns/secs) et en l'aérant.",
+            wrongs: [
+                "En y mettant exclusivement des tontes de pelouse fraîches accumulées sur 1 mètre d'épaisseur.",
+                "En fermant hermétiquement le bac sans jamais le brasser ni laisser passer l'air.",
+                "En y versant tous les restes de viandes, de poissons et de graisses de cuisson régulièrement."
+            ],
+            exp: "Un bon compost a besoin de carbone (paille, carton, broyat) et d'azote (épluchures, tonte) mélangés avec de l'oxygène pour mûrir sans pourrir.",
+            wiki: "https://fr.wikipedia.org/wiki/Compostage_(jardinage)"
+        }
+    ];
+
+    const clientTopics = [
+        { t: "l'entretien du gazon", p1: "Démousser et aérer au printemps", p2: "Mettre du désherbant total", p3: "Arroser à midi en plein été", p4: "Tondre à ras avant la gelée", e: "La scarification et la hauteur de tonte préservent le gazon." },
+        { t: "la taille des hortensias", p1: "Conserver les bois sains et couper les fleurs fanées au-dessus du premier bourgeon", p2: "Rabattre le pied à ras du sol chaque automne", p3: "Supprimer tout le vieux bois sans distinction", p4: "Tailler uniquement en plein mois de juillet", e: "Les hortensias fleurissent sur le bois de l'année précédente." },
+        { t: "la plantation d'un arbre fruitier", p1: "Faire un trou 3 fois plus large que la motte et tuteurer sans blesser le tronc", p2: "Mettre le point de greffe profondément sous la terre", p3: "Remplir le trou uniquement avec de la tourbe pure", p4: "Comprimer la terre avec une masse lourde", e: "Le point de greffe doit impérativement rester au-dessus du niveau du sol." },
+        { t: "le choix d'une haie brise-vue persistance", p1: "Mélanger des essences variées comme le laurier-tin, le photinia et l'élæagnus", p2: "Planter uniquement des bambous traçants sans barrière anti-rhizome", p3: "Installer des cyprès tous les 20 cm d'intervalle", p4: "Utiliser des arbres à feuilles caduques à pousse lente", e: "La diversité des essences limite la propagation des maladies et favorise la biodiversité." },
+        { t: "la gestion du compost en permaculture", p1: "Alterner les couches de matières sèches brunes et humides vertes", p2: "N'utiliser que des restes de produits laitiers", p3: "Empêcher le compost de recevoir de l'air", p4: "Mettre des plastiques biodégradables non compostables", e: "L'aération et le ratio Carbone/Azote sont la clé d'un compost équilibré." },
+        { t: "l'arrosage automatique du potager", p1: "Privilégier le goutte-à-goutte au pied tôt le matin", p2: "Arroser par aspersion en plein soleil à 14h", p3: "Mouiller généreusement le feuillage tous les soirs", p4: "Arroser une fois par mois avec un gros volume", e: "L'arrosage au pied limite les maladies fongiques et l'évaporation inutile." }
+    ];
+
+    const quizData = [...baseClientQuestions];
+
+    while (quizData.length < 150) {
+        let index = quizData.length + 1;
+        let topic = clientTopics[index % clientTopics.length];
+        
+        quizData.push({
+            q: `Quelle est la bonne méthode concernant ${topic.t} pour une intervention professionnelle n°${index} ?`,
+            correct: `${topic.p1}`,
+            wrongs: [
+                `${topic.p2}`,
+                `${topic.p3}`,
+                `${topic.p4}`
+            ],
+            exp: topic.e,
+            wiki: "https://fr.wikipedia.org/wiki/Jardinage"
+        });
+    }
+function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    let score = 0;
+    let currentQuestionIndex = 0;
+    let currentQuestionObj = null;
+    let avatarsChangesCount = 0;
+    let consecutiveErrors = 0;
+    let consecutiveSuccess = 0;
+    let shuffledOptionsCache = [];
+    let correctButtonIndex = 0;
+    let totalAnsweredCount = 0;
+
+    const avatars = ["👨‍🌾", "👩‍🌾", "👷‍♂️", "🚜", "🌿", "🧑‍🌾"];
+    let avatarIdx = 0;
+
+    const trophies = [
+        { id: "t1", icon: "🌱", title: "Première Question Réussie", desc: "Donner votre première bonne réponse", unlocked: false },
+        { id: "t2", icon: "🌿", title: "Jardinier Qualifié", desc: "Atteindre 100 points", unlocked: false },
+        { id: "t3", icon: "👕", title: "Changement de Tenue", desc: "Changer 3 fois d'avatar", unlocked: false },
+        { id: "t4", icon: "⚠️", title: "Erreur de Diagnostic", desc: "Faire 3 erreurs d'affilée", unlocked: false },
+        { id: "t5", icon: "⭐", title: "Expert Vert", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
+        { id: "t6", icon: "📋", title: "Sérieux", desc: "Répondre à 10 questions", unlocked: false },
+        { id: "t7", icon: "🏆", title: "Expert Horticole", desc: "Atteindre 250 points", unlocked: false }
+    ];
+
+    function trackDailyVisits() {
+        const today = new Date().toDateString();
+        let savedDate = localStorage.getItem('jardin_client_visit_date');
+        let visitCount = parseInt(localStorage.getItem('jardin_client_visits_count')) || 0;
+
+        if (savedDate !== today) {
+            visitCount = 1;
+            localStorage.setItem('jardin_client_visit_date', today);
+            score += 20;
+            showAchievement("💧 Pointage du matin : +20 Pts !");
+        } else {
+            visitCount++;
+        }
+        localStorage.setItem('jardin_client_visits_count', visitCount);
+        document.getElementById("visits-count").innerText = visitCount;
+    }
+
+    function loadUserData() {
+        if (localStorage.getItem('jardin_client_score')) score = parseInt(localStorage.getItem('jardin_client_score'));
+        if (localStorage.getItem('jardin_client_pseudo')) document.getElementById("username-input").value = localStorage.getItem('jardin_client_pseudo');
+        if (localStorage.getItem('jardin_client_avatar')) {
+            document.getElementById("avatar-display").innerText = localStorage.getItem('jardin_client_avatar');
+            avatarIdx = avatars.indexOf(localStorage.getItem('jardin_client_avatar'));
+            if (avatarIdx === -1) avatarIdx = 0;
+        }
+        if (localStorage.getItem('jardin_client_trophies')) {
+            const savedT = JSON.parse(localStorage.getItem('jardin_client_trophies'));
+            trophies.forEach(t => { if (savedT.includes(t.id)) t.unlocked = true; });
+        }
+        if (localStorage.getItem('jardin_client_avatar_count')) {
             avatarsChangesCount = parseInt(localStorage.getItem('jardin_client_avatar_count'));
         }
         trackDailyVisits();
@@ -68,5 +754,125 @@
         saveUserData();
     }
 
-                score = Math.max(0, score - 5);
-                    
+    function checkTrophies() {
+        if (score >= 10) unlockTrophy("t1");
+        if (score >= 100) unlockTrophy("t2");
+        if (totalAnsweredCount >= 10) unlockTrophy("t6");
+        if (score >= 250) unlockTrophy("t7");
+    }
+
+    function updateScoreDisplay() {
+        document.getElementById("score-display").innerText = `${score} Pts`;
+        checkTrophies();
+    }
+
+    function shuffleArray(array) {
+        let arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function loadNextQuestion() {
+        currentQuestionObj = quizData[currentQuestionIndex];
+        
+        document.getElementById("question").innerText = currentQuestionObj.q;
+        document.getElementById("q-num").innerText = `${currentQuestionIndex + 1} / ${quizData.length}`;
+
+        let allOptions = [currentQuestionObj.correct, ...currentQuestionObj.wrongs];
+        shuffledOptionsCache = shuffleArray(allOptions);
+        correctButtonIndex = shuffledOptionsCache.indexOf(currentQuestionObj.correct);
+
+        const optsContainer = document.getElementById("options");
+        optsContainer.innerHTML = "";
+
+        document.getElementById("explanation-box").style.display = "none";
+        document.getElementById("wiki-btn").style.display = "none";
+        document.getElementById("next-btn").style.display = "none";
+
+        shuffledOptionsCache.forEach((opt, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.innerText = opt;
+            btn.onclick = () => selectOption(idx);
+            optsContainer.appendChild(btn);
+        });
+
+        currentQuestionIndex = (currentQuestionIndex + 1) % quizData.length;
+    }
+
+    function selectOption(selectedIndex) {
+        totalAnsweredCount++;
+        const buttons = document.querySelectorAll(".option-btn");
+        
+        buttons.forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === correctButtonIndex) {
+                btn.style.borderColor = "#22c55e";
+                btn.style.background = "rgba(34, 197, 94, 0.2)";
+            } else if (idx === selectedIndex) {
+                btn.style.borderColor = "#ef4444";
+                btn.style.background = "rgba(239, 68, 68, 0.2)";
+            }
+        });
+
+        const isCorrect = (selectedIndex === correctButtonIndex);
+        const explanationBox = document.getElementById("explanation-box");
+        const pointsNotice = document.getElementById("points-notice");
+        const explanationText = document.getElementById("explanation");
+        
+        if (isCorrect) {
+            score += 10;
+            pointsNotice.innerText = `✅ Bonne réponse ! (+10 pts)`;
+            pointsNotice.style.color = "#4ade80";
+            
+            consecutiveSuccess++;
+            consecutiveErrors = 0;
+            if (consecutiveSuccess >= 3) unlockTrophy("t5");
+        } else {
+            score = Math.max(0, score - 5);
+            pointsNotice.innerText = `❌ Mauvaise réponse (-5 pts)`;
+            pointsNotice.style.color = "#f87171";
+            
+            consecutiveErrors++;
+            consecutiveSuccess = 0;
+            if (consecutiveErrors >= 3) unlockTrophy("t4");
+        }
+
+        explanationText.innerText = currentQuestionObj.exp;
+        explanationBox.style.display = "block";
+
+        const wikiBtn = document.getElementById("wiki-btn");
+        if (currentQuestionObj.wiki) {
+            wikiBtn.href = currentQuestionObj.wiki;
+            wikiBtn.style.display = "flex";
+        }
+
+        document.getElementById("next-btn").style.display = "block";
+
+        updateScoreDisplay();
+        saveUserData();
+    }
+
+    function nextQuestion() {
+        loadNextQuestion();
+    }
+
+    function shareScore() {
+        const pseudo = document.getElementById("username-input").value || "Jardinier";
+        const text = `${pseudo} a obtenu ${score} points sur Le Quiz Jardinier 🌿 !`;
+        if (navigator.share) {
+            navigator.share({ title: 'Quiz Jardinier', text: text, url: window.location.href }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(text);
+            showAchievement("📋 Score copié dans le presse-papier !");
+        }
+    }
+
+    window.onload = loadUserData;
+</script>
+
+</body>
+            </html>
