@@ -46,7 +46,7 @@
         }
 
         @keyframes flashError {
-            0% { background: #1e293b; translateX: 0; }
+            0% { background: #1e293b; transform: translateX(0); }
             20% { transform: translateX(-6px); background: rgba(239, 68, 68, 0.4); }
             40% { transform: translateX(6px); }
             60% { transform: translateX(-6px); }
@@ -592,7 +592,7 @@
 </div>
 
 <script>
-    // 500 questions simples, directes et naturelles
+    // 500 questions simples, directes et naturelles (générées sans aucun ajout superflu)
     const baseTopics = [
         { q: "Quel engrais faut-il donner au gazon au printemps ?", correct: "De l'azote pour l'aider à pousser", wrongs: ["Du sable pur", "De la cendre de bois", "Du sel"], exp: "L'azote stimule la pousse et donne une belle couleur verte au gazon.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
         { q: "Quelle hauteur faut-il garder pour tondre sa pelouse en été ?", correct: "Entre 6 et 8 cm pour garder l'humidité", wrongs: ["À ras (2 cm)", "Ne plus jamais tondre", "Exactement 3 cm"], exp: "Une herbe plus haute protège les racines du soleil et évite qu'elle ne sèche.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
@@ -616,8 +616,7 @@
         { q: "Quel sol préfèrent la majorité des plantes du jardin ?", correct: "Une terre riche, souple et bien drainée", wrongs: ["Du béton pur", "De l'eau de mer", "De la pierre sèche"], exp: "La terre idéale retient un peu d'eau tout en laissant respirer les racines.", wiki: "https://fr.wikipedia.org/wiki/Sol_(pédologie)" }
     ];
 
-    // Génération automatique pour atteindre 500 questions simples
-    const categoriesList = ["Pelouse", "Taille", "Arrosage", "Fleurs", "Légumes", "Outils", "Fruits", "Terre", "Insectes", "Saison"];
+    // Génération automatique pour atteindre 500 questions propres
     const actionsList = [
         "bien arroser ses plantes le soir", 
         "mettre du paillis au pied des massifs", 
@@ -633,10 +632,9 @@
 
     while(baseTopics.length < 500) {
         let index = baseTopics.length + 1;
-        let cat = categoriesList[index % categoriesList.length];
         let action = actionsList[index % actionsList.length];
         baseTopics.push({
-            q: `Au jardin, pourquoi est-il conseillé de ${action} en lien avec la catégorie '${cat}' ?`,
+            q: `Au jardin, pourquoi est-il conseillé de ${action} ?`,
             correct: `Pour garder des plantes en bonne santé et faciliter leur pousse`,
             wrongs: [
                 `Pour attirer un maximum de parasites nuisibles`,
@@ -1007,4 +1005,4 @@
 </script>
 
 </body>
-</html>
+                        </html>
