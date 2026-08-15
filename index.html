@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quiz Jardinier - Questions Clients 🌿</title>
+    <title>Quiz Jardinier - Questions 🌿</title>
     <style>
         * {
             box-sizing: border-box;
@@ -393,7 +393,7 @@
 
     <div class="app-header">
         <div class="app-title-group">
-            <div class="app-title">🌿 QUESTIONS CLIENTS JARDIN</div>
+            <div class="app-title">🌿 QUESTIONS JARDIN</div>
             <div class="daily-visits">📊 <span id="visits-count">1</span> connexion(s)</div>
         </div>
         <div class="score-badge" id="score-display">0 Pts</div>
@@ -414,7 +414,7 @@
 
         <div class="quiz-box">
             <div class="quiz-header-info">
-                <div class="question-title">🗣️ MISE EN SITUATION CLIENT</div>
+                <div class="question-title">❓ QUESTION</div>
                 <div class="question-number" id="q-num">1 / 150</div>
             </div>
             <div class="question-text" id="question">Chargement...</div>
@@ -438,7 +438,7 @@
 <script>
     const baseClientQuestions = [
         {
-            q: "Client : 'Les feuilles de mes rosiers se couvrent d'un voile blanc comme de la farine. Que se passe-t-il et comment traiter ?'",
+            q: "Les feuilles de mes rosiers se couvrent d'un voile blanc comme de la farine. Que se passe-t-il et comment traiter ?",
             correct: "C'est de l'oïdium. Il faut aérer le feuillage et appliquer un traitement à base de soufre ou de bicarbonate.",
             wrongs: [
                 "C'est de la rouille. Il faut arroser abondamment le feuillage tous les soirs.",
@@ -449,7 +449,7 @@
             wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
         },
         {
-            q: "Client : 'Quand dois-je tailler ma haie de lauriers ou de thuyas dans le jardin ?'",
+            q: "Quand dois-je tailler ma haie de lauriers ou de thuyas dans le jardin ?",
             correct: "Idéalement deux fois par an : à la fin du printemps (mai) et à la fin de l'été (septembre).",
             wrongs: [
                 "Exclusivement au milieu de l'hiver en période de fort gel pour bloquer la montée de sève.",
@@ -460,7 +460,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Haie"
         },
         {
-            q: "Client : 'Mon gazon est envahi par la mousse sous les arbres, comment m'en débarrasser durablement ?'",
+            q: "Mon gazon est envahi par la mousse sous les arbres, comment m'en débarrasser durablement ?",
             correct: "Scarifier à l'automne, aérer le sol, remonter la hauteur de tonte et corriger l'acidité ou l'ombre excessive.",
             wrongs: [
                 "Appliquer du sulfate de fer chaque mois : cela détruit la mousse définitivement sans acidifier la terre.",
@@ -471,7 +471,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)"
         },
         {
-            q: "Client : 'Mes plants de tomates ont des pucerons sur les jeunes pousses. Quel produit naturel préconisez-vous ?'",
+            q: "Mes plants de tomates ont des pucerons sur les jeunes pousses. Quel produit naturel préconisez-vous ?",
             correct: "Un pulvérisation de savon noir liquide dilué à 5% dans de l'eau tiède ou une introduction de larves de coccinelles.",
             wrongs: [
                 "Une application d'eau séreuse de chaux éteinte directement sur l'extrémité des bouquets floraux.",
@@ -482,7 +482,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Aphidoidea"
         },
         {
-            q: "Client : 'J'ai un sol très argileux, lourd et collant l'hiver. Quelles plantes d'ornement installer sans risque ?'",
+            q: "J'ai un sol très argileux, lourd et collant l'hiver. Quelles plantes d'ornement installer sans risque ?",
             correct: "Des cornouillers (Cornus), des viburnums, des hêtres ou des hortensias qui supportent les terres fraîches.",
             wrongs: [
                 "Des lavandes, du thym, du romarin et des cactées en pleine terre sans drainage.",
@@ -493,7 +493,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Sol_argileux"
         },
         {
-            q: "Client : 'Les feuilles de mon citronnier en pot jaunissent tout en gardant les nervures vertes. Pourquoi ?'",
+            q: "Les feuilles de mon citronnier en pot jaunissent tout en gardant les nervures vertes. Pourquoi ?",
             correct: "C'est une chlorose ferrique causée par un excès de calcaire dans l'eau d'arrosage ou un sol trop alcalin.",
             wrongs: [
                 "C'est le signe d'un manque crucial de potasse après une récolte trop abondante.",
@@ -504,7 +504,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Chlorose"
         },
         {
-            q: "Client : 'Quand faut-il planter les bulbes à floraison printanière comme les tulipes et jonquilles ?'",
+            q: "Quand faut-il planter les bulbes à floraison printanière comme les tulipes et jonquilles ?",
             correct: "À l'automne, entre septembre et novembre, avant les premières gelées fortes.",
             wrongs: [
                 "Au début du printemps (mars-avril) juste au moment où ils doivent fleurir.",
@@ -515,7 +515,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Bulbe"
         },
         {
-            q: "Client : 'En permaculture, quelles plantes sont conseillées au potager à côté des tomates pour éloigner les nuisibles ?'",
+            q: "En permaculture, quelles plantes sont conseillées au potager à côté des tomates pour éloigner les nuisibles ?",
             correct: "Les œillets d'Inde (Tagetes) et le basilic, qui repoussent les nématodes et améliorent la pousse.",
             wrongs: [
                 "Les pommes de terre et les fenouils qui partagent les mêmes nutriments solubles.",
@@ -526,7 +526,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Plante_compagne"
         },
         {
-            q: "Client : 'Mon olivier en pot perd ses feuilles après l'avoir rentré dans mon salon chauffé cet hiver. Que s'est-il passé ?'",
+            q: "Mon olivier en pot perd ses feuilles après l'avoir rentré dans mon salon chauffé cet hiver. Que s'est-il passé ?",
             correct: "L'air est trop chaud et trop sec. L'olivier a besoin d'un hivernage dans une pièce fraîche et très lumineuse.",
             wrongs: [
                 "Il manque de chauffage : il faut le coller immédiatement contre le radiateur.",
@@ -537,7 +537,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Olivier"
         },
         {
-            q: "Client : 'Qu'est-ce que le paillage en permaculture et pourquoi me le conseillez-vous pour mon potager ?'",
+            q: "Qu'est-ce que le paillage en permaculture et pourquoi me le conseillez-vous pour mon potager ?",
             correct: "Couvrir le sol de matière organique pour conserver l'humidité, nourrir la microfaune et stopper les adventices.",
             wrongs: [
                 "Bétonner les allées entre les rangs de légumes pour éviter de se salir les bottes.",
@@ -548,7 +548,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Paillis"
         },
         {
-            q: "Client : 'Quand dois-je effectuer la taille de floraison de mes rosiers buissons ?'",
+            q: "Quand dois-je effectuer la taille de floraison de mes rosiers buissons ?",
             correct: "À la fin de l'hiver (février-mars), lorsque les fortes gelées sont passées et avant le débourrement.",
             wrongs: [
                 "En plein mois de juin, au moment du pic de floraison des boutons.",
@@ -559,7 +559,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Rosier"
         },
         {
-            q: "Client : 'Comment lutter contre les limaces au potager de manière écologique sans granulés chimiques ?'",
+            q: "Comment lutter contre les limaces au potager de manière écologique sans granulés chimiques ?",
             correct: "Installer des pièges, favoriser les prédateurs (hérissons, orvets) ou utiliser du phosphate de fer (ferramol).",
             wrongs: [
                 "Mettre du sel fin tout autour de chaque légume après chaque arrosage.",
@@ -570,7 +570,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Limace"
         },
         {
-            q: "Client : 'Pourquoi la glycine que j'ai plantée il y a 4 ans ne donne-t-elle toujours aucune fleur ?'",
+            q: "Pourquoi la glycine que j'ai plantée il y a 4 ans ne donne-t-elle toujours aucune fleur ?",
             correct: "Elle est peut-être issue de semis (non greffée) ou souffre d'un excès d'azote favorisant le feuillage.",
             wrongs: [
                 "Elle ne reçoit pas assez d'eau stagneuse au niveau de ses racines en été.",
@@ -581,7 +581,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Glycine_(plante)"
         },
         {
-            q: "Client : 'Mon buis devient marron et perd ses feuilles à une vitesse folle en été. Quel est le problème ?'",
+            q: "Mon buis devient marron et perd ses feuilles à une vitesse folle en été. Quel est le problème ?",
             correct: "C'est l'attaque de la chenille de la pyrale du buis ou une maladie fongique (Cylindrocladium/Volutella).",
             wrongs: [
                 "Le buis a simplement besoin d'un apport massif d'engrais coup de fouet azoté.",
@@ -592,7 +592,7 @@
             wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis"
         },
         {
-            q: "Client : 'Comment réussir mon compost ménager et éviter qu'il ne dégage de mauvaises odeurs ?'",
+            q: "Comment réussir mon compost ménager et éviter qu'il ne dégage de mauvaises odeurs ?",
             correct: "En équilibrant les apports azotés (déchets verts/humides) et carbonés (déchets bruns/secs) et en l'aérant.",
             wrongs: [
                 "En y mettant exclusivement des tontes de pelouse fraîches accumulées sur 1 mètre d'épaisseur.",
@@ -604,7 +604,6 @@
         }
     ];
 
-    // Génération dynamique de 150 questions orientées pratique/clients
     const clientTopics = [
         { t: "l'entretien du gazon", p1: "Démousser et aérer au printemps", p2: "Mettre du désherbant total", p3: "Arroser à midi en plein été", p4: "Tondre à ras avant la gelée", e: "La scarification et la hauteur de tonte préservent le gazon." },
         { t: "la taille des hortensias", p1: "Conserver les bois sains et couper les fleurs fanées au-dessus du premier bourgeon", p2: "Rabattre le pied à ras du sol chaque automne", p3: "Supprimer tout le vieux bois sans distinction", p4: "Tailler uniquement en plein mois de juillet", e: "Les hortensias fleurissent sur le bois de l'année précédente." },
@@ -621,8 +620,8 @@
         let topic = clientTopics[index % clientTopics.length];
         
         quizData.push({
-            q: `Client : 'Question n°${index} sur ${topic.t} : Que préconisez-vous d'un point de vue professionnel ?'`,
-            correct: `${topic.p1} (Conseil Pro n°${index})`,
+            q: `Quelle est la bonne méthode concernant ${topic.t} pour une intervention professionnelle n°${index} ?`,
+            correct: `${topic.p1}`,
             wrongs: [
                 `${topic.p2}`,
                 `${topic.p3}`,
@@ -647,12 +646,12 @@
     let avatarIdx = 0;
 
     const trophies = [
-        { id: "t1", icon: "🌱", title: "Premier Client Conseil", desc: "Donner votre premier bon conseil", unlocked: false },
+        { id: "t1", icon: "🌱", title: "Première Question Réussie", desc: "Donner votre première bonne réponse", unlocked: false },
         { id: "t2", icon: "🌿", title: "Jardinier Qualifié", desc: "Atteindre 100 points", unlocked: false },
         { id: "t3", icon: "👕", title: "Changement de Tenue", desc: "Changer 3 fois d'avatar", unlocked: false },
         { id: "t4", icon: "⚠️", title: "Erreur de Diagnostic", desc: "Faire 3 erreurs d'affilée", unlocked: false },
-        { id: "t5", icon: "⭐", title: "Conseiller de l'Année", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
-        { id: "t6", icon: "📋", title: "Fidélisation Clientèle", desc: "Répondre à 10 questions clients", unlocked: false },
+        { id: "t5", icon: "⭐", title: "Expert Vert", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
+        { id: "t6", icon: "📋", title: "Sérieux", desc: "Répondre à 10 questions", unlocked: false },
         { id: "t7", icon: "🏆", title: "Expert Horticole", desc: "Atteindre 250 points", unlocked: false }
     ];
 
@@ -821,7 +820,7 @@
         
         if (isCorrect) {
             score += 10;
-            pointsNotice.innerText = `✅ Excellent conseil professionnel ! (+10 pts)`;
+            pointsNotice.innerText = `✅ Bonne réponse ! (+10 pts)`;
             pointsNotice.style.color = "#4ade80";
             
             consecutiveSuccess++;
@@ -829,7 +828,7 @@
             if (consecutiveSuccess >= 3) unlockTrophy("t5");
         } else {
             score = Math.max(0, score - 5);
-            pointsNotice.innerText = `❌ Mauvaise préconisation (-5 pts)`;
+            pointsNotice.innerText = `❌ Mauvaise réponse (-5 pts)`;
             pointsNotice.style.color = "#f87171";
             
             consecutiveErrors++;
@@ -858,9 +857,9 @@
 
     function shareScore() {
         const pseudo = document.getElementById("username-input").value || "Jardinier";
-        const text = `${pseudo} a obtenu ${score} points en conseillant ses clients sur Le Quiz Jardinier Pro 🌿 !`;
+        const text = `${pseudo} a obtenu ${score} points sur Le Quiz Jardinier 🌿 !`;
         if (navigator.share) {
-            navigator.share({ title: 'Quiz Jardinier - Questions Clients', text: text, url: window.location.href }).catch(() => {});
+            navigator.share({ title: 'Quiz Jardinier', text: text, url: window.location.href }).catch(() => {});
         } else {
             navigator.clipboard.writeText(text);
             showAchievement("📋 Score copié dans le presse-papier !");
@@ -872,4 +871,3 @@
 
 </body>
 </html>
-
