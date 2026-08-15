@@ -2,1049 +2,322 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quiz Jardinier - Expert Pro 🌿</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interactif</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        :root {
+            --bg-color: #1a1a2e;
+            --base-color: #16213e;
+            --accent-color: #0f3460;
+            --text-color: #ffffff;
+            --success-color: #4e9f3d;
+            --error-color: #e94560;
         }
 
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 12px;
+            margin: 0;
         }
 
-        .mobile-container {
+        /* Arrière-plan, base et expression unifiés[cite: 1] */
+        .quiz-container {
+            background-color: var(--base-color);
+            border: 3px solid var(--accent-color);
+            border-radius: 15px;
+            padding: 25px;
             width: 100%;
-            max-width: 420px;
-            height: 94vh;
-            max-height: 880px;
-            background: #1e293b;
-            border-radius: 28px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid #334155;
-            position: relative;
+            max-width: 600px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
         }
 
-        @keyframes flashSuccess {
-            0% { background: #1e293b; }
-            50% { background: rgba(34, 197, 94, 0.4); transform: scale(1.01); }
-            100% { background: #1e293b; transform: scale(1); }
-        }
-
-        @keyframes flashError {
-            0% { background: #1e293b; transform: translateX(0); }
-            20% { transform: translateX(-6px); background: rgba(239, 68, 68, 0.4); }
-            40% { transform: translateX(6px); }
-            60% { transform: translateX(-6px); }
-            80% { transform: translateX(6px); }
-            100% { transform: translateX(0); background: #1e293b; }
-        }
-
-        .mobile-container.success-anim {
-            animation: flashSuccess 0.5s ease;
-        }
-
-        .mobile-container.error-anim {
-            animation: flashError 0.5s ease;
-        }
-
-        .app-header {
-            padding: 12px 16px;
-            background: #0f172a;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .app-title-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .app-title {
-            font-size: 13px;
-            font-weight: 800;
-            color: #4ade80;
-        }
-
-        .rank-title {
-            font-size: 11px;
-            color: #facc15;
-            font-weight: 700;
-            margin-top: 1px;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .combo-badge {
-            background: rgba(249, 115, 22, 0.15);
-            color: #fdba74;
-            padding: 4px 7px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 800;
-            border: 1px solid rgba(249, 115, 22, 0.3);
-            display: none;
-        }
-
-        .score-badge {
-            background: rgba(74, 222, 128, 0.15);
-            color: #4ade80;
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 800;
-            border: 1px solid rgba(74, 222, 128, 0.3);
-        }
-
-        .progress-bar-container {
-            background: #0f172a;
-            padding: 8px 14px;
-            border-bottom: 1px solid #334155;
-        }
-
-        .progress-info {
+        /* En-tête : Profil (Image + Nom) et Score */
+        .header-profile {
             display: flex;
             justify-content: space-between;
-            font-size: 10.5px;
-            font-weight: 700;
-            color: #94a3b8;
-            margin-bottom: 4px;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 15px;
         }
 
-        .progress-track {
-            width: 100%;
-            height: 6px;
-            background: #334155;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #22c55e, #facc15);
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        .app-content {
-            flex: 1;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow-y: auto;
-        }
-
-        .user-profile-card {
-            background: #0f172a;
-            border-radius: 16px;
-            padding: 8px 10px;
-            border: 1px solid #334155;
+        .user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .user-profile-card:hover {
-            border-color: #38bdf8;
+            gap: 12px;
         }
 
         .user-avatar {
-            width: 44px;
-            height: 44px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            border: 2px solid #4ade80;
-            flex-shrink: 0;
+            border: 2px solid var(--text-color);
+            object-fit: cover;
+            background-color: #fff;
         }
 
-        .profile-info {
-            text-align: left;
-            flex: 1;
-            min-width: 0;
+        .user-name {
+            font-size: 18px;
+            font-weight: bold;
         }
 
-        .profile-name-display {
-            color: #f8fafc;
+        .score-board {
+            text-align: right;
+        }
+
+        .score-board span {
+            display: block;
             font-size: 14px;
-            font-weight: 800;
-            white-space: nowrap;
+            color: #b2bec3;
+        }
+
+        .score-board strong {
+            font-size: 20px;
+            color: #00cec9;
+        }
+
+        /* Barre de progression */
+        .progress-bar-container {
+            width: 100%;
+            background-color: #0f3460;
+            border-radius: 10px;
+            height: 12px;
+            margin-bottom: 20px;
             overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .profile-subtitle {
-            font-size: 10.5px;
-            color: #38bdf8;
-            font-weight: 600;
-            margin-top: 1px;
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #00cec9;
+            transition: width 0.4s ease;
         }
 
-        .top-menu-actions {
-            display: flex;
-            gap: 6px;
-            margin-top: 4px;
-        }
-
-        .trophy-btn-mini {
-            background: rgba(250, 204, 21, 0.15);
-            border: 1px solid rgba(250, 204, 21, 0.4);
-            color: #facc15;
-            padding: 2px 6px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .jokers-bar {
-            display: flex;
-            gap: 6px;
-            margin-top: 6px;
-        }
-
-        .joker-btn {
-            background: rgba(56, 189, 248, 0.15);
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            color: #38bdf8;
-            padding: 3px 6px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            flex: 1;
+        /* Zone de question et expression faciale[cite: 1] */
+        .question-section {
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        .joker-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            border-color: #334155;
-            color: #94a3b8;
-        }
-
-        .quiz-box {
-            background: #334155;
-            border-radius: 12px;
-            padding: 10px;
-            margin-top: 6px;
-        }
-
-        .question-title {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #38bdf8;
-            font-weight: 800;
-            margin-bottom: 3px;
+        .facial-expression {
+            font-size: 40px;
+            margin-bottom: 10px;
         }
 
         .question-text {
-            font-size: 13px;
-            font-weight: 700;
-            color: #ffffff;
-            line-height: 1.25;
-        }
-
-        .options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-top: 6px;
-        }
-
-        .option-btn {
-            background: #0f172a;
-            border: 2px solid #334155;
-            color: #f1f5f9;
-            padding: 8px 10px;
-            border-radius: 9px;
-            font-size: 11.5px;
+            font-size: 20px;
             font-weight: 600;
+            min-height: 60px;
+        }
+
+        /* Options de réponses */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn-option {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
             text-align: left;
-            cursor: pointer;
-            transition: all 0.2s;
-            line-height: 1.2;
         }
 
-        .option-btn:hover:not(:disabled) {
-            border-color: #4ade80;
+        .btn-option:hover {
+            background-color: #1f4068;
+            transform: translateY(-2px);
         }
 
-        .option-btn.hidden-by-joker {
-            display: none;
+        /* Effets visuels Victoire / Échec */
+        .quiz-container.victory {
+            border-color: var(--success-color);
+            box-shadow: 0 0 30px var(--success-color);
         }
 
-        .explanation-box {
-            display: none;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid #22c55e;
-            border-radius: 9px;
-            padding: 7px;
-            margin-top: 6px;
+        .quiz-container.failure {
+            border-color: var(--error-color);
+            box-shadow: 0 0 30px var(--error-color);
         }
 
-        .explanation-text {
-            font-size: 11.5px;
-            color: #e2e8f0;
-            line-height: 1.25;
-            margin-top: 2px;
-        }
-
-        .points-notification {
-            font-weight: 800;
-            font-size: 11.5px;
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-top: 6px;
-        }
-
-        .wiki-btn {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            padding: 7px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 11.5px;
-        }
-
-        .next-btn {
-            display: none;
-            background: #22c55e;
-            color: #0f172a;
-            border: none;
-            padding: 7px;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 12.5px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .share-btn {
-            background: #334155;
-            color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 6px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 11.5px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.85);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-        }
-
-        .modal-content {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 20px;
-            width: 100%;
-            max-height: 80vh;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 8px;
-        }
-
-        .modal-title {
-            font-size: 15px;
-            font-weight: 800;
-            color: #facc15;
-        }
-
-        .close-modal {
-            background: #334155;
-            color: white;
-            border: none;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .trophies-list {
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .trophy-item {
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            opacity: 0.4;
-            filter: grayscale(100%);
-        }
-
-        .trophy-item.unlocked {
-            opacity: 1;
-            filter: grayscale(0%);
-            border-color: rgba(250, 204, 21, 0.4);
-            background: rgba(250, 204, 21, 0.05);
-        }
-
-        .trophy-icon { font-size: 24px; }
-        .trophy-details h4 { font-size: 13px; color: #f8fafc; font-weight: 700; }
-        .trophy-details p { font-size: 11px; color: #94a3b8; }
-
-        .profile-edit-body {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .avatar-selection-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 6px;
-        }
-
-        .avatar-option-btn {
-            background: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 12px;
-            font-size: 28px;
-            padding: 10px;
-            cursor: pointer;
+        /* Lien Wikipédia */
+        .wiki-link-container {
             text-align: center;
-            transition: all 0.2s;
+            margin-top: 15px;
         }
 
-        .avatar-option-btn.selected {
-            border-color: #4ade80;
-            background: rgba(74, 222, 128, 0.1);
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .form-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: #94a3b8;
-        }
-
-        .form-input {
-            background: #0f172a;
-            border: 2px solid #334155;
-            color: #f8fafc;
+        .wiki-link {
+            color: #74b9ff;
+            text-decoration: none;
             font-size: 14px;
-            font-weight: 700;
-            padding: 10px;
-            border-radius: 10px;
-            outline: none;
+            font-style: italic;
         }
 
-        .form-input:focus {
-            border-color: #38bdf8;
+        .wiki-link:hover {
+            text-decoration: underline;
         }
-
-        .save-profile-btn {
-            background: #22c55e;
-            color: #0f172a;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: 6px;
-        }
-
-        #achievement-popup {
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: #facc15;
-            color: #0f172a;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 800;
-            font-size: 12px;
-            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 200;
-            pointer-events: none;
-        }
-        #achievement-popup.show { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
-<div class="mobile-container" id="main-container">
-    <div id="achievement-popup">🏆 Trophée débloqué !</div>
-
-    <!-- Modale Trophées -->
-    <div class="modal-overlay" id="trophy-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">🏆 Trophées & Grades</div>
-                <button class="close-modal" onclick="toggleTrophyModal()">×</button>
+    <div class="quiz-container" id="quizContainer">
+        <!-- En-tête Profil & Score -->
+        <div class="header-profile">
+            <div class="user-info">
+                <img src="https://via.placeholder.com/150" alt="Avatar" class="user-avatar" id="userAvatar">
+                <div class="user-name" id="userName">Utilisateur</div>
             </div>
-            <div class="trophies-list" id="trophies-list-container"></div>
-        </div>
-    </div>
-
-    <!-- Modale Espace Profil -->
-    <div class="modal-overlay" id="profile-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">⚙️ Mon Espace Profil</div>
-                <button class="close-modal" onclick="toggleProfileModal()">×</button>
-            </div>
-            <div class="profile-edit-body">
-                <div class="form-group">
-                    <label class="form-label">Changer de nom :</label>
-                    <input type="text" class="form-input" id="modal-username-input" placeholder="Ton pseudo...">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Choisir ton avatar :</label>
-                    <div class="avatar-selection-grid" id="avatar-grid"></div>
-                </div>
-                <button class="save-profile-btn" onclick="saveProfileChanges()">Enregistrer les modifications</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="app-header">
-        <div class="app-title-group">
-            <div class="app-title">🌿 QUESTIONS JARDIN</div>
-            <div class="rank-title" id="rank-display">🌱 Graine de radis</div>
-        </div>
-        <div class="header-right">
-            <div class="combo-badge" id="combo-badge">🔥 x0</div>
-            <div class="score-badge" id="score-display">0 Pts</div>
-        </div>
-    </div>
-
-    <!-- Barre de progression vers le grade suivant -->
-    <div class="progress-bar-container">
-        <div class="progress-info">
-            <span id="progress-text-label">Grade suivant : Pousse tendre</span>
-            <span id="progress-percent-label">0%</span>
-        </div>
-        <div class="progress-track">
-            <div class="progress-fill" id="progress-fill"></div>
-        </div>
-    </div>
-
-    <div class="app-content">
-        <!-- Carte Profil cliquable -->
-        <div class="user-profile-card" onclick="toggleProfileModal()">
-            <div class="user-avatar" id="avatar-display">👨‍🌾</div>
-            <div class="profile-info">
-                <div class="profile-name-display" id="profile-name-view">JardinierExpert</div>
-                <div class="profile-subtitle">⚙️ Cliquer pour modifier le profil</div>
-                <div class="top-menu-actions">
-                    <button class="trophy-btn-mini" onclick="event.stopPropagation(); toggleTrophyModal();">🏆 Trophées</button>
-                </div>
-                <div class="jokers-bar">
-                    <button class="joker-btn" id="joker-50" onclick="event.stopPropagation(); useJoker50()">✂️ 50/50 (<span id="count-50">2</span>)</button>
-                    <button class="joker-btn" id="joker-tip" onclick="event.stopPropagation(); useJokerTip()">💡 Indice (<span id="count-tip">2</span>)</button>
-                </div>
+            <div class="score-board">
+                <span>Score</span>
+                <strong id="scoreDisplay">0 pts</strong>
             </div>
         </div>
 
-        <div class="quiz-box">
-            <div class="question-title">❓ QUESTION</div>
-            <div class="question-text" id="question">Chargement...</div>
+        <!-- Barre de progression -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
         </div>
 
-        <div class="options-grid" id="options"></div>
-
-        <div class="explanation-box" id="explanation-box">
-            <div class="points-notification" id="points-notice"></div>
-            <div class="explanation-text" id="explanation"></div>
+        <!-- Zone Question & Expression[cite: 1] -->
+        <div class="question-section">
+            <div class="facial-expression" id="facialExpression">😐</div>
+            <div class="question-text" id="questionText">Chargement de la question...</div>
         </div>
 
-        <div class="action-buttons">
-            <a href="#" target="_blank" class="wiki-btn" id="wiki-btn">🌐 Fiche Technique Wikipédia</a>
-            <button class="next-btn" id="next-btn" onclick="nextQuestion()">🚀 Question Suivante</button>
-            <button class="share-btn" onclick="shareScore()">🔗 Partager mon score</button>
-        </div>
+        <!-- Options -->
+        <div class="options-container" id="optionsContainer"></div>
+
+        <!-- Lien Wikipédia -->
+        <div class="wiki-link-container" id="wikiContainer"></div>
     </div>
-</div>
 
-<script>
-    // Base complète de questions variées et uniques (sans numéros parasites ni doublons)
-    const uniqueQuizPool = [
-        { q: "Quel engrais faut-il donner au gazon au printemps ?", correct: "De l'azote pour l'aider à pousser", wrongs: ["Du sable pur et sec", "De la cendre de bois tamisée", "Du gros sel de cuisine"], exp: "L'azote stimule la pousse et donne une belle couleur verte au gazon.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
-        { q: "Quelle hauteur faut-il garder pour tondre sa pelouse en été ?", correct: "Entre 6 et 8 cm pour garder l'humidité", wrongs: ["À ras (2 cm maximum)", "Ne plus jamais y toucher", "Exactement 3 cm de haut"], exp: "Une herbe plus haute protège les racines du soleil et évite qu'elle ne sèche.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
-        { q: "Comment se débarrasser de la mousse sur une pelouse à l'ombre ?", correct: "En scarifiant et en aérant le sol", wrongs: ["En étalant de l'huile de vidange", "En tondant en marche arrière", "En arrosant avec de l'eau savonneuse"], exp: "La mousse aime les sols lourds et humides qui manquent d'air.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" },
-        { q: "À quoi sert de passer un rouleau après avoir semé du gazon ?", correct: "À bien coller les graines à la terre", wrongs: ["À aplatir définitivement les taupes", "À réchauffer la terre en profondeur", "À cacher les graines des oiseaux curieux"], exp: "Le rouleau aide les graines à puiser l'humidité de la terre pour germer.", wiki: "https://fr.wikipedia.org/wiki/Rouleau_%C3%A0_gazon" },
-        { q: "Quel est le meilleur moment pour scarifier sa pelouse ?", correct: "Au printemps ou au début de l'automne", wrongs: ["En plein mois de juillet caniculaire", "En plein hiver sous une couche de neige", "Uniquement les nuits de pleine lune"], exp: "Ces saisons apportent l'eau et la douceur nécessaires pour la repousse.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
-        { q: "Pourquoi les oiseaux retournent-ils des morceaux de pelouse au printemps ?", correct: "Pour manger les vers et les larves", wrongs: ["Pour construire les fondations de leur nid", "Pour chercher des pépites de minéraux", "Par simple instinct de jeu territorial"], exp: "Ils fouillent la terre pour attraper les larves de hannetons ou de tipules.", wiki: "https://fr.wikipedia.org/wiki/Hanneton" },
-        { q: "Quelle tondeuse choisir pour un terrain en pente très raide ?", correct: "Une tondeuse légère ou une débroussailleuse", wrongs: ["Un gros tracteur agricole lourd", "Une tondeuse thermique autoportée géante", "Une cisaillette à main rouillée"], exp: "Il faut du matériel maniable et léger pour éviter de glisser.", wiki: "https://fr.wikipedia.org/wiki/Tondeuse_%C3%A0_gazon" },
-        { q: "Qu'appelle-t-on le mulching quand on tond ?", correct: "Laisser l'herbe coupée finement sur place", wrongs: ["Ramasser l'herbe pour nourrir les poules", "Laver l'herbe coupée à grande eau", "Brûler l'herbe pour faire du charbon"], exp: "L'herbe hachée nourrit le sol naturellement en se décomposant.", wiki: "https://fr.wikipedia.org/wiki/Mulching" },
-        { q: "Comment enlever facilement des pissenlits sans produit chimique ?", correct: "En arrachant toute la longue racine", wrongs: ["En coupant uniquement les feuilles du haut", "En versant du vinaigre blanc pur partout", "En marchant lourdement dessus"], exp: "S'il reste un morceau de racine, le pissenlit repoussera.", wiki: "https://fr.wikipedia.org/wiki/D%C3%A9sherbage" },
-        { q: "Pourquoi faut-il éviter de tondre quand l'herbe est trempée ?", correct: "Parce qu'on abîme le sol et la pelouse", wrongs: ["Parce que la tondeuse risque de s'envoler", "Parce que l'herbe devient instantanément bleue", "Parce que cela siffle dans les oreilles"], exp: "Le poids écrase la terre et arrache les racines.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
-        { q: "Quand faut-il tailler les rosiers ?", correct: "À la fin de l'hiver, avant le printemps", wrongs: ["En plein mois d'août sous le cagnard", "Sous la neige épaisse en janvier", "Tous les soirs après le coucher du soleil"], exp: "La taille de fin d'hiver aide le rosier à faire de belles nouvelles fleurs.", wiki: "https://fr.wikipedia.org/wiki/Rosier" },
-        { q: "Quand tailler les arbustes qui fleurissent au printemps (comme le forsythia) ?", correct: "Juste après la fin de leur floraison", wrongs: ["Juste avant les grands froids d'hiver", "Pendant les grosses chaleurs de l'été", "Il ne faut absolument jamais les tailler"], exp: "Si on les taille trop tôt, on coupe les futurs boutons de fleurs.", wiki: "https://fr.wikipedia.org/wiki/Forsythia" },
-        { q: "Comment bien couper une branche d'arbre ?", correct: "Au ras du tronc sans laisser de bout qui dépasse", wrongs: ["En laissant un long morceau de bois mort", "En arrachant la branche d'un coup sec", "En sciant directement le milieu du tronc"], exp: "Cela aide l'arbre à refermer sa plaie rapidement.", wiki: "https://fr.wikipedia.org/wiki/%C3%89lagage" },
-        { q: "Pourquoi faut-il nettoyer ses outils de coupe entre deux plantes ?", correct: "Pour ne pas transmettre de maladies", wrongs: ["Pour qu'ils sentent l'eucalyptus frais", "Pour éviter qu'ils ne changent de couleur", "Pour enlever la poussière du jardin"], exp: "Les microbes et virus passent facilement d'une plante à l'autre par la lame.", wiki: "https://fr.wikipedia.org/wiki/S%C3%A9cateur" },
-        { q: "Quelle est la meilleure saison pour tailler les pommiers et poiriers ?", correct: "En hiver, quand les feuilles sont tombées", wrongs: ["En plein milieu de l'été ensoleillé", "Quand l'arbre est gorgé de fruits mûrs", "Au tout début du réveil printanier"], exp: "Sans feuilles, on voit mieux les branches et l'arbre est au repos.", wiki: "https://fr.wikipedia.org/wiki/Arbre_fruitier" },
-        { q: "Qu'est-ce qu'un gourmand sur un arbre fruitier ?", correct: "Une branche qui pousse tout droit et ne donne rien", wrongs: ["Un fruit difforme et anormalement gros", "Une grosse racine traînante", "Un champignon parasite du bois"], exp: "Ces branches fatiguent l'arbre pour rien et doivent être coupées.", wiki: "https://fr.wikipedia.org/wiki/Gourmand_(botanique)" },
-        { q: "Comment appelle-t-on un arbre fruitier qu'on fait pousser à plat contre un mur ?", correct: "Un espalier", wrongs: ["Un bonsaï géant de terrasse", "Un arbrisseau rampant sauvage", "Une haie défensive taillée"], exp: "Cela prend peu de place et prend beaucoup de soleil.", wiki: "https://fr.wikipedia.org/wiki/Espalier" },
-        { q: "À quelle fréquence tailler une haie de charmille ?", correct: "Deux fois par an (printemps et fin d'été)", wrongs: ["Tous les dix ans sans exception", "Une fois par siècle lors des grands travaux", "Tous les matins à l'aube"], exp: "Le charme supporte très bien deux tailles pour rester bien dense.", wiki: "https://fr.wikipedia.org/wiki/Carpinus_betulus" },
-        { q: "Quel outil utiliser pour couper des branches hautes sans monter sur une échelle ?", correct: "Un échenilloir sur perche", wrongs: ["Un petit couteau de poche pliant", "Une tondeuse à gazon poussée", "Une pioche de terrassier"], exp: "Cet outil permet de couper en hauteur tout en gardant les pieds au sol.", wiki: "https://fr.wikipedia.org/wiki/%C3%89chenilloir" },
-        { q: "Quel sol préfèrent la majorité des plantes du jardin ?", correct: "Une terre riche, souple et bien drainée", wrongs: ["Un bloc de béton armé coulé", "De l'eau de mer salée en permanence", "De la pierre ponce totalement sèche"], exp: "La terre idéale retient un peu d'eau tout en laissant respirer les racines.", wiki: "https://fr.wikipedia.org/wiki/Sol_(p%C3%A9dologie)" },
-        { q: "Comment lutter naturellement contre les pucerons noirs sur les fèves ?", correct: "Introduire des larves de coccinelles ou pulvériser du savon noir", wrongs: ["Verser de l'eau de Javel pure sur les feuilles", "Déterrer complètement les plants de fèves", "Installer un épouvantail clignotant"], exp: "Le savon noir étouffe les pucerons et les coccinelles en sont de redoutables prédatrices naturelles.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" },
-        { q: "Quelle maladie du potager se caractérise par un feutrage blanc sur les feuilles de courgettes ?", correct: "L'oïdium (ou maladie du blanc)", wrongs: ["La pourriture sèche des racines", "La galle dorée du feuillage", "La nécrose fulgurante d'été"], exp: "L'oïdium est un champignon favorisé par l'alternance de temps humide et chaud.", wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium" },
-        { q: "Quel ravageur creuse des tunnels souterrains et soulève la pelouse en faisant des taupinières ?", correct: "La taupe européenne", wrongs: ["Le ver de terre lombric", "Le hanneton commun", "Le scarabée rhinocéros"], exp: "La taupe est insectivore et se nourrit principalement de vers de terre et de larves.", wiki: "https://fr.wikipedia.org/wiki/Taupe" },
-        { q: "Que faire pour contrer une attaque de doryphores sur les pieds de pommes de terre ?", correct: "Ramasser les adultes et les larves à la main régulièrement", wrongs: ["Laisser pousser des orties géantes à côté", "Passer un coup de rouleau compresseur", "Arroser les tubercules avec du lait caillé"], exp: "Le ramassage manuel reste l'une des méthodes les plus efficaces dans un petit jardin potager.", wiki: "https://fr.wikipedia.org/wiki/Doryphore" },
-        { q: "Quel insecte volant pond des larves qui dévorent les racines du gazon en profondeur ?", correct: "La tipule ou le hanneton", wrongs: ["L'abeille domestique solitaire", "La coccinelle à sept points", "Le papillon machaon"], exp: "Leurs larves vivent sous terre et coupent les racines, provoquant des plaques jaunes sur la pelouse.", wiki: "https://fr.wikipedia.org/wiki/Tipula" },
-        { q: "Quelle solution biologique protège efficacement les choux contre la piéride du chou ?", correct: "Installer un filet de protection anti-insectes", wrongs: ["Mettre de la lumière LED bleue la nuit", "Paisser le sol avec du gravier rose", "Mélanger du sucre glace à la terre"], exp: "Le filet empêche simplement le papillon de venir pondre ses œufs sur les feuilles.", wiki: "https://fr.wikipedia.org/wiki/Pi%C3%A9ride_du_chou" },
-        { q: "Comment identifier une attaque de cochenilles farineuses sur une plante d'intérieur ou de serre ?", correct: "Présence d'amas cotonneux blancs sur les tiges", wrongs: ["Les feuilles deviennent entièrement transparentes", "La plante se met à émettre un sifflement", "Les racines sortent du pot en courant"], exp: "Ces petits insectes suceurs s'entourent d'une protection cireuse semblable à du coton.", wiki: "https://fr.wikipedia.org/wiki/Coccoidea" },
-        { q: "Quelle est la cause principale du mildiou sur les tomates en été ?", correct: "Un champignon microscopique favorisé par l'humidité et la pluie sur le feuillage", wrongs: ["Un excès flagrant d'engrais azoté minéral", "Une exposition trop intense en plein soleil direct", "Une attaque massive de guêpes solitaires"], exp: "L'eau stagnante sur les feuilles combinée à la chaleur active les spores du mildiou.", wiki: "https://fr.wikipedia.org/wiki/Mildiou_de_la_tomate" },
-        { q: "Quelle méthode simple permet d'éloigner les limaces des salades sans produit chimique ?", correct: "Installer des barrières de cendre, de coquilles d'œufs ou un piège à bière", wrongs: ["Verser du jus de citron pur sur chaque feuille", "Laisser un ventilateur tourner toute la nuit", "Mettre des confettis multicolores"], exp: "Les limaces fuient les matières sèches piquantes qui leur collent à la peau.", wiki: "https://fr.wikipedia.org/wiki/Limace" },
-        { q: "Qu'est-ce que la rouille du poireau ?", correct: "Une maladie fongique provoquant des pustules orangées sur les feuilles", wrongs: ["Une oxydation du sol causée par de vieux clous", "Un manque chronique d'eau en profondeur", "Une attaque de petits rongeurs nocturnes"], exp: "La rouille se développe par temps humide et doux, affaiblissant la plante.", wiki: "https://fr.wikipedia.org/wiki/Rouille_(maladie)" },
-        { q: "Comment se comporter face aux altises qui criblent de petits trous les feuilles des radis ?", correct: "Bassiner régulièrement le feuillage car elles détestent l'humidité", wrongs: ["Sortir un aspirateur de chantier", "Tailler toutes les racines à ras", "Arracher toute la terre du potager"], exp: "Les altises adorent la sécheresse et fuient les arrosages fréquents sur les feuilles.", wiki: "https://fr.wikipedia.org/wiki/Altise" },
-        { q: "Quel ravageur dévore spécifiquement les feuilles des buis en les squelettant ?", correct: "La pyrale du buis", wrongs: ["Le lombric géant", "La coccinelle asiatique", "Le ver gris du melon"], exp: "Ses chenilles vertes et brunes peuvent décimer une haie de buis en très peu de temps.", wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis" },
-        { q: "Qu'appelle-t-on la fumagine au jardin ?", correct: "Une suie noire inesthétique qui se développe sur le miellat des pucerons", wrongs: ["De la cendre de cheminée volatilisée par le vent", "Un champignon qui brûle les racines de l'intérieur", "Une terre polluée par la fumée de barbecue"], exp: "La fumagine se nourrit du miellat sucré sécrété par les pucerons ou cochenilles.", wiki: "https://fr.wikipedia.org/wiki/Fumagine" }
-    ];
-
-    let quizData = shuffleArray([...uniqueQuizPool]);
-    let score = 0;
-    let currentQuestionIndex = 0;
-    let currentQuestionObj = null;
-    let avatarsChangesCount = 0;
-    let consecutiveErrors = 0;
-    let consecutiveSuccess = 0;
-    let shuffledOptionsCache = [];
-    let comboCount = 0;
-
-    let jokers50Left = 2;
-    let jokersTipLeft = 2;
-
-    const avatars = ["👨‍🌾", "👩‍🌾", "👷‍♂️", "🚜", "🌿", "🧑‍🌾", "🌻", "🌲", "🍄"];
-    let currentAvatar = "👨‍🌾";
-    let selectedAvatarInModal = "👨‍🌾";
-
-    const ranks = [
-        { min: 0, max: 150, title: "🌱 Graine de radis" },
-        { min: 150, max: 400, title: "🌿 Pousse tendre" },
-        { min: 400, max: 800, title: "🪴 Apprenti jardinier" },
-        { min: 800, max: 1500, title: "🌻 Jardinier confirmé" },
-        { min: 1500, max: 3000, title: "👑 Sage botaniste" }
-    ];
-
-    const trophies = [
-        { id: "t1", icon: "🌱", title: "Première Question Réussie", desc: "Donner votre première bonne réponse", unlocked: false },
-        { id: "t2", icon: "🌿", title: "Jardinier Qualifié", desc: "Atteindre 150 points", unlocked: false },
-        { id: "t3", icon: "👕", title: "Changement de Tenue", desc: "Changer 3 fois d'avatar", unlocked: false },
-        { id: "t4", icon: "⚠️", title: "Erreur de Diagnostic", desc: "Faire 3 erreurs d'affilée", unlocked: false },
-        { id: "t5", icon: "⭐", title: "Expert Vert", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
-        { id: "t6", icon: "🔥", title: "En Feu !", desc: "Atteindre un combo de 5", unlocked: false },
-        { id: "t7", icon: "🏆", title: "Maître des Fleurs", desc: "Atteindre 1000 points", unlocked: false }
-    ];
-
-    function shuffleArray(array) {
-        let arr = [...array];
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
+    <script>
+        // --- 1. GESTION DE LA MÉMOIRE DU JOUEUR (LOCALSTORAGE) ---
+        let playerName = localStorage.getItem("quiz_player_name");
+        if (!playerName) {
+            playerName = prompt("Entrez votre nom de joueur :") || "Joueur mystère";
+            localStorage.setItem("quiz_player_name", playerName);
         }
-        return arr;
-    }
+        document.getElementById("userName").innerText = playerName;
 
-    function updateRankDisplay() {
-        let currentRank = ranks[0];
-        for (let r of ranks) {
-            if (score >= r.min) currentRank = r;
-        }
-        document.getElementById("rank-display").innerText = currentRank.title;
-
-        let nextRankObj = ranks.find(r => r.min > score);
-        let progressPercent = 100;
-        let progressLabelText = "Niveau Max Atteint ! 👑";
-
-        if (nextRankObj) {
-            let span = nextRankObj.min - currentRank.min;
-            let currentProgress = score - currentRank.min;
-            progressPercent = Math.min(100, Math.max(0, Math.floor((currentProgress / span) * 100)));
-            progressLabelText = `Suivant : ${nextRankObj.title}`;
-        }
-
-        document.getElementById("progress-text-label").innerText = progressLabelText;
-        document.getElementById("progress-percent-label").innerText = progressPercent + "%";
-        document.getElementById("progress-fill").style.width = progressPercent + "%";
-    }
-
-    function loadUserData() {
-        if (localStorage.getItem('jardin_client_score_500')) score = parseInt(localStorage.getItem('jardin_client_score_500'));
-        
-        let savedPseudo = localStorage.getItem('jardin_client_pseudo_500') || "JardinierExpert";
-        document.getElementById("profile-name-view").innerText = savedPseudo;
-        document.getElementById("modal-username-input").value = savedPseudo;
-
-        if (localStorage.getItem('jardin_client_avatar_500')) {
-            currentAvatar = localStorage.getItem('jardin_client_avatar_500');
-            document.getElementById("avatar-display").innerText = currentAvatar;
-        }
-        selectedAvatarInModal = currentAvatar;
-
-        if (localStorage.getItem('jardin_client_trophies_500')) {
-            const savedT = JSON.parse(localStorage.getItem('jardin_client_trophies_500'));
-            trophies.forEach(t => { if (savedT.includes(t.id)) t.unlocked = true; });
-        }
-        if (localStorage.getItem('jardin_client_avatar_count_500')) {
-            avatarsChangesCount = parseInt(localStorage.getItem('jardin_client_avatar_count_500'));
-        }
-        if (localStorage.getItem('jardin_client_jokers_50_500')) jokers50Left = parseInt(localStorage.getItem('jardin_client_jokers_50_500'));
-        if (localStorage.getItem('jardin_client_jokers_tip_500')) jokersTipLeft = parseInt(localStorage.getItem('jardin_client_jokers_tip_500'));
-
-        renderAvatarGrid();
-        renderTrophiesList();
-        updateScoreDisplay();
-        updateJokersUI();
-        loadNextQuestion();
-    }
-
-    function saveUserData() {
-        localStorage.setItem('jardin_client_score_500', score);
-        localStorage.setItem('jardin_client_pseudo_500', document.getElementById("profile-name-view").innerText);
-        localStorage.setItem('jardin_client_avatar_500', currentAvatar);
-        localStorage.setItem('jardin_client_avatar_count_500', avatarsChangesCount);
-        localStorage.setItem('jardin_client_jokers_50_500', jokers50Left);
-        localStorage.setItem('jardin_client_jokers_tip_500', jokersTipLeft);
-        
-        const unlockedIds = trophies.filter(t => t.unlocked).map(t => t.id);
-        localStorage.setItem('jardin_client_trophies_500', JSON.stringify(unlockedIds));
-    }
-
-    function unlockTrophy(id) {
-        const trophy = trophies.find(t => t.id === id);
-        if (trophy && !trophy.unlocked) {
-            trophy.unlocked = true;
-            showAchievement(`🏆 Trophée débloqué : ${trophy.title} !`);
-            renderTrophiesList();
-            saveUserData();
-        }
-    }
-
-    function showAchievement(text) {
-        const popup = document.getElementById("achievement-popup");
-        popup.innerText = text;
-        popup.classList.add("show");
-        setTimeout(() => { popup.classList.remove("show"); }, 3000);
-    }
-
-    function toggleTrophyModal() {
-        const modal = document.getElementById("trophy-modal");
-        modal.style.display = modal.style.display === "flex" ? "none" : "flex";
-    }
-
-    function toggleProfileModal() {
-        const modal = document.getElementById("profile-modal");
-        if (modal.style.display === "flex") {
-            modal.style.display = "none";
-        } else {
-            document.getElementById("modal-username-input").value = document.getElementById("profile-name-view").innerText;
-            selectedAvatarInModal = currentAvatar;
-            renderAvatarGrid();
-            modal.style.display = "flex";
-        }
-    }
-
-    function renderAvatarGrid() {
-        const grid = document.getElementById("avatar-grid");
-        grid.innerHTML = "";
-        avatars.forEach(av => {
-            const btn = document.createElement("button");
-            btn.className = "avatar-option-btn " + (av === selectedAvatarInModal ? "selected" : "");
-            btn.innerText = av;
-            btn.onclick = () => {
-                selectedAvatarInModal = av;
-                renderAvatarGrid();
-            };
-            grid.appendChild(btn);
-        });
-    }
-
-    function saveProfileChanges() {
-        const newName = document.getElementById("modal-username-input").value.trim();
-        if (newName) {
-            document.getElementById("profile-name-view").innerText = newName;
-        }
-
-        if (currentAvatar !== selectedAvatarInModal) {
-            currentAvatar = selectedAvatarInModal;
-            document.getElementById("avatar-display").innerText = currentAvatar;
-            avatarsChangesCount++;
-            if (avatarsChangesCount >= 3) {
-                unlockTrophy("t3");
+        // --- 2. BASE DE QUESTIONS ---
+        const questionsOriginales = [
+            {
+                question: "Quelle est la capitale de la France ?",
+                options: ["Londres", "Berlin", "Paris", "Madrid"],
+                correct: 2,
+                wiki: "https://fr.wikipedia.org/wiki/Paris"
+            },
+            {
+                question: "Combien font 5 x 8 ?",
+                options: ["35", "40", "45", "50"],
+                correct: 1,
+                wiki: "https://fr.wikipedia.org/wiki/Multiplication"
+            },
+            {
+                question: "Quel est l'élément chimique dont le symbole est O ?",
+                options: ["Or", "Oxygène", "Oliban", "Osmium"],
+                correct: 1,
+                wiki: "https://fr.wikipedia.org/wiki/Oxyg%C3%A8ne"
             }
-        }
+        ];
 
-        saveUserData();
-        toggleProfileModal();
-        showAchievement("✨ Profil mis à jour avec succès !");
-    }
+        // Mélange aléatoire des questions pour qu'elles n'arrivent jamais dans le même ordre et ne se répètent pas
+        let questions = [...questionsOriginales].sort(() => Math.random() - 0.5);
 
-    function renderTrophiesList() {
-        const container = document.getElementById("trophies-list-container");
-        container.innerHTML = "";
-        trophies.forEach(t => {
-            container.innerHTML += `
-                <div class="trophy-item ${t.unlocked ? 'unlocked' : ''}">
-                    <div class="trophy-icon">${t.icon}</div>
-                    <div class="trophy-details">
-                        <h4>${t.title}</h4>
-                        <p>${t.desc}</p>
-                    </div>
-                </div>
-            `;
-        });
-    }
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let combo = 0;
 
-    function updateScoreDisplay() {
-        document.getElementById("score-display").innerText = score + " Pts";
-        updateRankDisplay();
-    }
+        const quizContainer = document.getElementById("quizContainer");
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const scoreDisplay = document.getElementById("scoreDisplay");
+        const progressBar = document.getElementById("progressBar");
+        const facialExpression = document.getElementById("facialExpression");
+        const wikiContainer = document.getElementById("wikiContainer");
 
-    function updateJokersUI() {
-        document.getElementById("count-50").innerText = jokers50Left;
-        document.getElementById("count-tip").innerText = jokersTipLeft;
-        document.getElementById("joker-50").disabled = (jokers50Left <= 0);
-        document.getElementById("joker-tip").disabled = (jokersTipLeft <= 0);
-    }
-
-    function loadNextQuestion() {
-        if (currentQuestionIndex >= quizData.length) {
-            currentQuestionIndex = 0;
-            quizData = shuffleArray([...uniqueQuizPool]);
-        }
-
-        currentQuestionObj = quizData[currentQuestionIndex];
-        document.getElementById("question").innerText = currentQuestionObj.q;
-
-        const optionsContainer = document.getElementById("options");
-        optionsContainer.innerHTML = "";
-
-        let allOptions = [currentQuestionObj.correct, ...currentQuestionObj.wrongs];
-        allOptions = shuffleArray(allOptions);
-        shuffledOptionsCache = allOptions;
-
-        allOptions.forEach((opt, idx) => {
-            const btn = document.createElement("button");
-            btn.className = "option-btn";
-            btn.innerText = opt;
-            btn.onclick = () => selectAnswer(idx);
-            optionsContainer.appendChild(btn);
-        });
-
-        document.getElementById("explanation-box").style.display = "none";
-        document.getElementById("next-btn").style.display = "none";
-        document.getElementById("wiki-btn").style.display = "none";
-    }
-
-    function triggerAnimation(isSuccess) {
-        const container = document.getElementById("main-container");
-        container.classList.remove("success-anim", "error-anim");
-        void container.offsetWidth;
-        if (isSuccess) {
-            container.classList.add("success-anim");
-        } else {
-            container.classList.add("error-anim");
-        }
-    }
-
-    function selectAnswer(selectedIndex) {
-        const selectedText = shuffledOptionsCache[selectedIndex];
-        const isCorrect = (selectedText === currentQuestionObj.correct);
-
-        triggerAnimation(isCorrect);
-
-        const optionButtons = document.querySelectorAll(".option-btn");
-        optionButtons.forEach((btn, idx) => {
-            btn.disabled = true;
-            if (shuffledOptionsCache[idx] === currentQuestionObj.correct) {
-                btn.style.borderColor = "#22c55e";
-                btn.style.background = "rgba(34, 197, 94, 0.2)";
-            } else if (idx === selectedIndex && !isCorrect) {
-                btn.style.borderColor = "#ef4444";
-                btn.style.background = "rgba(239, 68, 68, 0.2)";
+        function afficherQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                questionText.innerHTML = `Quiz terminé !<br>${playerName}, votre score final : ${score} points`;
+                optionsContainer.innerHTML = "";
+                wikiContainer.innerHTML = "";
+                facialExpression.innerText = "🏆";
+                progressBar.style.width = "100%";
+                return;
             }
-        });
 
-        const explanationBox = document.getElementById("explanation-box");
-        const pointsNotice = document.getElementById("points-notice");
-        const explanationText = document.getElementById("explanation");
-        const wikiBtn = document.getElementById("wiki-btn");
-        const nextBtn = document.getElementById("next-btn");
-        const comboBadge = document.getElementById("combo-badge");
+            // Mise à jour de la barre de progression
+            const progressPercent = (currentQuestionIndex / questions.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
 
-        explanationBox.style.display = "block";
+            const q = questions[currentQuestionIndex];
+            questionText.innerText = q.question;
+            facialExpression.innerText = "😐"; // Base neutre[cite: 1]
+            optionsContainer.innerHTML = "";
+            wikiContainer.innerHTML = "";
 
-        if (isCorrect) {
-            consecutiveSuccess++;
-            consecutiveErrors = 0;
-            comboCount++;
-
-            let earnedPoints = 10 + (comboCount * 4);
-            score += earnedPoints;
-
-            pointsNotice.innerText = `✅ Bonne réponse ! (+${earnedPoints} Pts avec Combo x${comboCount})`;
-            pointsNotice.style.color = "#4ade80";
-
-            unlockTrophy("t1");
-            if (score >= 150) unlockTrophy("t2");
-            if (score >= 1000) unlockTrophy("t7");
-            if (consecutiveSuccess >= 3) unlockTrophy("t5");
-            if (comboCount >= 5) {
-                unlockTrophy("t6");
-            }
-        } else {
-            consecutiveErrors++;
-            consecutiveSuccess = 0;
-            comboCount = 0;
-
-            let penaltyPoints = 10;
-            score = Math.max(0, score - penaltyPoints);
-
-            pointsNotice.innerText = `❌ Mauvaise réponse ! (-${penaltyPoints} Pts)`;
-            pointsNotice.style.color = "#f87171";
-
-            if (consecutiveErrors >= 3) {
-                unlockTrophy("t4");
-            }
+            q.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.classList.add("btn-option");
+                button.onclick = () => verifierReponse(index);
+                optionsContainer.appendChild(button);
+            });
         }
 
-        if (comboCount > 1) {
-            comboBadge.style.display = "block";
-            comboBadge.innerText = "🔥 x" + comboCount;
-        } else {
-            comboBadge.style.display = "none";
-        }
-
-        explanationText.innerText = currentQuestionObj.exp;
-
-        if (currentQuestionObj.wiki) {
-            wikiBtn.style.display = "flex";
-            wikiBtn.href = currentQuestionObj.wiki;
-        }
-
-        nextBtn.style.display = "block";
-        updateScoreDisplay();
-        saveUserData();
-    }
-
-    function nextQuestion() {
-        currentQuestionIndex++;
-        loadNextQuestion();
-    }
-
-    function useJoker50() {
-        if (jokers50Left <= 0) return;
-        jokers50Left--;
-        updateJokersUI();
-
-        const optionButtons = document.querySelectorAll(".option-btn");
-        let hiddenCount = 0;
-
-        optionButtons.forEach((btn, idx) => {
-            const optText = shuffledOptionsCache[idx];
-            if (optText !== currentQuestionObj.correct && hiddenCount < 2) {
-                btn.classList.add("hidden-by-joker");
-                hiddenCount++;
+        function verifierReponse(selectedIndex) {
+            const q = questions[currentQuestionIndex];
+            
+            // Affichage du lien Wikipédia pour approfondir
+            if (q.wiki) {
+                wikiContainer.innerHTML = `<a href="${q.wiki}" target="_blank" class="wiki-link">📚 En savoir plus sur Wikipédia</a>`;
             }
-        });
-        saveUserData();
-    }
 
-    function useJokerTip() {
-        if (jokersTipLeft <= 0) return;
-        jokersTipLeft--;
-        updateJokersUI();
-
-        const optionButtons = document.querySelectorAll(".option-btn");
-        optionButtons.forEach((btn, idx) => {
-            const optText = shuffledOptionsCache[idx];
-            if (optText !== currentQuestionObj.correct && !btn.classList.contains("hidden-by-joker")) {
-                btn.style.opacity = "0.3";
+            if (selectedIndex === q.correct) {
+                // Victoire : +10 points de base + bonus de combo, effet visuel vert et expression heureuse
+                combo++;
+                const pointsGagnes = 10 + (combo - 1) * 5;
+                score += pointsGagnes;
+                
+                quizContainer.classList.add("victory");
+                setTimeout(() => quizContainer.classList.remove("victory"), 600);
+                
+                facialExpression.innerText = "🎉";
+            } else {
+                // Échec : -15 points, réinitialisation du combo, effet visuel rouge et expression triste
+                score -= 15;
+                combo = 0;
+                
+                quizContainer.classList.add("failure");
+                setTimeout(() => quizContainer.classList.remove("failure"), 600);
+                
+                facialExpression.innerText = "❌";
             }
-        });
-        saveUserData();
-    }
 
-    function shareScore() {
-        const text = `J'ai atteint ${score} points sur le Quiz Jardinier ! Viens tester tes connaissances.`;
-        if (navigator.share) {
-            navigator.share({ title: 'Quiz Jardinier', text: text, url: window.location.href }).catch(() => {});
-        } else {
-            navigator.clipboard.writeText(text);
-            showAchievement("📋 Score copié dans le presse-papier !");
+            scoreDisplay.innerText = `${score} pts`;
+            currentQuestionIndex++;
+
+            // Passer à la question suivante après un court délai
+            setTimeout(() => {
+                afficherQuestion();
+            }, 1500);
         }
-    }
 
-    window.onload = loadUserData;
-</script>
-
+        // Lancement initial
+        afficherQuestion();
+    </script>
 </body>
-    </html>
+</html>
