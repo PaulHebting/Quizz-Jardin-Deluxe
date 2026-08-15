@@ -53,31 +53,62 @@
         }
 
         .app-title {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
             color: #4ade80;
         }
 
-        .daily-visits {
+        .rank-title {
             font-size: 11px;
-            color: #38bdf8;
-            font-weight: 600;
-            margin-top: 2px;
+            color: #facc15;
+            font-weight: 700;
+            margin-top: 1px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .combo-badge {
+            background: rgba(249, 115, 22, 0.15);
+            color: #fdba74;
+            padding: 5px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            display: none;
         }
 
         .score-badge {
             background: rgba(74, 222, 128, 0.15);
             color: #4ade80;
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 13px;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
             font-weight: 800;
             border: 1px solid rgba(74, 222, 128, 0.3);
         }
 
+        .timer-bar-container {
+            width: 100%;
+            height: 4px;
+            background: #334155;
+            position: relative;
+        }
+
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background: #38bdf8;
+            transition: width 0.1s linear, background-color 0.3s;
+        }
+
         .app-content {
             flex: 1;
-            padding: 16px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -86,9 +117,8 @@
 
         .user-profile-card {
             background: #0f172a;
-            border-radius: 20px;
-            padding: 12px;
-            text-align: center;
+            border-radius: 18px;
+            padding: 10px 12px;
             border: 1px solid #334155;
             display: flex;
             align-items: center;
@@ -100,15 +130,15 @@
         }
 
         .user-avatar {
-            width: 58px;
-            height: 58px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: linear-gradient(135deg, #22c55e, #16a34a);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            border: 3px solid #4ade80;
+            font-size: 24px;
+            border: 2px solid #4ade80;
         }
 
         .profile-info {
@@ -121,7 +151,7 @@
             border: none;
             border-bottom: 2px solid #334155;
             color: #f8fafc;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             width: 100%;
             padding: 2px 0;
@@ -135,63 +165,83 @@
         .top-menu-actions {
             display: flex;
             gap: 6px;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .trophy-btn-mini {
             background: rgba(250, 204, 21, 0.15);
             border: 1px solid rgba(250, 204, 21, 0.4);
             color: #facc15;
-            padding: 4px 10px;
-            border-radius: 8px;
+            padding: 3px 8px;
+            border-radius: 6px;
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
         }
 
-        .quiz-box {
-            background: #334155;
-            border-radius: 16px;
-            padding: 14px;
-            margin-top: 10px;
+        .jokers-bar {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
         }
 
-        .quiz-header-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
+        .joker-btn {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #38bdf8;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+        }
+
+        .joker-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        .quiz-box {
+            background: #334155;
+            border-radius: 14px;
+            padding: 12px;
+            margin-top: 8px;
         }
 
         .question-title {
-            font-size: 11px;
+            font-size: 10.5px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #38bdf8;
             font-weight: 800;
+            margin-bottom: 4px;
         }
 
         .question-text {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 700;
             color: #ffffff;
-            line-height: 1.35;
+            line-height: 1.3;
         }
 
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 7px;
+            margin-top: 8px;
         }
 
         .option-btn {
             background: #0f172a;
             border: 2px solid #334155;
             color: #f1f5f9;
-            padding: 10px 12px;
+            padding: 9px 11px;
             border-radius: 10px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             text-align: left;
             cursor: pointer;
@@ -203,32 +253,36 @@
             border-color: #4ade80;
         }
 
+        .option-btn.hidden-by-joker {
+            display: none;
+        }
+
         .explanation-box {
             display: none;
             background: rgba(34, 197, 94, 0.1);
             border: 1px solid #22c55e;
-            border-radius: 12px;
-            padding: 10px;
-            margin-top: 8px;
+            border-radius: 10px;
+            padding: 8px;
+            margin-top: 6px;
         }
 
         .explanation-text {
-            font-size: 12.5px;
+            font-size: 12px;
             color: #e2e8f0;
-            line-height: 1.35;
-            margin-top: 4px;
+            line-height: 1.3;
+            margin-top: 3px;
         }
 
         .points-notification {
             font-weight: 800;
-            font-size: 12.5px;
+            font-size: 12px;
         }
 
         .action-buttons {
             display: flex;
             flex-direction: column;
             gap: 6px;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .wiki-btn {
@@ -239,10 +293,10 @@
             background: #2563eb;
             color: white;
             text-decoration: none;
-            padding: 9px;
-            border-radius: 10px;
+            padding: 8px;
+            border-radius: 9px;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .next-btn {
@@ -250,10 +304,10 @@
             background: #22c55e;
             color: #0f172a;
             border: none;
-            padding: 9px;
-            border-radius: 10px;
+            padding: 8px;
+            border-radius: 9px;
             font-weight: 800;
-            font-size: 13.5px;
+            font-size: 13px;
             cursor: pointer;
             width: 100%;
         }
@@ -262,10 +316,10 @@
             background: #334155;
             color: #38bdf8;
             border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 8px;
-            border-radius: 10px;
+            padding: 7px;
+            border-radius: 9px;
             font-weight: 700;
-            font-size: 12.5px;
+            font-size: 12px;
             cursor: pointer;
             width: 100%;
         }
@@ -378,7 +432,7 @@
     <div class="modal-overlay" id="trophy-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title">🏆 Trophées du Jardinier</div>
+                <div class="modal-title">🏆 Trophées & Grades</div>
                 <button class="close-modal" onclick="toggleTrophyModal()">×</button>
             </div>
             <div class="trophies-list" id="trophies-list-container"></div>
@@ -388,9 +442,16 @@
     <div class="app-header">
         <div class="app-title-group">
             <div class="app-title">🌿 QUESTIONS JARDIN</div>
-            <div class="daily-visits">📊 <span id="visits-count">1</span> connexion(s)</div>
+            <div class="rank-title" id="rank-display">🌱 Graine de radis</div>
         </div>
-        <div class="score-badge" id="score-display">0 Pts</div>
+        <div class="header-right">
+            <div class="combo-badge" id="combo-badge">🔥 x0</div>
+            <div class="score-badge" id="score-display">0 Pts</div>
+        </div>
+    </div>
+
+    <div class="timer-bar-container">
+        <div class="timer-bar" id="timer-bar"></div>
     </div>
 
     <div class="app-content">
@@ -403,13 +464,15 @@
                 <div class="top-menu-actions">
                     <button class="trophy-btn-mini" onclick="toggleTrophyModal()">🏆 Trophées</button>
                 </div>
+                <div class="jokers-bar">
+                    <button class="joker-btn" id="joker-50" onclick="useJoker50()">✂️ 50/50 (<span id="count-50">2</span>)</button>
+                    <button class="joker-btn" id="joker-tip" onclick="useJokerTip()">💡 Indice (<span id="count-tip">2</span>)</button>
+                </div>
             </div>
         </div>
 
         <div class="quiz-box">
-            <div class="quiz-header-info">
-                <div class="question-title">❓ QUESTION</div>
-            </div>
+            <div class="question-title">❓ QUESTION</div>
             <div class="question-text" id="question">Chargement...</div>
         </div>
 
@@ -430,106 +493,76 @@
 
 <script>
     const baseTopics = [
-        { q: "Pourquoi mon gazon jaunit-il par plaques en plein été ?", correct: "Manque d'arrosage ou attaque de larves de hannetons", wrongs: ["Excès de gel en hiver", "Trop d'ombre portée par les nuages", "Carence en plastique du sol"], exp: "Un jaunissement estival est souvent lié au stress hydrique ou aux ravageurs souterrains.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
-        { q: "Que faire contre la mousse qui envahit ma pelouse à l'ombre ?", correct: "Scarifier le gazon, améliorer le drainage et éclaircir l'ombrage", wrongs: ["Mettre du sel de cuisine en grande quantité partout", "Tondre à ras tous les jours de l'année", "Arroser la mousse avec de l'huile de vidange"], exp: "La mousse prolifère sur les sols acides, compacts et humides à l'ombre.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" },
-        { q: "Quelle est la règle d'or pour tondre sa pelouse en période de forte chaleur ?", correct: "Tondre haut (ne pas couper plus d'un tiers de la hauteur) pour garder l'humidité", wrongs: ["Tondre à raz le plus court possible pour la rafraîchir", "Ne plus jamais tondre pendant 6 mois", "Tondre uniquement la nuit en courant"], exp: "Une herbe plus haute protège le sol du dessèchement et du soleil brûlant.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
-        { q: "Quelle est la meilleure saison pour semer un nouveau gazon ?", correct: "L'automne (septembre-octobre) grâce à la chaleur résiduelle du sol et l'humidité", wrongs: ["En plein mois de janvier pendant le gel", "En plein mois d'août sous canicule", "Uniquement la nuit d'Halloween"], exp: "L'automne offre des conditions optimales pour la germination des graminées.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
-        { q: "À quoi sert l'opération de scarification sur une pelouse ?", correct: "À éliminer le feutrage (mousse et déchets) pour aérer les racines", wrongs: ["À couper l'herbe ras pour éviter de tondre", "À colorer la pelouse en bleu", "À tasser le sol définitivement"], exp: "La scarification permet à l'eau et aux nutriments de pénétrer à nouveau dans le sol.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" },
-        { q: "Pourquoi dit-on qu'il faut laisser l'herbe coupée (mulching) parfois sur la pelouse ?", correct: "Car elle se décompose et restitue de l'azote et de l'humidité au sol", wrongs: ["Pour faire fuir les vers de terre", "Pour attirer les taupes", "Pour colorer le gazon en jaune"], exp: "Le mulching de gazon est un engrais naturel gratuit et écologique.", wiki: "https://fr.wikipedia.org/wiki/Mulching" },
-        { q: "Comment éliminer les pâquerettes ou le pissenlit indésirables d'un gazon sans chimie ?", correct: "Utiliser un désherbeur mécanique pour extraire toute la racine pivotante", wrongs: ["Verser du ciment liquide sur chaque feuille", "Mettre du feu directement sur la pelouse", "Arroser avec de l'eau salée à saturation"], exp: "Le désherbage manuel à la gouge à asperge est idéal pour les racines pivots.", wiki: "https://fr.wikipedia.org/wiki/Taraxacum" },
-        { q: "Quelle est la fréquence idéale d'arrosage d'un gazon fraîchement semé ?", correct: "Maintenir la terre constamment humide par de légères brumisations quotidiennes", wrongs: ["Un arrosage massif tous les mois", "Ne jamais arroser pour endurcir la graine", "Inonder le terrain avec 20 cm d'eau"], exp: "La graine ne doit jamais sécher pendant le processus de germination.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
-        { q: "Qu'est-ce que le ray-grass dans un mélange de gazon ?", correct: "Une graminée à pousse rapide idéale pour regarnir les zones abîmées", wrongs: ["Un champignon parasite mortel", "Une mauvaise herbe invasive", "Un engrais chimique puissant"], exp: "Le ray-grass s'installe très vite pour concurrencer les mauvaises herbes.", wiki: "https://fr.wikipedia.org/wiki/Lolium_perenne" },
-        { q: "Pourquoi faire un terreautage de pelouse au printemps ?", correct: "Pour combler les petits creux, nourrir le sol et stimuler la densité du gazon", wrongs: ["Pour rendre la pelouse dure comme du béton", "Pour cacher les déchets de taille", "Pour empêcher l'herbe de pousser"], exp: "Le terreautage améliore la structure superficielle du sol.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
-        { q: "Comment savoir si ma terre est plutôt acide ou calcaire ?", correct: "Utiliser un kit d'analyse de sol ou observer la flore spontanée (fougères vs coquelicots)", wrongs: ["Goûter un échantillon de terre avec de la moutarde", "Peser un kilo de terre sur une balance de cuisine", "Regarder la couleur du ciel au-dessus du jardin"], exp: "Le pH détermine l'assimilation des nutriments par les plantes.", wiki: "https://fr.wikipedia.org/wiki/PH_du_sol" },
-        { q: "Quel est le principal rôle des vers de terre dans un jardin ?", correct: "Aérer le sol et transformer la matière organique en humus fertile", wrongs: ["Grignoter les racines saines des plantations", "Produire du gaz carbonique pour réchauffer la terre", "Transmettre des virus aux légumes du potager"], exp: "Ce sont les meilleurs alliés du jardinier pour la structure et la fertilité du sol.", wiki: "https://fr.wikipedia.org/wiki/Lombric" },
-        { q: "Comment bien entretenir un sol argileux trop lourd et collant ?", correct: "Y incorporer du sable grossier et du compost pour l'alléger", wrongs: ["Y verser de l'huile moteur pour le rendre glissant", "Le compacter au rouleau lourd en permanence", "Ne rien faire car il est parfait tel quel"], exp: "L'apport de matière organique et de drainage assouplit la terre argileuse.", wiki: "https://fr.wikipedia.org/wiki/Argile" },
-        { q: "Qu'appelle-t-on l'humus dans un sol de jardin ?", correct: "La couche noire issue de la décomposition de la matière organique par les micro-organismes", wrongs: ["La roche mère située à 10 mètres de profondeur", "Une poussière stérile apportée par le vent", "Un type de sable très fin de rivière"], exp: "L'humus retient l'eau et les nutriments indispensables aux cultures.", wiki: "https://fr.wikipedia.org/wiki/Humus" },
-        { q: "Pourquoi un sol vivant ne doit-il pas être retourné profondément à la bêche ?", correct: "Car cela perturbe la faune aérobie et anaérobie en inversant les couches", wrongs: ["Parce que la bêche risque de se plier en deux", "Pour obliger les vers de terre à descendre", "Parce que c'est interdit par la loi"], exp: "Le non-labour préserve la structure naturelle créée par les micro-organismes.", wiki: "https://fr.wikipedia.org/wiki/Non-labour" },
-        { q: "Quel amendement utiliser pour corriger un sol trop acide (pH bas) ?", correct: "De la chaux agricole ou du lithothamne pour remonter le pH", wrongs: ["Du vinaigre blanc concentré", "Des écorces de résineux", "Du sulfate d'aluminium"], exp: "Le calcaire/chaux neutralise l'acidité excessive du sol.", wiki: "https://fr.wikipedia.org/wiki/Amendement_minéral" },
-        { q: "Qu'est-ce que la vie microbienne aérobie dans le sol ?", correct: "L'ensemble des bactéries et champignons qui ont besoin d'oxygène pour vivre", wrongs: ["Des insectes géants souterrains", "Des racines de plantes carnivores", "Des minéraux inertes"], exp: "Ces micro-organismes dégradent les matières organiques en nutriments assimilables.", wiki: "https://fr.wikipedia.org/wiki/Sol" },
-        { q: "Comment améliorer un sol sableux qui retient mal l'eau et les engrais ?", correct: "Incorporer massivement du compost et du fumier bien décomposé pour lier la terre", wrongs: ["Ajouter du gravier de construction", "Ne jamais arroser", "Mettre du sel fin"], exp: "La matière organique joue une éponge salvatrice dans les sols sableux trop filtrants.", wiki: "https://fr.wikipedia.org/wiki/Sol_sableux" },
-        { q: "Que signifie un sol 'battant' après une forte pluie ?", correct: "Un sol dont la structure s'effondre et forme une croûte imperméable en surface", wrongs: ["Un sol qui bat la mesure en musique", "Un sol qui bouge tout seul", "Un sol rempli de métaux précieux"], exp: "Les sols limoneux battants nécessitent d'être paillés pour éviter cette croûte.", wiki: "https://fr.wikipedia.org/wiki/Sol_limoneux" },
-        { q: "Quel est l'impact d'un excès d'azote chimique répété sur la biologie du sol ?", correct: "Il détruit la vie microbienne et acidifie durablement la terre", wrongs: ["Il rend le sol éternellement fertile sans effort", "Il transforme la terre en or", "Il attire les licornes"], exp: "L'excès de chimie déséquilibre la microflore naturelle.", wiki: "https://fr.wikipedia.org/wiki/Azote" },
-        { q: "Quelle est la meilleure période pour planter un arbre en conteneur ?", correct: "En automne ou au début du printemps", wrongs: ["En plein mois d'août sous canicule", "Pendant une tempête de neige", "Uniquement la nuit de la pleine lune"], exp: "L'automne permet aux racines de s'installer avant l'hiver.", wiki: "https://fr.wikipedia.org/wiki/Plantation" },
-        { q: "Quelle exposition préfère généralement un pied de tomate pour s'épanouir ?", correct: "Une exposition en plein soleil, chaude et abritée du vent", wrongs: ["Au fond d'une cave sombre sans lumière", "À l'ombre complète sous un sapin", "Au congélateur"], exp: "La tomate est un fruit du soleil qui a besoin de chaleur pour mûrir.", wiki: "https://fr.wikipedia.org/wiki/Tomate" },
-        { q: "Où doit-on planter les hortensias pour éviter que leur feuillage ne brûle ?", correct: "À mi-ombre, à l'abri du soleil brûlant de l'après-midi", wrongs: ["En plein cagnard sur un toit en tôle", "Dans le noir complet d'un placard", "Au milieu d'un désert de sable"], exp: "Les hortensias craignent la sécheresse et le soleil direct trop intense.", wiki: "https://fr.wikipedia.org/wiki/Hortensia" },
-        { q: "Quelle est l'utilité du 'pralinage' des racines avant de planter un arbre nu-racines ?", correct: "Enrober les racines d'un mélange argileux pour stimuler la reprise", wrongs: ["Parfumer l'arbre avec des huiles essentielles", "Empêcher l'eau de pénétrer dans l'écorce", "Colorer les racines en blanc pour les repérer"], exp: "Le pralinage protège les racines du dessèchement et favorise leur contact avec la terre.", wiki: "https://fr.wikipedia.org/wiki/Pralinage" },
-        { q: "Pourquoi ne faut-il pas enterrer le point de greffe d'un arbre fruitier lors de la plantation ?", correct: "Car cela risque de provoquer pourriture, rejet du porte-greffe ou dépérissement", wrongs: ["Pour que l'arbre puisse voir le ciel", "Pour que le fruit pousse plus vite sur le tronc", "C'est une légende sans fondement"], exp: "Le point de greffe doit toujours rester 5 à 10 cm au-dessus du niveau du sol.", wiki: "https://fr.wikipedia.org/wiki/Greffe_(botanique)" },
-        { q: "Quelle plante aromatique adore le plein soleil et un sol pauvre et caillouteux ?", correct: "La lavande, le romarin et le thym", wrongs: ["La menthe aquatique", "La fougère des sous-bois", "Le cresson de fontaine"], exp: "Ces aromatiques méditerranéennes détestent l'humidité stagnante et adorent la pierraille.", wiki: "https://fr.wikipedia.org/wiki/Lavandula" },
-        { q: "Comment préparer le fond du trou de plantation d'un arbuste ?", correct: "Décompacter la terre au fond et y ajouter un peu de compost mûr", wrongs: ["Y verser de l'huile de vidange", "Y tasser des briques en terre cuite", "Le remplir d'eau de Javel"], exp: "Il faut ameublir la terre pour que les racines s'étendent facilement.", wiki: "https://fr.wikipedia.org/wiki/Plantation" },
-        { q: "Pourquoi dit-on qu'il faut 'griffer la motte' d'un arbuste en conteneur avant de le planter ?", correct: "Pour décoincer et libérer les racines qui tournent en rond dans le pot", wrongs: ["Pour enlever la couleur noire du plastique", "Pour faire de la poussière", "Pour l'alléger en poids"], exp: "Cela évite que les racines continuent de tourner en cercle et s'étranglent elles-mêmes.", wiki: "https://fr.wikipedia.org/wiki/Racine" },
-        { q: "Quel arbuste fleuri choisir pour une haie ou un massif orienté plein nord à l'ombre ?", correct: "Le camélia, le rhododendron ou le fuchsia rustique", wrongs: ["Le palmier dattier", "Le laurier-rose méditerranéen", "Le figuier géant"], exp: "Ces plantes acidophiles apprécient l'ombre et la fraîcheur.", wiki: "https://fr.wikipedia.org/wiki/Camellia" },
-        { q: "Qu'appelle-t-on une plantation en 'quinconce' ?", correct: "Une disposition en diagonale alternée pour optimiser l'espace et la lumière", wrongs: ["Une plantation en cercle magique", "Planter les yeux fermés", "Planter un arbre sur deux à l'envers"], exp: "Le quinconce permet un meilleur étalement de la lumière entre les sujets.", wiki: "https://fr.wikipedia.org/wiki/Quinconce" },
-        { q: "Quel paillage installer pour limiter l'arrosage et les mauvaises herbes ?", correct: "Des paillettes de chanvre, du lin ou des écorces de pin", wrongs: ["Des plaques de tôle ondulée en acier", "Du plastique noir imperméable non respirant", "Du sable de plage très fin"], exp: "Le paillage organique protège du dessèchement et nourrit le sol en se dégradant.", wiki: "https://fr.wikipedia.org/wiki/Paillage" },
-        { q: "Quel type de paillage acide privilégier impérativement au pied des plantes de terre de bruyère ?", correct: "Des écorces de pin maritime", wrongs: ["De la cendre de bois calcaire", "Du plâtre concassé", "Des coquilles d'huîtres pilées"], exp: "Les écorces de pin acidifient légèrement le sol, ce que ces plantes adorent.", wiki: "https://fr.wikipedia.org/wiki/Pin_maritime" },
-        { q: "Quel est l'intérêt du paillage minéral (pouzzolane, ardoise, galets) au jardin ?", correct: "Il ne se décompose pas, dure très longtemps et convient aux plantes de rocaille", wrongs: ["Il nourrit abondamment le sol en humus", "Il attire les vers de terre en masse", "Il fait pousser les légumes en 3 jours"], exp: "Le paillage minéral régule la température et ne pourrit pas, idéal pour les cactus.", wiki: "https://fr.wikipedia.org/wiki/Pouzzolane" },
-        { q: "Pourquoi faut-il éviter de mettre une couche de tontes de gazon fraîches et épaisses directement ?", correct: "Car en pourrissant en bloc compact, elle étouffe le sol et fermente", wrongs: ["Parce que ça sent la fraise Tagada", "Parce que ça attire les martiens", "Parce que le gazon refuse de mourir"], exp: "Il faut la faire sécher ou la mélanger en couche fine (BRF ou feuilles mortes).", wiki: "https://fr.wikipedia.org/wiki/Paillage" },
-        { q: "Qu'est-ce que le BRF (Bois Raméal Fragmenté) utilisé comme paillage ?", correct: "Des jeunes rameaux de bois broyés (moins de 7 cm de diamètre)", wrongs: ["Du plastique recyclé marron", "Des briques pilées", "De la paille de blé"], exp: "Le BRF stimule la microbiologie du sol et protège durablement les massifs d'arbustes.", wiki: "https://fr.wikipedia.org/wiki/Bois_raméal_fragmenté" },
-        { q: "Quel est l'effet thermique d'un bon paillage en hiver sur les racines frileuses ?", correct: "Il isole thermiquement le sol et amortit les vagues de gel intense", wrongs: ["Il chauffe le jardin comme un radiateur électrique", "Il attire le froid pour faire de la glace", "Il n'a aucun effet"], exp: "Le paillage agit comme une couverture douillette pour protéger la vie du sol.", wiki: "https://fr.wikipedia.org/wiki/Paillage" },
-        { q: "Peut-on utiliser des feuilles mortes de chêne ou de platane comme paillage au potager ?", correct: "Oui, à condition de les répartir en couche ou de les broyer un peu", wrongs: ["Non, c'est un poison mortel pour la terre", "Uniquement si on les peint en vert", "Seulement en été"], exp: "Les feuilles mortes forment un excellent humus une fois dégradées par les vers de terre.", wiki: "https://fr.wikipedia.org/wiki/Feuille_morte" },
-        { q: "Pourquoi le paillage en paille de blé est-il apprécié dans les fraisières ?", correct: "Car il isole les fruits de l'humidité du sol et évite qu'ils ne pourrissent", wrongs: ["Pour nourrir les fraises en protéines", "Pour attirer les papillons", "Pour colorer les fraises en jaune"], exp: "Les fraises restent propres et sèches, à l'abri de la terre mouillée.", wiki: "https://fr.wikipedia.org/wiki/Fraise" },
-        { q: "Quel risque présente un paillage trop épais (plus de 15 cm) d'un coup sur un sol sec ?", correct: "Il peut empêcher l'eau de pluie fine de pénétrer jusqu'aux racines", wrongs: ["Il fait s'envoler la maison", "Il transforme le sol en désert de sel", "Il rend les plantes carnivores"], exp: "L'eau de pluie est parfois totalement interceptée par un paillage trop compact.", wiki: "https://fr.wikipedia.org/wiki/Paillage" },
-        { q: "Le lin et le chanvre sont des paillages d'origine végétale. Quel est leur petit défaut ?", correct: "Ils sont très légers et peuvent s'envoler en cas de tempête de vent", wrongs: ["Ils attirent les requins", "Ils pèsent des tonnes au mètre carré", "Ils tuent instantanément les arbres"], exp: "Il faut les humidifier légèrement après pose pour qu'ils se calent entre eux.", wiki: "https://fr.wikipedia.org/wiki/Cannabis_sativa" },
-        { q: "Quand dois-je tailler mon pommier pour avoir de beaux fruits ?", correct: "En hiver (hors période de gel fort), de novembre à février", wrongs: ["En plein été au moment de la canicule", "Au printemps quand les fruits sont déjà formés", "Tous les 10 ans sans couper les branches"], exp: "La taille se fait en période de repos végétatif pour stimuler la fructification.", wiki: "https://fr.wikipedia.org/wiki/Pommier" },
-        { q: "Quand et comment tailler mes hortensias pour qu'ils refleurissent bien ?", correct: "Laisser les fleurs fanées en hiver pour protéger les bourgeons, puis couper au printemps", wrongs: ["Raser tous les bois à 2 cm du sol en plein automne", "Ne jamais toucher aux hortensias de leur vie", "Couper toutes les branches vertes en plein mois de juin"], exp: "Les hortensias portent leurs futurs bourgeons floraux dès l'hiver.", wiki: "https://fr.wikipedia.org/wiki/Hortensia" },
-        { q: "Comment réussir la taille des rosiers buissons remontants ?", correct: "Couper à 3-5 yeux au-dessus du point de greffe en fin d'hiver", wrongs: ["Les couper au ras du sol à l'automne", "Ne jamais couper une seule branche sous peine de mort", "Tailler uniquement les racines en surface"], exp: "La taille de fin d'hiver stimule l'apparition de nouvelles branches florifères.", wiki: "https://fr.wikipedia.org/wiki/Rosier" },
-        { q: "Qu'est-ce que le 'chicot' lors de la taille d'un arbre ?", correct: "Un bout de branche mort ou inutile laissé après une mauvaise coupe", wrongs: ["Une variété naine de pommier miniature", "Un outil de coupe forgé en acier trempé", "Une maladie incurable du tronc"], exp: "Un chicot ne cicatrise pas bien et favorise l'entrée des parasites et champignons.", wiki: "https://fr.wikipedia.org/wiki/Arbre" },
-        { q: "Pourquoi dit-on qu'il ne faut pas tailler les arbustes persistants en plein gel ?", correct: "Car les coupes gèlent et fragilisent les tissus végétaux", wrongs: ["Parce que le sécateur risque de casser net", "Parce que les oiseaux dorment sur les branches", "Pour ne pas réveiller les taupes endormies"], exp: "Le gel endommage les cellules exposées au niveau de la plaie de taille.", wiki: "https://fr.wikipedia.org/wiki/Taille" },
-        { q: "Quelle est la règle pour tailler les arbustes à floraison estivale (buddleia, althéa) ?", correct: "Les tailler court en fin d'hiver car ils fleurissent sur le bois de l'année", wrongs: ["Ne jamais les toucher sous peine de mort", "Les tailler en plein mois de juin en fleurs", "Les raser tous les 10 ans uniquement"], exp: "Ces arbustes produisent leurs fleurs sur les pousses de l'année en cours.", wiki: "https://fr.wikipedia.org/wiki/Buddleja" },
-        { q: "Que faut-il faire systématiquement après avoir taillé pour éviter les maladies ?", correct: "Désinfecter les lames du sécateur à l'alcool entre chaque sujet", wrongs: ["Leur chanter une berceuse", "Les arroser avec du vin rouge", "Mettre du scotch de bureau sur les plaies"], exp: "La désinfection évite de propager des virus ou champignons d'une plante à l'autre.", wiki: "https://fr.wikipedia.org/wiki/Sécateur" },
-        { q: "Comment tailler un arbuste pour ramifier sa silhouette et le rendre plus dense ?", correct: "Couper l'extrémité des branches principales pour stimuler les bourgeons latéraux", wrongs: ["Le secouer très fort tous les matins", "L'arroser par le sommet des branches", "Couper toutes les racines du bas"], exp: "Pincer ou tailler l'apex supprime la dominance apicale et favorise les ramifications.", wiki: "https://fr.wikipedia.org/wiki/Taille" },
-        { q: "Qu'appelle-t-on un 'gourmand' ou rejet sur un arbre fruitier ?", correct: "Un rameau vigoureux qui pousse verticalement sur le tronc ou les grosses branches et ne donne pas de fruits", wrongs: ["Un fruit qui grossit trop vite", "Un ver qui mange les feuilles", "Une racine qui sort de terre"], exp: "Les gourmands pompent inutilement la sève et doivent être éliminés.", wiki: "https://fr.wikipedia.org/wiki/Gourmand_(botanique)" },
-        { q: "Quand doit-on tailler les arbustes à floraison printanière (forsythia, lilas) ?", correct: "Juste après leur floraison au printemps, jamais en hiver", wrongs: ["En plein cœur de l'hiver au mois de janvier", "Au mois d'août sous le soleil", "Tous les jours de l'année"], exp: "Si on les taille en hiver, on supprime tous les boutons floraux formés l'année précédente.", wiki: "https://fr.wikipedia.org/wiki/Forsythia" },
-        { q: "Comment me débarrasser des pucerons sur mes rosiers sans produits chimiques ?", correct: "Pulvériser du savon noir dilué ou introduire des coccinelles", wrongs: ["Verser de l'acide chlorhydrique au pied", "Brûler directement les feuilles avec un briquet", "Ignorer le problème, ils vont disparaître seuls en hiver"], exp: "Le savon noir asphyxie les insectes sans polluer le jardin.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" },
-        { q: "Comment traiter la cloque du pêcher au printemps ?", correct: "Pulvériser de la bouillie bordelaise au débourrement", wrongs: ["Tailler toutes les racines principales", "Mettre de l'engrais chimique azoté en excès", "Arroser les fruits avec du jus de citron"], exp: "La bouillie bordelaise est un fongicide préventif classique contre ce champignon.", wiki: "https://fr.wikipedia.org/wiki/Cloque_du_pêcher" },
-        { q: "Pourquoi les feuilles de mes tomates jaunissent-elles par le bas ?", correct: "Souvent un signe de carence ou de mildiou débutant", wrongs: ["Parce qu'elles regardent le soleil trop fixement", "C'est une obligation naturelle de la plante", "À cause du vent du nord"], exp: "Le bas du plant est le plus exposé aux éclaboussures de terre porteuses de spores.", wiki: "https://fr.wikipedia.org/wiki/Tomate" },
-        { q: "Qu'appelle-t-on le 'mildiou' sur les pommes de terre et tomates ?", correct: "Une maladie cryptogamique favorisée par l'humidité et la douceur", wrongs: ["Une invasion de petits coléoptères dorés", "Un manque flagrant de soleil direct", "Une mutation génétique inoffensive"], exp: "Le mildiou est un champignon microscopique redoutable en cas de temps pluvieux.", wiki: "https://fr.wikipedia.org/wiki/Mildiou" },
-        { q: "Qu'est-ce que l'oïdium, aussi appelé 'maladie du blanc' sur les rosiers ?", correct: "Un champignon qui recouvre les feuilles d'un feutrage blanc poudreux", wrongs: ["Une attaque de petits fantômes du jardin", "Un manque d'eau sévère dans les racines", "Une variété de givre matinal"], exp: "L'oïdium se développe par temps lourd et humide avec des nuits fraîches.", wiki: "https://fr.wikipedia.org/wiki/Oïdium" },
-        { q: "Comment lutter naturellement contre les limaces qui ravagent les salades ?", correct: "Installer des pièges à bière, des barrières de cendre ou introduire des auxiliaires", wrongs: ["Leur donner du sucre en morceaux pour les calmer", "Les arroser avec du sel pur sur les légumes", "Mettre de la musique classique"], exp: "Les limaces redoutent les barrières sèches et adorent la bière.", wiki: "https://fr.wikipedia.org/wiki/Limace" },
-        { q: "Quel est l'insecte ravageur qui pond ses œufs dans les pommes et produit des vers ?", correct: "Le carpocapse de la pomme (un petit papillon)", wrongs: ["La coccinelle à sept points", "L'abeille mellifère", "Le lombric géant"], exp: "Les pièges à phéromones permettent de lutter bio contre le carpocapse.", wiki: "https://fr.wikipedia.org/wiki/Carpocapse_des_pommes_et_des_poires" },
-        { q: "Comment identifier une attaque d'altises sur des radis ou choux ?", correct: "Des petits trous circulaires millimétriques parsèment toutes les feuilles", wrongs: ["Les feuilles se mettent à chanter", "La plante grandit de 2 mètres en une nuit", "Les légumes deviennent violets"], exp: "Les altises sont de petits coléoptères sauteurs friands de brassicacées par temps sec.", wiki: "https://fr.wikipedia.org/wiki/Altise" },
-        { q: "Quelle solution naturelle utiliser pour contrer l'oïdium sur les courges ?", correct: "Pulvériser du purin de prêle ou du lait écrémé dilué à 10%", wrongs: ["De l'eau de Javel pure", "Du white-spirit", "De l'huile moteur usagée"], exp: "Le soufre ou les décoctions de prêle renforcent les défenses immunitaires des plantes.", wiki: "https://fr.wikipedia.org/wiki/Equisetum" },
-        { q: "Que faire face à une invasion de cochenilles à bouclier sur un laurier rose ?", correct: "Frotter les tiges avec de l'alcool à brûler dilué et du savon noir", wrongs: ["Les nourrir avec des miettes de pain", "Arracher l'arbre et le jeter à la mer", "Mettre du cirage à chaussures"], exp: "La coque cireuse protège l'insecte, l'alcool permet de dissoudre cette protection.", wiki: "https://fr.wikipedia.org/wiki/Cochenille" },
-        { q: "Quel est l'intérêt d'associer des œillets d'Inde au potager ?", correct: "Leurs racines sécrètent une substance répulsive contre les nématodes", wrongs: ["Ils attirent un maximum de taupes", "Ils augmentent l'acidité de l'air ambiant", "Ils empêchent complètement les tomates de grandir"], exp: "C'est une excellente plante compagne pour la protection biologique intégrée.", wiki: "https://fr.wikipedia.org/wiki/Œillet_d'Inde" },
-        { q: "Qu'appelle-t-on les 'trois sœurs' en culture synergique amérindienne ?", correct: "L'association du maïs, du haricot grimpant et de la courge", wrongs: ["Trois variétés de salades rouges", "Trois types de mauvaises herbes", "La tomate, la pomme de terre et l'aubergine"], exp: "Le maïs sert de tuteur, le haricot enrichit le sol en azote, et la courge paille le sol.", wiki: "https://fr.wikipedia.org/wiki/Trois_sœurs_(agriculture)" },
-        { q: "Pourquoi planter du basilic au pied des plants de tomates ?", correct: "Leurs parfums combinés repoussent certains nuisibles et favorisent le goût", wrongs: ["Pour faire de la soupe directement dans le jardin", "Pour empêcher les tomates de voir le soleil", "Pour attirer les moustiques tigres"], exp: "C'est le compagnonnage classique et incontournable du potager d'été.", wiki: "https://fr.wikipedia.org/wiki/Basilic_(plante)" },
-        { q: "Quel est l'effet de la carotte et de l'oignon cultivés en rangs alternés ?", correct: "Leurs odeurs respectives brouillent les pistes et éloignent la mouche de la carotte", wrongs: ["Ils se battent en duel pour l'eau", "Ils fusionnent pour donner un légume hybride", "Ils s'asphyxient mutuellement"], exp: "Une alliance olfactive redoutable en permaculture.", wiki: "https://fr.wikipedia.org/wiki/Daucus_carota" },
-        { q: "Quel est le rôle d'une haie fruitière diversifiée en permaculture ?", correct: "Fournir abri, nourriture à la faune auxiliaire et brise-vent naturel", wrongs: ["Empêcher le propriétaire de voir ses voisins", "Faire du bruit quand il y a du vent", "Consommer toute l'eau du terrain"], exp: "La biodiversité d'une haie multi-espèces régule naturellement les ravageurs.", wiki: "https://fr.wikipedia.org/wiki/Permaculture" },
-        { q: "Qu'appelle-t-on une 'légumineuse' ou fabacée (comme la fève ou le trèfle) ?", correct: "Une plante capable de fixer l'azote de l'air dans le sol grâce à des nodosités", wrongs: ["Une plante qui produit uniquement des bonbons", "Un légume qui ne pousse qu'en hiver", "Une variété de cactus géant"], exp: "Elles enrichissent naturellement la terre en azote, indispensables en rotation.", wiki: "https://fr.wikipedia.org/wiki/Fabaceae" },
-        { q: "Pourquoi installer une mare naturelle au cœur d'un grand jardin ?", correct: "Pour attirer les batraciens (crapauds, grenouilles) qui régulent les limaces", wrongs: ["Pour pouvoir y faire du ski nautique", "Pour noyer les mauvaises herbes", "Pour élever des requins blancs"], exp: "La mare est un aimant à biodiversité extraordinaire.", wiki: "https://fr.wikipedia.org/wiki/Mare" },
-        { q: "Quel est l'avantage de la rotation des cultures au potager sur 3 ou 4 ans ?", correct: "Éviter l'épuisement du sol en nutriments spécifiques et limiter les maladies", wrongs: ["Faire tourner les légumes autour du potager sur un manège", "Changer de nom de jardin tous les ans", "Empêcher les légumes de s'enraciner"], exp: "Chaque famille de légumes a des besoins différents et héberge des parasites spécifiques.", wiki: "https://fr.wikipedia.org/wiki/Rotation_des_cultures" },
-        { q: "Quel est l'intérêt de cultiver de la consoude au jardin ?", correct: "Ses feuilles riches en potasse permettent de fabriquer un purin nutritif exceptionnel", wrongs: ["Pour décorer les salons de jardin", "Pour fabriquer des éponges de cuisine", "Pour attirer les frelons asiatiques"], exp: "Le purin de consoude est un engrais naturel hors pair pour la floraison et la fructification.", wiki: "https://fr.wikipedia.org/wiki/Consoude" },
-        { q: "Qu'est-ce qu'une butte de permaculture en 'hugelkultur' ?", correct: "Une butte de culture construite sur du bois forant/pourrissant qui retient l'eau", wrongs: ["Une montagne de sable fin", "Un tas de cailloux pointus", "Une butte en béton armé"], exp: "Le bois en décomposition interne agit comme une réserve d'eau et de nutriments sur plusieurs années.", wiki: "https://fr.wikipedia.org/wiki/Hugelkultur" },
-        { q: "Quel est l'avantage d'un système d'arrosage goutte-à-goutte au potager ?", correct: "Apporter l'eau directement au pied des plantes sans mouiller le feuillage", wrongs: ["Inonder tout le jardin pour créer un lagon", "Faire évaporer l'eau plus vite grâce au soleil", "Consommer dix fois plus d'eau qu'un tuyau classique"], exp: "Le goutte-à-goutte réduit l'évaporation et limite le développement des maladies.", wiki: "https://fr.wikipedia.org/wiki/Goutte-à-goutte_(irrigation)" },
-        { q: "Quel est le moment idéal de la journée pour arroser son jardin en été ?", correct: "Tôt le matin, avant que le soleil ne tape trop fort", wrongs: ["En plein midi au zénith", "À minuit pile sous la pluie", "Pendant un orage de grêle"], exp: "Arroser le matin évite l'évaporation massive et les chocs thermiques de la nuit.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
-        { q: "Pourquoi vaut-il mieux un arrosage copieux mais espacé plutôt que quotidien ?", correct: "Pour inciter les racines à descendre profondément chercher l'eau", wrongs: ["Pour économiser les mouvements du tuyau", "Parce que l'eau du robinet fatigue tous les jours", "Pour faire plaisir aux factures d'eau"], exp: "Des arrosages superficiels quotidiens retiennent les racines en surface où elles sèchent vite.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
-        { q: "Quelle astuce permet de récupérer l'eau de pluie de manière écologique ?", correct: "Installer une cuve raccordée aux descentes de gouttières du toit", wrongs: ["Placer des seaux vides en plein désert", "Laisser les fenêtres ouvertes en grand", "Creuser un trou au milieu du salon"], exp: "L'eau de pluie est non calcaire et gratuite, idéale pour toutes les plantes.", wiki: "https://fr.wikipedia.org/wiki/Récupération_des_eaux_de_pluie" },
-        { q: "Qu'appelle-t-on le 'binage' par rapport à l'arrosage ?", correct: "« Un binage vaut deux arrosages » : casser la croûte de surface pour stopper l'évaporation", wrongs: ["Donner des coups de pioche dans les légumes", "Mettre du bicarbonate de soude", "Arroser avec de la bière"], exp: "Biner rompt les capillaires du sol par lesquels l'humidité s'évapore vers l'air.", wiki: "https://fr.wikipedia.org/wiki/Binage" },
-        { q: "Pourquoi l'arrosage des feuilles de tomates le soir est-il fortement déconseillé ?", correct: "Car le feuillage humide toute la nuit favorise l'apparition fulgurante du mildiou", wrongs: ["Parce que les tomates haben peur du noir", "Pour ne pas réveiller les étoiles", "Pour économiser la rosée"], exp: "L'humidité nocturne combinée au feuillage mouillé est le cocktail parfait des champignons.", wiki: "https://fr.wikipedia.org/wiki/Tomate" },
-        { q: "Qu'est-ce qu'une ollas (ou ola) enterrée au potager pour l'arrosage ?", correct: "Une jarre en terre cuite poreuse remplie d'eau qui diffuse l'humidité lentement", wrongs: ["Un chapeau de paille pour se protéger du soleil", "Une casserole cassée", "Un engrais chimique en poudre"], exp: "C'est une méthode d'irrigation ancestrale extrêmement économe en eau.", wiki: "https://fr.wikipedia.org/wiki/Olla_(récipient)" },
-        { q: "Quel est l'impact d'un sol arrosé avec de l'eau trop calcaire sur des plantes de terre de bruyère ?", correct: "Elles développent une chlorose (jaunissement des feuilles par carence en fer bloqué)", wrongs: ["Elles se mettent à briller dans le noir", "Elles grandissent de 10 mètres en 2 jours", "Leur tronc devient en pierre"], exp: "Le calcaire bloque l'assimilation du fer dans les terres acides.", wiki: "https://fr.wikipedia.org/wiki/Chlorose" },
-        { q: "Comment savoir si une plante a soif avant qu'elle ne flétrisse complètement ?", correct: "En touchant la terre à quelques centimètres de profondeur avec le doigt", wrongs: ["En demandant à la météo à la télévision", "En mesurant la taille du pot avec une règle", "En secouant la plante très fort"], exp: "Le test du doigt dans la terre reste le meilleur moyen infaillible d'évaluation.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
-        { q: "Quel est l'intérêt d'installer un programmateur d'arrosage automatique au goutte-à-goutte ?", correct: "Automatiser l'arrosage aux heures fraîches même en cas d'absence", wrongs: ["Pour faire du bruit dans le jardin la nuit", "Pour vider la piscine municipale", "Pour effrayer les oiseaux"], exp: "Pratique en été lors des départs en vacances pour maintenir le jardin en vie.", wiki: "https://fr.wikipedia.org/wiki/Arrosage_automatique" },
-        { q: "À quoi sert un engrais vert comme la phacélie ou la moutarde ?", correct: "À structurer le sol, piéger les nitrates et nourrir la microfaune", wrongs: ["À colorer le jardin en violet fluo toute l'année", "À chasser définitivement tous les oiseaux du ciel", "À rendre la terre complètement stérile"], exp: "Les engrais verts protègent et améliorent la terre avant d'être enfouis.", wiki: "https://fr.wikipedia.org/wiki/Engrais_vert" },
-        { q: "Quand faut-il diviser les touffes de vivaces (marguerites, hostas) ?", correct: "Au printemps ou à l'automne lorsque la plante est en repos", wrongs: ["En plein mois de juillet sous un soleil de plomb", "En plein cœur de l'hiver lors des grands froids", "Uniquement tous les dimanches matin"], exp: "La division redinsuffle de la vigueur aux plantes vieillissantes.", wiki: "https://fr.wikipedia.org/wiki/Division_(botanique)" },
-        { q: "Quelle précaution prendre avant de tailler une haie de thuyas ou de cyprès ?", correct: "Vérifier l'absence de nids d'oiseaux cachés dans le feuillage", wrongs: ["Mettre des lunettes de soleil de ski", "Arroser le ciel abondamment", "Mesurer la vitesse du vent avec un cerf-volant"], exp: "La protection de la faune sauvage est essentielle et réglementée pendant la nidification.", wiki: "https://fr.wikipedia.org/wiki/Haie" },
-        { q: "Pourquoi les fruits de mes courgettes pourrissent-ils avant de grandir ?", correct: "Souvent un problème de pollinisation incomplète ou d'excès d'humidité", wrongs: ["Parce qu'ils ont le vertige en hauteur", "À cause d'un manque total de vent d'ouest", "Parce qu'ils sont plantés trop près du soleil"], exp: "Sans une bonne pollinisation des fleurs femelles, le fruit avorte et pourrit.", wiki: "https://fr.wikipedia.org/wiki/Courgette" },
-        { q: "Quelle haie choisir pour occulter un vis-à-vis rapidement ?", correct: "Le photinia, le laurier-cerise ou l'élæagnus", wrongs: ["Uniquement des roses trémières annuelles", "Des cactus géants du désert", "Des arbres à feuilles caduques sans feuillage en hiver"], exp: "Les persistants gardent leur feuillage toute l'année et protègent du vis-à-vis en hiver.", wiki: "https://fr.wikipedia.org/wiki/Haie" },
-        { q: "Comment enrichir naturellement une terre de potager pauvre ?", correct: "Incorporer du compost mûr et du fumier bien décomposé", wrongs: ["Ajouter de la javel pure pour nettoyer la terre", "Mettre des cailloux de gravier concassé", "Ne rien faire et laisser le sol s'appauvrir"], exp: "Le compost apporte l'humus indispensable à la structure et à la fertilité du sol.", wiki: "https://fr.wikipedia.org/wiki/Compost" },
-        { q: "À quelle fréquence faut-il arroser un jeune plant nouvellement installé ?", correct: "Un arrosage copieux et régulier pour que la motte ne sèche pas", wrongs: ["Une goutte d'eau par semaine suffit largement", "Inonder le terrain en permanence pour faire une piscine", "Ne jamais arroser pour qu'ils s'endurcissent de force"], exp: "Les racines n'étant pas encore installées en profondeur, un suivi hydrique est vital.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
-        { q: "Comment entretenir des lavandes après leur floraison ?", correct: "Tailler les tiges florales fanées en boule légère sans couper le vieux bois", wrongs: ["Les arracher complètement chaque année", "Les arroser abondamment tous les soirs", "Les couvrir d'une bâche plastique opaque"], exp: "Une taille légère évite que le pied ne se déguise ou se dégarnisse de la base.", wiki: "https://fr.wikipedia.org/wiki/Lavande" },
-        { q: "Comment éliminer efficacement les liserons envahissants ?", correct: "Arracher inlassablement chaque rejet pour épuiser les racines traçantes", wrongs: ["Mettre de l'eau bouillante salée sur les fleurs", "Mettre un panneau solaire par-dessus", "Attendre qu'ils meurent de vieillesse"], exp: "Le liseron possède des racines profondes et vigoureuses qu'il faut épuiser patiemment.", wiki: "https://fr.wikipedia.org/wiki/Liseron" },
-        { q: "Comment identifier une carence en azote sur un feuillage ?", correct: "Les feuilles jaunissent uniformément, en commençant par les plus anciennes", wrongs: ["Les feuilles deviennent entièrement bleues", "La plante se met à briller dans la nuit", "Les tiges se transforment en bois dur"], exp: "L'azote est mobile dans la plante et se déplace vers les jeunes pousses en cas de manque.", wiki: "https://fr.wikipedia.org/wiki/Azote" },
-        { q: "Qu'est-ce que le forçage des endives en cave obscure ?", correct: "Faire pousser les chicons à l'abri de la lumière pour éviter l'amertume", wrongs: ["Donner des ordres stricts aux légumes pour qu'ils grandissent", "Planter les endives sous un néon bleu", "Les arroser avec du sel"], exp: "À l'obscurité, l'endive reste blanche et douce, sans chlorophylle amère.", wiki: "https://fr.wikipedia.org/wiki/Endive" },
-        { q: "Comment récolter et conserver ses propres graines de tomates pour l'année suivante ?", correct: "Fermenter la pulpe dans de l'eau quelques jours, rincer et sécher les pépins", wrongs: ["Les passer au mixeur à soupe et congeler le tout", "Les faire sécher directement en tas avec la chair", "Les peindre en rouge vif"], exp: "La fermentation élimine la gangue gélatineuse inhibitrice de germination.", wiki: "https://fr.wikipedia.org/wiki/Graine" },
-        { q: "Pourquoi dit-on que la lune influence prétendument la sève en jardinage biodynamique ?", correct: "Par effet gravitationnel similaire aux marées océaniques", wrongs: ["Parce que la lune éclaire la nuit comme un projecteur de stade", "Parce que les plantes aiment regarder la nuit", "C'est une blague sans fondement scientifique reconnu"], exp: "La biodynamie utilise les rythmes lunaires pour optimiser les actions de semis et récoltes.", wiki: "https://fr.wikipedia.org/wiki/Agriculture_biodynamique" },
-        { q: "Quel est l'intérêt du greffage par écusson sur un rosier tige ?", correct: "Obtenir un port pleureur ou un sujet robuste sur un tronc résistant", wrongs: ["Changer la couleur des épines en violet", "Rendre le rosier immortel face au feu", "Permettre au rosier de grimper aux arbres"], exp: "L'écusson permet de fixer une variété noble sur un porte-greffe vigoureux.", wiki: "https://fr.wikipedia.org/wiki/Greffe_(botanique)" },
-        { q: "Comment nettoyer et hiverner ses outils de coupe (sécateurs, taille-haies) ?", correct: "Nettoyer la sève, affûter la lame et passer un film d'huile pour éviter la rouille", wrongs: ["Les jeter dans l'eau salée tout l'hiver", "Les peindre entièrement en noir", "Les laisser dans la boue du jardin"], exp: "Un outil bien entretenu dure toute une vie et préserve des infections végétales.", wiki: "https://fr.wikipedia.org/wiki/Sécateur" },
-        { q: "Qu'appelle-t-on une plante 'vivace' par rapport à une 'annuelle' ?", correct: "Une plante qui vit plusieurs années et refleurit chaque saison", wrongs: ["Une plante qui parle et chante la nuit", "Une plante qui ne meurt jamais de soif", "Une plante qui pousse uniquement en un seul jour"], exp: "Les vivaces s'installent durablement dans les massifs.", wiki: "https://fr.wikipedia.org/wiki/Plante_vivace" },
-        { q: "Quel est l'effet d'une décoction d'ortie diluée sur les cultures ?", correct: "Un puissant stimulateur de croissance riche en azote et oligo-éléments", wrongs: ["Un produit pour tuer instantanément toutes les mauvaises herbes", "Un répulsif pour l'eau de pluie", "Un colorant pour les fruits"], exp: "Le purin ou la décoction d'ortie est le fortifiant naturel universel par excellence.", wiki: "https://fr.wikipedia.org/wiki/Urtica_dioica" },
-        { q: "Pourquoi les conifères (cyprès, thuyas) brunissent-ils parfois de l'intérieur ?", correct: "Manque de lumière au centre, sécheresse ou attaque de phytophthora", wrongs: ["Parce qu'ils ferment les yeux en automne", "À cause d'un excès de rires dans le jardin", "Pour changer de couleur de manteau"], exp: "L'intérieur des haies denses manque de soleil et de ventilation naturelle.", wiki: "https://fr.wikipedia.org/wiki/Cupressaceae" },
-        { q: "Comment réussir le bouturage d'un géranium en fin d'été ?", correct: "Couper un segment de tige saine, ôter les feuilles du bas et planter en terreau léger", wrongs: ["Le jeter dans l'eau bouillante", "Le mettre au congélateur pendant une heure", "Le planter à l'envers la tête en bas"], exp: "Le bouturage est la méthode la plus simple et gratuite pour multiplier ses fleurs.", wiki: "https://fr.wikipedia.org/wiki/Bouturage" },
-        { q: "Quel est le secret ultime d'un jardinier passionné et heureux ?", correct: "Observer la nature, écouter son sol et accepter le temps du vivant", wrongs: ["Vider tout le stock de la jardinerie en un week-end", "Mettre du béton partout pour ne plus tondre", "Ne jamais toucher à une seule feuille de sa vie"], exp: "La patience et l'observation restent les plus grandes vertus au jardin.", wiki: "https://fr.wikipedia.org/wiki/Jardinage" }
+        { 
+            q: "Pourquoi mon gazon jaunit-il par plaques en plein été ?", 
+            correct: "Manque d'arrosage ou attaque de larves de hannetons", 
+            wrongs: ["Carence superficielle en azote bloquée par un sol trop détrempé", "Excès d'apport d'engrais organique riche en potasse pure", "Tonte effectuée un jour de canicule avec une lame mal affûtée"], 
+            exp: "Un jaunissement estival est souvent lié au stress hydrique ou aux ravageurs souterrains.", 
+            wiki: "https://fr.wikipedia.org/wiki/Gazon" 
+        },
+        { 
+            q: "Que faire contre la mousse qui envahit ma pelouse à l'ombre ?", 
+            correct: "Scarifier le gazon, améliorer le drainage et éclaircir l'ombrage", 
+            wrongs: ["Appliquer un traitement massif à base de sulfate de fer à l'automne", "Tondre de manière ultra-courte à 2 cm chaque semaine pour l'asphyxier", "Épandre du sable de rivière pur en surface sans aérer au préalable"], 
+            exp: "La mousse prolifère sur les sols acides, compacts et humides à l'ombre.", 
+            wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" 
+        },
+        { 
+            q: "Quelle est la règle d'or pour tondre sa pelouse en période de forte chaleur ?", 
+            correct: "Tondre haut (ne pas couper plus d'un tiers de la hauteur) pour garder l'humidité", 
+            wrongs: ["Ne tondre que les bordures pour préserver le système racinaire central", "Attendre la tombée de la nuit pour tondre à ras sans soleil direct", "Arroser abondamment la pelouse juste avant de passer la tondeuse"], 
+            exp: "Une herbe plus haute protège le sol du dessèchement et du soleil brûlant.", 
+            wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" 
+        },
+        { 
+            q: "Quelle est la meilleure saison pour semer un nouveau gazon ?", 
+            correct: "L'automne (septembre-octobre) grâce à la chaleur résiduelle du sol et l'humidité", 
+            wrongs: ["Au début du printemps pour profiter de la fonte des neiges", "En hiver pour que les graines s'enfouissent naturellement avec le gel", "En plein mois de juillet pour forcer la germination rapide par forte chaleur"], 
+            exp: "L'automne offre des conditions optimales pour la germination des graminées.", 
+            wiki: "https://fr.wikipedia.org/wiki/Gazon" 
+        },
+        { 
+            q: "À quoi sert l'opération de scarification sur une pelouse ?", 
+            correct: "À éliminer le feutrage (mousse et déchets) pour aérer les racines", 
+            wrongs: ["À tasser durablement les couches superficielles du sol", "À couper les racines trop profondes pour stimuler le tallage", "À appliquer un traitement fongicide en profondeur"], 
+            exp: "La scarification permet à l'eau et aux nutriments de pénétrer à nouveau dans le sol.", 
+            wiki: "https://fr.wikipedia.org/wiki/Scarification_(jardinage)" 
+        },
+        { 
+            q: "Pourquoi dit-on qu'il faut laisser l'herbe coupée (mulching) parfois sur la pelouse ?", 
+            correct: "Car elle se décompose et restitue de l'azote et de l'humidité au sol", 
+            wrongs: ["Pour étouffer définitivement la repousse des mauvaises herbes", "Pour acidifier le sol et neutraliser le calcaire", "Pour attirer les vers de terre en surface en hiver"], 
+            exp: "Le mulching de gazon est un engrais naturel gratuit et écologique.", 
+            wiki: "https://fr.wikipedia.org/wiki/Mulching" 
+        },
+        { 
+            q: "Comment éliminer les pâquerettes ou le pissenlit indésirables d'un gazon sans chimie ?", 
+            correct: "Utiliser un désherbeur mécanique pour extraire toute la racine pivotante", 
+            wrongs: ["Couper uniquement les fleurs au ras des feuilles chaque semaine", "Arroser sélectivement chaque rosette avec du purin de ortie", "Passer un rouleau lourd pour enfoncer les racines en profondeur"], 
+            exp: "Le désherbage manuel à la gouge à asperge est idéal pour les racines pivots.", 
+            wiki: "https://fr.wikipedia.org/wiki/Taraxacum" 
+        },
+        { 
+            q: "Quelle est la fréquence idéale d'arrosage d'un gazon fraîchement semé ?", 
+            correct: "Maintenir la terre constamment humide par de légères brumisations quotidiennes", 
+            wrongs: ["Un arrosage massif tous les trois jours pour saturer le sous-sol", "Ne rien arroser pendant les deux premières semaines pour forcer la racine", "Arroser abondamment uniquement le soir à grande eau"], 
+            exp: "La graine ne doit jamais sécher pendant le processus de germination.", 
+            wiki: "https://fr.wikipedia.org/wiki/Gazon" 
+        },
+        { 
+            q: "Qu'est-ce que le ray-grass dans un mélange de gazon ?", 
+            correct: "Une graminée à pousse rapide idéale pour regarnir les zones abîmées", 
+            wrongs: ["Un engrais vert à enfouir avant l'hiver", "Une mauvaise herbe parasite à éliminer d'urgence", "Une variété naine couvre-sol sans entretien"], 
+            exp: "Le ray-grass s'installe très vite pour concurrencer les mauvaises herbes.", 
+            wiki: "https://fr.wikipedia.org/wiki/Lolium_perenne" 
+        },
+        { 
+            q: "Pourquoi faire un terreautage de pelouse au printemps ?", 
+            correct: "Pour combler les petits creux, nourrir le sol et stimuler la densité du gazon", 
+            wrongs: ["Pour modifier définitivement le pH de la terre en surface", "Pour empêcher l'eau de pluie de stagner en hiver", "Pour tuer les larves de parasites souterrains"], 
+            exp: "Le terreautage améliore la structure superficielle du sol.", 
+            wiki: "https://fr.wikipedia.org/wiki/Gazon" 
+        }
     ];
 
     let clientTopics = [...baseTopics];
@@ -538,7 +571,7 @@
         clientTopics.push({
             q: template.q,
             correct: template.correct,
-            wrongs: template.wrongs,
+            wrongs: [...template.wrongs],
             exp: template.exp,
             wiki: template.wiki
         });
@@ -562,9 +595,26 @@
     let consecutiveSuccess = 0;
     let shuffledOptionsCache = [];
     let totalAnsweredCount = 0;
+    let comboCount = 0;
+
+    let jokers50Left = 2;
+    let jokersTipLeft = 2;
+
+    let timerInterval = null;
+    let timeLeft = 15;
+    const maxTime = 15;
 
     const avatars = ["👨‍🌾", "👩‍🌾", "👷‍♂️", "🚜", "🌿", "🧑‍🌾"];
     let avatarIdx = 0;
+
+    const ranks = [
+        { min: 0, title: "🌱 Graine de radis" },
+        { min: 50, title: "🌿 Pousse tendre" },
+        { min: 120, title: "🪴 Apprenti jardinier" },
+        { min: 250, title: "🌻 Jardinier confirmé" },
+        { min: 450, title: "🌳 Maître paysan" },
+        { min: 700, title: "👑 Sage botaniste" }
+    ];
 
     const trophies = [
         { id: "t1", icon: "🌱", title: "Première Question Réussie", desc: "Donner votre première bonne réponse", unlocked: false },
@@ -572,9 +622,17 @@
         { id: "t3", icon: "👕", title: "Changement de Tenue", desc: "Changer 3 fois d'avatar", unlocked: false },
         { id: "t4", icon: "⚠️", title: "Erreur de Diagnostic", desc: "Faire 3 erreurs d'affilée", unlocked: false },
         { id: "t5", icon: "⭐", title: "Expert Vert", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
-        { id: "t6", icon: "📋", title: "Sérieux", desc: "Répondre à 10 questions", unlocked: false },
+        { id: "t6", icon: "🔥", title: "En Feu !", desc: "Atteindre un combo de 5", unlocked: false },
         { id: "t7", icon: "🏆", title: "Expert Horticole", desc: "Atteindre 250 points", unlocked: false }
     ];
+
+    function updateRankDisplay() {
+        let currentRank = ranks[0].title;
+        for (let r of ranks) {
+            if (score >= r.min) currentRank = r.title;
+        }
+        document.getElementById("rank-display").innerText = currentRank;
+    }
 
     function trackDailyVisits() {
         const today = new Date().toDateString();
@@ -590,7 +648,6 @@
             visitCount++;
         }
         localStorage.setItem('jardin_client_visits_count', visitCount);
-        document.getElementById("visits-count").innerText = visitCount;
     }
 
     function loadUserData() {
@@ -608,9 +665,13 @@
         if (localStorage.getItem('jardin_client_avatar_count')) {
             avatarsChangesCount = parseInt(localStorage.getItem('jardin_client_avatar_count'));
         }
+        if (localStorage.getItem('jardin_client_jokers_50')) jokers50Left = parseInt(localStorage.getItem('jardin_client_jokers_50'));
+        if (localStorage.getItem('jardin_client_jokers_tip')) jokersTipLeft = parseInt(localStorage.getItem('jardin_client_jokers_tip'));
+
         trackDailyVisits();
         renderTrophiesList();
         updateScoreDisplay();
+        updateJokersUI();
         loadNextQuestion();
     }
 
@@ -619,6 +680,8 @@
         localStorage.setItem('jardin_client_pseudo', document.getElementById("username-input").value);
         localStorage.setItem('jardin_client_avatar', document.getElementById("avatar-display").innerText);
         localStorage.setItem('jardin_client_avatar_count', avatarsChangesCount);
+        localStorage.setItem('jardin_client_jokers_50', jokers50Left);
+        localStorage.setItem('jardin_client_jokers_tip', jokersTipLeft);
         
         const unlockedIds = trophies.filter(t => t.unlocked).map(t => t.id);
         localStorage.setItem('jardin_client_trophies', JSON.stringify(unlockedIds));
@@ -675,6 +738,70 @@
 
     function updateScoreDisplay() {
         document.getElementById("score-display").innerText = score + " Pts";
+        updateRankDisplay();
+    }
+
+    function updateJokersUI() {
+        document.getElementById("count-50").innerText = jokers50Left;
+        document.getElementById("count-tip").innerText = jokersTipLeft;
+        document.getElementById("joker-50").disabled = (jokers50Left <= 0);
+        document.getElementById("joker-tip").disabled = (jokersTipLeft <= 0);
+    }
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        timeLeft = maxTime;
+        const timerBar = document.getElementById("timer-bar");
+        timerBar.style.width = "100%";
+        timerBar.style.backgroundColor = "#38bdf8";
+
+        timerInterval = setInterval(() => {
+            timeLeft -= 0.1;
+            let percent = (timeLeft / maxTime) * 100;
+            if (percent < 0) percent = 0;
+            timerBar.style.width = percent + "%";
+
+            if (percent < 30) {
+                timerBar.style.backgroundColor = "#f87171";
+            } else if (percent < 60) {
+                timerBar.style.backgroundColor = "#facc15";
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                handleTimeOut();
+            }
+        }, 100);
+    }
+
+    function handleTimeOut() {
+        const buttons = document.querySelectorAll(".option-btn");
+        buttons.forEach(b => b.disabled = true);
+
+        consecutiveErrors++;
+        consecutiveSuccess = 0;
+        comboCount = 0;
+        updateComboUI();
+
+        const expBox = document.getElementById("explanation-box");
+        const pointsNotice = document.getElementById("points-notice");
+        const explanationText = document.getElementById("explanation");
+
+        expBox.style.display = "block";
+        pointsNotice.innerHTML = `⏰ Temps écoulé ! La bonne réponse était : <b>${currentQuestionObj.correct}</b>`;
+        pointsNotice.style.color = "#f87171";
+        explanationText.innerText = currentQuestionObj.exp;
+
+        if (consecutiveErrors >= 3) unlockTrophy("t4");
+
+        const wikiBtn = document.getElementById("wiki-btn");
+        if (currentQuestionObj.wiki) {
+            wikiBtn.href = currentQuestionObj.wiki;
+            wikiBtn.style.display = "flex";
+        }
+
+        document.getElementById("next-btn").style.display = "block";
+        saveUserData();
     }
 
     function loadNextQuestion() {
@@ -704,9 +831,12 @@
         document.getElementById("explanation-box").style.display = "none";
         document.getElementById("next-btn").style.display = "none";
         document.getElementById("wiki-btn").style.display = "none";
+
+        startTimer();
     }
 
     function selectAnswer(selectedIndex) {
+        clearInterval(timerInterval);
         const buttons = document.querySelectorAll(".option-btn");
         buttons.forEach(b => b.disabled = true);
 
@@ -721,29 +851,32 @@
         totalAnsweredCount++;
 
         if (isCorrect) {
-            score += 10;
+            let timeBonus = Math.floor(timeLeft * 0.5);
+            let earned = 10 + timeBonus;
+            score += earned;
             consecutiveSuccess++;
             consecutiveErrors = 0;
-            pointsNotice.innerHTML = "✅ Bonne réponse ! (+10 Pts)";
+            comboCount++;
+
+            pointsNotice.innerHTML = `✅ Bonne réponse ! (+${earned} Pts avec bonus vitesse)`;
             pointsNotice.style.color = "#4ade80";
 
             unlockTrophy("t1");
             if (score >= 100) unlockTrophy("t2");
             if (score >= 250) unlockTrophy("t7");
             if (consecutiveSuccess >= 3) unlockTrophy("t5");
+            if (comboCount >= 5) unlockTrophy("t6");
         } else {
             consecutiveErrors++;
             consecutiveSuccess = 0;
+            comboCount = 0;
             pointsNotice.innerHTML = `❌ Mauvaise réponse. La bonne réponse était : <b>${currentQuestionObj.correct}</b>`;
             pointsNotice.style.color = "#f87171";
 
             if (consecutiveErrors >= 3) unlockTrophy("t4");
         }
 
-        if (totalAnsweredCount >= 10) {
-            unlockTrophy("t7");
-        }
-
+        updateComboUI();
         explanationText.innerText = currentQuestionObj.exp;
 
         const wikiBtn = document.getElementById("wiki-btn");
@@ -754,6 +887,50 @@
 
         document.getElementById("next-btn").style.display = "block";
         updateScoreDisplay();
+        saveUserData();
+    }
+
+    function updateComboUI() {
+        const badge = document.getElementById("combo-badge");
+        if (comboCount >= 2) {
+            badge.innerText = "🔥 x" + comboCount;
+            badge.style.display = "inline-block";
+        } else {
+            badge.style.display = "none";
+        }
+    }
+
+    function useJoker50() {
+        if (jokers50Left <= 0) return;
+        jokers50Left--;
+        updateJokersUI();
+
+        const buttons = document.querySelectorAll(".option-btn");
+        let hiddenCount = 0;
+        buttons.forEach((btn) => {
+            if (hiddenCount < 2 && btn.innerText !== currentQuestionObj.correct) {
+                btn.classList.add("hidden-by-joker");
+                hiddenCount++;
+            }
+        });
+        saveUserData();
+    }
+
+    function useJokerTip() {
+        if (jokersTipLeft <= 0) return;
+        jokersTipLeft--;
+        updateJokersUI();
+
+        let wrongOptions = shuffledOptionsCache.filter(opt => opt !== currentQuestionObj.correct);
+        let randomWrong = wrongOptions[Math.floor(Math.random() * wrongOptions.length)];
+
+        const buttons = document.querySelectorAll(".option-btn");
+        buttons.forEach((btn) => {
+            if (btn.innerText === randomWrong) {
+                btn.style.borderColor = "#f87171";
+                btn.style.opacity = "0.5";
+            }
+        });
         saveUserData();
     }
 
@@ -776,4 +953,4 @@
 </script>
 
 </body>
-    </html>
+</html>
