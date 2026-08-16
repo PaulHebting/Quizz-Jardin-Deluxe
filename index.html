@@ -627,18 +627,118 @@
 </div>
 
 <script>
-    // Base de questions réduite et ciblée sur les questions clients (Plantation, Arrosage, Pelouse, Parasites, Exposition)
+    // Base de questions avec des distracteurs plus réalistes et nuancés
     const uniqueQuizPool = [
-        { q: "Un client vous demande : 'À quelle fréquence faut-il tondre ma pelouse au printemps ?'", correct: "Toutes les semaines pour stimuler l'épaississement du gazon sans l'épuiser", wrongs: ["Une seule fois par mois pour laisser monter les fleurs", "Tous les jours à ras pour brûler les racines", "Jamais, la pelouse s'entretient toute seule"], exp: "Au printemps, la pousse est rapide. Une coupe hebdomadaire favorise un tapis dense et vigoureux.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
-        { q: "Un propriétaire s'inquiète de la mousse dans sa pelouse orientée au nord. Que lui conseillez-vous ?", correct: "De scarifier le gazon pour éliminer la mousse et d'amender la terre avec un peu de chaux", wrongs: ["De verser de l'eau de Javel pure sur toute la surface", "De retourner entièrement le jardin avec un bulldozer", "D'arroser abondamment tous les soirs avec de l'eau salée"], exp: "La mousse se développe sur les sols acides et humides. La scarification et un chaulage modéré aident grandement.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(horticulture)" },
-        { q: "Un client demande : 'Quelle est la profondeur idéale pour creuser le trou de plantation d'un arbuste ?'", correct: "Environ deux fois la taille de la motte en largeur, et la même profondeur", wrongs: ["Un trou minuscule d'à peine 5 centimètres de profondeur", "Un trou immense de 3 mètres de profondeur pour cacher les racines", "Pas besoin de trou, il suffit de poser l'arbuste sur la pelouse"], exp: "Ameublir la terre en largeur aide les jeunes racines à s'étaler facilement sans s'asphyxier.", wiki: "https://fr.wikipedia.org/wiki/Plantation" },
-        { q: "Que répondre à un client qui souhaite savoir pourquoi il faut 'praliner' les racines nues avant de planter ?", correct: "Pour enrober les racines d'un mélange d'argile et d'eau afin d'éviter qu'elles ne se dessèchent", wrongs: ["Pour empoisonner les vers de terre et les parasites souterrains", "Pour colorer les racines en rose fluo pour les retrouver", "Pour chauffer l'arbre et simuler l'été en plein hiver"], exp: "Le pralinage protège la jeune plante contre la déshydratation et stimule le départ des radicelles.", wiki: "https://fr.wikipedia.org/wiki/Pralinage" },
-        { q: "Un client vous demande : 'À quel moment de la journée dois-je arroser mon potager en été ?'", correct: "Tôt le matin ou tard le soir après le coucher du soleil", wrongs: ["À midi pile sous le soleil le plus fort", "Entre 14h et 16h pour rafraîchir les feuilles", "En pleine nuit sous l'orage uniquement"], exp: "Cela limite l'évaporation de l'eau et évite l'effet loupe qui brûlerait le feuillage.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
-        { q: "Que répondre à un client qui se plaint de devoir arroser trop souvent ses massifs ?", correct: "Installez un paillage organique au pied des plantes pour retenir l'humidité", wrongs: ["Recouvrez toute la terre avec du plastique noir étanche au soleil", "Arrêtez complètement d'arroser pour endurcir les plantes de force", "Arrosez avec de l'eau salée pour créer de l'énergie"], exp: "Le paillis (mulching) protège la terre du rayonnement direct et réduit l'évaporation de plus de 50%.", wiki: "https://fr.wikipedia.org/wiki/Paillis" },
-        { q: "Un client inquiet vous montre des jeunes pousses couvertes de petits insectes collants et de miellat. Qu'est-ce que c'est ?", correct: "Des pucerons", wrongs: ["Des mini-coccinelles carnivores géantes", "Des vers de terre volants", "Des graines de fleurs sauvages"], exp: "Les pucerons pullulent au printemps sur les tiges tendres et sucent la sève de la plante.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" },
-        { q: "Que conseiller à un client dont les feuilles de rosiers se couvrent d'une poudre blanche caractéristique ?", correct: "Traiter contre l'oïdium (maladie du blanc) avec du purin de prêle ou un produit adapté", wrongs: ["Mettre de la farine blanche partout pour camoufler", "Couper immédiatement toutes les racines de la plante", "Arroser les feuilles avec de l'huile de vidange"], exp: "L'oïdium est un champignon favorisé par l'alternance de nuits fraîches et de journées chaudes.", wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium" },
-        { q: "Un client vous demande : 'Quelle plante puis-je installer dans un coin de jardin totalement ombragé ?'", correct: "Des fougères, des hostas ou des hortensias", wrongs: ["De la lavande officinale et du thym sauvage", "Des cactus du désert mexicain", "Des tournesols géants assoiffés de soleil"], exp: "Les hortensias et les hostas apprécient la mi-ombre et redoutent le plein soleil brûlant.", wiki: "https://fr.wikipedia.org/wiki/Hydrangea" },
-        { q: "Un client souhaite créer un massif très ensoleillé et sec. Que lui suggérez-vous ?", correct: "De la lavande, du romarin et du ciste", wrongs: ["Des plantes aquatiques de marécage", "Des fougères des sous-bois tropicaux", "Des mousses de forêt ombragée"], exp: "Ces plantes méditerranéennes supportent parfaitement la sécheresse et adorent le plein soleil.", wiki: "https://fr.wikipedia.org/wiki/Lavande" }
+        { 
+            q: "Un client vous demande : 'À quelle fréquence faut-il tondre ma pelouse au printemps ?'", 
+            correct: "Toutes les semaines pour stimuler l'épaississement du gazon sans l'épuiser", 
+            wrongs: [
+                "Toutes les 3 semaines pour ne pas stresser le gazon en phase de démarrage", 
+                "Uniquement en été quand l'herbe pousse le plus vite et drastiquement", 
+                "Toutes les deux semaines en coupant à ras pour éliminer les vieilles tiges"
+            ], 
+            exp: "Au printemps, la pousse est rapide. Une coupe hebdomadaire favorise un tapis dense et vigoureux.", 
+            wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" 
+        },
+        { 
+            q: "Un propriétaire s'inquiète de la mousse dans sa pelouse orientée au nord. Que lui conseillez-vous ?", 
+            correct: "De scarifier le gazon pour éliminer la mousse et d'amender la terre avec un peu de chaux", 
+            wrongs: [
+                "D'appliquer un engrais riche en azote pour étouffer naturellement la mousse en surface", 
+                "De tondre beaucoup plus court et d'arroser régulièrement pour forcer le gazon à percer", 
+                "De semer du trèfle blanc par-dessus pour concurrencer et éliminer la mousse"
+            ], 
+            exp: "La mousse se développe sur les sols acides et humides. La scarification et un chaulage modéré aident grandement.", 
+            wiki: "https://fr.wikipedia.org/wiki/Scarification_(horticulture)" 
+        },
+        { 
+            q: "Un client demande : 'Quelle est la profondeur idéale pour creuser le trou de plantation d'un arbuste ?'", 
+            correct: "Environ deux fois la taille de la motte en largeur, et la même profondeur", 
+            wrongs: [
+                "Trois fois la profondeur de la motte pour enterrer complètement le collet de la plante", 
+                "Exactement de la même dimension que la motte pour éviter que la terre ne bouge", 
+                "Profond mais très étroit pour maintenir la motte serrée contre la terre d'origine"
+            ], 
+            exp: "Ameublir la terre en largeur aide les jeunes racines à s'étaler facilement sans s'asphyxier.", 
+            wiki: "https://fr.wikipedia.org/wiki/Plantation" 
+        },
+        { 
+            q: "Que répondre à un client qui souhaite savoir pourquoi il faut 'praliner' les racines nues avant de planter ?", 
+            correct: "Pour enrober les racines d'un mélange d'argile et d'eau afin d'éviter qu'elles ne se dessèchent", 
+            wrongs: [
+                "Pour fertiliser directement le sol avec un apport massif d'azote organique immédiat", 
+                "Pour alourdir l'arbre et l'empêcher de pencher sous l'effet du vent dominant", 
+                "Pour désinfecter les racines contre les champignons du sol avant la mise en terre"
+            ], 
+            exp: "Le pralinage protège la jeune plante contre la déshydratation et stimule le départ des radicelles.", 
+            wiki: "https://fr.wikipedia.org/wiki/Pralinage" 
+        },
+        { 
+            q: "Un client vous demande : 'À quel moment de la journée dois-je arroser mon potager en été ?'", 
+            correct: "Tôt le matin ou tard le soir après le coucher du soleil", 
+            wrongs: [
+                "Uniquement à midi pour que l'eau profite immédiatement de la chaleur du sol", 
+                "En continu toute la journée grâce à un système goutte-à-goutte permanent", 
+                "Tous les trois jours en grande quantité mais uniquement en surface"
+            ], 
+            exp: "Cela limite l'évaporation de l'eau et évite l'effet loupe qui brûlerait le feuillage.", 
+            wiki: "https://fr.wikipedia.org/wiki/Arrosage" 
+        },
+        { 
+            q: "Que répondre à un client qui se plaint de devoir arroser trop souvent ses massifs ?", 
+            correct: "Installez un paillage organique au pied des plantes pour retenir l'humidité", 
+            wrongs: [
+                "Bêcher la surface tous les matins pour casser la croûte de terre battue", 
+                "Apporter un engrais chimique puissant pour stimuler la rétention d'eau interne", 
+                "Planter un gazon dense autour pour absorber le surplus de chaleur du sol"
+            ], 
+            exp: "Le paillis (mulching) protège la terre du rayonnement direct et réduit l'évaporation de plus de 50%.", 
+            wiki: "https://fr.wikipedia.org/wiki/Paillis" 
+        },
+        { 
+            q: "Un client inquiet vous montre des jeunes pousses couvertes de petits insectes collants et de miellat. Qu'est-ce que c'est ?", 
+            correct: "Des pucerons", 
+            wrongs: [
+                "Des cochenilles farineuses résistantes aux traitements classiques", 
+                "Des acariens rouges provoqués par un excès d'humidité ambiante", 
+                "Des thrips attirés par les carences en azote du sol"
+            ], 
+            exp: "Les pucerons pullulent au printemps sur les tiges tendres et sucent la sève de la plante.", 
+            wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" 
+        },
+        { 
+            q: "Que conseiller à un client dont les feuilles de rosiers se couvrent d'une poudre blanche caractéristique ?", 
+            correct: "Traiter contre l'oïdium (maladie du blanc) avec du purin de prêle ou un produit adapté", 
+            wrongs: [
+                "Apporter un engrais riche en azote pour fortifier rapidement le feuillage", 
+                "Laisser faire la nature car cette poudre disparaît d'elle-même en hiver", 
+                "Tailler sévèrement toutes les branches à ras du sol immédiatement"
+            ], 
+            exp: "L'oïdium est un champignon favorisé par l'alternance de nuits fraîches et de journées chaudes.", 
+            wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium" 
+        },
+        { 
+            q: "Un client vous demande : 'Quelle plante puis-je installer dans un coin de jardin totalement ombragé ?'", 
+            correct: "Des fougères, des hostas ou des hortensias", 
+            wrongs: [
+                "Des géraniums zonales aux couleurs vives et lumineuses", 
+                "Des rosiers buissons remontants pour illuminer le coin", 
+                "Des agrumes en pot comme le calamondin"
+            ], 
+            exp: "Les hortensias et les hostas apprécient la mi-ombre et redoutent le plein soleil brûlant.", 
+            wiki: "https://fr.wikipedia.org/wiki/Hydrangea" 
+        },
+        { 
+            q: "Un client souhaite créer un massif très ensoleillé et sec. Que lui suggérez-vous ?", 
+            correct: "De la lavande, du romarin et du ciste", 
+            wrongs: [
+                "Des hortensias paniculés nécessitant un sol frais et riche", 
+                "Des graminées de berges de rivières très gourmandes en eau", 
+                "Des hostas à large feuillage persistant d'ombre"
+            ], 
+            exp: "Ces plantes méditerranéennes supportent parfaitement la sécheresse et adorent le plein soleil.", 
+            wiki: "https://fr.wikipedia.org/wiki/Lavande" 
+        }
     ];
 
     let quizData = shuffleArray([...uniqueQuizPool]);
@@ -938,7 +1038,6 @@
             consecutiveSuccess = 0;
             comboCount = 0;
 
-            // -15 points pour mauvaise réponse
             let penaltyPoints = 15;
             score = Math.max(0, score - penaltyPoints);
 
