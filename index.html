@@ -580,7 +580,7 @@
         </div>
     </div>
 
-    <!-- 2. BARRE DE PROGRESSION AVEC SYSTEME DE POINTS (En dessous) -->
+    <!-- 2. BARRE DE PROGRESSION + SYSTEME DE POINTS (En dessous) -->
     <div class="progress-bar-container">
         <div class="progress-top-row">
             <div class="rank-title" id="rank-display">🌱 Graine de radis</div>
@@ -604,7 +604,7 @@
         <button class="joker-btn" id="joker-tip" onclick="useJokerTip()">💡 Indice (<span id="count-tip">2</span>)</button>
     </div>
 
-    <!-- Contenu du Quiz (Questions client jardinier) -->
+    <!-- Contenu du Quiz -->
     <div class="app-content">
         <div class="quiz-box">
             <div class="question-title">❓ QUESTION CLIENT</div>
@@ -627,31 +627,18 @@
 </div>
 
 <script>
-    // Questions axées exclusivement sur les questions que les clients posent à un jardinier (Plantation, Parasites, Pelouse, Arrosage, Exposition, etc.)
+    // Base de questions réduite et ciblée sur les questions clients (Plantation, Arrosage, Pelouse, Parasites, Exposition)
     const uniqueQuizPool = [
-        // --- PELOUSE / GAZON ---
-        { q: "Un client vous demande : 'À quelle fréquence faut-il tondre ma pelouse au printemps ?'", correct: "Toutes les semaines pour stimuler l'épaississement du gazon sans l'épuiser", wrongs: ["Une seule fois par mois pour laisser monter les fleurs", "Tous les jours à ras pour brûler les racines", "Jamais, la pelouse s'entretient toute seule"], exp: "Au printemps, la pousse est rapide. Une coupe hebdomadaires favorise un tapis dense et vigoureux.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
+        { q: "Un client vous demande : 'À quelle fréquence faut-il tondre ma pelouse au printemps ?'", correct: "Toutes les semaines pour stimuler l'épaississement du gazon sans l'épuiser", wrongs: ["Une seule fois par mois pour laisser monter les fleurs", "Tous les jours à ras pour brûler les racines", "Jamais, la pelouse s'entretient toute seule"], exp: "Au printemps, la pousse est rapide. Une coupe hebdomadaire favorise un tapis dense et vigoureux.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
         { q: "Un propriétaire s'inquiète de la mousse dans sa pelouse orientée au nord. Que lui conseillez-vous ?", correct: "De scarifier le gazon pour éliminer la mousse et d'amender la terre avec un peu de chaux", wrongs: ["De verser de l'eau de Javel pure sur toute la surface", "De retourner entièrement le jardin avec un bulldozer", "D'arroser abondamment tous les soirs avec de l'eau salée"], exp: "La mousse se développe sur les sols acides et humides. La scarification et un chaulage modéré aident grandement.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(horticulture)" },
-        { q: "Comment répondre à un client qui demande quand semer une nouvelle pelouse ?[cite: 1]", correct: "De préférence en automne ou au printemps, quand la terre est humide et tempérée", wrongs: ["En plein mois d'août pendant la canicule sous le soleil brûlant", "En plein hiver lorsque le sol est totalement gelé", "Uniquement la nuit sous la pleine lune"], exp: "L'automne offre une terre encore chaude et des pluies régulières idéales pour la germination des graines de gazon.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
-
-        // --- PLANTATION ---
         { q: "Un client demande : 'Quelle est la profondeur idéale pour creuser le trou de plantation d'un arbuste ?'", correct: "Environ deux fois la taille de la motte en largeur, et la même profondeur", wrongs: ["Un trou minuscule d'à peine 5 centimètres de profondeur", "Un trou immense de 3 mètres de profondeur pour cacher les racines", "Pas besoin de trou, il suffit de poser l'arbuste sur la pelouse"], exp: "Ameublir la terre en largeur aide les jeunes racines à s'étaler facilement sans s'asphyxier.", wiki: "https://fr.wikipedia.org/wiki/Plantation" },
-        { q: "Que répondre à un client qui souhaite savoir pourquoi il faut 'praliner' les racines nues avant de planter ?[cite: 1]", correct: "Pour enrober les racines d'un mélange d'argile et d'eau afin d'éviter qu'elles ne se dessèchent", wrongs: ["Pour empoisonner les vers de terre et les parasites souterrains", "Pour colorer les racines en rose fluo pour les retrouver", "Pour chauffer l'arbre et simuler l'été en plein hiver"], exp: "Le pralinage protège la jeune plante contre la déshydratation et stimule le départ des radicelles.", wiki: "https://fr.wikipedia.org/wiki/Pralinage" },
-        { q: "Un client demande : 'Pourquoi faut-il veiller à ne pas enterrer le collet de mon arbre ?'", correct: "Pour éviter que l'humidité ne fasse pourrir la base du tronc", wrongs: ["Pour que l'arbre puisse marcher s'il se sent mal placé", "Parce que l'arbre ne produira sinon que des fruits carrés", "Pour que le vent puisse arracher plus facilement les feuilles"], exp: "Le collet (jonction racines-tronc) doit toujours rester au niveau de l'air libre pour respirer.", wiki: "https://fr.wikipedia.org/wiki/Collet_(botanique)" },
-
-        // --- ARROSAGE ---
+        { q: "Que répondre à un client qui souhaite savoir pourquoi il faut 'praliner' les racines nues avant de planter ?", correct: "Pour enrober les racines d'un mélange d'argile et d'eau afin d'éviter qu'elles ne se dessèchent", wrongs: ["Pour empoisonner les vers de terre et les parasites souterrains", "Pour colorer les racines en rose fluo pour les retrouver", "Pour chauffer l'arbre et simuler l'été en plein hiver"], exp: "Le pralinage protège la jeune plante contre la déshydratation et stimule le départ des radicelles.", wiki: "https://fr.wikipedia.org/wiki/Pralinage" },
         { q: "Un client vous demande : 'À quel moment de la journée dois-je arroser mon potager en été ?'", correct: "Tôt le matin ou tard le soir après le coucher du soleil", wrongs: ["À midi pile sous le soleil le plus fort", "Entre 14h et 16h pour rafraîchir les feuilles", "En pleine nuit sous l'orage uniquement"], exp: "Cela limite l'évaporation de l'eau et évite l'effet loupe qui brûlerait le feuillage.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
-        { q: "Que répondre à un client qui se plaint de devoir arroser trop souvent ses massifs ?[cite: 1]", correct: "Installez un paillage organique au pied des plantes pour retenir l'humidité", wrongs: ["Recouvrez toute la terre avec du plastique noir étanche au soleil", "Arrêtez complètement d'arroser pour endurcir les plantes de force", "Arrosez avec de l'eau salée pour créer de l'énergie"], exp: "Le paillis (mulching) protège la terre du rayonnement direct et réduit l'évaporation de plus de 50%.", wiki: "https://fr.wikipedia.org/wiki/Paillis" },
-        { q: "Un client demande comment arroser ses tomates sans attraper le mildiou :", correct: "Arrosez uniquement au pied, directement sur la terre, sans jamais mouiller les feuilles", wrongs: ["Immergez le plant entier dans l'eau tous les matins", "Aspergez vigoureusement le feuillage avec de l'eau glacée", "Utilisez un brumisateur sur les fruits deux fois par jour"], exp: "L'humidité stagnante sur le feuillage des tomates favorise le développement des champignons pathogènes.", wiki: "https://fr.wikipedia.org/wiki/Tomate" },
-
-        // --- PARASITES ET MALADIES ---
-        { q: "Un client inquiet vous montre des jeunes pousses couvertes de petits insectes collants et de miellat. Qu'est-ce que c'est ?[cite: 1]", correct: "Des pucerons", wrongs: ["Des mini-coccinelles carnivores géantes", "Des vers de terre volants", "Des graines de fleurs sauvages"], exp: "Les pucerons pullulent au printemps sur les tiges tendres et sucent la sève de la plante.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" },
-        { q: "Que conseiller à un client dont les feuilles de rosiers se couvrent d'une poudre blanche caractéristique ?[cite: 1]", correct: "Traiter contre l'oïdium (maladie du blanc) avec du purin de prêle ou un produit adapté", wrongs: ["Mettre de la farine blanche partout pour camoufler", "Couper immédiatement toutes les racines de la plante", "Arroser les feuilles avec de l'huile de vidange"], exp: "L'oïdium est un champignon favorisé par l'alternance de nuits fraîches et de journées chaudes.", wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium" },
-        { q: "Un client s'aperçoit que sa haie de buis est dévorée par de petites chenilles vertes. De quel nuisible s'agit-il ?[cite: 1]", correct: "La pyrale du buis", wrongs: ["Le ver de terre lucifuge", "Le papillon de nuit inoffensif", "La coccinelle asiatique"], exp: "La pyrale du buis est un ravageur invasif redoutable pour les jardins de buis.", wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis" },
-
-        // --- EXPOSITION DES PLANTES ---
+        { q: "Que répondre à un client qui se plaint de devoir arroser trop souvent ses massifs ?", correct: "Installez un paillage organique au pied des plantes pour retenir l'humidité", wrongs: ["Recouvrez toute la terre avec du plastique noir étanche au soleil", "Arrêtez complètement d'arroser pour endurcir les plantes de force", "Arrosez avec de l'eau salée pour créer de l'énergie"], exp: "Le paillis (mulching) protège la terre du rayonnement direct et réduit l'évaporation de plus de 50%.", wiki: "https://fr.wikipedia.org/wiki/Paillis" },
+        { q: "Un client inquiet vous montre des jeunes pousses couvertes de petits insectes collants et de miellat. Qu'est-ce que c'est ?", correct: "Des pucerons", wrongs: ["Des mini-coccinelles carnivores géantes", "Des vers de terre volants", "Des graines de fleurs sauvages"], exp: "Les pucerons pullulent au printemps sur les tiges tendres et sucent la sève de la plante.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" },
+        { q: "Que conseiller à un client dont les feuilles de rosiers se couvrent d'une poudre blanche caractéristique ?", correct: "Traiter contre l'oïdium (maladie du blanc) avec du purin de prêle ou un produit adapté", wrongs: ["Mettre de la farine blanche partout pour camoufler", "Couper immédiatement toutes les racines de la plante", "Arroser les feuilles avec de l'huile de vidange"], exp: "L'oïdium est un champignon favorisé par l'alternance de nuits fraîches et de journées chaudes.", wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium" },
         { q: "Un client vous demande : 'Quelle plante puis-je installer dans un coin de jardin totalement ombragé ?'", correct: "Des fougères, des hostas ou des hortensias", wrongs: ["De la lavande officinale et du thym sauvage", "Des cactus du désert mexicain", "Des tournesols géants assoiffés de soleil"], exp: "Les hortensias et les hostas apprécient la mi-ombre et redoutent le plein soleil brûlant.", wiki: "https://fr.wikipedia.org/wiki/Hydrangea" },
-        { q: "Un client souhaite créer un massif très ensoleillé et sec. Que lui suggérez-vous ?[cite: 1]", correct: "De la lavande, du romarin et du ciste", wrongs: ["Des plantes aquatiques de marécage", "Des fougères des sous-bois tropicaux", "Des mousses de forêt ombragée"], exp: "Ces plantes méditerranéennes supportent parfaitement la sécheresse et adorent le plein soleil.", wiki: "https://fr.wikipedia.org/wiki/Lavande" }
+        { q: "Un client souhaite créer un massif très ensoleillé et sec. Que lui suggérez-vous ?", correct: "De la lavande, du romarin et du ciste", wrongs: ["Des plantes aquatiques de marécage", "Des fougères des sous-bois tropicaux", "Des mousses de forêt ombragée"], exp: "Ces plantes méditerranéennes supportent parfaitement la sécheresse et adorent le plein soleil.", wiki: "https://fr.wikipedia.org/wiki/Lavande" }
     ];
 
     let quizData = shuffleArray([...uniqueQuizPool]);
@@ -932,8 +919,8 @@
             consecutiveErrors = 0;
             comboCount++;
 
-            // +10 points de base + bonus combo
-            let earnedPoints = 10 + (comboCount * 4);
+            // +8 points pour la première bonne réponse, puis augmente avec le combo
+            let earnedPoints = 8 + ((comboCount - 1) * 3);
             score += earnedPoints;
 
             pointsNotice.innerText = `✅ Bonne réponse ! (+${earnedPoints} Pts avec Combo x${comboCount})`;
@@ -951,7 +938,7 @@
             consecutiveSuccess = 0;
             comboCount = 0;
 
-            // -15 points pour mauvaise réponse demandée
+            // -15 points pour mauvaise réponse
             let penaltyPoints = 15;
             score = Math.max(0, score - penaltyPoints);
 
@@ -1034,4 +1021,4 @@
 </script>
 
 </body>
-    </html>
+</html>
