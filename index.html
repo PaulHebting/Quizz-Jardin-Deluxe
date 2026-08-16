@@ -25,7 +25,6 @@
             margin: 0;
         }
 
-        /* Arrière-plan, base et expression unifiés[cite: 1] */
         .quiz-container {
             background-color: var(--base-color);
             border: 3px solid var(--accent-color);
@@ -38,7 +37,6 @@
             position: relative;
         }
 
-        /* En-tête : Profil (Image + Nom) et Score (sans ligne de séparation) */
         .header-profile {
             display: flex;
             justify-content: space-between;
@@ -88,7 +86,6 @@
             color: #00cec9;
         }
 
-        /* Barre de progression */
         .progress-bar-container {
             width: 100%;
             background-color: #0f3460;
@@ -105,24 +102,18 @@
             transition: width 0.4s ease;
         }
 
-        /* Zone de question et expression faciale[cite: 1] */
         .question-section {
             text-align: center;
             margin-bottom: 20px;
-        }
-
-        .facial-expression {
-            font-size: 40px;
-            margin-bottom: 10px;
         }
 
         .question-text {
             font-size: 18px;
             font-weight: 600;
             min-height: 60px;
+            margin-top: 10px;
         }
 
-        /* Options de réponses */
         .options-container {
             display: flex;
             flex-direction: column;
@@ -147,7 +138,6 @@
             transform: translateY(-2px);
         }
 
-        /* Effets visuels Victoire / Échec */
         .quiz-container.victory {
             border-color: var(--success-color);
             box-shadow: 0 0 30px var(--success-color);
@@ -158,11 +148,10 @@
             box-shadow: 0 0 30px var(--error-color);
         }
 
-        /* Lien Wikipédia */
         .wiki-link-container {
             text-align: center;
             margin-top: 15px;
-            min-height: 20px;
+            min-height: 25px;
         }
 
         .wiki-link {
@@ -176,7 +165,6 @@
             text-decoration: underline;
         }
 
-        /* Modal de choix d'avatar */
         .modal {
             display: none;
             position: absolute;
@@ -208,13 +196,14 @@
         }
 
         .avatar-choice {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             border: 3px solid transparent;
             cursor: pointer;
             object-fit: cover;
             transition: transform 0.2s, border-color 0.2s;
+            background-color: #fff;
         }
 
         .avatar-choice:hover {
@@ -236,14 +225,16 @@
 <body>
 
     <div class="quiz-container" id="quizContainer">
-        <!-- Modal de choix d'avatar -->
+        <!-- Modal de choix d'avatar (6 images simples) -->
         <div class="modal" id="avatarModal">
             <h3>Choisissez votre avatar</h3>
             <div class="avatar-choices">
-                <img src="https://images.unsplash.com/photo-1592417817098-8f3d692adb45?w=150" class="avatar-choice" onclick="selectAvatar(this.src)">
-                <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=150" class="avatar-choice" onclick="selectAvatar(this.src)">
-                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=150" class="avatar-choice" onclick="selectAvatar(this.src)">
-                <img src="https://images.unsplash.com/photo-1558904541-efa843a88f0b?w=150" class="avatar-choice" onclick="selectAvatar(this.src)">
+                <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Arbre">
+                <img src="https://images.unsplash.com/photo-1592417817098-8f3d692adb45?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Jardinier">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Garçon">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Fille">
+                <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Fleur">
+                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Arrosoir">
             </div>
             <button onclick="closeModal()">Fermer</button>
         </div>
@@ -251,7 +242,7 @@
         <!-- En-tête Profil & Score -->
         <div class="header-profile">
             <div class="user-info">
-                <img src="https://via.placeholder.com/150" alt="Avatar" class="user-avatar" id="userAvatar" title="Cliquez pour changer d'avatar">
+                <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=150" alt="Avatar" class="user-avatar" id="userAvatar" title="Cliquez pour changer d'avatar">
                 <div class="user-name" id="userName">Utilisateur</div>
             </div>
             <div class="score-board">
@@ -265,21 +256,20 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
 
-        <!-- Zone Question & Expression[cite: 1] -->
+        <!-- Zone Question (Sans émoji) -->
         <div class="question-section">
-            <div class="facial-expression" id="facialExpression">😐</div>
             <div class="question-text" id="questionText">Chargement de la question...</div>
         </div>
 
         <!-- Options -->
         <div class="options-container" id="optionsContainer"></div>
 
-        <!-- Lien Wikipédia -->
+        <!-- Lien Wikipédia (Apparaît sur la question suivante pour la question d'avant) -->
         <div class="wiki-link-container" id="wikiContainer"></div>
     </div>
 
     <script>
-        // --- 1. GESTION DE LA MÉMOIRE DU JOUEUR & AVATAR ---
+        // --- 1. GESTION DU JOUEUR & AVATAR ---
         let playerName = localStorage.getItem("quiz_player_name");
         if (!playerName) {
             playerName = prompt("Entrez votre nom de joueur :") || "Jardinier";
@@ -289,7 +279,7 @@
 
         let playerAvatar = localStorage.getItem("quiz_player_avatar");
         if (!playerAvatar) {
-            playerAvatar = "https://images.unsplash.com/photo-1592417817098-8f3d692adb45?w=150";
+            playerAvatar = "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=150";
             localStorage.setItem("quiz_player_avatar", playerAvatar);
         }
         const avatarImg = document.getElementById("userAvatar");
@@ -311,9 +301,9 @@
             modal.style.display = "none";
         }
 
-        // --- 2. BASE DE 100 QUESTIONS (50 PARASITES + 50 PLANTATION) ---
+        // --- 2. BASE DE 100 QUESTIONS ---
         const questionsOriginales = [
-            // --- PARTIE 1 : PARASITES DU JARDIN (50 questions rééquilibrées) ---
+            // --- PARTIE 1 : PARASITES DU JARDIN ---
             {
                 question: "Quel insecte vert ou noir s'attroupe sur les tiges tendres et sécrète du miellat ?",
                 options: ["Le puceron", "Le hanneton", "La coccinelle", "Le perce-oreille"],
@@ -615,7 +605,7 @@
                 wiki: "https://fr.wikipedia.org/wiki/Sharka"
             },
 
-            // --- PARTIE 2 : PLANTATION (50 questions pratiques et accessibles) ---
+            // --- PARTIE 2 : PLANTATION ---
             {
                 question: "Quelle est la meilleure période générale pour planter les arbres et arbustes à racines nues ?",
                 options: ["L'automne et l'hiver (de novembre à mars)", "En plein mois d'août", "Au cœur de l'été", "Uniquement le 1er mai"],
@@ -743,7 +733,7 @@
                 wiki: "https://fr.wikipedia.org/wiki/Sol_acide"
             },
             {
-                question: "Qu'est-ce que le 'chyndas' ou le forçage sous cloche pour les primeurs au potager ?",
+                question: "Qu'est-ce que le 'châssis' ou le forçage sous cloche pour les primeurs au potager ?",
                 options: ["Protéger du froid et hâter la croissance des premiers légumes", "Empêcher la lumière d'entrer complètement", "Chauffer la terre au chalumeau", "Faire fuir les oiseaux"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/For%C3%A7age_(agriculture)"
@@ -824,7 +814,7 @@
                 question: "Quel est l'intérêt principal de planter de la phacélie comme engrais vert ou pour les abeilles ?",
                 options: ["Elle pousse vite, étouffe les mauvaises herbes et attire les pollinisateurs", "Elle donne des fruits comestibles sucrés", "Elle chasse les taupes du jardin", "Elle éclaire le jardin la nuit"],
                 correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Phac%C3%A9lie_à_feuilles_de_tanaisie"
+                wiki: "https://fr.wikipedia.org/wiki/Phac%C3%A9lie_%C3%A0_feuilles_de_tanaisie"
             },
             {
                 question: "Quel type de contenant privilégier pour planter sur un balcon ensoleillé en été ?",
@@ -888,7 +878,7 @@
             },
             {
                 question: "Qu'appelle-t-on le 'paillis sec' ou BRF (Bois Raméal Fragmenté) au jardin ?",
-                    options: ["Des fragments de jeunes branches broyées qui nourrissent le sol en se décomposant", "De la poussière de brique pilée", "Du plastique recyclé en granulés", "Du bois brûlé en cendres"],
+                options: ["Des fragments de jeunes branches broyées qui nourrissent le sol en se décomposant", "De la poussière de brique pilée", "Du plastique recyclé en granulés", "Du bois brûlé en cendres"],
                 correct: 0,
                 wiki: "https://fr.wikipedia.org/wiki/Bois_ram%C3%A9al_fragment%C3%A9"
             },
@@ -918,7 +908,7 @@
             }
         ];
 
-        // Mélange aléatoire des questions pour qu'elles n'arrivent jamais dans le même ordre et ne se répètent pas
+        // Mélange aléatoire des questions
         let questions = [...questionsOriginales].sort(() => Math.random() - 0.5);
 
         let currentQuestionIndex = 0;
@@ -930,15 +920,21 @@
         const optionsContainer = document.getElementById("optionsContainer");
         const scoreDisplay = document.getElementById("scoreDisplay");
         const progressBar = document.getElementById("progressBar");
-        const facialExpression = document.getElementById("facialExpression");
         const wikiContainer = document.getElementById("wikiContainer");
 
         function afficherQuestion() {
             if (currentQuestionIndex >= questions.length) {
                 questionText.innerHTML = `Quiz terminé !<br>${playerName}, votre score final : ${score} points`;
                 optionsContainer.innerHTML = "";
-                wikiContainer.innerHTML = "";
-                facialExpression.innerText = "🏆";
+                
+                // Afficher le lien de la toute dernière question à la fin
+                const lastQ = questions[questions.length - 1];
+                if (lastQ && lastQ.wiki) {
+                    wikiContainer.innerHTML = `<a href="${lastQ.wiki}" target="_blank" class="wiki-link">📚 En savoir plus sur la dernière question</a>`;
+                } else {
+                    wikiContainer.innerHTML = "";
+                }
+
                 progressBar.style.width = "100%";
                 return;
             }
@@ -949,8 +945,19 @@
 
             const q = questions[currentQuestionIndex];
             questionText.innerText = q.question;
-            facialExpression.innerText = "😐"; // Base neutre[cite: 1]
             optionsContainer.innerHTML = "";
+
+            // Affichage du lien Wikipédia de la question PRÉCÉDENTE pendant que le joueur réfléchit à la question actuelle
+            if (currentQuestionIndex > 0) {
+                const prevQ = questions[currentQuestionIndex - 1];
+                if (prevQ && prevQ.wiki) {
+                    wikiContainer.innerHTML = `<a href="${prevQ.wiki}" target="_blank" class="wiki-link">📚 En savoir plus sur la question précédente (${prevQ.options[prevQ.correct]})</a>`;
+                } else {
+                    wikiContainer.innerHTML = "";
+                }
+            } else {
+                wikiContainer.innerHTML = "";
+            }
 
             q.options.forEach((option, index) => {
                 const button = document.createElement("button");
@@ -963,31 +970,21 @@
 
         function verifierReponse(selectedIndex) {
             const q = questions[currentQuestionIndex];
-            
-            // Affichage du lien Wikipédia de la question qui vient d'être traitée
-            if (q.wiki) {
-                wikiContainer.innerHTML = `<a href="${q.wiki}" target="_blank" class="wiki-link">📚 En savoir plus sur Wikipédia (${q.options[q.correct]})</a>`;
-            }
 
             if (selectedIndex === q.correct) {
-                // Victoire : +10 points de base + bonus de combo, effet vert et expression heureuse
                 combo++;
                 const pointsGagnes = 10 + (combo - 1) * 5;
                 score += pointsGagnes;
                 
                 quizContainer.classList.add("victory");
                 setTimeout(() => quizContainer.classList.remove("victory"), 600);
-                
-                facialExpression.innerText = "🎉";
             } else {
-                // Échec : -15 points, réinitialisation du combo, effet rouge et expression triste
-                score -= 15;
+                // Le score ne descend pas en dessous de 0
+                score = Math.max(0, score - 15);
                 combo = 0;
                 
                 quizContainer.classList.add("failure");
                 setTimeout(() => quizContainer.classList.remove("failure"), 600);
-                
-                facialExpression.innerText = "❌";
             }
 
             scoreDisplay.innerText = `${score} pts`;
@@ -996,11 +993,11 @@
             // Passer à la question suivante après un court délai
             setTimeout(() => {
                 afficherQuestion();
-            }, 1800);
+            }, 800);
         }
 
         // Lancement initial
         afficherQuestion();
     </script>
 </body>
-</html>
+    </html>
