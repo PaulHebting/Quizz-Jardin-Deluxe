@@ -739,6 +739,1118 @@
             exp: "Ces plantes méditerranéennes supportent parfaitement la sécheresse et adorent le plein soleil.", 
             wiki: "https://fr.wikipedia.org/wiki/Lavande" 
         }
+ const uniqueQuizPool = [
+    // --- SECTION 1 : BIOLOGIE DU SOL & PÉDOLOGIE (1 à 20) ---
+    {
+        q: "Quel est le rôle principal des vers de terre dans la biologie du sol ?",
+        correct: "Aérer le sol et transformer la matière organique en humus stable",
+        wrongs: [
+            "Acidifier la terre pour favoriser l'absorption du fer par les racines",
+            "Éliminer directement les larves de parasites et de ravageurs souterrains",
+            "Produire de l'azote pur par fermentation bactérienne interne"
+        ],
+        exp: "Les vers de terre creusent des galeries qui structurent le sol et leurs déjections (turricules) enrichissent la terre en nutriments.",
+        wiki: "https://fr.wikipedia.org/wiki/Lumbricidae"
+    },
+    {
+        q: "Qu'est-ce que le complexe humo-calcique ?",
+        correct: "Une association chimique entre l'humus et les ions calcium qui structure la terre",
+        wrongs: [
+            "Un engrais chimique de synthèse utilisé pour stimuler la floraison rapide",
+            "Une maladie fongique qui se développe dans les sols calcaires et humides",
+            "Un test de laboratoire pour mesurer la température interne du compost"
+        ],
+        exp: "Ce complexe évite que les éléments nutritifs ne soient lessivés par les pluies et donne une structure grumeleuse idéale au sol.",
+        wiki: "https://fr.wikipedia.org/wiki/Complexe_humo-calcique"
+    },
+    {
+        q: "Quel est l'impact d'un sol dit 'battant' lors des fortes pluies ?",
+        correct: "Il forme une croûte imperméable en surface qui asphyxie les racines et empêche l'infiltration",
+        wrongs: [
+            "Il draine l'eau instantanément à plus de deux mètres de profondeur sans retenir l'humidité",
+            "Il se transforme en une roche calcaire très dure et inexploitable pour les cultures",
+            "Il stimule immédiatement la multiplication des vers de terre épigés"
+        ],
+        exp: "Les sols riches en limons fins ont tendance à battre : les particules se compactent sous l'impact des gouttes de pluie.",
+        wiki: "https://fr.wikipedia.org/wiki/Sol_battant"
+    },
+    {
+        q: "Quel est le rôle fondamental des champignons mycorhiziens dans le sol ?",
+        correct: "Ils vivent en symbiose avec les racines pour grandement élargir leur zone d'absorption des nutriments",
+        wrongs: [
+            "Ils parasitent les jeunes plants pour leur voler leur sève élaborée",
+            "Ils transforment l'eau de pluie en oxygène pur pour nourrir les micro-organismes",
+            "Ils neutralisent l'acidité excessive de l'eau d'arrosage"
+        ],
+        exp: "Les mycorhizes forment un réseau mycélien souterrain qui échange des minéraux contre des sucres produits par la plante.",
+        wiki: "https://fr.wikipedia.org/wiki/Mycorhize"
+    },
+    {
+        q: "Comment qualifie-t-on un sol dont le pH est inférieur à 6 ?",
+        correct: "Un sol acide",
+        wrongs: [
+            "Un sol basique ou alcalin",
+            "Un sol neutre et équilibré",
+            "Un sol salin saturé en sodium"
+        ],
+        exp: "En dessous de pH 6, le sol est acide (terre de bruyère par exemple). Au-dessus de 7,5, il est qualifié de calcaire ou alcalin.",
+        wiki: "https://fr.wikipedia.org/wiki/pH_du_sol"
+    },
+    {
+        q: "Quel rôle jouent les bactéries du genre Rhizobium associées aux légumineuses (haricots, pois) ?",
+        correct: "Elles captent l'azote de l'air présent dans le sol pour le rendre assimilable par la plante",
+        wrongs: [
+            "Elles protègent les gousses contre les attaques des chenilles défoliatrices",
+            "Elles accélèrent la pourriture des racines mortes en fin de saison",
+            "Elles transforment le sucre en alcool pour réguler la température du sol"
+        ],
+        exp: "C'est la fixation biologique de l'azote atmosphérique, une alliance essentielle pour la fertilité naturelle du potager.",
+        wiki: "https://fr.wikipedia.org/wiki/Rhizobium"
+    },
+    {
+        q: "Quelle est la caractéristique principale d'un sol sableux ?",
+        correct: "Il se réchauffe vite, filtre l'eau instantanément mais retient très mal les nutriments",
+        wrongs: [
+            "Il est très lourd à travailler, retient l'eau de manière excessive et colle aux outils",
+            "Il est naturellement stérile et ne peut accepter aucune forme de vie microbienne",
+            "Il durcit comme du béton dès le premier rayon de soleil estival"
+        ],
+        exp: "Les sols sableux ont une structure grossière, ce qui les rend très drainants mais sujets au lessivage des éléments fertilisants.",
+        wiki: "https://fr.wikipedia.org/wiki/Sol_sableux"
+    },
+    {
+        q: "Qu'appelle-t-on la rhizosphère ?",
+        correct: "La zone de sol immédiatement influencée par les racines et l'activité microbienne qui y règne",
+        wrongs: [
+            "La couche la plus profonde de la croûte terrestre riche en magma",
+            "L'enveloppe externe des graines qui protège l'amande avant la germination",
+            "Le système de circulation de l'eau de pluie à travers les roches mères"
+        ],
+        exp: "C'est un véritable écosystème très dynamique où les échanges chimiques entre la plante et la microflore sont intenses.",
+        wiki: "https://fr.wikipedia.org/wiki/Rhizosphère"
+    },
+    {
+        q: "Pourquoi dit-on qu'un sol vivant est un sol 'aérobie' dans ses couches supérieures ?",
+        correct: "Parce qu'il nécessite une bonne circulation d'oxygène pour nourrir la faune et la flore utiles",
+        wrongs: [
+            "Parce qu'il est totalement stérile et imperméable à l'air ambiant",
+            "Parce qu'il ne contient aucune trace d'humidité ni d'eau libre",
+            "Parce qu'il est exclusivement composé de roches volcaniques poreuses"
+        ],
+        exp: "Les micro-organismes décomposeurs aérobies ont besoin d'oxygène pour transformer la matière organique en humus de qualité.",
+        wiki: "https://fr.wikipedia.org/wiki/Aérobiose"
+    },
+    {
+        q: "Quel est l'effet d'un excès de calcaire actif dans le sol sur certaines plantes (comme les rhododendrons) ?",
+        correct: "Il provoque une chlorose ferrique (jaunissement des feuilles par blocage du fer)",
+        wrongs: [
+            "Il stimule une croissance fulgurante des branches au détriment des racines",
+            "Il brûle instantanément l'écorce et provoque la mort de la plante en quelques heures",
+            "Il transforme les racines en tubercules comestibles"
+        ],
+        exp: "Le calcaire bloque l'assimation du fer par les plantes acidophiles, entraînant un jaunissement caractéristique du feuillage.",
+        wiki: "https://fr.wikipedia.org/wiki/Chlorose"
+    },
+    {
+        q: "Qu'est-ce que l'humus de type 'Mull' ?",
+        correct: "Un humus de grande qualité, riche, formé en sol non acide grâce à une forte activité des vers de terre",
+        wrongs: [
+            "Une couche de tourbe stérile et acide que l'on trouve dans les tourbières froides",
+            "Un résidu de compost mal décomposé qui dégage une odeur d'ammoniac",
+            "Une roche calcaire très tendre utilisée pour amender les sols sableux"
+        ],
+        exp: "Le mull se forme rapidement lorsque la matière organique est rapidement incorporée au sol par les lombrics.",
+        wiki: "https://fr.wikipedia.org/wiki/Humus#Mull"
+    },
+    {
+        q: "Quel est l'intérêt d'analyser la texture d'un sol par le 'test du bocal' ?",
+        correct: "Séparer et mesurer visuellement les proportions de sable, limon et argile après décantation dans l'eau",
+        wrongs: [
+            "Mesurer la quantité exacte de vers de terre présents au mètre carré",
+            "Vérifier la concentration de métaux lourds et de polluants industriels",
+            "Tester la capacité du sol à produire de l'électricité naturelle"
+        ],
+        exp: "En agitant de la terre dans un bocal d'eau, les particules se déposent par granulométrie (sable en bas, argile en haut).",
+        wiki: "https://fr.wikipedia.org/wiki/Analyse_de_terre"
+    },
+    {
+        q: "Qu'appelle-t-on le 'C/N' (rapport carbone sur azote) dans un compost ou un sol ?",
+        correct: "L'équilibre entre les matières carbonées (brunes) et azotées (vertes) pour une décomposition optimale",
+        wrongs: [
+            "Le ratio entre le volume de cuivre et de nickel toléré par les racines",
+            "La vitesse à laquelle l'eau s'infile par rapport à l'évaporation solaire",
+            "La proportion de calcium par rapport au sodium dans l'eau d'arrosage"
+        ],
+        exp: "Un bon compost a un rapport C/N idéal autour de 25 à 30 pour nourrir efficacement les micro-organismes décomposeurs.",
+        wiki: "https://fr.wikipedia.org/wiki/Rapport_carbone/azote"
+    },
+    {
+        q: "Quel est l'effet d'un désherbage chimique intensif à long terme sur la biologie du sol ?",
+        correct: "Il détruit la vie microbienne, appauvrit l'humus et stérilise la couche arable",
+        wrongs: [
+            "Il transforme les mauvaises herbes en engrais vert hautement azoté",
+            "Il augmente de manière spectaculaire la population de vers de terre",
+            "Il neutralise définitivement l'acidité excessive du terrain"
+        ],
+        exp: "Les herbicides perturbent les équilibres biologiques et détruisent la biodiversité microbienne indispensable à la fertilité.",
+        wiki: "https://fr.wikipedia.org/wiki/Désherbant"
+    },
+    {
+        q: "Pourquoi qualifie-t-on l'argile de 'collante' et 'fixatrice' ?",
+        correct: "Parce que ses particules microscopiques en feuillets retiennent fortement l'eau et les ions minéraux",
+        wrongs: [
+            "Parce qu'elle repousse chimiquement l'eau pour l'empêcher de stagner en surface",
+            "Parce qu'elle attire magnétiquement les insectes nuisibles pour les piéger",
+            "Parce qu'elle se dissout totalement dans l'eau tiède en quelques minutes"
+        ],
+        exp: "La structure chimique de l'argile possède une charge électrique négative qui retient les cations nutritifs (potassium, calcium, etc.).",
+        wiki: "https://fr.wikipedia.org/wiki/Argile"
+    },
+    {
+        q: "Quel est l'intérêt principal d'un engrais vert comme la phacélie ou la vesce ?",
+        correct: "Couvrir le sol, structurer la terre avec leurs racines et fixer des nutriments avant d'être enfouis",
+        wrongs: [
+            "Produire des fruits comestibles tout en éliminant les besoins en arrosage",
+            "Émettre un parfum répulsif permanent contre tous les rongeurs du jardin",
+            "Générer de la chaleur par réaction chimique pour réchauffer le potager en hiver"
+        ],
+        exp: "Les engrais verts évitent que le sol ne nuise par lessivage en hiver et enrichissent la terre lors de leur restitution.",
+        wiki: "https://fr.wikipedia.org/wiki/Engrais_vert"
+    },
+    {
+        q: "Qu'est-ce que la pédologie ?",
+        correct: "La science qui étudie la composition, la formation et l'évolution des sols",
+        wrongs: [
+            "L'étude exclusive des maladies cryptogamiques des arbres fruitiers",
+            "La technique de taille des arbustes d'ornement en formes géométriques",
+            "La méthode d'arrosage automatique par micro-goutte-à-goutte"
+        ],
+        exp: "Le pédologue analyse la terre sous toutes ses coutures pour comprendre son aptitude à la culture.",
+        wiki: "https://fr.wikipedia.org/wiki/Pédologie"
+    },
+    {
+        q: "Pourquoi le tassement du sol par des engins lourds est-il préjudiciable au jardin ?",
+        correct: "Il détruit la porosité, chasse l'oxygène et empêche l'enracinement correct des plantes",
+        wrongs: [
+            "Il accélère l'évaporation de l'eau en surface de manière irréversible",
+            "Il provoque une surchauffe thermique fatale pour les bulbes",
+            "Il transforme instantanément le sol en sable stérile"
+        ],
+        exp: "Un sol compacté asphyxie la microfaune aérobie et bloque la pénétration des radicelles.",
+        wiki: "https://fr.wikipedia.org/wiki/Tassement_du_sol"
+    },
+    {
+        q: "Qu'appelle-t-on la 'roche mère' d'un sol ?",
+        correct: "La roche géologique d'origine située en profondeur, dont la lente altération forme la base minérale du sol",
+        wrongs: [
+            "Le plus gros caillou trouvé au milieu du potager lors du bêchage",
+            "Une couche artificielle de béton posée sous le jardin pour drainer l'eau",
+            "La couche supérieure d'humus pur accumulée au fil des siècles"
+        ],
+        exp: "C'est la roche d'origine qui détermine en grande partie la nature minérale (calcaire, granitique, schisteuse) du sol.",
+        wiki: "https://fr.wikipedia.org/wiki/Roche-mère"
+    },
+    {
+        q: "Quel est l'effet de l'incorporation de biochar (charbon végétal) dans un sol cultivé ?",
+        correct: "Améliorer durablement la rétention d'eau et abriter des micro-organismes bénéfiques dans ses micropores",
+        wrongs: [
+            "Rendre le sol immédiatement toxique pour tous les insectes du jardin",
+            "Augmenter brutalement le pH à un niveau calcaire extrême",
+            "Provoquer une combustion spontanée de la matière organique en été"
+        ],
+        exp: "Le biochar agit comme une éponge microscopique qui stabilise les nutriments et l'eau dans la terre pendant des siècles.",
+        wiki: "https://fr.wikipedia.org/wiki/Biochar"
+    },
+
+    // --- SECTION 2 : PLANTATION, SEMIS & MULTIPLEXAGE (21 à 40) ---
+    {
+        q: "Quelle est la profondeur idéale pour semer la plupart des petites graines au potager ?",
+        correct: "Environ deux à trois fois leur propre diamètre",
+        wrongs: [
+            "Exactement 10 centimètres de profondeur pour éviter les oiseaux",
+            "En surface absolue, sans jamais les recouvrir de terre",
+            "À la profondeur fixe de la longueur d'un index d'adulte"
+        ],
+        exp: "Une graine trop enterrée épuisera ses réserves avant de voir le jour, et trop superficielle, elle séchera.",
+        wiki: "https://fr.wikipedia.org/wiki/Semis"
+    },
+    {
+        q: "Que signifie 'repiquer' un plant potager (comme une tomate) ?",
+        correct: "Le transplanter de sa terrine de semis vers son emplacement définitif ou un pot individuel",
+        wrongs: [
+            "Couper la tige principale pour forcer la plante à faire des rejets",
+            "Arroser abondamment les feuilles avec un purin d'ortie fortifié",
+            "Tailler les racines abîmées avant de les plonger dans l'eau"
+        ],
+        exp: "Le repiquage stimule la ramification du système racinaire, rendant la plante plus vigoureuse.",
+        wiki: "https://fr.wikipedia.org/wiki/Repiquage"
+    },
+    {
+        q: "Qu'est-ce que le 'chignon' racinaire chez un plant acheté en conteneur ?",
+        correct: "Un emmêlement excessif et circulaire des racines faute de place dans le pot",
+        wrongs: [
+            "Une maladie parasitaire qui fait pourrir le collet de l'arbuste",
+            "Un nœud naturel indispensable pour stabiliser la tige principale",
+            "Une protection thermique utilisée en pépinière contre les gelées"
+        ],
+        exp: "Il faut impérativement défaire ou griffer ce chignon à la plantation pour forcer les racines à s'étaler dans la terre.",
+        wiki: "https://fr.wikipedia.org/wiki/Pépinière"
+    },
+    {
+        q: "Quelle est la période idéale pour planter les arbres et arbustes à 'racines nues' ?",
+        correct: "Pendant le repos végétatif, de novembre à mars (hors périodes de fortes gelées)",
+        wrongs: [
+            "Au cœur de l'été, lorsque le sol est chaud et sec",
+            "Au moment exact de la floraison printanière pour stimuler la reprise",
+            "Uniquement les jours de pleine lune au mois de septembre"
+        ],
+        exp: "C'est la fameuse période de la Sainte-Catherine ('À la Sainte-Catherine, tout bois prend racine').",
+        wiki: "https://fr.wikipedia.org/wiki/Racine_nue"
+    },
+    {
+        q: "Qu'appelle-t-on le 'collet' d'une plante ?",
+        correct: "La zone de transition située entre les racines et la tige aérienne",
+        wrongs: [
+            "La pointe terminale de la plus haute branche de l'arbre",
+            "L'enveloppe protectrice des bourgeons floraux en hiver",
+            "Le point de fixation des fruits sur le pédoncule"
+        ],
+        exp: "Le collet ne doit jamais être enterré profondément lors de la plantation, sous peine de provoquer pourriture et étouffement.",
+        wiki: "https://fr.wikipedia.org/wiki/Collet_(botanique)"
+    },
+    {
+        q: "Qu'est-ce que le bouturage herbacé ?",
+        correct: "Une méthode de multiplication végétative à partir d'un fragment de tige non lignifiée en fin de printemps",
+        wrongs: [
+            "Le fait de semer des graines d'herbes aromatiques en ligne droite",
+            "Une technique de tonte sélective pour densifier le gazon",
+            "L'arrachage des mauvaises herbes à la racine avec un couteau spécial"
+        ],
+        exp: "La tige tendre est coupée, débarrassée de ses feuilles du bas et plantée dans un substrat léger pour émettre des racines.",
+        wiki: "https://fr.wikipedia.org/wiki/Bouturage"
+    },
+    {
+        q: "Quel est l'objectif du 'pralinement' des racines nues avant la mise en terre ?",
+        correct: "Enrober les racines d'un boue protectrice (argile et bouse/compost) pour empêcher le dessèchement",
+        wrongs: [
+            "Désinfecter totalement le système racinaire contre les champignons",
+            "Alourdir l'arbre pour l'empêcher de se pencher sous l'effet du vent",
+            "Leur apporter un choc thermique pour accélérer la levée de dormance"
+        ],
+        exp: "Le pralin assure un contact intime entre les radicelles et la terre fraîche, favorisant une reprise rapide.",
+        wiki: "https://fr.wikipedia.org/wiki/Pralinage"
+    },
+    {
+        q: "Qu'est-ce qu'une plante bisannuelle (comme la carotte ou la pensée) ?",
+        correct: "Une plante qui effectue son cycle de vie complet sur deux années (croissance la 1ère, floraison/graines la 2ème)",
+        wrongs: [
+            "Une plante qui ne fleurit que deux fois par décennie par manque de soleil",
+            "Une espèce qui meurt systématiquement au bout de six mois",
+            "Un végétal capable de vivre alternativement en intérieur et en extérieur"
+        ],
+        exp: "Durant la première année, elle accumule des réserves, puis fleurit, produit des graines et meurt la seconde année.",
+        wiki: "https://fr.wikipedia.org/wiki/Plante_bisannuelle"
+    },
+    {
+        q: "Qu'appelle-t-on le 'mutilage' ou l'éclaircissage des semis en ligne ?",
+        correct: "Supprimer les plants excédentaires pour laisser de l'espace aux plus vigoureux",
+        wrongs: [
+            "Couper toutes les feuilles basses pour éviter les maladies",
+            "Arroser les graines en surface avec un jet d'eau puissant",
+            "Mélanger le sable aux graines pour faciliter la visibilité du semis"
+        ],
+        exp: "Éclaircir permet d'éviter la concurrence excessive entre de trop jeunes plants trop serrés.",
+        wiki: "https://fr.wikipedia.org/wiki/Éclaircissage"
+    },
+    {
+        q: "Quelle est la particularité des plantes vivaces par rapport aux annuelles ?",
+        correct: "Leur système souterrain survit plusieurs années et donne de nouvelles tiges chaque printemps",
+        wrongs: [
+            "Elles résistent à toutes les températures sans exception, même extrêmes",
+            "Elles ne produisent ni fleurs ni graines, uniquement du feuillage persistant",
+            "Elles exigent un arrosage quotidien permanent, été comme hiver"
+        ],
+        exp: "La partie aérienne peut sécher en hiver, mais la souche reste vivante sous terre.",
+        wiki: "https://fr.wikipedia.org/wiki/Plante_vivace"
+    },
+    {
+        q: "Qu'est-ce qu'un porte-greffe en arboriculture ?",
+        correct: "La partie inférieure d'un arbre (racines et bas du tronc) sur laquelle on implante une variété choisie",
+        wrongs: [
+            "Un tuteur en bois traité pour soutenir les jeunes fruitiers fragiles",
+            "Un outil manuel permettant de creuser des trous parfaits",
+            "Un engrais spécial appliqué au pied des greffons"
+        ],
+        exp: "Le porte-greffe confère des propriétés spécifiques à l'arbre : vigueur, résistance au sol ou adaptation au climat.",
+        wiki: "https://fr.wikipedia.org/wiki/Porte-greffe"
+    },
+    {
+        q: "Pourquoi dit-on qu'une graine est en 'dormance' ?",
+        correct: "Elle attend des conditions optimales de température et d'humidité pour germer",
+        wrongs: [
+            "Elle est stérile et ne pourra jamais germer, quel que soit le traitement",
+            "Elle a été attaquée par des insectes durant sa phase de stockage",
+            "Elle a perdu toutes ses réserves nutritives internes"
+        ],
+        exp: "C'est un mécanisme de survie naturel pour éviter que les graines ne germent en plein milieu de l'hiver.",
+        wiki: "https://fr.wikipedia.org/wiki/Dormance"
+    },
+    {
+        q: "Qu'est-ce que la stratification des graines ?",
+        correct: "Un traitement par le froid et l'humidité pour lever la dormance de certaines espèces",
+        wrongs: [
+            "Le fait de classer les graines par ordre alphabétique dans des sachets",
+            "Une technique de semis en couches successives de terre et de sable",
+            "L'exposition des graines à une forte chaleur pour durcir leur coque"
+        ],
+        exp: "Beaucoup de graines d'arbres ou de vivaces ont besoin de passer plusieurs semaines au froid humide pour s'ouvrir.",
+        wiki: "https://fr.wikipedia.org/wiki/Stratification_(botanique)"
+    },
+    {
+        q: "Qu'appelle-t-on le 'divisage' ou la division des touffes ?",
+        correct: "Séparer une grande plante vivace en plusieurs fragments possédant chacun racines et bourgeons",
+        wrongs: [
+            "Couper les branches maîtresses d'un arbuste pour le restructurer",
+            "Tailler les racines principales d'un arbre en pot pour limiter sa taille",
+            "Partager une récolte de légumes entre jardiniers amateurs"
+        ],
+        exp: "C'est un moyen simple, rapide et gratuit de multiplier des vivaces comme les hostas, les iris ou les marguerites.",
+        wiki: "https://fr.wikipedia.org/wiki/Division_(botanique)"
+    },
+    {
+        q: "Quel est l'avantage de semer en 'godets' plutôt qu'en pleine terre ?",
+        correct: "Maîtriser les conditions climatiques et obtenir un système racinaire bien développé avant la mise en place",
+        wrongs: [
+            "Éviter définitivement l'apparition de mauvaises herbes autour du plant",
+            "Empêcher les insectes pollinisateurs de perturber la levée",
+            "Avoir besoin de deux fois moins d'eau pour l'arrosage"
+        ],
+        exp: "Le godet protège les jeunes pousses fragiles des limaces et des gelées tardives au printemps.",
+        wiki: "https://fr.wikipedia.org/wiki/Godet_(horticulture)"
+    },
+    {
+        q: "Qu'est-ce qu'une plante bulbeuse (comme la tulipe ou le narcisse) ?",
+        correct: "Une plante qui stocke ses éléments nutritifs dans un organe souterrain renflé pour passer la mauvaise saison",
+        wrongs: [
+            "Une plante aquatique dont les racines flottent à la surface de l'eau",
+            "Une espèce dont les fleurs ont une forme sphérique parfaite",
+            "Un arbuste produisant des baies rondes toxiques"
+        ],
+        exp: "Le bulbe contient toutes les ébauches de la future plante, lui permettant de fleurir très tôt au printemps.",
+        wiki: "https://fr.wikipedia.org/wiki/Plante_bulbeuse"
+    },
+    {
+        q: "Pourquoi est-il conseillé de tasser légèrement la terre autour d'un semis ou d'une plantation ?",
+        correct: "Pour assurer un bon contact physique entre les racines et les particules de sol (éviter les poches d'air)",
+        wrongs: [
+            "Pour compacter le sol définitivement et empêcher l'eau de s'infiltrer",
+            "Pour détruire les œufs d'insectes cachés superficiellement",
+            "Pour accélérer la photosynthèse des jeunes feuilles cachées"
+        ],
+        exp: "S'il reste des poches d'air autour des racines, celles-ci se dessèchent et la plante dépérit.",
+        wiki: "https://fr.wikipedia.org/wiki/Plantation"
+    },
+    {
+        q: "Qu'est-ce que le marcottage aérien ?",
+        correct: "Induire l'enracinement d'une branche aérienne en l'entourant de tourbe humide enveloppée dans un plastique",
+        wrongs: [
+            "Planter des boutures sur le toit d'une serre en verre",
+            "Suspendre des pots de fleurs à des branches d'arbres matures",
+            "Semer des graines volantes portées par le vent en altitude"
+        ],
+        exp: "Cette technique permet de multiplier des arbustes ou des plantes d'intérieur difficiles à bouturer classiquement.",
+        wiki: "https://fr.wikipedia.org/wiki/Marcottage"
+    },
+    {
+        q: "Que signifie le terme 'rustique' appliqué à une plante ?",
+        correct: "Qu'elle est capable de résister au froid et aux gelées hivernales en extérieur",
+        wrongs: [
+            "Qu'elle pousse uniquement sur des sols rocheux et pauvres",
+            "Qu'elle ne nécessite aucun arrosage de toute sa vie",
+            "Qu'elle repousse les animaux herbivores grâce à des épines"
+        ],
+        exp: "Une plante très rustique supporte des températures négatives importantes sans protection particulière.",
+        wiki: "https://fr.wikipedia.org/wiki/Rusticité"
+    },
+    {
+        q: "Quelle est l'utilité d'un châssis de culture ou d'une cloche au potager ?",
+        correct: "Protéger les cultures des gelées et forcer la croissance hâtive au début du printemps",
+        wrongs: [
+            "Empêcher totalement l'accès de l'air aux plantes pour les cuire",
+            "Remplacer l'arrosage manuel grâce à la condensation interne permanente",
+            "Attirer les insectes utiles à l'intérieur d'un espace clos"
+        ],
+        exp: "Le châssis crée un microclimat chaud et lumineux idéal pour les semis précoces.",
+        wiki: "https://fr.wikipedia.org/wiki/Châssis_(horticulture)"
+    },
+
+    // --- SECTION 3 : ARROSAGE, NUTRITION & GESTION DE L'EAU (41 à 60) ---
+    {
+        q: "Quel est le meilleur moment de la journée pour arroser un potager en été ?",
+        correct: "Tôt le matin ou tard le soir après le coucher du soleil",
+        wrongs: [
+            "En plein midi pour que l'eau profite de la chaleur maximale du soleil",
+            "De manière continue 24h/24 grâce à un asperseur automatique",
+            "Uniquement pendant les orages d'été pour capter l'électricité"
+        ],
+        exp: "Cela minimise l'évaporation de l'eau et évite l'effet de loupe qui brûle le feuillage.",
+        wiki: "https://fr.wikipedia.org/wiki/Arrosage"
+    },
+    {
+        q: "Quel est l'intérêt principal d'un paillage (mulching) au pied des massifs ?",
+        correct: "Limiter l'évaporation de l'eau, empêcher la pousse des mauvaises herbes et nourrir le sol",
+        wrongs: [
+            "Chauffer excessivement les racines pendant les nuits d'hiver",
+            "Rendre le sol totalement imperméable à l'eau de pluie",
+            "Transformer la terre argileuse en sable fin"
+        ],
+        exp: "Le paillis protège la terre du soleil direct et régule la température du sol.",
+        wiki: "https://fr.wikipedia.org/wiki/Paillis"
+    },
+    {
+        q: "Qu'est-ce que l'arrosage par 'goutte-à-goutte' ?",
+        correct: "Un système d'irrigation localisé qui délivre de petites quantités d'eau directement au pied de chaque plante",
+        wrongs: [
+            "Un tuyau percé de mille trous qui arrose tout le jardin de manière aléatoire",
+            "Une technique manuelle consistant à verser une goutte d'eau par feuille",
+            "Un système d'arrosage aérien par brumisation intensive"
+        ],
+        exp: "C'est le système le plus économe en eau, car il évite les pertes par évaporation et cible précisément les racines.",
+        wiki: "https://fr.wikipedia.org/wiki/Goutte-à-goutte"
+    },
+    {
+        q: "Quel nutriment principal favorise le développement du feuillage et de la croissance végétative ?",
+        correct: "L'azote (N)",
+        wrongs: [
+            "Le phosphore (P)",
+            "Le potassium (K)",
+            "Le calcium (Ca)"
+        ],
+        exp: "L'azote est le moteur de la croissance des tiges et des feuilles (composant clé des engrais gazon ou purins d'ortie).",
+        wiki: "https://fr.wikipedia.org/wiki/Azote"
+    },
+    {
+        q: "Quel élément nutritif est particulièrement essentiel pour stimuler la floraison et la fructification ?",
+        correct: "Le phosphore (P) et le potassium (K)",
+        wrongs: [
+            "L'azote pur à haute dose",
+            "Le chlore et le sodium",
+            "Le gypse et le calcaire"
+        ],
+        exp: "Le phosphore renforce les racines et la floraison, tandis que le potassium favorise la formation des fruits et la résistance aux maladies.",
+        wiki: "https://fr.wikipedia.org/wiki/Engrais"
+    },
+    {
+        q: "Qu'appelle-t-on l'eau de pluie 'récupérée' par rapport à l'eau du robinet ?",
+        correct: "Une eau douce, non calcaire et exempte de chlore, idéale pour les plantes",
+        wrongs: [
+            "Une eau hautement toxique et acide impropre à tout usage horticole",
+            "Une eau saturée en sels minéraux lourds et en calcaire",
+            "Une eau stérile qui détruit instantanément la vie microbienne du sol"
+        ],
+        exp: "Les plantes (surtout les acidophiles) adorent l'eau de pluie car elle ne contient ni chlore ni calcaire.",
+        wiki: "https://fr.wikipedia.org/wiki/Récupération_d'eau_de_pluie"
+    },
+    {
+        q: "Qu'est-ce qu'un amendement organique par rapport à un engrais chimique ?",
+        correct: "Il nourrit durablement le sol et améliore sa structure, tandis que l'engrais nourrit directement la plante",
+        wrongs: [
+            "Il agit en quelques secondes et tue tous les parasites du jardin",
+            "Il est fabriqué exclusivement dans des laboratoires industriels",
+            "Il n'a aucun impact sur la structure physique de la terre"
+        ],
+        exp: "L'amendement (compost, fumier) reconstruit l'humus du sol, contrairement à l'engrais soluble qui apporte des sels minéraux immédiats.",
+        wiki: "https://fr.wikipedia.org/wiki/Amendement_(agriculture)"
+    },
+    {
+        q: "Pourquoi un arrosage trop fréquent mais 'en surface' est-il mauvais pour les plantes ?",
+        correct: "Il incite les racines à rester en surface au lieu de descendre chercher l'eau en profondeur",
+        wrongs: [
+            "Il dissout instantanément tous les cailloux du sol",
+            "Il provoque une explosion de la population de vers de terre",
+            "Il colore les feuilles en jaune fluorescent"
+        ],
+        exp: "Mieux vaut arroser moins souvent mais abondamment pour encourager un enracinement profond et résistant.",
+        wiki: "https://fr.wikipedia.org/wiki/Arrosage"
+    },
+    {
+        q: "Qu'est-ce que le purin d'ortie ?",
+        correct: "Une macération fermentée d'orties riche en azote et en minéraux, servant d'engrais et de stimulateur",
+        wrongs: [
+            "Un produit chimique mortel pour éliminer les mauvaises herbes vivaces",
+            "Une décoction de racines d'orties pour tuer les pucerons par contact",
+            "Un purificateur d'eau pour les bassins de jardin"
+        ],
+        exp: "Le purin d'ortie dilué est un formidable fortifiant naturel pour booster la croissance des jeunes plants.",
+        wiki: "https://fr.wikipedia.org/wiki/Purin_d%27ortie"
+    },
+    {
+        q: "Quel est l'effet d'une carence en magnésium sur le feuillage d'une plante ?",
+        correct: "Un jaunissement entre les nervures des feuilles (chlorose internervaire)",
+        wrongs: [
+            "Un brunissement instantané des racines souterraines",
+            "Une chute immédiate de tous les fruits avant maturité",
+            "Une augmentation anormale de la taille des épines"
+        ],
+        exp: "Le magnésium est l'atome central de la molécule de chlorophylle ; sa carence perturbe la photosynthèse.",
+        wiki: "https://fr.wikipedia.org/wiki/Magnésium"
+    },
+    {
+        q: "Qu'appelle-t-on la 'capillarité' du sol en matière d'eau ?",
+        correct: "La capacité de la terre à faire remonter l'eau des couches profondes vers la surface par de minuscules pores",
+        wrongs: [
+            "La vitesse à laquelle l'eau de pluie s'enfonce jusqu'à la nappe phréatique",
+            "La faculté de l'eau à geler en surface en formant des cristaux",
+            "Le pouvoir dissolvant de l'eau sur les roches calcaires"
+        ],
+        exp: "C'est grâce à la capillarité que les plantes trouvent de l'eau en profondeur, un phénomène cassé par le binage ('binage vaut deux arrosages').",
+        wiki: "https://fr.wikipedia.org/wiki/Capillarité"
+    },
+    {
+        q: "Quel est l'intérêt d'utiliser de la cendre de bois au potager avec modération ?",
+        correct: "Elle apporte de la potasse, du calcium et aide à remonter le pH des sols acides",
+        wrongs: [
+            "Elle acidifie fortement le sol pour cultiver des plantes de terre de bruyère",
+            "Elle tue instantanément tous les vers de terre et insectes utiles",
+            "Elle sert d'herbicide total radical contre le chiendent"
+        ],
+        exp: "Riche en potasse, la cendre doit être employée avec parcimonie pour ne pas alcaliniser excessivement le sol.",
+        wiki: "https://fr.wikipedia.org/wiki/Cendre_de_bois"
+    },
+    {
+        q: "Qu'est-ce que la 'transpiration' ou évapotranspiration d'une plante ?",
+        correct: "Le rejet de vapeur d'eau par les stomates des feuilles vers l'atmosphère",
+        wrongs: [
+            "L'absorption d'eau de pluie directement par l'écorce des branches",
+            "La sécrétion de sève sucrée pour attirer les insectes pollinisateurs",
+            "Le stockage de l'eau de pluie dans les racines tubéreuses"
+        ],
+        exp: "Ce mécanisme crée une aspiration qui fait monter la sève brute des racines jusqu'au sommet de la plante.",
+        wiki: "https://fr.wikipedia.org/wiki/%C3%89vapotranspiration"
+    },
+    {
+        q: "Pourquoi évite-t-on d'apporter de l'engrais riche en azote en fin d'été aux arbres fruitiers ?",
+        correct: "Car cela stimule de nouvelles pousses tendres qui gèleront facilement aux premières gelées",
+        wrongs: [
+            "Car cela fait pourrir instantanément les racines profondes",
+            "Car les fruits risquent de devenir toxiques pour la consommation",
+            "Car cela attire massivement les taupes au pied des arbres"
+        ],
+        exp: "En fin de saison, la plante doit entrer en repos végétatif ; l'azote perturbe ce cycle naturel.",
+        wiki: "https://fr.wikipedia.org/wiki/Engrais"
+    },
+    {
+        q: "Qu'est-ce que le compostage en 'tas' par rapport au lombricompostage ?",
+        correct: "Une décomposition aérobie par des micro-organismes et bactéries, gérée en extérieur",
+        wrongs: [
+            "Une fermentation dans l'eau sans oxygénation en milieu clos",
+            "Un séchage des déchets verts au soleil pour en faire du foin",
+            "Un enfouissement profond de déchets non triés dans le sous-sol"
+        ],
+        exp: "Le compostage classique demande un équilibre entre matières carbonées et azotées ainsi qu'un ou deux retoursnements.",
+        wiki: "https://fr.wikipedia.org/wiki/Compostage"
+    },
+    {
+        q: "Quel est l'effet d'un excès d'eau permanent (asphyxie racinaire) sur un arbuste en pot ?",
+        correct: "Les racines pourrissent par manque d'oxygène, entraînant un flétrissement paradoxal du feuillage",
+        wrongs: [
+            "L'arbuste développe un tronc deux fois plus large pour compenser",
+            "Les feuilles se mettent à briller et deviennent immortelles",
+            "La terre du pot se transforme instantanément en roche granitique"
+        ],
+        exp: "Sans oxygène dans l'eau stagnante, les cellules racinaires meurent, bloquant toute absorption d'eau et de nutriments.",
+        wiki: "https://fr.wikipedia.org/wiki/Asphyxie_racinaire"
+    },
+    {
+        q: "Qu'appelle-t-on un engrais 'à libération lente' ?",
+        correct: "Un engrais dont les nutriments se dissolvent progressivement sur plusieurs semaines ou mois",
+        wrongs: [
+            "Un engrais qui met dix ans à agir dans le sol sans aucune efficacité",
+            "Un produit chimique qui ne fonctionne qu'en période de forte canicule",
+            "Un purin naturel qui doit fermenter pendant un an avant utilisation"
+        ],
+        exp: "Il évite les pics de fertilisation et les risques de brûlure des racines, fournissant un apport constant à la plante.",
+        wiki: "https://fr.wikipedia.org/wiki/Engrais"
+    },
+    {
+        q: "Quel est le rôle du soufre dans la physiologie des plantes ?",
+        correct: "Il entre dans la composition de certains acides aminés et favorise la formation des protéines",
+        wrongs: [
+            "Il donne une couleur bleue éclatante aux pétales de roses",
+            "Il empêche totalement l'évaporation de l'eau par les feuilles",
+            "Il transforme les racines en bulbes comestibles"
+        ],
+        exp: "Le soufre est un nutriment secondaire essentiel, particulièrement important pour les crucifères (choux, radis, ail).",
+        wiki: "https://fr.wikipedia.org/wiki/Soufre"
+    },
+    {
+        q: "Pourquoi est-il utile de pratiquer la 'rotation des cultures' au potager ?",
+        correct: "Pour éviter l'épuisement du sol en certains minéraux et briser le cycle des parasites spécifiques",
+        wrongs: [
+            "Pour faire tourner physiquement les légumes autour du jardin sur des rails",
+            "Pour obliger les légumes à pousser plus vite grâce au changement de vue",
+            "Pour empêcher le soleil de brûler toujours le même carré de terre"
+        ],
+        exp: "Chaque famille de plantes a des besoins spécifiques et attire des ravageurs particuliers ; alterner évite les problèmes.",
+        wiki: "https://fr.wikipedia.org/wiki/Rotation_des_cultures"
+    },
+    {
+        q: "Qu'est-ce que le test de 'l'humidité au toucher' pour décider d'arroser ?",
+        correct: "Enfoncer son doigt de 2 ou 3 cm dans la terre pour voir si elle est sèche en profondeur",
+        wrongs: [
+            "Regarder si la surface de la terre a changé de couleur au soleil",
+            "Peser les feuilles de la plante avec une balance de cuisine",
+            "Sentir l'odeur du sol pour deviner s'il a plu la veille"
+        ],
+        exp: "La surface peut sécher très vite au vent ou au soleil alors que la terre est encore parfaitement humide en dessous.",
+        wiki: "https://fr.wikipedia.org/wiki/Arrosage"
+    },
+
+    // --- SECTION 4 : MALADIES, RAVAGEURS & PROTECTION BIOLOGIQUE (61 à 80) ---
+    {
+        q: "Qu'est-ce que l'oïdium, souvent appelé 'maladie du blanc' ?",
+        correct: "Un champignon parasite qui recouvre les feuilles d'un feutrage blanc poudreux",
+        wrongs: [
+            "Une carence en calcium due à un arrosage avec de l'eau trop douce",
+            "Une invasion de minuscules insectes blancs invisibles à l'œil nu",
+            "Un dépôt de calcaire pulvérisé par les arrosages automatiques"
+        ],
+        exp: "Il se développe par temps chaud et humide, favorisé par l'alternance de nuits fraîches et de journées chaudes.",
+        wiki: "https://fr.wikipedia.org/wiki/Oïdium"
+    },
+    {
+        q: "Quel auxiliaire du jardin est le prédateur incontesté des pucerons ?",
+        correct: "La larve de coccinelle",
+        wrongs: [
+            "La limace grise commune",
+            "Le ver de terre épigé",
+            "La taupe du potager"
+        ],
+        exp: "Une seule larve de coccinelle peut dévorer des centaines de pucerons par jour, constituant une lutte biologique redoutable.",
+        wiki: "https://fr.wikipedia.org/wiki/Coccinellidae"
+    },
+    {
+        q: "Qu'est-ce que le mildiou, fléau bien connu des tomates et des pommes de terre ?",
+        correct: "Une affection cryptogamique (mildiou) favorisée par l'humidité stagnante et la douceur",
+        wrongs: [
+            "Une bactérie qui ronge les racines en profondeur lors des sécheresses",
+            "Un virus transmis par les taupes qui fait jaunir les fruits",
+            "Un insecte foreur qui pond ses œufs à l'intérieur des tomates vertes"
+        ],
+        exp: "Le mildiou (Phytophthora infestans) détruit rapidement le feuillage et les fruits par temps pluvieux et chaud.",
+        wiki: "https://fr.wikipedia.org/wiki/Mildiou"
+    },
+    {
+        q: "Comment lutter de manière naturelle et mécanique contre les limaces au potager ?",
+        correct: "Installer des pièges à bière, des barrières de cendre ou utiliser des nématodes prédateurs",
+        wrongs: [
+            "Pulvériser de l'eau de Javel pure sur toutes les feuilles du potager",
+            "Mettre de l'engrais riche en azote pour les attirer hors des cultures",
+            "Labourer le sol à 80 cm de profondeur chaque matin"
+        ],
+        exp: "Les limaces redoutent les barrières sèches (cendre, sarrasin) et adorent la bière qui les piège par noyade.",
+        wiki: "https://fr.wikipedia.org/wiki/Limace"
+    },
+    {
+        q: "Qu'appelle-t-on le 'companioning' ou le compagnonnage végétal ?",
+        correct: "Associer des plantes qui s'entraident mutuellement (répulsion des nuisibles, partage de nutriments)",
+        wrongs: [
+            "Planter deux espèces identiques dans le même godet pour faire un bouquet",
+            "Mettre des fleurs en plastique au milieu des légumes pour la décoration",
+            "Arroser toutes les plantes en même temps avec le même tuyau"
+        ],
+        exp: "Par exemple, l'association carotte/poireau permet à chacun de repousser la mouche de l'autre.",
+        wiki: "https://fr.wikipedia.org/wiki/Compagnonnage_végétal"
+    },
+    {
+        q: "Quel est l'effet du pyrèthre naturel ou du savon noir sur les pucerons et cochenilles ?",
+        correct: "Ce sont des insecticides de contact qui étouffent ou paralysent les parasites",
+        wrongs: [
+            "Ils fertilisent le sol en azote pour renforcer la sève de la plante",
+            "Ils modifient le code génétique des insectes pour les stériliser",
+            "Ils attirent les oiseaux insectivores dans le jardin"
+        ],
+        exp: "Le savon noir bouche les orifices respiratoires des insectes à corps mou sans polluer durablement l'environnement.",
+        wiki: "https://fr.wikipedia.org/wiki/Savon_noir"
+    },
+    {
+        q: "Qu'est-ce que la 'fonte des semis' ?",
+        correct: "Une pourriture du collet des jeunes plantules causée par des champignons du sol en milieu trop humide",
+        wrongs: [
+            "Le fait que les graines fondent littéralement sous l'effet d'une canicule",
+            "La dissolution des pots en plastique biodégradable dans la terre",
+            "Le gel matinal qui détruit instantanément les jeunes pousses"
+        ],
+        exp: "Pour l'éviter, il faut semer dans un substrat drainant, aérer et ne pas saturer en eau.",
+        wiki: "https://fr.wikipedia.org/wiki/Fonte_des_semis"
+    },
+    {
+        q: "Quel est le rôle des bandes de glu posées autour du tronc des arbres fruitiers en automne ?",
+        correct: "Empêcher les femelles non volantes de la cheimatobie (papillon) de monter pondre dans l'arbre",
+        wrongs: [
+            "Piéger les oiseaux gourmands qui mangent les bourgeons",
+            "Empêcher la sève de redescendre trop vite vers les racines",
+            "Protéger l'écorce contre les coups de soleil hivernaux"
+        ],
+        exp: "Les femelles de la cheimatobie marchent le long du tronc ; la glu les bloque net avant la ponte.",
+        wiki: "https://fr.wikipedia.org/wiki/Cheimatobie"
+    },
+    {
+        q: "Qu'appelle-t-on une maladie 'cryptogamique' ?",
+        correct: "Une maladie provoquée par un champignon microscopique (cryptogame)",
+        wrongs: [
+            "Une anomalie génétique liée à un manque de lumière solaire",
+            "Une attaque de virus transmise par les insectes suceurs",
+            "Une carence minérale profonde due à un sol trop argileux"
+        ],
+        exp: "Le mildiou, l'oïdium, la rouille ou la fumagine sont des maladies cryptogamiques très courantes au jardin.",
+        wiki: "https://fr.wikipedia.org/wiki/Maladie_cryptogamique"
+    },
+    {
+        q: "Comment reconnaître une attaque de thrips sur un feuillage ou des fleurs ?",
+        correct: "Des petites stries argentées ou décolorées parsemées de minuscules points noirs (excréments)",
+        wrongs: [
+            "Des trous circulaires parfaits percés au milieu des feuilles",
+            "Un enroulement complet des feuilles vers l'intérieur avec de la mousse",
+            "Une chute immédiate de toutes les branches en 48 heures"
+        ],
+        exp: "Les thrips piquent les cellules végétales pour en aspirer le contenu, laissant un aspect inesthétique argenté.",
+        wiki: "https://fr.wikipedia.org/wiki/Thrips"
+    },
+    {
+        q: "Quel est le principe de la lutte biologique par 'lâcher d'auxiliaires' ?",
+        correct: "Introduire des prédateurs naturels spécifiques pour éliminer un ravageur sans produits chimiques",
+        wrongs: [
+            "Diffuser des ondes sonores pour faire fuir tous les animaux du voisinage",
+            "Planter des orties mortes autour du jardin pour effrayer les insectes",
+            "Arroser les plantes avec de l'eau salée pour tuer les insectes"
+        ],
+        exp: "On utilise par exemple des acariens prédateurs (Phytoseiulus) contre les tétranyques tisserands en serre.",
+        wiki: "https://fr.wikipedia.org/wiki/Lutte_biologique"
+    },
+    {
+        q: "Qu'est-ce que la 'rouille' qui touche les rosiers ou les poiriers ?",
+        correct: "Un champignon provoquant des pustules orangées ou brunes sur le dessous des feuilles",
+        wrongs: [
+            "Une oxydation naturelle du fer contenu dans l'eau d'arrosage sur les feuilles",
+            "Une carence en minéraux qui donne une couleur rouille au tronc",
+            "Une brûlure due aux rayons ultraviolets en période de canicule"
+        ],
+        exp: "La rouille affaiblit la plante en réduisant sa surface foliaire active pour la photosynthèse.",
+        wiki: "https://fr.wikipedia.org/wiki/Rouille_(maladie)"
+    },
+    {
+        q: "Quel est l'effet d'une pulvérisation de décoction de prêle sur les plantes ?",
+        correct: "Elle renforce les parois cellulaires de la plante grâce à sa haute teneur en silice, prévenant les champignons",
+        wrongs: [
+            "Elle tue instantanément tous les insectes rampants et volants",
+            "Elle colore le feuillage en vert foncé permanent",
+            "Elle acidifie le sol de manière définitive au pied de l'arbuste"
+        ],
+        exp: "La prêle est un fongicide naturel préventif exceptionnel en jardinage biologique.",
+        wiki: "https://fr.wikipedia.org/wiki/Prêle_des_champs"
+    },
+    {
+        q: "Qu'appelle-t-on la 'mineuse' de la tomate ou du poireau ?",
+        correct: "Une larve d'insecte qui creuse des galeries à l'intérieur même des feuilles ou des tiges",
+        wrongs: [
+            "Un outil de jardinage ancien servant à creuser des sillons",
+            "Une maladie du sol qui attaque les racines en surface",
+            "Un champignon souterrain qui ronge les bulbes"
+        ],
+        exp: "La mineuse se nourrit du parenchyme foliaire, laissant des traînées blanches caractéristiques.",
+        wiki: "https://fr.wikipedia.org/wiki/Mineuse_(insecte)"
+    },
+    {
+        q: "Pourquoi les cochenilles farineuses sont-elles difficiles à éliminer sur les plantes d'intérieur ?",
+        correct: "Parce qu'elles sont protégées par une cire cotonneuse imperméable aux traitements légers",
+        wrongs: [
+            "Parce qu'elles volent très vite dès qu'on approche un vaporisateur",
+            "Parce qu'elles vivent exclusivement dans les racines souterraines invisibles",
+            "Parce qu'elles se nourrissent de lumière et non de sève"
+        ],
+        exp: "Il faut frotter les insectes avec un coton imbibé d'alcool à brûler et de savon noir pour percer leur protection cireuse.",
+        wiki: "https://fr.wikipedia.org/wiki/Cochenille"
+    },
+    {
+        q: "Qu'est-ce que la hernie du chou ?",
+        correct: "Une maladie du sol causée par un organisme (Plasmodiophora brassicae) qui déforme les racines en tumeurs",
+        wrongs: [
+            "Une excroissance normale sur le tronc des choux matures",
+            "Un manque de calcium provoquant la formation de fausses pommes",
+            "Une attaque de pucerons galligènes sur les feuilles"
+        ],
+        exp: "Elle affecte toutes les crucifères dans les sols acides et humides ; la rotation des cultures et le chaulage aident à lutter contre.",
+        wiki: "https://fr.wikipedia.org/wiki/Hernie_du_chou"
+    },
+    {
+        q: "Quel est l'intérêt d'installer un 'hôtel à insectes' dans son jardin ?",
+        correct: "Offrir des abris pour favoriser la nidification des insectes pollinisateurs et auxiliaires",
+        wrongs: [
+            "Éliminer définitivement tous les nuisibles du potager en les enfermant",
+            "Produire du miel de qualité grâce aux abeilles sauvages logées",
+            "Réchauffer l'atmosphère du jardin pendant les nuits d'hiver"
+        ],
+        exp: "Osmies, syrphes, chrysopes et perce-oreilles y trouvent refuge pour réguler naturellement les populations indésirables.",
+        wiki: "https://fr.wikipedia.org/wiki/Hôtel_à_insectes"
+    },
+    {
+        q: "Qu'est-ce que la fumagine ?",
+        correct: "Un champignon noir qui se développe sur le miellat sucré sécrété par les pucerons ou cochenilles",
+        wrongs: [
+            "Une suie noire dégagée par les feux de jardin voisins qui salit les feuilles",
+            "Une maladie du sol causée par un excès de charbon de bois",
+            "Une brûlure chimique due à un désherbant mal appliqué"
+        ],
+        exp: "Bien que inesthétique (effet suie), la fumagine ne parasite pas directement la plante mais bloque la lumière nécessaire à la photosynthèse.",
+        wiki: "https://fr.wikipedia.org/wiki/Fumagine"
+    },
+    {
+        q: "Quel rôle jouent les nématodes entomopathogènes dans la protection du jardin ?",
+        correct: "Ce sont de microscopic vers utiles qui parasitent et tuent les larves nuisibles dans le sol (comme les otiorhynques)",
+        wrongs: [
+            "Ce sont des vers géants qui aèrent la terre plus vite que les lombrics",
+            "Ce sont des ravageurs redoutables qui attaquent les racines de tous les légumes",
+            "Ce sont des champignons qui guérissent les arbres fruitiers malades"
+        ],
+        exp: "Arrosés sur le sol, ils cherchent activement les larves nuisibles pour les parasiter de l'intérieur.",
+        wiki: "https://fr.wikipedia.org/wiki/Nématode_entomopathogène"
+    },
+    {
+        q: "Pourquoi est-il conseillé de ramasser et brûler (ou jeter) les feuilles atteintes de maladie en automne ?",
+        correct: "Pour détruire les spores de champignons ou les œufs de parasites qui y hivernent",
+        wrongs: [
+            "Pour éviter que le vent ne salisse le jardin des voisins",
+            "Parce que les feuilles mortes malades sont toxiques pour le compost",
+            "Pour libérer de la place pour les tuteurs de printemps"
+        ],
+        exp: "Cela stoppe net le cycle de réinfestation de la saison suivante (notamment pour la tavelure du pommier).",
+        wiki: "https://fr.wikipedia.org/wiki/Tavelure"
+    },
+
+    // --- SECTION 5 : TAILLE, ENTRETIEN & PHYSIOLOGIE VÉGÉTALE (81 à 100) ---
+    {
+        q: "Quel est le principe de base de la taille des arbres fruitiers à pépins (pommier, poirier) en hiver ?",
+        correct: "Aérer le centre de l'arbre, supprimer le bois mort et tailler au-dessus d'un bourgeon tourné vers l'extérieur",
+        wrongs: [
+            "Couper toutes les branches principales à ras du tronc pour repartir de zéro",
+            "Ne toucher jamais aux branches pour laisser l'arbre s'exprimer librement",
+            "Tailler uniquement en plein été lors de la canicule pour durcir le bois"
+        ],
+        exp: "Orienter le bourgeon vers l'extérieur permet d'ouvrir la silhouette de l'arbre et d'éviter que les branches ne se croisent.",
+        wiki: "https://fr.wikipedia.org/wiki/Taille_des_arbres_fruitiers"
+    },
+    {
+        q: "Qu'appelle-t-on un 'gourmand' ou un 'chapelet' sur un arbre fruitier ?",
+        correct: "Un rameau vertical vigoureux qui pousse tout droit et ne produit pas de fruits",
+        wrongs: [
+            "Un fruit trop lourd qui fait pencher la branche vers le sol",
+            "Une racine traînante qui s'échappe hors du trou de plantation",
+            "Un champignon parasite qui suce la sève de l'écorce"
+        ],
+        exp: "Les gourmands monopolisent la sève de l'arbre au détriment des branches fruitières et sont généralement supprimés.",
+        wiki: "https://fr.wikipedia.org/wiki/Gourmand_(botanique)"
+    },
+    {
+        q: "Qu'est-ce que la photosynthèse chez les végétaux ?",
+        correct: "Le processus par lequel la plante utilise la lumière du soleil, l'eau et le CO2 pour fabriquer ses sucres et rejeter de l'oxygène",
+        wrongs: [
+            "La manière dont les racines absorbent les minéraux dissous dans le sol",
+            "La respiration nocturne de la plante qui consomme de l'oxygène sans lumière",
+            "Le mécanisme de défense contre les attaques des insectes herbivores"
+        ],
+        exp: "C'est la base de la vie végétale sur Terre, convertissant l'énergie lumineuse en énergie chimique.",
+        wiki: "https://fr.wikipedia.org/wiki/Photosynthèse"
+    },
+    {
+        q: "Pourquoi applique-t-on du mastic de cicatrisation ou de la bouillie bordelaise après une grosse coupe de taille ?",
+        correct: "Pour désinfecter la plaie et empêcher l'entrée de champignons parasites dans le bois",
+        wrongs: [
+            "Pour accélérer la repousse immédiate des feuilles sur la coupe",
+            "Pour donner une belle couleur esthétique au bois de l'arbre",
+            "Pour nourrir la branche coupée en minéraux de surface"
+        ],
+        exp: "La bouillie bordelaise (à base de cuivre) possède des propriétés fongicides reconnues pour protéger les plaies.",
+        wiki: "https://fr.wikipedia.org/wiki/Bouillie_bordelaise"
+    },
+    {
+        q: "Qu'appelle-t-on la 'sève élaborée' par rapport à la 'sève brute' ?",
+        correct: "La sève brute chargée des sucres produits par les feuilles lors de la photosynthèse, nourricière pour toute la plante",
+        wrongs: [
+            "La sève qui monte directement des racines sans aucune modification",
+            "La résine collante qui s'écoule des blessures de l'écorce",
+            "L'eau de pluie stockée dans les vacuoles des feuilles"
+        ],
+        exp: "La sève brute monte par le xylem, et la sève élaborée redescend par le phloème pour nourrir l'ensemble des tissus.",
+        wiki: "https://fr.wikipedia.org/wiki/Sève"
+    },
+    {
+        q: "Quel est l'objectif du 'pincement' des tiges sur des plantes comme les tomates ou les chrysanthèmes ?",
+        correct: "Supprimer l'extrémité d'une tige pour forcer la plante à se ramifier et produire plus de fleurs ou de fruits",
+        wrongs: [
+            "Arracher les racines latérales pour stimuler la tige principale",
+            "Nettoyer les feuilles tachées par la pluie ou la boue",
+            "Récolter les fruits avant qu'ils ne soient mûrs"
+        ],
+        exp: "Pincer stoppe la croissance verticale et active les bourgeons secondaires latéraux.",
+        wiki: "https://fr.wikipedia.org/wiki/Pincement_(horticulture)"
+    },
+    {
+        q: "Qu'est-ce que le bois de 'deux ans' sur lequel fructifient certains arbustes à fruits rouges (cassis, framboise) ?",
+        correct: "Les branches qui ont poussé l'année précédente et qui portent les fruits cette année",
+        wrongs: [
+            "Des branches mortes qu'il faut couper impérativement en mars",
+            "Du bois fossilisé trouvé profondément sous terre",
+            "Des rejets stériles qui ne donneront jamais rien"
+        ],
+        exp: "Connaître le type de bois porteur de fruits est indispensable pour réussir la taille des arbustes fruitiers.",
+        wiki: "https://fr.wikipedia.org/wiki/Taille"
+    },
+    {
+        q: "Qu'appelle-t-on le 'geotropisme' (ou gravitropisme) chez les plantes ?",
+        correct: "La capacité des racines à pousser vers le bas (gravité) et des tiges à pousser vers le haut",
+        wrongs: [
+            "Le mouvement des feuilles qui suivent la course du soleil au cours de la journée",
+            "La résistance naturelle des plantes au gel hivernal",
+            "L'attraction des insectes pollinisateurs grâce aux odeurs florales"
+        ],
+        exp: "C'est un orientalisme de croissance guidé par la gravité terrestre.",
+        wiki: "https://fr.wikipedia.org/wiki/Gravitropisme"
+    },
+    {
+        q: "Pourquoi pratique-t-on la scarification d'une pelouse au printemps ?",
+        correct: "Pour lacérer le feutrage de mousses et de vieux chaumes, permettant à l'air et à l'eau de pénétrer à nouveau",
+        wrongs: [
+            "Pour semer de nouvelles graines de trèfle à la volée",
+            "Pour tondre l'herbe à ras sans utiliser de moteur thermique",
+            "Pour éliminer définitivement les vers de terre de surface"
+        ],
+        exp: "La scarification redonne vie et oxygénation à un gazon étouffé par les ans.",
+        wiki: "https://fr.wikipedia.org/wiki/Scarification_(horticulture)"
+    },
+    {
+        q: "Qu'est-ce qu'une plante caduque par opposition à une plante persistante ?",
+        correct: "Une plante qui perd la totalité de son feuillage en automne pour passer l'hiver",
+        wrongs: [
+            "Une plante qui ne vit que quelques semaines avant de sécher",
+            "Une espèce qui change de couleur de feuilles chaque jour",
+            "Un végétal qui ne supporte aucune exposition au vent"
+        ],
+        exp: "Le feuillage caduc est une stratégie d'économie d'eau et d'énergie pendant la saison froide.",
+        wiki: "https://fr.wikipedia.org/wiki/Feuillage_caduc"
+    },
+    {
+        q: "Quel est l'effet de l'auxine, hormone végétale naturelle, sur la plante ?",
+        correct: "Elle contrôle l'élongation cellulaire, la direction de la croissance et la dominance apicale",
+        wrongs: [
+            "Elle provoque la chute instantanée des fruits mûrs",
+            "Elle tue les champignons parasites au niveau des racines",
+            "Elle accélère la transformation de l'eau en sucre"
+        ],
+        exp: "L'auxine est produite par les bourgeons terminaux et dicte la structure générale de la plante.",
+        wiki: "https://fr.wikipedia.org/wiki/Auxine"
+    },
+    {
+        q: "Pourquoi dit-on qu'un sol vivant et couvert respire à travers la 'microfaune' ?",
+        correct: "Parce qu'insectes, acariens, vers et bactéries consomment de l'oxygène et rejettent du CO2 en décomposant la matière",
+        wrongs: [
+            "Parce que les racines des plantes soufflent de l'air par les feuilles",
+            "Parce que la terre produit du vent lorsqu'elle est bêchée",
+            "Parce que l'eau s'évapore en créant des bulles d'oxygène"
+        ],
+        exp: "L'activité biologique intense du sol consomme de l'oxygène, d'où l'importance de ne pas le bloquer par des dalles ou des bâches imperméables.",
+        wiki: "https://fr.wikipedia.org/wiki/Faune_du_sol"
+    },
+    {
+        q: "Qu'est-ce que le 'bouturage de racine' (pratiqué sur les acanthes ou les phlox) ?",
+        correct: "Prélever un morceau de racine saine en hiver et le replanter à l'horizontale pour voir naître un nouveau bourgeon",
+        wrongs: [
+            "Couper les racines pour forcer la plante à faire des fruits",
+            "Plonger les racines dans un produit chimique pour stimuler la tige",
+            "Déterrer entièrement la plante pour la nettoyer"
+        ],
+        exp: certaines plantes possèdent des bourgeons adventifs sur leurs racines capables de générer une toute nouvelle tige.",
+        wiki: "https://fr.wikipedia.org/wiki/Bouturage"
+    },
+    {
+        q: "Qu'appelle-t-on le 'photopériodisme' chez les plantes ?",
+        correct: "La sensibilité de la plante à la durée relative des périodes d'éclairement (jour/nuit) pour déclencher floraison ou repos",
+        wrongs: [
+            "L'intensité lumineuse mesurée en lux nécessaire pour la photosynthèse",
+            "Le temps pendant lequel une fleur reste ouverte au soleil",
+            "La vitesse de décoloration des pétales sous l'effet des UV"
+        ],
+        exp: "C'est grâce au photopériodisme que certaines plantes savent qu'il faut fleurir en automne ou au printemps.",
+        wiki: "https://fr.wikipedia.org/wiki/Photopériodisme"
+    },
+    {
+        q: "Quel est l'intérêt d'effectuer un 'buttage' autour des pieds de pommes de terre ou de poireaux ?",
+        correct: "Ramener de la terre au pied pour blanchir les fûts (poireaux) ou empêcher les tubercules de verdir au soleil (pommes de terre)",
+        wrongs: [
+            "Nourrir la plante avec de l'engrais chimique en surface",
+            "Empêcher l'eau de pluie d'atteindre les racines",
+            "Chauffer le sol pour hâter la récolte en hiver"
+        ],
+        exp: "Le buttage protège les tubercules de la lumière (qui les rendrait toxiques par la solanine) et allonge les fûts blancs des poireaux.",
+        wiki: "https://fr.wikipedia.org/wiki/Buttage"
+    },
+    {
+        q: "Qu'est-ce qu'une plante 'halophile' ?",
+        correct: "Une plante adaptée pour pousser dans des sols très salés (bord de mer, marais salants)",
+        wrongs: [
+            "Une plante qui ne tolère que l'eau pure distillée",
+            "Un végétal qui attire les papillons de nuit",
+            "Une espèce qui pousse exclusivement à l'ombre totale"
+        ],
+        exp: "Ces plantes ont développé des mécanismes physiologiques pour supporter des concentrations élevées de sel.",
+        wiki: "https://fr.wikipedia.org/wiki/Plante_halophile"
+    },
+    {
+        q: "Pourquoi les feuilles des arbres changent-elles de couleur en automne avant de tomber ?",
+        correct: "La chlorophylle se dégrade, révélant les pigments jaunes et orange (caroténoïdes) cachés jusque-là",
+        wrongs: [
+            "Parce que la sève gèle et colore le feuillage en rouge vif",
+            "Parce que les insectes peignent les feuilles avant l'hiver",
+            "Parce que le sol devient trop acide en fin d'année"
+        ],
+        exp: "L'arbre récupère les nutriments précieux des feuilles avant de sceller le point d'attache et de laisser tomber le feuillage.",
+        wiki: "https://fr.wikipedia.org/wiki/Couleur_d'automne"
+    },
+    {
+        q: "Qu'appelle-t-on l'écimage d'un arbre ou d'une haie ?",
+        correct: "Couper la partie supérieure (la flèche ou le sommet) pour limiter sa hauteur maximale",
+        wrongs: [
+            "Tailler les branches basses pour dégager le passage",
+            "Éclaircir le centre de l'arbuste pour laisser passer la lumière",
+            "Arracher les racines traînantes en surface"
+        ],
+        exp: "L'écimage bloque la croissance verticale et favorise le développement latéral de la haie.",
+        wiki: "https://fr.wikipedia.org/wiki/Taille"
+    },
+    {
+        q: "Qu'est-ce qu'une liane ou plante grimpante 'volubile' (comme le liseron ou le haricot) ?",
+        correct: "Une plante dont la tige s'enroule spiraloïdalement autour d'un support",
+        wrongs: [
+            "Une plante qui grimpe grâce à des ventouses adhésives puissantes",
+            "Une espèce qui se déplace lentement sur le sol à la recherche d'ombre",
+            "Un arbuste muni d'épines crochues pour s'accrocher aux vêtements"
+        ],
+        exp: "Les tiges volubiles tournent autour de leur tuteur pour s'élever vers la lumière.",
+        wiki: "https://fr.wikipedia.org/wiki/Plante_grimpante"
+    },
+    {
+        q: "Quel est l'impact d'un paillage de résineux (aiguilles de pin) sur le sol à long terme ?",
+        correct: "Il acidifie légèrement le sol, ce qui convient parfaitement aux plantes de terre de bruyère",
+        wrongs: [
+            "Il neutralise le calcaire et transforme le sol en argile pure",
+            "Il apporte une quantité massive d'azote assimilable immédiat",
+            "Il stérilise définitivement la terre pour empêcher toute repousse"
+        ],
+        exp: "Contrairement aux idées reçues, les aiguilles de pin acidifient modérément et se décomposent lentement en humus forestier.",
+        wiki: "https://fr.wikipedia.org/wiki/Aiguille_de_pin"
+    }
+];
+  
     ];
 
     let quizData = shuffleArray([...uniqueQuizPool]);
