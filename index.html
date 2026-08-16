@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz - Jardin, Parasites & Plantation</title>
+    <title>Quiz Jardin - Niveau</title>
     <style>
         :root {
             --bg-color: #1a1a2e;
@@ -14,990 +14,138 @@
             --error-color: #e94560;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .quiz-container { background-color: var(--base-color); border: 3px solid var(--accent-color); border-radius: 15px; padding: 25px; width: 100%; max-width: 600px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); position: relative; }
+        
+        /* En-tête */
+        .header-profile { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #00cec9; background-color: #fff; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .user-avatar svg { width: 35px; height: 35px; }
+        .score-info { text-align: right; }
+        .level-badge { background: #00cec9; color: #1a1a2e; padding: 2px 8px; border-radius: 10px; font-weight: bold; font-size: 12px; margin-bottom: 4px; display: inline-block; }
 
-        .quiz-container {
-            background-color: var(--base-color);
-            border: 3px solid var(--accent-color);
-            border-radius: 15px;
-            padding: 25px;
-            width: 100%;
-            max-width: 600px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
-            position: relative;
-        }
+        .progress-bar-container { width: 100%; background-color: #0f3460; border-radius: 10px; height: 12px; margin-bottom: 20px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0%; background-color: #00cec9; transition: width 0.4s ease; }
 
-        .header-profile {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 5px;
-        }
+        .question-text { font-size: 18px; font-weight: 600; text-align: center; margin-bottom: 20px; min-height: 50px; }
+        .btn-option { background-color: var(--accent-color); color: var(--text-color); border: none; padding: 12px; border-radius: 8px; width: 100%; margin-bottom: 10px; cursor: pointer; transition: 0.2s; text-align: left; }
+        .btn-option:hover { background-color: #1f4068; }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .wiki-link { color: #74b9ff; text-decoration: underline; font-size: 14px; display: block; text-align: center; margin-top: 15px; }
 
-        .user-avatar {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            border: 2px solid #00cec9;
-            object-fit: cover;
-            background-color: #fff;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .user-avatar:hover {
-            transform: scale(1.1);
-        }
-
-        .user-name {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .score-board {
-            text-align: right;
-        }
-
-        .score-board span {
-            display: block;
-            font-size: 14px;
-            color: #b2bec3;
-        }
-
-        .score-board strong {
-            font-size: 20px;
-            color: #00cec9;
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            background-color: #0f3460;
-            border-radius: 10px;
-            height: 12px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: #00cec9;
-            transition: width 0.4s ease;
-        }
-
-        .question-section {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .question-text {
-            font-size: 18px;
-            font-weight: 600;
-            min-height: 60px;
-            margin-top: 10px;
-        }
-
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .btn-option {
-            background-color: var(--accent-color);
-            color: var(--text-color);
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 15px;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            text-align: left;
-        }
-
-        .btn-option:hover {
-            background-color: #1f4068;
-            transform: translateY(-2px);
-        }
-
-        .quiz-container.victory {
-            border-color: var(--success-color);
-            box-shadow: 0 0 30px var(--success-color);
-        }
-
-        .quiz-container.failure {
-            border-color: var(--error-color);
-            box-shadow: 0 0 30px var(--error-color);
-        }
-
-        .wiki-link-container {
-            text-align: center;
-            margin-top: 15px;
-            min-height: 25px;
-        }
-
-        .wiki-link {
-            color: #74b9ff;
-            text-decoration: none;
-            font-size: 14px;
-            font-style: italic;
-        }
-
-        .wiki-link:hover {
-            text-decoration: underline;
-        }
-
-        .modal {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            border-radius: 15px;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 10;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .modal h3 {
-            margin-bottom: 15px;
-            color: #00cec9;
-        }
-
-        .avatar-choices {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .avatar-choice {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            cursor: pointer;
-            object-fit: cover;
-            transition: transform 0.2s, border-color 0.2s;
-            background-color: #fff;
-        }
-
-        .avatar-choice:hover {
-            transform: scale(1.1);
-            border-color: #00cec9;
-        }
-
-        .modal button {
-            background-color: #e94560;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+        /* Modal */
+        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); border-radius: 15px; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
+        .avatar-choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px; }
+        .avatar-choice { width: 60px; height: 60px; cursor: pointer; border: 2px solid transparent; border-radius: 10px; background: #fff; display: flex; justify-content: center; align-items: center; }
+        .avatar-choice:hover { border-color: #00cec9; }
     </style>
 </head>
 <body>
 
-    <div class="quiz-container" id="quizContainer">
-        <!-- Modal de choix d'avatar (6 images simples) -->
+    <div class="quiz-container">
+        <!-- Modal -->
         <div class="modal" id="avatarModal">
-            <h3>Choisissez votre avatar</h3>
-            <div class="avatar-choices">
-                <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Arbre">
-                <img src="https://images.unsplash.com/photo-1592417817098-8f3d692adb45?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Jardinier">
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Garçon">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Fille">
-                <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Fleur">
-                <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=150" class="avatar-choice" onclick="selectAvatar(this.src)" title="Arrosoir">
-            </div>
-            <button onclick="closeModal()">Fermer</button>
+            <h3>Choix de l'avatar</h3>
+            <div class="avatar-choices" id="avatarGrid"></div>
         </div>
 
-        <!-- En-tête Profil & Score -->
         <div class="header-profile">
-            <div class="user-info">
-                <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=150" alt="Avatar" class="user-avatar" id="userAvatar" title="Cliquez pour changer d'avatar">
-                <div class="user-name" id="userName">Utilisateur</div>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div class="user-avatar" id="currentAvatar" onclick="openModal()"></div>
+                <div id="userName">Joueur</div>
             </div>
-            <div class="score-board">
-                <span>Score</span>
-                <strong id="scoreDisplay">0 pts</strong>
+            <div class="score-info">
+                <div class="level-badge" id="levelDisplay">Niveau 1</div>
+                <div id="scoreDisplay">0 pts</div>
             </div>
         </div>
 
-        <!-- Barre de progression -->
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-
-        <!-- Zone Question (Sans émoji) -->
-        <div class="question-section">
-            <div class="question-text" id="questionText">Chargement de la question...</div>
-        </div>
-
-        <!-- Options -->
-        <div class="options-container" id="optionsContainer"></div>
-
-        <!-- Lien Wikipédia (Apparaît sur la question suivante pour la question d'avant) -->
-        <div class="wiki-link-container" id="wikiContainer"></div>
+        <div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+        <div class="question-text" id="questionText">Chargement...</div>
+        <div id="optionsContainer"></div>
+        <div id="wikiContainer"></div>
     </div>
 
-    <script>
-        // --- 1. GESTION DU JOUEUR & AVATAR ---
-        let playerName = localStorage.getItem("quiz_player_name");
-        if (!playerName) {
-            playerName = prompt("Entrez votre nom de joueur :") || "Jardinier";
-            localStorage.setItem("quiz_player_name", playerName);
-        }
-        document.getElementById("userName").innerText = playerName;
+<script>
+    // --- ICONES DESSINÉES (SVG) ---
+    const icons = {
+        tree: `<svg viewBox="0 0 24 24" fill="#2d3436"><path d="M12 2L4 12h3l-4 8h7v-4h2v4h7l-4-8h3L12 2z"/></svg>`,
+        gardener: `<svg viewBox="0 0 24 24" fill="#2d3436"><path d="M12 2C9.24 2 7 4.24 7 7v2h10V7c0-2.76-2.24-5-5-5zM4 11v2h16v-2H4zm0 3v7h16v-7H4z"/></svg>`,
+        boy: `<svg viewBox="0 0 24 24" fill="#2d3436"><circle cx="12" cy="8" r="4"/><path d="M12 14c-4.42 0-8 3.58-8 8h16c0-4.42-3.58-8-8-8z"/></svg>`,
+        girl: `<svg viewBox="0 0 24 24" fill="#2d3436"><path d="M12 2a4 4 0 0 0-4 4v2H6a2 2 0 0 0-2 2v2h2v8h12v-8h2v-2a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4z"/></svg>`,
+        flower: `<svg viewBox="0 0 24 24" fill="#d63031"><circle cx="12" cy="12" r="3" fill="#fdcb6e"/><path d="M12 2c-1 0-2 1-2 2v3c0 1 1 2 2 2s2-1 2-2V4c0-1-1-2-2-2zM12 22c1 0 2-1 2-2v-3c0-1-1-2-2-2s-2 1-2 2v3c0 1 1 2 2 2zM4 12c0 1 1 2 2 2h3c1 0 2-1 2-2s-1-2-2-2H6c-1 0-2 1-2 2zM22 12c0-1-1-2-2-2h-3c-1 0-2 1-2 2s1 2 2 2h3c1 0 2-1 2-2z"/></svg>`,
+        watering: `<svg viewBox="0 0 24 24" fill="#2d3436"><path d="M22 16h-2c0-3.31-2.69-6-6-6V8c2.76 0 5 2.24 5 5h1l-1 3zm-2-4h-2c0-2.21-1.79-4-4-4V6c3.31 0 6 2.69 6 6zM2 18l1.5-6h13l-1.5 6H2z"/></svg>`
+    };
 
-        let playerAvatar = localStorage.getItem("quiz_player_avatar");
-        if (!playerAvatar) {
-            playerAvatar = "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=150";
-            localStorage.setItem("quiz_player_avatar", playerAvatar);
-        }
-        const avatarImg = document.getElementById("userAvatar");
-        avatarImg.src = playerAvatar;
+    let score = 0;
+    let currentQuestionIndex = 0;
+    // Base de questions (tronquée pour l'exemple)
+    const questions = [
+        { q: "Quel insecte vert ou noir sécrète du miellat ?", a: ["Puceron", "Hanneton", "Coccinelle"], c: 0, w: "https://fr.wikipedia.org/wiki/Puceron" },
+        { q: "Quelle chenille dévore les feuilles de buis ?", a: ["Pyrale", "Processionnaire", "Mineuse"], c: 0, w: "https://fr.wikipedia.org/wiki/Pyrale_du_buis" }
+    ];
 
-        const modal = document.getElementById("avatarModal");
-        avatarImg.onclick = () => {
-            modal.style.display = "flex";
-        };
+    function updateUI() {
+        // Calcul du niveau
+        const level = Math.floor(score / 100) + 1;
+        document.getElementById("levelDisplay").innerText = "Niveau " + level;
+        document.getElementById("scoreDisplay").innerText = score + " pts";
+        
+        // Progression
+        document.getElementById("progressBar").style.width = ((score % 100) / 100) * 100 + "%";
+    }
 
-        function selectAvatar(url) {
-            playerAvatar = url;
-            localStorage.setItem("quiz_player_avatar", playerAvatar);
-            avatarImg.src = playerAvatar;
-            modal.style.display = "none";
-        }
+    function initAvatars() {
+        const grid = document.getElementById("avatarGrid");
+        Object.entries(icons).forEach(([key, svg]) => {
+            const div = document.createElement("div");
+            div.className = "avatar-choice";
+            div.innerHTML = svg;
+            div.onclick = () => {
+                document.getElementById("currentAvatar").innerHTML = svg;
+                document.getElementById("avatarModal").style.display = "none";
+            };
+            grid.appendChild(div);
+        });
+        document.getElementById("currentAvatar").innerHTML = icons.tree; // Par défaut
+    }
 
-        function closeModal() {
-            modal.style.display = "none";
-        }
+    function openModal() { document.getElementById("avatarModal").style.display = "flex"; }
 
-        // --- 2. BASE DE 100 QUESTIONS ---
-        const questionsOriginales = [
-            // --- PARTIE 1 : PARASITES DU JARDIN ---
-            {
-                question: "Quel insecte vert ou noir s'attroupe sur les tiges tendres et sécrète du miellat ?",
-                options: ["Le puceron", "Le hanneton", "La coccinelle", "Le perce-oreille"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Puceron"
-            },
-            {
-                question: "Quelle chenille dévore spécifiquement les feuilles des haies de buis ?",
-                options: ["La pyrale du buis", "La processionnaire", "La mineuse", "L'arpenteuse"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis"
-            },
-            {
-                question: "Quel animal sans coquille glisse la nuit et dévore les salades du potager ?",
-                options: ["La limace", "L'escargot de bourgogne", "Le ver de terre", "La courtilière"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Limace"
-            },
-            {
-                question: "Quel coléoptère rayé de jaune et de noir ravage les plants de pommes de terre ?",
-                options: ["Le doryphore", "La chrysomèle", "L'altise", "Le charançon"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Doryphore"
-            },
-            {
-                question: "Quelle chenille urticante se déplace en procession le long des troncs de pins ?",
-                options: ["La processionnaire du pin", "La pyrale", "La noctuelle", "Le bombyx"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Processionnaire_du_pin"
-            },
-            {
-                question: "Quel minuscule insecte saute comme une puce et perfore les jeunes feuilles de choux ?",
-                options: ["L'altise", "Le thrips", "La cicadelle", "Le moucheron"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Altise"
-            },
-            {
-                question: "Quel petit insecte rouge à points noirs est au contraire très utile au jardin ?",
-                options: ["La coccinelle", "Le doryphore", "La punaise gendarme", "Le cynips"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Coccinelle"
-            },
-            {
-                question: "Quel parasite se cache sous un bouclier cireux ou cotonnier fixé sur les tiges ?",
-                options: ["La cochenille", "L'acarien", "Le thrips", "Le scolyte"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Cochenille"
-            },
-            {
-                question: "Quel ver blanc souterrain, larve de hanneton, grignote les racines du gazon ?",
-                options: ["Le ver blanc", "Le fil de fer", "La tipule", "Le nématode"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Hanneton"
-            },
-            {
-                question: "Comment appelle-t-on le ver qui rend les pommes et les poires véreuses ?",
-                options: ["Le carpocapse", "La pyrale", "La teigne", "L'altise"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Carpocapse_des_pommes"
-            },
-            {
-                question: "Quel minuscule acarien tisse de fines toiles sous les feuilles par temps chaud et sec ?",
-                options: ["L'araignée rouge", "Le thrips", "Le puceron cendré", "Le phytopte"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Tetranychus_urticae"
-            },
-            {
-                question: "Quelle mouche creuse des galeries inesthétiques dans les racines de carottes ?",
-                options: ["La mouche de la carotte", "La mouche de l'oignon", "La piéride", "La tenthrède"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Mouche_de_la_carotte"
-            },
-            {
-                question: "Quel papillon blanc à points noirs a des chenilles qui dévorent les feuilles de chou ?",
-                options: ["La piéride du chou", "La noctuelle", "Le sphinx", "La teigne"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Pi%C3%A9ride_du_chou"
-            },
-            {
-                question: "Quelle petite 'mouche blanche' volante sécrète du miellat sous les serres ?",
-                options: ["L'aleurode", "Le thrips", "Le psylle", "La cicadelle"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Aleyrodidae"
-            },
-            {
-                question: "Quel insecte foreur creuse des galeries circulaires sous l'écorce des arbres affaiblis ?",
-                options: ["Le scolyte", "Le perce-oreille", "Le charançon", "L'anobli"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Scolytinae"
-            },
-            {
-                question: "Quel ravageur aquatique ou terricole aux pattes de taupe coupe les racines des légumes ?",
-                options: ["La courtilière", "Le dytique", "Le tipule", "Le gendarme"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Courtili%C3%A8re"
-            },
-            {
-                question: "Quelle maladie cryptogamique (champignon) blanchit les feuilles de courgettes ou de rosiers ?",
-                options: ["L'oïdium", "Le mildiou", "La rouille", "La sharka"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium"
-            },
-            {
-                question: "Quel insecte minuscule provoque des dégâts d'argenture sur les feuilles de poireaux ou en serre ?",
-                options: ["Le thrips", "Le puceron", "La cochenille", "Le moucheron"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Thysanoptera"
-            },
-            {
-                question: "Quelle teigne s'attaque spécifiquement aux feuilles et aux fûts des poireaux ?",
-                options: ["La teigne du poireau", "La pyrale", "Le carpocapse", "La noctuelle"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Acrolepiopsis_assectella"
-            },
-            {
-                question: "Quel insecte ronge les bords des feuilles en formant des encoches en forme de demi-cercle ?",
-                options: ["L'otiorhynque", "La limace", "L'altise", "Le doryphore"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Otiorhynchus"
-            },
-            {
-                question: "Quel parasite du poirier provoque un miellat poisseux et noirci par la fumagine ?",
-                options: ["Le psylle du poirier", "Le puceron vert", "La cochenille", "L'hoplocampe"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Cacopsylla_pyri"
-            },
-            {
-                question: "Quelle petite mouche gâte les cerises en y pondant des œufs qui donnent des vers ?",
-                options: ["La mouche de la cerise", "La drosophile", "La mouche de l'oignon", "La syrphe"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Rhagoletis_cerasi"
-            },
-            {
-                question: "Quelle drosophile invasive pique les fruits rouges sains comme les framboises et fraises ?",
-                options: ["Drosophila suzukii", "Drosophila melanogaster", "La mouche du vinaigre", "La cératite"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Drosophila_suzukii"
-            },
-            {
-                question: "Quel ver fil de fer, larve de taupin, attaque les tubercules de pommes de terre dans le sol ?",
-                options: ["Le ver fil de fer", "Le ver blanc", "Le nématode", "L'ascaris"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Taupin"
-            },
-            {
-                question: "Quel puceron laineux forme des amas blancs semblables à du coton sur les pommiers ?",
-                options: ["Le puceron lanigère", "La cochenille farineuse", "Le puceron cendré", "L'erisoma"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Eriosoma_lanigerum"
-            },
-            {
-                question: "Quel insecte a failli détruire les vignes européennes au XIXe siècle en attaquant les racines ?",
-                options: ["Le phylloxéra", "Le mildiou", "Le doryphore", "Le bostryche"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Phyllox%C3%A9ra"
-            },
-            {
-                question: "Quelle chenille grise (ver gris) coupe net les jeunes tiges potagères au ras du sol la nuit ?",
-                options: ["La noctuelle terricole", "La pyrale", "Le bombyx", "La zeuzère"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Agrotis_segetum"
-            },
-            {
-                question: "Quel papillon fore le bois des jeunes branches de fruitiers avec un corps blanc et noir tacheté ?",
-                options: ["La zeuzère du poirier", "La pyrale", "Le sphinx", "L'arpenteuse"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Zeuzera_pyrina"
-            },
-            {
-                question: "Quelle petite guêpe crée des galles en forme de poils de rose sur les églantiers ?",
-                options: ["Le cynips du rosier", "Le frelon", "L'ichtneumon", "La tenthrède"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Diplolepis_rosae"
-            },
-            {
-                question: "Quel acarien microscopique provoque l'érinose (feutrage blanc duveteux) sur les feuilles de vigne ?",
-                options: ["Le phytopte de la vigne", "L'araignée rouge", "Le tarsonème", "L'oïdium"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Phytopte_de_la_vigne"
-            },
-            {
-                question: "Quel ravageur rouge et noir très commun au jardin est inoffensif pour les plantes (punaise) ?",
-                options: ["Le gendarme (Pyrrhocoris apterus)", "Le doryphore", "La coccinelle", "L'altise"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Pyrrhocoris_apterus"
-            },
-            {
-                question: "Quel insecte foreur s'attaque aux tiges de maïs en creusant la paille ?",
-                options: ["La pyrale du maïs", "La noctuelle", "Le taupin", "Le sésamie"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_ma%C3%AFs"
-            },
-            {
-                question: "Quel petit ver rond du sol (nématode) crée des nodosités inesthétiques sur les racines ?",
-                options: ["Le nématode galligène", "Le lombric", "L'anguillule", "La sangsue"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Meloidogyne"
-            },
-            {
-                question: "Quel coléoptère xylophage creuse des galeries dans les résineux abattus ou affaiblis ?",
-                options: ["Le bostryche typographe", "Le capricornes", "Le charançon", "L'anobli"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Ips_typographus"
-            },
-            {
-                question: "Quel insecte parasite du chêne tisse des nids cotonneux collectifs en hauteur ?",
-                options: ["La processionnaire du chêne", "La pyrale", "Le bombyx", "L'arpenteuse"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Processionnaire_du_ch%C3%AAne"
-            },
-            {
-                question: "Quelle larve de diptère (tipule) ronge le collet du gazon dans les sols trop humides ?",
-                options: ["La larve de tipule", "Le ver fil de fer", "Le ver blanc", "Le nématode"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Tipula"
-            },
-            {
-                question: "Quel traitement biologique à base de bactérie utilise-t-on contre la pyrale du buis ?",
-                options: ["Bacillus thuringiensis (Bt)", "Du cuivre", "Un engrais azoté", "Du soufre"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Bacillus_thuringiensis"
-            },
-            {
-                question: "Quel ravageur des agrumes est une minuscule mineuse enroulant le bout des feuilles ?",
-                options: ["La mineuse des agrumes", "L'aleurode", "Le psylle", "La cochenille"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Phyllocnistis_citrella"
-            },
-            {
-                question: "Quel insecte sauteur transmet la jaunisse ou le virus de la mosaïque aux cultures maraîchères ?",
-                options: ["La cicadelle", "L'altise", "Le thrips", "Le moucheron"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Cicadellidae"
-            },
-            {
-                question: "Quel petit parasite du prunier pique les jeunes fruits au printemps (fausse-chenille) ?",
-                options: ["L'hoplocampe du prunier", "Le carpocapse", "La tordeuse", "La tenthrède"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Hoplocampa_minuta"
-            },
-            {
-                question: "Quel champignon parasite attaque les pommes de terre en créant des taches noires sur les feuilles et tubercules ?",
-                options: ["Le mildiou de la pomme de terre", "L'oïdium", "La rouille", "Le botrytis"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Mildiou_de_la_pomme_de_terre"
-            },
-            {
-                question: "Quel ravageur forme des cornets rouges boursouflés sur les feuilles de tilleul ?",
-                options: ["Un acarien phytopte", "Un puceron", "Une cécidomyie", "Un cynips"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Eriophyes_tiliae"
-            },
-            {
-                question: "Quelle cécidomyie provoque des galles en choux-fleurs sur les bourgeons de poirier ?",
-                options: ["La cécidomyie des poires", "Le phytopte", "Le psylle", "L'hoplocampe"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Contarinia_pyrivora"
-            },
-            {
-                question: "Quel papillon nocturne gris mine les feuilles et fruits de tomates sous serre (Tuta...) ?",
-                options: ["Tuta absoluta", "Pyrale du maïs", "Carpocapse", "Teigne"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Tuta_absoluta"
-            },
-            {
-                question: "Quel insecte foreur ravage les palmiers en y creusant des galeries fatales ?",
-                options: ["Le charançon rouge du palmier", "La pyrale", "Le bostryche", "Le capricornes"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Rhynchophorus_ferrugineus"
-            },
-            {
-                question: "Quel ravageur attaque les inflorescences du rosier en les enroulant avec de la soie ?",
-                options: ["La tordeuse du rosier", "Le cynips", "Le puceron rose", "La cécidomyie"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Tordeuse"
-            },
-            {
-                question: "Quel petit insecte provoque des boursouflures rouges sur les feuilles de groseilliers ?",
-                options: ["Le puceron boursoufleur", "L'araignée rouge", "La cochenille", "Le phytopte"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Puceron"
-            },
-            {
-                question: "Quel ravageur de la tomate et du maïs (Helicoverpa) cible particulièrement quelles parties ?",
-                options: ["Les fruits et bourgeons floraux", "Les racines profondes", "Le tronc ligneux", "Uniquement les vieilles feuilles"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Helicoverpa_armigera"
-            },
-            {
-                question: "Quel minuscule acarien provoque la galle du troène ou de divers arbustes ?",
-                options: ["Le phytopte", "L'araignée rouge", "Le tarsonème", "Le thrips"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Eriophyidae"
-            },
-            {
-                question: "Quel insecte parasite est le principal vecteur de la sharka sur les pruniers ?",
-                options: ["Le puceron vert du prunier", "La cochenille", "L'hoplocampe", "Le monilia"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Sharka"
-            },
-
-            // --- PARTIE 2 : PLANTATION ---
-            {
-                question: "Quelle est la meilleure période générale pour planter les arbres et arbustes à racines nues ?",
-                options: ["L'automne et l'hiver (de novembre à mars)", "En plein mois d'août", "Au cœur de l'été", "Uniquement le 1er mai"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Plantation"
-            },
-            {
-                question: "Que doit-on faire aux racines nues d'un arbre juste avant de le planter ?",
-                options: ["Le pralinage (trempage dans un mélange de boue)", "Les couper à ras", "Les brûler légèrement", "Les passer au shampooing"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Pralinage"
-            },
-            {
-                question: "À quelle profondeur doit-on généralement enterrer les petites graines lors d'un semis ?",
-                options: ["À environ deux à trois fois leur diamètre", "À 50 centimètres de profondeur", "Directement posées à l'air libre sans terre", "À 1 mètre sous terre"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Semis"
-            },
-            {
-                question: "Comment appelle-t-on l'action d'éclaircir un semis trop dense ?",
-                options: ["Retirer les plantules en trop pour laisser de l'espace", "Arroser avec de l'eau salée", "Tailler les feuilles du haut", "Tasser très fort la terre"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/%C3%89claircissage"
-            },
-            {
-                question: "Quel type de sol retient bien l'eau mais peut devenir lourd et collant en hiver ?",
-                options: ["Un sol argileux", "Un sol sablonneux", "Un sol calcaire", "Un sol pierreux"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Argile"
-            },
-            {
-                question: "Quel sol a tendance à sécher très vite et se réchauffe rapidement au printemps ?",
-                options: ["Un sol sableux", "Un sol argileux", "Un sol limoneux lourd", "Une terre glaise"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Sable"
-            },
-            {
-                question: "Pourquoi est-il conseillé de faire un 'arrosage copieux' juste après une plantation ?",
-                options: ["Pour chasser les poches d'air et coller la terre aux racines", "Pour noyer les vers de terre", "Pour faire fondre le pot en plastique", "Pour tasser définitivement sans utiliser les mains"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Arrosage"
-            },
-            {
-                question: "Qu'appelle-t-on le 'paillage' (ou mulching) au pied des plantations ?",
-                options: ["Déposer une couche de matière organique pour garder l'humidité", "Mettre du plastique noir étanche partout", "Peindre la terre en marron", "Retirer toute la terre autour"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Paillis"
-            },
-            {
-                question: "À quel moment de la journée est-il préférable d'arroser son potager en été pour limiter l'évaporation ?",
-                options: ["Tôt le matin ou tard le soir", "En plein cagnard à midi", "Sous la pluie uniquement", "Exactement à minuit pile"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Arrosage"
-            },
-            {
-                question: "Qu'est-ce que le 'chignon racinaire' dans un pot de pépinière ?",
-                options: ["Des racines enroulées en cercle qu'il faut démêler", "Une maladie des feuilles", "Un champignon blanc", "Un tuteur en bois tressé"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/P%C3%Apini%C3%A8re"
-            },
-            {
-                question: "Quelle plante aromatique aime le plein soleil et un sol pauvre et sec ?",
-                options: ["La lavande", "La menthe aquatique", "La fougère", "Le cresson de fontaine"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Lavanda"
-            },
-            {
-                question: "Quel légume-racine se sème directement en place car il supporte mal le repiquage ?",
-                options: ["La carotte", "La tomate", "Le poivron", "L'aubergine"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Carotte"
-            },
-            {
-                question: "Qu'appelle-t-on le 'repiquage' d'un plant potager ?",
-                options: ["Le replanter d'un petit godet vers sa place définitive en terre", "Le couper pour qu'il repousse", "Le changer de pot chaque semaine", "L'arroser avec de l'engrais"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Repiquage"
-            },
-            {
-                question: "Quelle est l'utilité du compost dans un trou de plantation ?",
-                options: ["Apporter des nutriments et améliorer la structure du sol", "Désherber naturellement", "Empêcher l'eau de couler", "Attirer les taupes"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Compost"
-            },
-            {
-                question: "Qu'est-ce qu'un engrais vert semé sur une parcelle vide ?",
-                options: ["Une culture détruite sur place pour enrichir la terre en azote", "Une pelouse fluo décorative", "Un gazon synthétique biodégradable", "De la peinture végétale"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Engrais_vert"
-            },
-            {
-                question: "Que signifie le terme 'rustique' pour une plante vivace ?",
-                options: ["Qu'elle résiste bien au gel et aux températures froides d'hiver", "Qu'elle a des feuilles très dures et piquantes", "Qu'elle ne pousse que dans les vieux outils", "Qu'elle meurt à la moindre brise"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Rusticit%C3%A9"
-            },
-            {
-                question: "Quel légume-fruit a impérativement besoin d'un tuteur solide lors de sa plantation ?",
-                options: ["La tomate", "La salade", "Le radis", "L'épinard"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Tomate"
-            },
-            {
-                question: "Qu'appelle-t-on le 'buttage' au pied des pommes de terre ?",
-                options: ["Ramener de la terre autour des tiges pour verdir et protéger les tubercules", "Tasser la terre avec un rouleau lourd", "Planter en haut d'une colline", "Mettre des pierres décoratives"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Buttage"
-            },
-            {
-                question: "Quelle association de cultures est traditionnellement connue comme les 'trois sœurs' (potager amérindien) ?",
-                options: ["Maïs, haricot grimpant et courge", "Tomate, salade et radis", "Fraise, framboise et mûre", "Pomme de terre, oignon et ail"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Trois_s%C5%3_urs_(agriculture)"
-            },
-            {
-                question: "Pourquoi pratique-t-on la 'rotation des cultures' au potager ?",
-                options: ["Pour ne pas épuiser la terre et éviter l'accumulation de parasites", "Pour changer la couleur des légumes chaque année", "Parce que les légumes s'ennuient au même endroit", "Pour faire de l'exercice en déplaçant la terre"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Rotation_des_cultures"
-            },
-            {
-                question: "Quel type de sol a un pH fortement inférieur à 7 et demande souvent un apport de calcaire ?",
-                options: ["Un sol acide", "Un sol calcaire", "Un sol basique", "Un sol neutre"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Sol_acide"
-            },
-            {
-                question: "Qu'est-ce que le 'châssis' ou le forçage sous cloche pour les primeurs au potager ?",
-                options: ["Protéger du froid et hâter la croissance des premiers légumes", "Empêcher la lumière d'entrer complètement", "Chauffer la terre au chalumeau", "Faire fuir les oiseaux"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/For%C3%A7age_(agriculture)"
-            },
-            {
-                question: "Quelle fleur associe-t-on souvent aux tomates pour repousser naturellement certains nuisibles ?",
-                options: ["L'œillet d'Inde (tagète)", "La rose trémière", "Le pissenlit", "L'ortie"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Tagete"
-            },
-            {
-                question: "Quel est l'intérêt de planter des haies mixtes diversifiées plutôt qu'une monoculture de thuyas ?",
-                options: ["Favoriser la biodiversité et résister mieux aux maladies", "Avoir des formes géométriques parfaites", "Pousser deux fois plus vite sans eau", "Ne jamais avoir à tailler"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Haie"
-            },
-            {
-                question: "Que doit-on faire des drageons qui poussent au pied d'un arbre fruitier greffé ?",
-                options: ["Les supprimer car ils épuisent le sujet d'origine", "Les arroser pour en faire de nouveaux arbres identiques", "Les tuteurer délicatement", "Les manger en salade"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Drageon"
-            },
-            {
-                question: "Comment appelle-t-on la technique de multiplication consistant à enterrer un rameau sans le détacher de la plante mère ?",
-                options: ["Le marcottage", "Le bouturage", "La greffe", "Le semis"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Marcottage"
-            },
-            {
-                question: "Quelle méthode consiste à couper un morceau de tige pour le faire raciner dans l'eau ou le terreau ?",
-                options: ["Le bouturage", "Le greffage", "Le marcottage", "L'écimage"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Bouturage"
-            },
-            {
-                question: "Quel est l'objectif principal de la taille de fructification sur un arbre fruitier en fin d'hiver ?",
-                options: ["Favoriser l'apparition de bourgeons à fleurs et l'ensoleillement", "Empêcher l'arbre de grandir au-delà d'un mètre", "L'empêcher de perdre ses feuilles en automne", "Réduire son poids total"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Taille_des_arbres_fruitiers"
-            },
-            {
-                question: "Quel élément nutritif principal favorise le développement des feuilles et de la verdure (azote, phosphore, potasse) ?",
-                options: ["L'azote (N)", "Le phosphore (P)", "La potasse (K)", "Le calcium"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Azote"
-            },
-            {
-                question: "Quel nutriment principal favorise la floraison et la fructification des plantes ?",
-                options: ["Le phosphore et la potasse", "Uniquement l'azote", "Le sel de cuisine", "Le chlore"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Potassium"
-            },
-            {
-                question: "Qu'appelle-t-on le 'collet' d'une plante lors de sa plantation en terre ?",
-                options: ["La zone de jonction entre les racines et la tige", "Le sommet de la plus haute branche", "La plus grande feuille", "Le fond du pot"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Collet_(botanique)"
-            },
-            {
-                question: "Pourquoi ne faut-il jamais enterrer le collet d'un arbre ou d'un arbuste trop profondément ?",
-                options: ["Cela risque de provoquer son asphyxie et sa pourriture", "Il va se transformer en fleur", "Il va attirer les oiseaux", "L'arbre va changer de couleur"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Plantation"
-            },
-            {
-                question: "Quel légume-bulbe se plante traditionnellement à l'automne (les bulbilles) pour une récolte l'été suivant ?",
-                options: ["L'ail et l'échalote", "La tomate cerise", "Le haricot vert", "La courgette"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Ail"
-            },
-            {
-                question: "Qu'est-ce qu'un purin d'ortie utilisé en jardinage naturel ?",
-                options: ["Une macération d'orties fermentée servant d'engrais azoté et fortifiant", "Un poison chimique radical", "Un remède pour soigner les piqûres d'insectes", "Une soupe pour le jardinier"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Purin_d%27ortie"
-            },
-            {
-                question: "Quel est l'intérêt principal de planter de la phacélie comme engrais vert ou pour les abeilles ?",
-                options: ["Elle pousse vite, étouffe les mauvaises herbes et attire les pollinisateurs", "Elle donne des fruits comestibles sucrés", "Elle chasse les taupes du jardin", "Elle éclaire le jardin la nuit"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Phac%C3%A9lie_%C3%A0_feuilles_de_tanaisie"
-            },
-            {
-                question: "Quel type de contenant privilégier pour planter sur un balcon ensoleillé en été ?",
-                options: ["Un grand bac profond qui retient l'humidité", "Une assiette plate en plastique", "Un tout petit godet noir", "Un seau percé sans terre"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Jardin_sur_balcon"
-            },
-            {
-                question: "Qu'appelle-t-on le 'choc de transplantation' après avoir planté un végétal ?",
-                options: ["Un stress temporaire de la plante suite au changement de milieu", "Une explosion des racines", "Une maladie virale fulgurante", "Le gel instantané des feuilles"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Transplantation_(botanique)"
-            },
-            {
-                question: "Pourquoi laisse-t-on souvent un espace (cuvette de plantation) autour d'un jeune arbre arrosé ?",
-                options: ["Pour retenir l'eau d'arrosage directement vers les racines", "Pour y stocker les feuilles mortes", "Pour faire une piscine pour oiseaux", "Pour esthétique uniquement"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Plantation"
-            },
-            {
-                question: "Quelle plante aromatique mellifère redoute l'excès d'eau et craint l'hiver humide ?",
-                options: ["Le romarin ou le thym", "La menthe verte", "L'oseille", "La rhubarbe"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Romarin"
-            },
-            {
-                question: "Quel est l'avantage du semis en godet par rapport au semis direct en pleine terre ?",
-                options: ["Contrôler la germination à l'abri avant de repiquer le plant robuste", "Éviter totalement l'arrosage", "Planter en hiver dehors", "Avoir des légumes géants instantanément"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Semis"
-            },
-            {
-                question: "Qu'est-ce que la 'lune croissante' dans le calendrier lunaire du jardinier amateur ?",
-                options: ["La période où la seve monte, propice aux semis et récoltes de surface", "La période où la lune disparaît complètement", "Le moment idéal pour tailler les racines", "Une légende sans aucun fondement"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Jardinage_lunaire"
-            },
-            {
-                question: "Quel légume-feuille monte rapidement en graines si la terre s'assèche trop en été ?",
-                options: ["La salade (laitue)", "Le poireau", "La courge", "Le topinambour"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Laitue"
-            },
-            {
-                question: "Pourquoi évite-t-on de tasser la terre trop violemment avec les pieds lors d'un semis de petites graines ?",
-                options: ["Pour ne pas bloquer la levée et casser les fines pousses", "Pour laisser passer le vent", "Parce que c'est interdit par la loi", "Pour que les vers puissent respirer"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Semis"
-            },
-            {
-                question: "Quel amendement naturel apporte du calcium et permet de corriger l'acidité d'un sol trop acide ?",
-                options: ["La chaux ou le maërl", "Le sel marin", "Le vinaigre blanc", "Le jus de citron"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Chaux_(agriculture)"
-            },
-            {
-                question: "Quel est le principal risque d'un arrosage trop fréquent mais superficiel des plantes ?",
-                options: ["Les racines restent en surface au lieu de descendre chercher l'eau", "La plante grandit trop vite", "Les feuilles changent de couleur", "Le pot se vide de sa terre"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Arrosage"
-            },
-            {
-                question: "Qu'appelle-t-on le 'paillis sec' ou BRF (Bois Raméal Fragmenté) au jardin ?",
-                options: ["Des fragments de jeunes branches broyées qui nourrissent le sol en se décomposant", "De la poussière de brique pilée", "Du plastique recyclé en granulés", "Du bois brûlé en cendres"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Bois_ram%C3%A9al_fragment%C3%A9"
-            },
-            {
-                question: "Quelle plante grimpante vigoureuse nécessite un support solide comme une pergola ou un grillage robuste ?",
-                options: ["La glycine ou la clématite", "Le radis rose", "Le persil frisé", "La fraise des bois"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Glycine_(plante)"
-            },
-            {
-                question: "Comment s'appelle l'opération qui consiste à couper l'extrémité des tiges pour densifier la plante ?",
-                options: ["Pincer ou tailler l'apex", "Déraciner", "Élaguer les grosses racines", "Éclaircir"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Pincement_(arboriculture)"
-            },
-            {
-                question: "Quel type de terreau est idéal pour le semis et le démarrage des jeunes racines fragiles ?",
-                options: ["Un terreau fin spécial semis, léger et peu riche", "Du compost pur de fumier de cheval", "De la terre argileuse lourde", "Du sable de mer salé"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Terreau"
-            },
-            {
-                question: "Quelle est la règle d'or générale pour réussir la plantation d'un végétal en pot ou en pleine terre ?",
-                options: ["Respecter la période adaptée, la nature du sol et le bon niveau du collet", "Planter uniquement sous la pluie d'orage", "Mettre un maximum de sacs de ciment au fond", "Ne jamais arroser les trois premières années"],
-                correct: 0,
-                wiki: "https://fr.wikipedia.org/wiki/Plantation"
-            }
-        ];
-
-        // Mélange aléatoire des questions
-        let questions = [...questionsOriginales].sort(() => Math.random() - 0.5);
-
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let combo = 0;
-
-        const quizContainer = document.getElementById("quizContainer");
-        const questionText = document.getElementById("questionText");
-        const optionsContainer = document.getElementById("optionsContainer");
-        const scoreDisplay = document.getElementById("scoreDisplay");
-        const progressBar = document.getElementById("progressBar");
-        const wikiContainer = document.getElementById("wikiContainer");
-
-        function afficherQuestion() {
-            if (currentQuestionIndex >= questions.length) {
-                questionText.innerHTML = `Quiz terminé !<br>${playerName}, votre score final : ${score} points`;
-                optionsContainer.innerHTML = "";
-                
-                // Afficher le lien de la toute dernière question à la fin
-                const lastQ = questions[questions.length - 1];
-                if (lastQ && lastQ.wiki) {
-                    wikiContainer.innerHTML = `<a href="${lastQ.wiki}" target="_blank" class="wiki-link">📚 En savoir plus sur la dernière question</a>`;
-                } else {
-                    wikiContainer.innerHTML = "";
-                }
-
-                progressBar.style.width = "100%";
-                return;
-            }
-
-            // Mise à jour de la barre de progression
-            const progressPercent = (currentQuestionIndex / questions.length) * 100;
-            progressBar.style.width = `${progressPercent}%`;
-
-            const q = questions[currentQuestionIndex];
-            questionText.innerText = q.question;
-            optionsContainer.innerHTML = "";
-
-            // Affichage du lien Wikipédia de la question PRÉCÉDENTE pendant que le joueur réfléchit à la question actuelle
-            if (currentQuestionIndex > 0) {
-                const prevQ = questions[currentQuestionIndex - 1];
-                if (prevQ && prevQ.wiki) {
-                    wikiContainer.innerHTML = `<a href="${prevQ.wiki}" target="_blank" class="wiki-link">📚 En savoir plus sur la question précédente (${prevQ.options[prevQ.correct]})</a>`;
-                } else {
-                    wikiContainer.innerHTML = "";
-                }
-            } else {
-                wikiContainer.innerHTML = "";
-            }
-
-            q.options.forEach((option, index) => {
-                const button = document.createElement("button");
-                button.innerText = option;
-                button.classList.add("btn-option");
-                button.onclick = () => verifierReponse(index);
-                optionsContainer.appendChild(button);
-            });
+    function showQuestion() {
+        if(currentQuestionIndex >= questions.length) {
+            document.getElementById("questionText").innerText = "Quiz terminé ! Score final : " + score;
+            document.getElementById("optionsContainer").innerHTML = "";
+            return;
         }
 
-        function verifierReponse(selectedIndex) {
-            const q = questions[currentQuestionIndex];
-
-            if (selectedIndex === q.correct) {
-                combo++;
-                const pointsGagnes = 10 + (combo - 1) * 5;
-                score += pointsGagnes;
-                
-                quizContainer.classList.add("victory");
-                setTimeout(() => quizContainer.classList.remove("victory"), 600);
-            } else {
-                // Le score ne descend pas en dessous de 0
-                score = Math.max(0, score - 15);
-                combo = 0;
-                
-                quizContainer.classList.add("failure");
-                setTimeout(() => quizContainer.classList.remove("failure"), 600);
-            }
-
-            scoreDisplay.innerText = `${score} pts`;
-            currentQuestionIndex++;
-
-            // Passer à la question suivante après un court délai
-            setTimeout(() => {
-                afficherQuestion();
-            }, 800);
+        const q = questions[currentQuestionIndex];
+        document.getElementById("questionText").innerText = q.q;
+        
+        // Wiki Link
+        if(currentQuestionIndex > 0) {
+            document.getElementById("wikiContainer").innerHTML = `<a href="${questions[currentQuestionIndex-1].w}" target="_blank" class="wiki-link">Wikipedia</a>`;
         }
 
-        // Lancement initial
-        afficherQuestion();
-    </script>
+        const cont = document.getElementById("optionsContainer");
+        cont.innerHTML = "";
+        q.a.forEach((opt, i) => {
+            const btn = document.createElement("button");
+            btn.className = "btn-option";
+            btn.innerText = opt;
+            btn.onclick = () => {
+                if(i === q.c) score += 50; // Gain 50
+                else score = Math.max(0, score - 20); // Perte, min 0
+                currentQuestionIndex++;
+                updateUI();
+                showQuestion();
+            };
+            cont.appendChild(btn);
+        });
+    }
+
+    initAvatars();
+    showQuestion();
+</script>
 </body>
-    </html>
+</html>
