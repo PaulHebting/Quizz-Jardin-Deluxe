@@ -61,124 +61,35 @@
             animation: flashError 0.5s ease;
         }
 
-        .app-header {
+        /* Top Profile Section */
+        .top-profile-section {
+            background: #0f172a;
             padding: 12px 16px;
-            background: #0f172a;
             border-bottom: 1px solid #334155;
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .app-title-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .app-title {
-            font-size: 13px;
-            font-weight: 800;
-            color: #4ade80;
-        }
-
-        .rank-title {
-            font-size: 11px;
-            color: #facc15;
-            font-weight: 700;
-            margin-top: 1px;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .combo-badge {
-            background: rgba(249, 115, 22, 0.15);
-            color: #fdba74;
-            padding: 4px 7px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 800;
-            border: 1px solid rgba(249, 115, 22, 0.3);
-            display: none;
-        }
-
-        .score-badge {
-            background: rgba(74, 222, 128, 0.15);
-            color: #4ade80;
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 800;
-            border: 1px solid rgba(74, 222, 128, 0.3);
-        }
-
-        .progress-bar-container {
-            background: #0f172a;
-            padding: 8px 14px;
-            border-bottom: 1px solid #334155;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10.5px;
-            font-weight: 700;
-            color: #94a3b8;
-            margin-bottom: 4px;
-        }
-
-        .progress-track {
-            width: 100%;
-            height: 6px;
-            background: #334155;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #22c55e, #facc15);
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        .app-content {
-            flex: 1;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow-y: auto;
+            gap: 12px;
         }
 
         .user-profile-card {
-            background: #0f172a;
-            border-radius: 16px;
-            padding: 8px 10px;
-            border: 1px solid #334155;
             display: flex;
             align-items: center;
             gap: 10px;
             cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .user-profile-card:hover {
-            border-color: #38bdf8;
+            flex: 1;
+            min-width: 0;
         }
 
         .user-avatar {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: linear-gradient(135deg, #22c55e, #16a34a);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 20px;
             border: 2px solid #4ade80;
             flex-shrink: 0;
         }
@@ -199,42 +110,115 @@
         }
 
         .profile-subtitle {
-            font-size: 10.5px;
+            font-size: 10px;
             color: #38bdf8;
             font-weight: 600;
-            margin-top: 1px;
         }
 
-        .top-menu-actions {
+        .header-actions {
             display: flex;
             gap: 6px;
-            margin-top: 4px;
+            align-items: center;
         }
 
         .trophy-btn-mini {
             background: rgba(250, 204, 21, 0.15);
             border: 1px solid rgba(250, 204, 21, 0.4);
             color: #facc15;
-            padding: 2px 6px;
-            border-radius: 5px;
-            font-size: 10px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: 700;
             cursor: pointer;
+            white-space: nowrap;
         }
 
+        /* Progress Bar & Points Section */
+        .progress-bar-container {
+            background: #111827;
+            padding: 10px 16px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .progress-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .rank-title {
+            font-size: 11px;
+            color: #facc15;
+            font-weight: 700;
+        }
+
+        .score-badges-group {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .combo-badge {
+            background: rgba(249, 115, 22, 0.15);
+            color: #fdba74;
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 800;
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            display: none;
+        }
+
+        .score-badge {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 3px;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: #334155;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #facc15);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Jokers Bar */
         .jokers-bar {
             display: flex;
             gap: 6px;
-            margin-top: 6px;
+            padding: 8px 16px 0 16px;
+            background: #1e293b;
         }
 
         .joker-btn {
             background: rgba(56, 189, 248, 0.15);
             border: 1px solid rgba(56, 189, 248, 0.4);
             color: #38bdf8;
-            padding: 3px 6px;
-            border-radius: 5px;
-            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10.5px;
             font-weight: 700;
             cursor: pointer;
             flex: 1;
@@ -248,11 +232,20 @@
             color: #94a3b8;
         }
 
+        /* App Content */
+        .app-content {
+            flex: 1;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+        }
+
         .quiz-box {
             background: #334155;
             border-radius: 12px;
-            padding: 10px;
-            margin-top: 6px;
+            padding: 12px;
         }
 
         .question-title {
@@ -261,21 +254,21 @@
             letter-spacing: 1px;
             color: #38bdf8;
             font-weight: 800;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
 
         .question-text {
             font-size: 13px;
             font-weight: 700;
             color: #ffffff;
-            line-height: 1.25;
+            line-height: 1.3;
         }
 
         .options-grid {
             display: flex;
             flex-direction: column;
             gap: 6px;
-            margin-top: 6px;
+            margin-top: 8px;
         }
 
         .option-btn {
@@ -289,7 +282,7 @@
             text-align: left;
             cursor: pointer;
             transition: all 0.2s;
-            line-height: 1.2;
+            line-height: 1.25;
         }
 
         .option-btn:hover:not(:disabled) {
@@ -305,12 +298,12 @@
             background: rgba(34, 197, 94, 0.1);
             border: 1px solid #22c55e;
             border-radius: 9px;
-            padding: 7px;
-            margin-top: 6px;
+            padding: 8px;
+            margin-top: 8px;
         }
 
         .explanation-text {
-            font-size: 11.5px;
+            font-size: 11px;
             color: #e2e8f0;
             line-height: 1.25;
             margin-top: 2px;
@@ -324,8 +317,8 @@
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            margin-top: 6px;
+            gap: 6px;
+            margin-top: 8px;
         }
 
         .wiki-btn {
@@ -347,7 +340,7 @@
             background: #22c55e;
             color: #0f172a;
             border: none;
-            padding: 7px;
+            padding: 8px;
             border-radius: 8px;
             font-weight: 800;
             font-size: 12.5px;
@@ -359,7 +352,7 @@
             background: #334155;
             color: #38bdf8;
             border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 6px;
+            padding: 7px;
             border-radius: 8px;
             font-weight: 700;
             font-size: 11.5px;
@@ -367,6 +360,7 @@
             width: 100%;
         }
 
+        /* Modals */
         .modal-overlay {
             display: none;
             position: absolute;
@@ -560,8 +554,8 @@
             </div>
             <div class="profile-edit-body">
                 <div class="form-group">
-                    <label class="form-label">Changer de nom :</label>
-                    <input type="text" class="form-input" id="modal-username-input" placeholder="Ton pseudo...">
+                    <label class="form-label">Changer de prénom / pseudo :</label>
+                    <input type="text" class="form-input" id="modal-username-input" placeholder="Ton prénom...">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Choisir ton avatar :</label>
@@ -572,19 +566,29 @@
         </div>
     </div>
 
-    <div class="app-header">
-        <div class="app-title-group">
-            <div class="app-title">🌿 QUESTIONS JARDIN</div>
-            <div class="rank-title" id="rank-display">🌱 Graine de radis</div>
+    <!-- 1. INTERFACE PROFIL EN HAUT (Avatar + Prénom) -->
+    <div class="top-profile-section">
+        <div class="user-profile-card" onclick="toggleProfileModal()">
+            <div class="user-avatar" id="avatar-display">👨‍🌾</div>
+            <div class="profile-info">
+                <div class="profile-name-display" id="profile-name-view">JardinierExpert</div>
+                <div class="profile-subtitle">⚙️ Cliquer pour modifier le profil</div>
+            </div>
         </div>
-        <div class="header-right">
-            <div class="combo-badge" id="combo-badge">🔥 x0</div>
-            <div class="score-badge" id="score-display">0 Pts</div>
+        <div class="header-actions">
+            <button class="trophy-btn-mini" onclick="toggleTrophyModal()">🏆 Trophées</button>
         </div>
     </div>
 
-    <!-- Barre de progression vers le grade suivant -->
+    <!-- 2. BARRE DE PROGRESSION AVEC SYSTEME DE POINTS (En dessous) -->
     <div class="progress-bar-container">
+        <div class="progress-top-row">
+            <div class="rank-title" id="rank-display">🌱 Graine de radis</div>
+            <div class="score-badges-group">
+                <div class="combo-badge" id="combo-badge">🔥 x0</div>
+                <div class="score-badge" id="score-display">0 Pts</div>
+            </div>
+        </div>
         <div class="progress-info">
             <span id="progress-text-label">Grade suivant : Pousse tendre</span>
             <span id="progress-percent-label">0%</span>
@@ -594,25 +598,16 @@
         </div>
     </div>
 
-    <div class="app-content">
-        <!-- Carte Profil cliquable -->
-        <div class="user-profile-card" onclick="toggleProfileModal()">
-            <div class="user-avatar" id="avatar-display">👨‍🌾</div>
-            <div class="profile-info">
-                <div class="profile-name-display" id="profile-name-view">JardinierExpert</div>
-                <div class="profile-subtitle">⚙️ Cliquer pour modifier le profil</div>
-                <div class="top-menu-actions">
-                    <button class="trophy-btn-mini" onclick="event.stopPropagation(); toggleTrophyModal();">🏆 Trophées</button>
-                </div>
-                <div class="jokers-bar">
-                    <button class="joker-btn" id="joker-50" onclick="event.stopPropagation(); useJoker50()">✂️ 50/50 (<span id="count-50">2</span>)</button>
-                    <button class="joker-btn" id="joker-tip" onclick="event.stopPropagation(); useJokerTip()">💡 Indice (<span id="count-tip">2</span>)</button>
-                </div>
-            </div>
-        </div>
+    <!-- Barre des Jokers -->
+    <div class="jokers-bar">
+        <button class="joker-btn" id="joker-50" onclick="useJoker50()">✂️ 50/50 (<span id="count-50">2</span>)</button>
+        <button class="joker-btn" id="joker-tip" onclick="useJokerTip()">💡 Indice (<span id="count-tip">2</span>)</button>
+    </div>
 
+    <!-- Contenu du Quiz (Questions client jardinier) -->
+    <div class="app-content">
         <div class="quiz-box">
-            <div class="question-title">❓ QUESTION</div>
+            <div class="question-title">❓ QUESTION CLIENT</div>
             <div class="question-text" id="question">Chargement...</div>
         </div>
 
@@ -632,42 +627,31 @@
 </div>
 
 <script>
-    // Base complète de questions axées sur les questions des clients (Sol, Plantation, Arrosage, Parasites, Exposition, Haies, Persistantes)
+    // Questions axées exclusivement sur les questions que les clients posent à un jardinier (Plantation, Parasites, Pelouse, Arrosage, Exposition, etc.)
     const uniqueQuizPool = [
-        // --- BIOLOGIE DU SOL ---
-        { q: "Pourquoi les vers de terre sont-ils de véritables alliés pour la biologie du sol ?", correct: "Ils creusent des galeries et mélangent la matière organique pour structurer la terre", wrongs: ["Ils grignotent les racines des jeunes plants pour se nourrir", "Ils augmentent l'acidité excessive de la terre sablonneuse", "Ils empêchent l'eau de pluie de s'infiltrer en profondeur"], exp: "Les lombrics aèrent le sol, favorisent l'infiltration de l'eau et créent un humus fertile indispensable.", wiki: "https://fr.wikipedia.org/wiki/Lombric" },
-        { q: "Quel est le rôle principal des champignons mycorhiziens dans le sol ?", correct: "Ils s'associent aux racines pour les aider à capter l'eau et les nutriments", wrongs: ["Ils détruisent systématiquement toutes les mauvaises herbes du potager", "Ils colorent les fleurs en bleu intense au printemps", "Ils dégagent une forte chaleur pour protéger du gel"], exp: "La mycorhize est une symbiose bénéfique entre champignons et racines qui décuple la vigueur de la plante.", wiki: "https://fr.wikipedia.org/wiki/Mycorhize" },
-        { q: "Que signifie un sol au pH fortement acide (inférieur à 6) ?", correct: "Un sol qui convient parfaitement aux plantes de terre de bruyère comme les rhododendrons", wrongs: ["Un sol idéal et universel pour cultiver des melons et des artichauts", "Un sol entièrement stérile où rien ne pourra jamais pousser", "Un sol saturé en calcaire pur qui bloque le fer"], exp: "Les sols acides manquent de calcaire, ce qui plaît aux hortensias bleus, camélias et bruyères.", wiki: "https://fr.wikipedia.org/wiki/pH_du_sol" },
-        
+        // --- PELOUSE / GAZON ---
+        { q: "Un client vous demande : 'À quelle fréquence faut-il tondre ma pelouse au printemps ?'", correct: "Toutes les semaines pour stimuler l'épaississement du gazon sans l'épuiser", wrongs: ["Une seule fois par mois pour laisser monter les fleurs", "Tous les jours à ras pour brûler les racines", "Jamais, la pelouse s'entretient toute seule"], exp: "Au printemps, la pousse est rapide. Une coupe hebdomadaires favorise un tapis dense et vigoureux.", wiki: "https://fr.wikipedia.org/wiki/Tonte_de_pelouse" },
+        { q: "Un propriétaire s'inquiète de la mousse dans sa pelouse orientée au nord. Que lui conseillez-vous ?", correct: "De scarifier le gazon pour éliminer la mousse et d'amender la terre avec un peu de chaux", wrongs: ["De verser de l'eau de Javel pure sur toute la surface", "De retourner entièrement le jardin avec un bulldozer", "D'arroser abondamment tous les soirs avec de l'eau salée"], exp: "La mousse se développe sur les sols acides et humides. La scarification et un chaulage modéré aident grandement.", wiki: "https://fr.wikipedia.org/wiki/Scarification_(horticulture)" },
+        { q: "Comment répondre à un client qui demande quand semer une nouvelle pelouse ?[cite: 1]", correct: "De préférence en automne ou au printemps, quand la terre est humide et tempérée", wrongs: ["En plein mois d'août pendant la canicule sous le soleil brûlant", "En plein hiver lorsque le sol est totalement gelé", "Uniquement la nuit sous la pleine lune"], exp: "L'automne offre une terre encore chaude et des pluies régulières idéales pour la germination des graines de gazon.", wiki: "https://fr.wikipedia.org/wiki/Gazon" },
+
         // --- PLANTATION ---
-        { q: "Qu'appelle-t-on le 'pralinage' des racines avant de planter un arbre à racines nues ?", correct: "Le fait de tremper les racines dans un mélange boueux d'argile et d'eau", wrongs: ["Le fait de saupoudrer les branches de sucre glace pour stimuler la sève", "L'action de tailler toutes les racines principales à ras du tronc", "Le fait de congeler l'arbre une nuit pour le réveiller ensuite"], exp: "Le pralin protège les racines de la déshydratation et favorise leur reprise dans le sol.", wiki: "https://fr.wikipedia.org/wiki/Pralinage" },
-        { q: "Quelle est la meilleure période générale de l'année pour planter les arbres et arbustes en conteneur ?", correct: "L'automne, car la terre est chaude et les pluies favorisent l'enracinement", wrongs: ["En plein mois de juillet lors des canicules estivales", "Uniquement le 1er janvier en plein hiver gelé", "Pendant la floraison estivale en plein cagnard"], exp: "Planter en automne permet à l'arbuste de développer ses racines avant l'arrivée de l'été.", wiki: "https://fr.wikipedia.org/wiki/Plantation" },
-        { q: "Pourquoi ne faut-il pas enterrer le 'collet' d'un arbuste lors de la plantation ?", correct: "Pour éviter que le tronc ne pourrisse sous l'effet de l'humidité de la terre", wrongs: ["Pour permettre à l'arbuste de se déplacer tout seul s'il le souhaite", "Pour que le vent puisse arracher plus facilement les feuilles", "Parce que cela donne une forme totalement carrée à la plante"], exp: "Le collet (jonction entre les racines et le tronc) doit toujours rester au niveau de la surface.", wiki: "https://fr.wikipedia.org/wiki/Collet_(botanique)" },
-        
+        { q: "Un client demande : 'Quelle est la profondeur idéale pour creuser le trou de plantation d'un arbuste ?'", correct: "Environ deux fois la taille de la motte en largeur, et la même profondeur", wrongs: ["Un trou minuscule d'à peine 5 centimètres de profondeur", "Un trou immense de 3 mètres de profondeur pour cacher les racines", "Pas besoin de trou, il suffit de poser l'arbuste sur la pelouse"], exp: "Ameublir la terre en largeur aide les jeunes racines à s'étaler facilement sans s'asphyxier.", wiki: "https://fr.wikipedia.org/wiki/Plantation" },
+        { q: "Que répondre à un client qui souhaite savoir pourquoi il faut 'praliner' les racines nues avant de planter ?[cite: 1]", correct: "Pour enrober les racines d'un mélange d'argile et d'eau afin d'éviter qu'elles ne se dessèchent", wrongs: ["Pour empoisonner les vers de terre et les parasites souterrains", "Pour colorer les racines en rose fluo pour les retrouver", "Pour chauffer l'arbre et simuler l'été en plein hiver"], exp: "Le pralinage protège la jeune plante contre la déshydratation et stimule le départ des radicelles.", wiki: "https://fr.wikipedia.org/wiki/Pralinage" },
+        { q: "Un client demande : 'Pourquoi faut-il veiller à ne pas enterrer le collet de mon arbre ?'", correct: "Pour éviter que l'humidité ne fasse pourrir la base du tronc", wrongs: ["Pour que l'arbre puisse marcher s'il se sent mal placé", "Parce que l'arbre ne produira sinon que des fruits carrés", "Pour que le vent puisse arracher plus facilement les feuilles"], exp: "Le collet (jonction racines-tronc) doit toujours rester au niveau de l'air libre pour respirer.", wiki: "https://fr.wikipedia.org/wiki/Collet_(botanique)" },
+
         // --- ARROSAGE ---
-        { q: "Quel est le meilleur moment de la journée pour arroser son jardin en été ?", correct: "Tôt le matin ou tard le soir après le coucher du soleil", wrongs: ["À midi pile quand le soleil brille le plus fort", "Entre 14h et 16h pour rafraîchir les feuilles", "Uniquement en pleine nuit sous l'orage"], exp: "Cela limite l'évaporation rapide de l'eau et évite les brulures sur le feuillage.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
-        { q: "À quoi sert principalement le paillage (mulching) au pied des massifs ?", correct: "À retenir l'humidité du sol et à empêcher la pousse des mauvaises herbes", wrongs: ["À attirer un maximum de taupes et de rats taupiers", "À transformer la terre en un marbre blanc décoratif", "À chauffer intensément les racines en hiver"], exp: "Le paillis protège la terre du soleil direct, limite l'arrosage et nourrit progressivement le sol.", wiki: "https://fr.wikipedia.org/wiki/Paillis" },
-        { q: "Comment faut-il de préférence arroser les tomates au potager pour éviter les maladies ?", correct: "Au pied, directement sur la terre, sans jamais mouiller le feuillage", wrongs: ["En aspergeant vigoureusement les feuilles et les fruits tous les soirs", "En immergeant entièrement le plant la tête en bas", "En utilisant exclusivement de l'eau de mer salée"], exp: "Mouiller le feuillage des tomates crée un milieu humide propice au mildiou.", wiki: "https://fr.wikipedia.org/wiki/Tomate" },
-        
-        // --- PARASITES (IMPORTANT) ---
-        { q: "Quel insecte minuscule pique les jeunes pousses et excrète un miellat sucré apprécié des fourmis ?", correct: "Le puceron", wrongs: ["Le lombric géant", "La coccinelle carnivore", "Le papillon machaon"], exp: "Les pucerons pullulent au printemps sur les pousses tendres et affaiblissent la plante.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" },
-        { q: "Comment reconnaître une attaque de la pyrale du buis sur une haie ?", correct: "Par la présence de chenilles vertes et de feuilles grignotées reliées par des fils de soie", wrongs: ["Par un changement de couleur du bois qui devient entièrement bleu", "Par l'apparition de fruits ronds et sucrés sur les branches", "Par une odeur prononcée de menthe poivrée dans le jardin"], exp: "La pyrale est un ravageur redoutable qui peut décimer une haie de buis en très peu de temps.", wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis" },
-        { q: "Qu'est-ce que l'oïdium, maladie fréquente sur les rosiers et les courges ?", correct: "Un champignon qui forme un feutrage ou une poudre blanche sur les feuilles", wrongs: ["Une carence aiguë en fer dans les racines profondes", "Une brûlure instantanée causée par les rayons de la lune", "Un dépôt de calcaire dû à un arrosage à l'eau dure"], exp: "Aussi appelée maladie du blanc, elle se développe par temps chaud et humide.", wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium" },
-        { q: "Quelle solution biologique utilise-t-on contre les chenilles dévoreuses de feuilles au potager ?", correct: "Le Bacillus thuringiensis (Bt), une bactérie naturelle ciblée", wrongs: ["De la javel pure diluée dans de l'eau", "Un répulsif sonore à ultrasons haute fréquence", "Un insecticide chimique à base de chlore"], exp: "C'est un traitement biologique très efficace et inoffensif pour les animaux domestiques.", wiki: "https://fr.wikipedia.org/wiki/Bacillus_thuringiensis" },
-        
-        // --- EXPOSITION ---
-        { q: "Quelle exposition préfère généralement la lavande pour s'épanouir pleinement ?", correct: "Un plein soleil et une terre bien drainée", wrongs: ["Une ombre totale et profonde sous les grands arbres", "Un coin sombre, détrempé et gorgé d'eau", "Un couloir glacial exposé à tous les vents du nord"], exp: "La lavande est une plante méditerranéenne qui adore le soleil et redoute l'humidité stagnante.", wiki: "https://fr.wikipedia.org/wiki/Lavande" },
-        { q: "Où vaut-il mieux planter un hortensia (Hydrangea) dans son jardin ?", correct: "À la mi-ombre, à l'abri du soleil brûlant de l'après-midi", wrongs: ["En plein cagnard au milieu d'un désert de sable", "Dans un local totalement sombre sans aucune lumière", "Au sommet d'une colline balayée par des vents secs"], exp: "Les hortensias n'aiment pas le soleil direct intense qui brûle leurs larges feuilles et leurs fleurs.", wiki: "https://fr.wikipedia.org/wiki/Hydrangea" },
-        
-        // --- HAIES ---
-        { q: "Quel arbuste à croissance rapide et au feuillage persistant est très utilisé pour les haies occultantes ?", correct: "Le Photinia 'Red Robin' ou le Laurier-cerise", wrongs: ["Le rosier grimpant miniature à fleurs doubles", "Le cactus géant du Mexique", "Le bananier nain d'appartement"], exp: "Le photinia séduit avec ses jeunes pousses rouges flamboyantes et sa persistance toute l'année.", wiki: "https://fr.wikipedia.org/wiki/Photinia_%C3%97_fraseri" },
-        { q: "Quel est l'avantage d'une haie 'mixte et champêtre' par rapport à une haie monospécifique de thuyas ?", correct: "Elle favorise la biodiversité et résiste mieux aux maladies et parasites", wrongs: ["Elle pousse dix fois plus vite qu'un mur en béton armé", "Elle ne nécessite absolument aucune taille au cours de sa vie", "Elle change de couleur pour devenir fluo en hiver"], exp: "Varier les essences (charme, noisetier, aubépine) protège la haie des ravageurs globaux.", wiki: "https://fr.wikipedia.org/wiki/Haie" },
-        { q: "Quel arbuste caduc est traditionnellement utilisé pour composer des haies 'charmilles' rigoureuses ?", correct: "Le charme (Carpinus betulus)", wrongs: ["Le palmier à chanvre de Chine", "Le géranium vivace tapissant", "La fougère arborescente tropicale"], exp: "Le charme garde ses feuilles mortes une bonne partie de l'hiver (marcescence) et se taille à merveille.", wiki: "https://fr.wikipedia.org/wiki/Carpinus_betulus" },
-        
-        // --- PLANTES PERSISTANTES OU NON ---
-        { q: "Quelle est la différence principale entre une plante persistante et une plante caduque ?", correct: "La persistante garde son feuillage toute l'année, la caduque le perd en hiver", wrongs: ["La caduque vit cent ans, la persistante ne vit que deux jours", "La persistante ne fait jamais de fleurs de toute sa vie", "La caduque pousse uniquement sous l'eau de mer"], exp: "Les persistantes (laurier, photinia, conifères) restent vertes, les caduques se dépouillent en automne.", wiki: "https://fr.wikipedia.org/wiki/Plante_persistante" },
-        { q: "Parmi ces plantes, laquelle est un arbuste persistant très apprécié pour ses fleurs parfumées en hiver ?", correct: "Le Laurier-tin (Viburnum tinus)", wrongs: ["L'érable du Japon aux feuilles découpées", "Le rosier buisson à floraison estivale", "Le lilas commun printanier"], exp: "Le laurier-tin fleurit de décembre à avril avec de jolies inflorescences blanches et roses.", wiki: "https://fr.wikipedia.org/wiki/Viburnum_tinus" },
-        { q: "Le hêtre (Fagus sylvatica) est-il un arbre persistant ou caduc ?", correct: "Il est caduc, mais ses feuilles sèches restent accrochées tout l'hiver (marcescence)", wrongs: ["Il perd toutes ses feuilles en plein mois de juin", "Il est totalement persistant comme un pin maritime", "C'est une plante aquatique sans feuilles"], exp: "C'est une particularité très utile pour composer des haies brise-vue naturelles même en hiver.", wiki: "https://fr.wikipedia.org/wiki/H%C3%B7tre" }
+        { q: "Un client vous demande : 'À quel moment de la journée dois-je arroser mon potager en été ?'", correct: "Tôt le matin ou tard le soir après le coucher du soleil", wrongs: ["À midi pile sous le soleil le plus fort", "Entre 14h et 16h pour rafraîchir les feuilles", "En pleine nuit sous l'orage uniquement"], exp: "Cela limite l'évaporation de l'eau et évite l'effet loupe qui brûlerait le feuillage.", wiki: "https://fr.wikipedia.org/wiki/Arrosage" },
+        { q: "Que répondre à un client qui se plaint de devoir arroser trop souvent ses massifs ?[cite: 1]", correct: "Installez un paillage organique au pied des plantes pour retenir l'humidité", wrongs: ["Recouvrez toute la terre avec du plastique noir étanche au soleil", "Arrêtez complètement d'arroser pour endurcir les plantes de force", "Arrosez avec de l'eau salée pour créer de l'énergie"], exp: "Le paillis (mulching) protège la terre du rayonnement direct et réduit l'évaporation de plus de 50%.", wiki: "https://fr.wikipedia.org/wiki/Paillis" },
+        { q: "Un client demande comment arroser ses tomates sans attraper le mildiou :", correct: "Arrosez uniquement au pied, directement sur la terre, sans jamais mouiller les feuilles", wrongs: ["Immergez le plant entier dans l'eau tous les matins", "Aspergez vigoureusement le feuillage avec de l'eau glacée", "Utilisez un brumisateur sur les fruits deux fois par jour"], exp: "L'humidité stagnante sur le feuillage des tomates favorise le développement des champignons pathogènes.", wiki: "https://fr.wikipedia.org/wiki/Tomate" },
+
+        // --- PARASITES ET MALADIES ---
+        { q: "Un client inquiet vous montre des jeunes pousses couvertes de petits insectes collants et de miellat. Qu'est-ce que c'est ?[cite: 1]", correct: "Des pucerons", wrongs: ["Des mini-coccinelles carnivores géantes", "Des vers de terre volants", "Des graines de fleurs sauvages"], exp: "Les pucerons pullulent au printemps sur les tiges tendres et sucent la sève de la plante.", wiki: "https://fr.wikipedia.org/wiki/Aphidoidea" },
+        { q: "Que conseiller à un client dont les feuilles de rosiers se couvrent d'une poudre blanche caractéristique ?[cite: 1]", correct: "Traiter contre l'oïdium (maladie du blanc) avec du purin de prêle ou un produit adapté", wrongs: ["Mettre de la farine blanche partout pour camoufler", "Couper immédiatement toutes les racines de la plante", "Arroser les feuilles avec de l'huile de vidange"], exp: "L'oïdium est un champignon favorisé par l'alternance de nuits fraîches et de journées chaudes.", wiki: "https://fr.wikipedia.org/wiki/O%C3%AFdium" },
+        { q: "Un client s'aperçoit que sa haie de buis est dévorée par de petites chenilles vertes. De quel nuisible s'agit-il ?[cite: 1]", correct: "La pyrale du buis", wrongs: ["Le ver de terre lucifuge", "Le papillon de nuit inoffensif", "La coccinelle asiatique"], exp: "La pyrale du buis est un ravageur invasif redoutable pour les jardins de buis.", wiki: "https://fr.wikipedia.org/wiki/Pyrale_du_buis" },
+
+        // --- EXPOSITION DES PLANTES ---
+        { q: "Un client vous demande : 'Quelle plante puis-je installer dans un coin de jardin totalement ombragé ?'", correct: "Des fougères, des hostas ou des hortensias", wrongs: ["De la lavande officinale et du thym sauvage", "Des cactus du désert mexicain", "Des tournesols géants assoiffés de soleil"], exp: "Les hortensias et les hostas apprécient la mi-ombre et redoutent le plein soleil brûlant.", wiki: "https://fr.wikipedia.org/wiki/Hydrangea" },
+        { q: "Un client souhaite créer un massif très ensoleillé et sec. Que lui suggérez-vous ?[cite: 1]", correct: "De la lavande, du romarin et du ciste", wrongs: ["Des plantes aquatiques de marécage", "Des fougères des sous-bois tropicaux", "Des mousses de forêt ombragée"], exp: "Ces plantes méditerranéennes supportent parfaitement la sécheresse et adorent le plein soleil.", wiki: "https://fr.wikipedia.org/wiki/Lavande" }
     ];
 
     let quizData = shuffleArray([...uniqueQuizPool]);
@@ -697,12 +681,12 @@
 
     const trophies = [
         { id: "t1", icon: "🌱", title: "Première Question Réussie", desc: "Donner votre première bonne réponse", unlocked: false },
-        { id: "t2", icon: "🌿", title: "Jardinier Qualifié", desc: "Atteindre 150 points", unlocked: false },
+        { id: "t2", icon: "🌿", title: "Conseiller Vert", desc: "Atteindre 150 points", unlocked: false },
         { id: "t3", icon: "👕", title: "Changement de Tenue", desc: "Changer 3 fois d'avatar", unlocked: false },
-        { id: "t4", icon: "⚠️", title: "Erreur de Diagnostic", desc: "Faire 3 erreurs d'affilée", unlocked: false },
-        { id: "t5", icon: "⭐", title: "Expert Vert", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
+        { id: "t4", icon: "⚠️", title: "Diagnostic Difficile", desc: "Faire 3 erreurs d'affilée", unlocked: false },
+        { id: "t5", icon: "⭐", title: "Main Verte", desc: "Faire 3 bonnes réponses d'affilée", unlocked: false },
         { id: "t6", icon: "🔥", title: "En Feu !", desc: "Atteindre un combo de 5", unlocked: false },
-        { id: "t7", icon: "🏆", title: "Maître des Fleurs", desc: "Atteindre 1000 points", unlocked: false }
+        { id: "t7", icon: "🏆", title: "Maître Paysagiste", desc: "Atteindre 1000 points", unlocked: false }
     ];
 
     function shuffleArray(array) {
@@ -948,6 +932,7 @@
             consecutiveErrors = 0;
             comboCount++;
 
+            // +10 points de base + bonus combo
             let earnedPoints = 10 + (comboCount * 4);
             score += earnedPoints;
 
@@ -966,7 +951,8 @@
             consecutiveSuccess = 0;
             comboCount = 0;
 
-            let penaltyPoints = 10;
+            // -15 points pour mauvaise réponse demandée
+            let penaltyPoints = 15;
             score = Math.max(0, score - penaltyPoints);
 
             pointsNotice.innerText = `❌ Mauvaise réponse ! (-${penaltyPoints} Pts)`;
@@ -1035,7 +1021,7 @@
     }
 
     function shareScore() {
-        const text = `J'ai atteint ${score} points sur le Quiz Jardinier ! Viens tester tes connaissances.`;
+        const text = `J'ai atteint ${score} points sur le Quiz Jardinier Pro ! Viens tester tes connaissances.`;
         if (navigator.share) {
             navigator.share({ title: 'Quiz Jardinier', text: text, url: window.location.href }).catch(() => {});
         } else {
@@ -1048,4 +1034,4 @@
 </script>
 
 </body>
-</html>
+    </html>
